@@ -6,3 +6,153 @@ output:
     toc_float: false
 from: markdown+emoji
 ---
+
+- [PBS directives](https://opus.nci.org.au/spaces/Help/pages/236881349/PBS+Directives...)
+- [Job submission tutorial](https://opus.nci.org.au/spaces/Help/pages/241927319/Job+Submission+Tutorial...)
+
+While you can run simple commands on the login nodes on Gadi, there are limits to the resources you can access here. As such, you must run complex or resource-intensive tasks on Gadi's job queues. To do this, you need to create a PBS (Portable Batch System) submission script that specifies your job's requirements. NCI runs the [Altair PBS professional workload manager](https://altair.com/pbs-professional). 
+
+PBS scripts are text files that contain directives and commands that specify the resources required for a job and the commands to run, you can name them as `<script_name>.pbs`. The script can be submitted to the job scheduler, which will allocate the necessary resources and execute the job using: 
+
+```bash
+qsub <script_name>.pbs
+```
+
+Below we describe the process for writing and submitting a job script on Gadi.
+
+## __1. Define Job Parameters__
+
+Begin your script with directives that outline your job's resource needs and execution details. Each directive starts with #PBS in order to directly communicate with the job scheduler and not be confused with other code in your script. This section should sit at the top of your script. 
+
+For example:
+
+```default
+#!/bin/bash
+
+#PBS -P aa00
+#PBS -q normal
+#PBS -l ncpus=48
+#PBS -l mem=190GB
+#PBS -l jobfs=200GB
+#PBS -l walltime=02:00:00
+#PBS -l storage=scratch/aa00+gdata/aa00
+#PBS -l wd
+```
+
+- `-P`: Project code for resource accounting.
+- `-q`: Queue selection (e.g., normal).
+- `-l ncpus`: Number of CPU cores.
+- `-l mem`: Memory allocation.
+- `-l jobfs`: Local disk space on the compute node.
+- `-l walltime`: Maximum job duration.
+- `-l storage`: Filesystems your job will access.
+- `-l wd`: Set the working directory to the submission directory.
+
+## __2. Load Necessary Modules__
+
+Gadi uses the module system to manage software applications that are installed in `/apps`. If you're using one or more tools installed in `/apps` you must load the appropriate modules for your workflow before running your script. Modules ensure you’re using the correct software versions and their dependencies. This should go directly under the PBS directives and before the commands to run your application.
+
+For example:
+
+```bash
+module load python3/3.7.4
+module load gcc/9.2.0
+```
+
+To find available modules:
+- Use `module avail` to list all available software.
+- Use `module spider <software>` to search for a specific software package and its versions.
+
+## __3. Execute your chosen application__
+
+Specify the commands to run your application or script within the job script. Ensure all file paths and environment variables are correctly set. Redirect output and error messages to log files for easier debugging. 
+
+Gadi supports running both native software and containerized applications using **Singularity**. Containers are a convenient way to use pre-built environments. Here are examples for different scenarios:
+
+#### **Running a custom script**
+
+If you’re running a Python script:
+
+```bash
+python3 your_script.py > output.log 2>&1
+```
+- `> output.log`: Redirects standard output to a log file.
+- `2>&1`: Redirects standard error to the same log file.
+
+#### **Running a compiled program**
+
+If you’re running a pre-compiled executable:
+
+```bash
+my_program input_data.txt > results.log 2>&1
+```
+
+#### **Running a Singularity Container**
+
+Singularity is used to execute containerised applications on Gadi. Here's an example using a **FoldSeek** container from [quay.io](https://quay.io/repository/biocontainers/foldseek):
+
+First, you'll need to get a copy of the container you want to run as Gadi job queues do not have external network access and cannot download anything from the internet. 
+
+Run the following commands to download the container:
+
+```bash
+module load singularity
+singularity pull docker://quay.io/biocontainers/foldseek:0.6.2--h779adbc_0
+```
+
+This will create a `.sif` (Singularity Image File) in the current directory, **`docker://`**: Pulls the container from Quay.io or DockerHub directly:
+
+```bash
+foldseek_0.6.2--h779adbc_0.sif
+```
+
+Add the Singularity commands to your job script. For example:
+
+#### **Redirecting Output in Singularity**
+To capture output:
+```bash
+singularity exec \
+    foldseek_0.6.2--h779adbc_0.sif \
+    foldseek easy-search input.fasta \
+    database \
+    output \
+    foldseek_result.tsv > output.log 2>&1
+```
+
+## __4. Submit your job__
+
+Save your job script with a `.sh` or `.pbs` extension and submit it using the qsub command:
+
+```bash
+qsub job_script.sh
+```
+
+After submission, PBS assigns a unique job ID, which you can use to monitor your job.
+
+## Full script example 
+
+Here is a very simple example of a full script that runs a Foldseek container on Gadi's normal CPU queue: 
+
+```bash
+#!/bin/bash
+
+#PBS -P aa00
+#PBS -q normal
+#PBS -l ncpus=4
+#PBS -l mem=10GB
+#PBS -l jobfs=200GB
+#PBS -l walltime=02:00:00
+#PBS -l storage=scratch/aa00+gdata/aa00
+#PBS -l wd
+
+# Load modules
+module load singularity
+
+# Run FoldSeek
+singularity exec \
+    /scratch/aa00/foldseek_0.6.2--h779adbc_0.sif \
+    foldseek easy-search /scratch/aa00/input.fasta \
+    /scratch/aa00/database \
+    /scratch/aa00/output \
+    /scratch/aa00/foldseek_result.tsv > /scratch/aa00/output.log 2>&1
+````

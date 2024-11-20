@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -204,7 +238,17 @@ cookieconsent.run({
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#define-job-parameters" id="toc-define-job-parameters" class="nav-link active" data-scroll-target="#define-job-parameters"><strong>1. Define Job Parameters</strong></a></li>
+  <li><a href="#load-necessary-modules" id="toc-load-necessary-modules" class="nav-link" data-scroll-target="#load-necessary-modules"><strong>2. Load Necessary Modules</strong></a></li>
+  <li><a href="#execute-your-chosen-application" id="toc-execute-your-chosen-application" class="nav-link" data-scroll-target="#execute-your-chosen-application"><strong>3. Execute your chosen application</strong></a></li>
+  <li><a href="#submit-your-job" id="toc-submit-your-job" class="nav-link" data-scroll-target="#submit-your-job"><strong>4. Submit your job</strong></a></li>
+  <li><a href="#full-script-example" id="toc-full-script-example" class="nav-link" data-scroll-target="#full-script-example">Full script example</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -228,8 +272,120 @@ cookieconsent.run({
 </header>
 
 
+<ul>
+<li><a href="https://opus.nci.org.au/spaces/Help/pages/236881349/PBS+Directives...">PBS directives</a></li>
+<li><a href="https://opus.nci.org.au/spaces/Help/pages/241927319/Job+Submission+Tutorial...">Job submission tutorial</a></li>
+</ul>
+<p>While you can run simple commands on the login nodes on Gadi, there are limits to the resources you can access here. As such, you must run complex or resource-intensive tasks on Gadi’s job queues. To do this, you need to create a PBS (Portable Batch System) submission script that specifies your job’s requirements. NCI runs the <a href="https://altair.com/pbs-professional">Altair PBS professional workload manager</a>.</p>
+<p>PBS scripts are text files that contain directives and commands that specify the resources required for a job and the commands to run, you can name them as <code>&lt;script_name&gt;.pbs</code>. The script can be submitted to the job scheduler, which will allocate the necessary resources and execute the job using:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qsub</span> <span class="op">&lt;</span>script_name<span class="op">&gt;</span>.pbs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Below we describe the process for writing and submitting a job script on Gadi.</p>
+<section id="define-job-parameters" class="level2">
+<h2 class="anchored" data-anchor-id="define-job-parameters"><strong>1. Define Job Parameters</strong></h2>
+<p>Begin your script with directives that outline your job’s resource needs and execution details. Each directive starts with #PBS in order to directly communicate with the job scheduler and not be confused with other code in your script. This section should sit at the top of your script.</p>
+<p>For example:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>#!/bin/bash</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>#PBS -P aa00</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>#PBS -q normal</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>#PBS -l ncpus=48</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>#PBS -l mem=190GB</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>#PBS -l jobfs=200GB</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>#PBS -l walltime=02:00:00</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>#PBS -l storage=scratch/aa00+gdata/aa00</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>#PBS -l wd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><code>-P</code>: Project code for resource accounting.</li>
+<li><code>-q</code>: Queue selection (e.g., normal).</li>
+<li><code>-l ncpus</code>: Number of CPU cores.</li>
+<li><code>-l mem</code>: Memory allocation.</li>
+<li><code>-l jobfs</code>: Local disk space on the compute node.</li>
+<li><code>-l walltime</code>: Maximum job duration.</li>
+<li><code>-l storage</code>: Filesystems your job will access.</li>
+<li><code>-l wd</code>: Set the working directory to the submission directory.</li>
+</ul>
+</section>
+<section id="load-necessary-modules" class="level2">
+<h2 class="anchored" data-anchor-id="load-necessary-modules"><strong>2. Load Necessary Modules</strong></h2>
+<p>Gadi uses the module system to manage software applications that are installed in <code>/apps</code>. If you’re using one or more tools installed in <code>/apps</code> you must load the appropriate modules for your workflow before running your script. Modules ensure you’re using the correct software versions and their dependencies. This should go directly under the PBS directives and before the commands to run your application.</p>
+<p>For example:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load python3/3.7.4</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load gcc/9.2.0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To find available modules: - Use <code>module avail</code> to list all available software. - Use <code>module spider &lt;software&gt;</code> to search for a specific software package and its versions.</p>
+</section>
+<section id="execute-your-chosen-application" class="level2">
+<h2 class="anchored" data-anchor-id="execute-your-chosen-application"><strong>3. Execute your chosen application</strong></h2>
+<p>Specify the commands to run your application or script within the job script. Ensure all file paths and environment variables are correctly set. Redirect output and error messages to log files for easier debugging.</p>
+<p>Gadi supports running both native software and containerized applications using <strong>Singularity</strong>. Containers are a convenient way to use pre-built environments. Here are examples for different scenarios:</p>
+<section id="running-a-custom-script" class="level4">
+<h4 class="anchored" data-anchor-id="running-a-custom-script"><strong>Running a custom script</strong></h4>
+<p>If you’re running a Python script:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> your_script.py <span class="op">&gt;</span> output.log <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><code>&gt; output.log</code>: Redirects standard output to a log file.</li>
+<li><code>2&gt;&amp;1</code>: Redirects standard error to the same log file.</li>
+</ul>
+</section>
+<section id="running-a-compiled-program" class="level4">
+<h4 class="anchored" data-anchor-id="running-a-compiled-program"><strong>Running a compiled program</strong></h4>
+<p>If you’re running a pre-compiled executable:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">my_program</span> input_data.txt <span class="op">&gt;</span> results.log <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="running-a-singularity-container" class="level4">
+<h4 class="anchored" data-anchor-id="running-a-singularity-container"><strong>Running a Singularity Container</strong></h4>
+<p>Singularity is used to execute containerised applications on Gadi. Here’s an example using a <strong>FoldSeek</strong> container from <a href="https://quay.io/repository/biocontainers/foldseek">quay.io</a>:</p>
+<p>First, you’ll need to get a copy of the container you want to run as Gadi job queues do not have external network access and cannot download anything from the internet.</p>
+<p>Run the following commands to download the container:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load singularity</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> pull docker://quay.io/biocontainers/foldseek:0.6.2--h779adbc_0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will create a <code>.sif</code> (Singularity Image File) in the current directory, <strong><code>docker://</code></strong>: Pulls the container from Quay.io or DockerHub directly:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">foldseek_0.6.2--h779adbc_0.sif</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Add the Singularity commands to your job script. For example:</p>
+</section>
+<section id="redirecting-output-in-singularity" class="level4">
+<h4 class="anchored" data-anchor-id="redirecting-output-in-singularity"><strong>Redirecting Output in Singularity</strong></h4>
+<p>To capture output:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec <span class="dt">\</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    foldseek_0.6.2--h779adbc_0.sif <span class="dt">\</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    foldseek easy-search input.fasta <span class="dt">\</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    database <span class="dt">\</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    output <span class="dt">\</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    foldseek_result.tsv <span class="op">&gt;</span> output.log <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="submit-your-job" class="level2">
+<h2 class="anchored" data-anchor-id="submit-your-job"><strong>4. Submit your job</strong></h2>
+<p>Save your job script with a <code>.sh</code> or <code>.pbs</code> extension and submit it using the qsub command:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qsub</span> job_script.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>After submission, PBS assigns a unique job ID, which you can use to monitor your job.</p>
+</section>
+<section id="full-script-example" class="level2">
+<h2 class="anchored" data-anchor-id="full-script-example">Full script example</h2>
+<p>Here is a very simple example of a full script that runs a Foldseek container on Gadi’s normal CPU queue:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P aa00</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q normal</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=4</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=10GB</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l jobfs=200GB</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=02:00:00</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l storage=scratch/aa00+gdata/aa00</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Load modules</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load singularity</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Run FoldSeek</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec <span class="dt">\</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    /scratch/aa00/foldseek_0.6.2--h779adbc_0.sif <span class="dt">\</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    foldseek easy-search /scratch/aa00/input.fasta <span class="dt">\</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    /scratch/aa00/database <span class="dt">\</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    /scratch/aa00/output <span class="dt">\</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    /scratch/aa00/foldseek_result.tsv <span class="op">&gt;</span> /scratch/aa00/output.log <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
+</section>
 
 <p>All materials copyright Sydney Informatics Hub, University of Sydney</p></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
