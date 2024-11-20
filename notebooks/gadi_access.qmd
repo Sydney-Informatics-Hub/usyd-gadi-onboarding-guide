@@ -1,0 +1,62 @@
+---
+title: "**Accessing your Gadi project**"
+output:
+  html_document:
+    toc: false
+    toc_float: false
+from: markdown+emoji
+---
+
+National Computational Infrastructure (NCI) is a services facility that provides high performance computing (HPC), cloud and data services to Australian researchers.
+
+Gadi is the name of NCI’s HPC facility, located at ANU (Canberra). The system is suitable for:
+
+* Software that can utilise multiple nodes
+* Highly CPU efficient workflows
+* Scalable workflows
+* Users with moderate HPC experience
+ 
+## **Resources**
+
+- [Getting Started at NCI](https://opus.nci.org.au/)
+- [Gadi User Guide](https://opus.nci.org.au/display/Help/Gadi+User+Guide)
+- [Gadi FAQs](https://opus.nci.org.au/pages/viewpage.action?pageId=236881318)
+- [Pro tips for bioinformatics on HPC](https://www.biocommons.org.au/events/workflows-hpc): [recording](https://youtu.be/YKJDRXCmGMo) and [slides](https://zenodo.org/record/8008227)
+
+## **Set up your NCI Account**
+
+All new users must create their account through the [NCI online self service portal](https://my.nci.org.au/mancini/login?next=/mancini/). To create your account you will need the following information:
+
+- Your Name
+- Institutional email address (Gmail, Hotmail, etc. are not accepted)
+- Mobile phone number
+- Either:
+  - NCI project code of an existing project you wish to join
+  - A new project proposal to be assessed by a Scheme Manager to determine if they will grant your project time
+
+Note that resources at NCI are allocated to **projects** and not to individual users.
+
+Complete all steps below to set up an NCI account:
+
+1. Click on 'Sign up' link on the [NCI online self service portal](https://my.nci.org.au/mancini/login?next=/mancini/): 
+![](../fig/gadi_login.png)
+
+2. Accept the terms and conditions: 
+![](../fig/gadi_step1.png)
+
+3. Provide your personal details: 
+![](../fig/gadi_step2.png)
+
+4. Provide details on the project you'll be working on. Select `I need to join one or more existing projects`. Ask Marina for your group's project code to write in the `Projects` menu: 
+![](../fig/gadi_step3.png)
+
+5. Select University of Sydney as you institution: 
+![](../fig/gadi_step4.png)
+
+Your username will become active when a project Lead CI approves your request to join their project, or when a Scheme Manager approves your new project proposal. You will receive a confirmation email from the Mancini system when your username is activated.
+
+## **Manage your NCI Account**
+
+You can manage your account details and request access to new or existing projects through the [NCI online self service portal](https://my.nci.org.au/mancini/login?next=/mancini/). 
+
+Once your access to your group's Gadi project has been confirmed, you can set up your computer and log in to Gadi. See the [setup](../setup.qmd) instructions for how to log in to the HPC system. 

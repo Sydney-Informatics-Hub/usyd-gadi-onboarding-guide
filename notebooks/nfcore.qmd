@@ -1,0 +1,176 @@
+---
+title: "**Running nf-core pipelines**"
+output:
+  html_document:
+    toc: false
+    toc_float: false
+from: markdown+emoji
+---
+
+nf-core provides a standardised set of [best practice bioinformatics workflows](https://nf-co.re/pipelines), including short read RNAseq data processing for differential expression ([nf-core/rnaseq](https://github.com/nf-core/rnaseq/)), downloading sequencing data from public archives ([nf-core/fetchngs](https://github.com/nf-core/fetchngs)), and rare disease genomics([nf-core/raredisease](https://github.com/nf-core/raredisease)). These workflows are designed to be modular, scalable, and portable, allowing researchers to  adapt and execute them using their own data and compute resources. 
+
+However, running these workflows on a HPC system like Gadi can be challenging due to the complexity of the workflows and the need to manage the workflow execution. This page provides a guide on how to run nf-core pipelines on Gadi.
+
+## **Considerations**
+
+nf-core pipelines are designed to be very flexible, as such you need to make a few decisions before you can run them on Gadi. A few things to consider before you try to run one of these pipelines on your data: 
+
+**1. Lots of different parameters**
+
+Before you decide on running a pipeline, get familiar with the documentation, identify what the default settings are, and if you need to change anything. For most applications, default settings are suitable. However you may need to adjust some settings to suit your data or your tool preference.
+
+Each nf-core pipeline has its own detailed documentation that is on a separate website from their codebase. You can find the documentation for each pipeline on the [nf-core website](https://nf-co.re/pipelines).
+
+See our [SIH nf-core training](https://sydney-informatics-hub.github.io/customising-nfcore-workshop/notebooks/2.1_design.html) for more information on how to design and execute a run command and how to navigate the documentation. 
+
+**2. Requires configuration to run on Gadi**
+
+nf-core pipelines are designed to be run on a local machine or a cloud-based system. To run them on Gadi, you will need to use our institutional configuration file, available [here](https://nf-co.re/configs/nci_gadi). This configuration file has been tested with a number of nf-core pipelines but may require some adjustments to work for your specific application. 
+
+Please keep in mind that currently, Gadi HPC queues do not have external network access. As such, you may not be able to pull the workflow code base, containers, or reference data as a job on any of the standard queues. NCI currently recommends you run your Nextflow head job either in a GNU screen or tmux session from the login node or submit it as a job to the copyq. See the [nf-core documentation for instructions on running pipelines offline](https://nf-co.re/docs/usage/offline). 
+
+A copy of the gadi config file has been saved to: `/g/data/<project>/pipelines/nfcore_config/nci_gadi.config` along side its [usage instructions](https://nf-co.re/configs/nci_gadi), `/g/data/<project>/pipelines/nfcore_config/nci_gadi.md`. 
+
+## **Reference data on Gadi**
+
+As with other pipelines documented in this guide, you can find reference data files in `/g/data/<project>/reference`. You can use specific flags to provide these reference files to an nf-core pipelines. Alternatively by default nf-core pipelines can download reference data from the Illumina iGenomes repository on your behalf. See [here](https://nf-co.re/docs/usage/reference_genomes) for more details. 
+
+## **Quickstart guide**
+
+Once you've confirmed which pipeline you want to run and how, you'll need to start by downloading the codebase. You can do this in a number of ways: 
+
+**1. Download from github**
+
+Just run the `git clone` command, no need to install anything. For example:  
+
+```bash
+git clone https://github.com/nf-core/rnaseq.git
+```
+
+**2. Download using the nf-core tools utility**
+
+First load the python3 module already installed on Gadi: 
+```bash
+module load python3
+```
+
+Then install the nf-core tools utility:
+
+```bash
+pip install nf-core
+```
+
+See [our guide on installing nf-core tools](https://sydney-informatics-hub.github.io/customising-nfcore-workshop/notebooks/1.2_nfcore.html#nf-core-tools) if you run into any issues. 
+
+Download the pipeline of choice, following the prompts:
+
+```bash 
+nf-core download
+```
+
+See [our guide on downloading pipelines](https://sydney-informatics-hub.github.io/customising-nfcore-workshop/notebooks/1.4_users.html#nf-core-download) for more details. 
+
+**3. Load the required modules**
+
+To run all the tools in an nf-core pipeline, (same as with all other nextflow pipelines described in this documentation) you will need to load modules required to execute the pipeline itself (nextflow) and all the tools run by the pipeline (singularity). Before running a pipeline, you will need to load the following modules:
+
+```bash 
+module load nextflow 
+module load singularity
+```
+
+We use Singularity, which is a container management tool that allows you to run software on HPC systems without needing to install anything. 
+
+**4. Run a pipeline with the gadi profile**
+
+How you run the pipeline may change depending on the way you downloaded the codebase. But same as with the other nextflow pipelines provided to your group, the executable file is always called `main.nf`. If you are unsure about the required command for running a pipeline, you can always run the help command. For example: 
+
+```bash
+nextflow run nf-core-rnaseq/main.nf --help
+```
+
+This will typically show a requirement for: 
+
+* An input sample sheet (`--input`)
+* A reference genome (`--genome`)
+* A profile for pipeline execution ([`-profile`](https://www.nextflow.io/docs/latest/config.html#config-profiles))
+
+Take a look at our [SIH nf-core training](https://sydney-informatics-hub.github.io/customising-nfcore-workshop/notebooks/2.1_design.html) for more information on how to design and execute a run command. Same as is documented in the training materials, you will need to add to use the `singularity` [profile](https://www.nextflow.io/docs/latest/config.html#config-profiles) to tell Nextflow to use Singularity to execute all tools. You'll also need to run the `gadi` profile too to submit tasks to the job scheduler. If you run into issues with providing the Gadi profile with: 
+
+```bash
+-profile singularity,gadi
+```
+
+For example in this nf-core/rnaseq execution command used to process some mouse samples: 
+
+```bash
+nextflow run nf-core-rnaseq-3.13/workflow/main.nf \
+    --input samplesheet.csv \
+    --outdir rnaseq_output \
+    --fasta /scratch/<project>/mm10_reference/mm10_chr18.fa \
+    --gtf /scratch/<project>/mm10_reference/mm10_chr18.gtf \
+    -profile singularity,gadi \
+    --skip_markduplicates \
+    --save_trimmed true \
+    --save_unaligned true
+```
+
+Then you can provide the path to the Gadi configuration file available at `/g/data/<project>/pipelines/nfcore_config/nci_gadi.config`. For example: 
+
+```bash
+nextflow run nf-core-rnaseq-3.13/workflow/main.nf \
+    --input samplesheet.csv \
+    --outdir rnaseq_output \
+    --fasta /scratch/<project>/mm10_reference/mm10_chr18.fa \
+    --gtf /scratch/<project>/mm10_reference/mm10_chr18.gtf \
+    -profile singularity \
+    -c /g/data/<project>/pipelines/nfcore_config/nci_gadi.config \
+    --skip_markduplicates \
+    --save_trimmed true \
+    --save_unaligned true
+```
+
+To run the pipeline, you can submit a job to the copyq, or run it interactively on the login node. Edit the PBS variables and pipeline execution command in a script, called `nf-core-run.pbs`. The following example script can be used to run the nf-core/rnaseq pipeline on Gadi: 
+
+```bash
+#!/bin/bash
+
+#PBS -P <project>
+#PBS -N nf-core
+#PBS -l walltime=10:00:00
+#PBS -l ncpus=1
+#PBS -l mem=10GB
+#PBS -W umask=022
+#PBS -q copyq
+#PBS -e nf-core.e
+#PBS -o nf-core.o
+#PBS -l wd
+#PBS -l storage=/scratch/<project>+gdata/<project>
+
+module load nextflow 
+module load singularity 
+
+nextflow run nf-core-rnaseq-3.13/workflow/main.nf \
+    --input samplesheet.csv \
+    --outdir rnaseq_output \
+    --fasta /scratch/<project>/mm10_reference/mm10_chr18.fa \
+    --gtf /scratch/<project>/mm10_reference/mm10_chr18.gtf \
+    -profile singularity \
+    -c /g/data/<project>/pipelines/nfcore_config/nci_gadi.config \
+    --skip_markduplicates \
+    --save_trimmed true \
+    --save_unaligned true
+```
+
+Execute the pipeline with: 
+
+```bash
+qsub nf-core-run.pbs
+```
+
+## **Resources**
+
+* [nf-core webiste](https://nf-co.re/)
+* [Running nf-core pipelines](https://nf-co.re/docs/usage/introduction)
+* [Public nf-core configs](https://nf-co.re/configs)
+* [SIH nf-core training](https://sydney-informatics-hub.github.io/customising-nfcore-workshop/)

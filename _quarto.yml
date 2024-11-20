@@ -1,0 +1,53 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "NCI Gadi User Guide"
+  navbar:
+    background: primary
+    left:
+      - href: index.qmd
+        text: Home
+      - href: notebooks/gadi_access.html
+        text: "Access Gadi"
+      - href: setup.html
+        text: "Set up your computer"
+      - text: "Using the workspace"
+        menu:
+        - text: "Working on Gadi"
+          href: notebooks/hpc_expectations.html
+        - text: "Transferring data"
+          href: notebooks/data_transfer.html
+      - text: "Pipeline execution"
+        menu:
+        - text: "Index reference genomes"
+          href: notebooks/index_fasta.html
+        - text: "Short reads: Quality control"
+          href: notebooks/short_qc.html
+        - text: "Short reads: Mapping and short variant calling"
+          href: notebooks/short_mapping_snps.html
+        - text: "Short reads: Structural variants"
+          href: notebooks/short_structural.html
+        - text: "nf-core pipelines"
+          href: notebooks/nfcore.html
+  cookie-consent: 
+    type: express
+    style: simple
+    palette: light
+    policy-url: https://www.sydney.edu.au/privacy-statement.html
+  google-analytics: "G-TNWWV3HK57"
+
+  body-footer: "All materials copyright Sydney Informatics Hub, University of Sydney"
+
+format:
+  html:
+   toc: true
+   theme:
+      light: flatly
+      dark: darkly
+   css: styles.scss
+   code-link: true
+   code-fold: false
+
+

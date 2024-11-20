@@ -1,0 +1,11 @@
+data
+.DS_store
+.Rhistory
+/.quarto/
+__pycache__/
+*.py[cod]
+.Rapp.history
+.RData
+.RDataTmp
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*

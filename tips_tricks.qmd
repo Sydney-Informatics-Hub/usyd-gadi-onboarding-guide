@@ -1,0 +1,8 @@
+---
+title: "Tips and tricks"
+output:
+  html_document:
+    toc: false
+    toc_float: false
+from: markdown+emoji
+---

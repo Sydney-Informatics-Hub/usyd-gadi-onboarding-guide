@@ -1,0 +1,275 @@
+[
+  {
+    "objectID": "CHEATSHEET.html",
+    "href": "CHEATSHEET.html",
+    "title": "Tips and tricks",
+    "section": "",
+    "text": "Tips and tricks\nTBD\n\n\n\n\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "setup.html",
+    "href": "setup.html",
+    "title": "Set up your computer",
+    "section": "",
+    "text": "To work on NCI Gadi, you will need to either install a terminal application on your computer or work on NCI’s Australian Research Environment (ARE) platform. Before accessing Gadi, you will need to have an NCI account. Ensure you have completed this step by following directions on the Gadi Access instructions on the previous page before proceeding.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "setup.html#use-ncis-are-platform",
+    "href": "setup.html#use-ncis-are-platform",
+    "title": "Set up your computer",
+    "section": "Use NCI’s ARE platform",
+    "text": "Use NCI’s ARE platform\nNCI has created a web-based graphical interface for accessing their systems. It is very simple to use and recommended over access methods described below for beginners.\nSee NCI’s User Guide for instructions on how to access and use ARE."
+  },
+  {
+    "objectID": "setup.html#install-visual-studio-code-on-your-computer",
+    "href": "setup.html#install-visual-studio-code-on-your-computer",
+    "title": "Set up your computer",
+    "section": "Install Visual Studio Code on your computer",
+    "text": "Install Visual Studio Code on your computer\nVisual Studio Code (VS Code) is a lightweight and powerful source code editor available for Windows, macOS and Linux computers. As an alternative to a terminal application it offers file additional functionality including file editing.\n\nDownload Visual Studio Code for your system from here and follow the instructions for:\n\nmacOS\nWindows\n\nOpen the VS Code application on your computer\n\n\n\nClick on the extensions button (four blocks) on the left side bar and install the remote SSH extension. Click on the blue install button.\n\n\nConnect to your instance with VS code by adding the host details to your .ssh config file:\nHost Gadi\n  HostName gadi.nci.org.au\n  User &lt;your-nci-username&gt;\n\nType Ctrl+Shift+P and select Remote-SSH: Connect to Host and Gadi\nWhen prompted, select Linux as the platform of the remote host from the dropdown menu\nType in your NCI password and hit enter\n\nHaving successfully logged in, you should see a small blue or green box in the bottom left corner of your screen:\n\nTo set up your VS Code window:\n\nOpen a new folder in the file explorer panel on the left side of the screen by typing Ctrl + K, Ctrl + O if you’re running Windows or Cmd+K+ Cmd + O for MacOS\nSelect /scratch/iz89 to open your workspace. You can change this at any point by opening a new folder. Keep in mind you will be requested to provide your password each time.\nWhen prompted, select the box for Trust the authors of all files in the parent folder ‘home’ then click Yes, I trust the authors\nTo open a terminal, type Ctrl+J if you’re on a Windows machine or Cmd+J on MacOS\n\nTips for using VS Code\n\nVS code cheatsheet for Windows\nVS code cheatsheet for MacOS"
+  },
+  {
+    "objectID": "setup.html#install-a-terminal-application-on-your-computer",
+    "href": "setup.html#install-a-terminal-application-on-your-computer",
+    "title": "Set up your computer",
+    "section": "Install a terminal application on your computer",
+    "text": "Install a terminal application on your computer\nThe options for terminal installation will depend on your computer’s operating system. See below for instructions for macOS and Windows.\n\nMacOS\nMac operating systems come with a terminal program, called Terminal. Just look for it in your Applications folder, or hit Command + Space and type ‘terminal’. You may find that other, 3rd party terminal programs are more user-friendly and powerful, like Iterm2.\n\n\nWindows\nWe recommend MobaXterm, which offers a rich experience as a full-featured X-server and terminal emulator for ssh connections, the free version is more than adequate.\nTo install and start using MobaXterm:\n\nGo to https://mobaxterm.mobatek.net/download.html\nUnder ‘Home Edition’ select the Download now button\nSelect the MobaXterm Home Edition (Installer edition)\nOnce the program is downloaded, install it as you would any other windows program\nOnce the program is installed, start the MobaXterm program\nFrom this screen, click on ‘start local terminal’ (and install Cygwin if prompted)\n\n\nTo log in to Gadi, you will use a Secure Shell (SSH) connection. To connect, you need 3 things:\n\nThe address of your NCI Gadi, gadi.nci.org.au.\nYour Gadi username, e.g. ab1234.\nYour password.\n\nTo log in: type the following into your terminal, using your allocated instance’s IP address:\nssh &lt;username&gt;@gadi.nci.org.au\nThen provide your password when prompted.\n\n\n\n\n\n\n‼️ Pay Attention ‼️\n\n\n\nWhen you type a password on the terminal, there will not be any indication the password is being entered. You’ll not see a moving cursor, or even any asterisks, or bullets. That is an intentional security mechanism used by all terminal applications and can trip us up sometimes, so be careful when typing or copying your password in.\n\n\nOnce you’ve logged in successfully, you should see a welcome screen like this:"
+  },
+  {
+    "objectID": "notebooks/short_qc.html",
+    "href": "notebooks/short_qc.html",
+    "title": "QC of raw sequence data",
+    "section": "",
+    "text": "Before processing any pipelines on your raw sequence data, it is important to check the quality of the data. This will help you to understand the quality of the data and to decide on the appropriate processing steps.\nSequencing data for WGS and RNAseq data is provided in the FASTQ format. This is a text-based format for storing both a nucleotide sequence and its corresponding quality scores. The quality scores are encoded using ASCII characters, with each character representing a different quality score. The quality scores are used to assess the reliability of the base calls in the sequence data.\nThe quality of the sequence data can be assessed using a number of different tools. We will use FastQC to assess the quality of the raw sequence data for both WGS and RNAseq data. FastQC is a widely used tool for assessing the quality of sequencing data, and provides a range of different metrics to help you understand the quality of your data.\n\nRun FastQC on raw sequence data\n1. Download a copy of the Parabricks-Genomics-nf pipeline code to your Gadi environment\ngit clone https://github.com/Sydney-Informatics-Hub/fastqc-nf.git \n2. Run the pipeline\nSee the code documentation for instructions on how to prepare input and run the pipeline.\n\n\nInterpreting FastQC results for different data types\nSee the FastQC guide for instructions on how to intepret FastQC results for whole genome sequence data. We’ve included a small note in the fastqc-nf documentation noting which sections of the FastQC report will fail for RNAseq data. Keep this in mind.\n\n\nResources\n\nFastQC-nf code\nFastQC guide\n\n\n\n\n\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/short_structural.html",
+    "href": "notebooks/short_structural.html",
+    "title": "Running GermlineStructuralV-nf",
+    "section": "",
+    "text": "To call structural variants for Illumina short read data, you will be running the GermlineStructuralV-nf pipeline. This pipeline was developed collaboratively by SIH Bioinformatics and ANZAC Neurogenetics groups. It leverages multiple structural variant detection methods to identify insertions, deletions, transversions, inversions, and duplications in whole genome sequence data. The pipeline is written in Nextflow and can be configured for multiple compute environments. It has been configured for NCI’s Gadi HPC and Pawsey’s Setonix HPC.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/short_structural.html#considerations",
+    "href": "notebooks/short_structural.html#considerations",
+    "title": "Running GermlineStructuralV-nf",
+    "section": "Considerations",
+    "text": "Considerations\nStructural variant detection in short reads is currently challenging due to limitations of the data. This pipeline has been designed to maximise sensitivity and will likely return a large number of false positives. It is recommended that the pipeline is run using the AnnotSV tool, and the output variants be prioritised using the AnnotSV annotations.\nFor detailed instructions on how to run the pipeline, see the README.md file in the GermlineStructuralV-nf GitHub repository.\nInstructions for running the pipeline on Gadi have been provided here and a pipeline execution script for Gadi has been provided along with the code."
+  },
+  {
+    "objectID": "notebooks/short_structural.html#reference-data-on-gadi",
+    "href": "notebooks/short_structural.html#reference-data-on-gadi",
+    "title": "Running GermlineStructuralV-nf",
+    "section": "Reference data on Gadi",
+    "text": "Reference data on Gadi\nPrevious cohorts have been run using the Hg38 (chromosome only) and chm13-t2t assemblies. Copies of these reference and their index files are available at /g/data/&lt;project&gt;/reference on Gadi."
+  },
+  {
+    "objectID": "notebooks/short_structural.html#quickstart-guide",
+    "href": "notebooks/short_structural.html#quickstart-guide",
+    "title": "Running GermlineStructuralV-nf",
+    "section": "Quickstart guide",
+    "text": "Quickstart guide\nIt is strongly suggested you read through the detailed instructions in the GermlineStructural-nf GitHub repository. Below is a quickstart guide to get you up and running if you are already familiar with the pipeline.\n1. Download a copy of the GermineStructuralV-nf pipeline code to your Gadi environment\ngit clone https://github.com/Sydney-Informatics-Hub/Germline-StructuralV-nf.git\nMove into this directory, this is where you will be working:\ncd Germline-StructuralV-nf\n2. Prepare your input file for all samples you wish to process\nYou can do this in a text editor or Excel if that is easier. Just ensure you have a file that has comma-separated columns with a header for each column. For example:\nsample,bam,bai\nsample1,/path/to/sample1.bam,/path/to/sample1.bam.bai\nsample2,/path/to/sample2.bam,/path/to/sample2.bam.bai\n3. Run the pipeline 4. View the results of the pipeline\nUse the run_gadi.pbs script provided alongside the code inside the scripts/ directory. This script will submit all jobs to the Gadi HPC queue system. Before executing you will need to edit the script, how you do this will depend on how you intend to run the pipeline. Edit the following PBS variables at the top of the script:\n#PBS -P &lt;PROJECT&gt;\n#PBS -l storage=\n\nProvide your group’s project code in place of &lt;PROJECT&gt;\nProvide the storage you will be using for the pipeline in place of storage=. This can be scratch or gdata\n\nFor example:\n#PBS -P aa00\n#PBS -l storage=scratch/aa00+gdata/aa00\nNext, edit the script variables to pass the required files and parameters to the pipeline:\nref= #REQUIRED: full path to your reference.fasta\nsamples= #REQUIRED: full path to your input.tsv file\nannotsvDir= #OPTIONAL: full path to directory housing Annotations_Human directory\nannotsvMode= #OPTIONAL: specift one of both|full|split. see annotation mode in https://github.com/lgmgeo/AnnotSV/blob/master/README.AnnotSV_3.3.4.pdf\noutDir= #OPTIONAL: name of the results directory \nSave your changes and run the script with:\nqsub scripts/run_gadi.pbs\n4. View the results of the pipeline\nThis pipeline runs multiple processes described here, most processes generate some output that you can view in your specified outdir. See here for a description of how the outputs are organised and what files are generated."
+  },
+  {
+    "objectID": "notebooks/short_structural.html#resources",
+    "href": "notebooks/short_structural.html#resources",
+    "title": "Running GermlineStructuralV-nf",
+    "section": "Resources",
+    "text": "Resources\n\nGermlineStructuralV-nf code\nAnnotSV documentation"
+  },
+  {
+    "objectID": "notebooks/index_fasta.html",
+    "href": "notebooks/index_fasta.html",
+    "title": "Running IndexReferenceFasta-nf",
+    "section": "",
+    "text": "We have created a very simple workflow to generate reference index files as required. The pipeline is called IndexReferenceFasta-nf. It can be used to generate indexes for:\n\nSamtools faidx\nGATK CreateSequenceDictionary\nBWA index\n\n1. Download a copy of the pipeline code to your Gadi environment\nA copy of this pipeline is already available at: /g/data/&lt;project&gt;/pipelines. But if you’d like to update that copy, run:\ngit clone https://github.com/Sydney-Informatics-Hub/IndexReferenceFasta-nf.git\nMove into the directory, this is where you’ll be working:\ncd IndexReferenceFasta-nf\n2. Generate indexes\nFollow the user guide to generate required indexes.\n\n\n\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/data_transfer.html",
+    "href": "notebooks/data_transfer.html",
+    "title": "Transferring data to and from Gadi",
+    "section": "",
+    "text": "The data transfer queue on Gadi is called ‘copyq’. You can easily use this queue to transfer data between Gadi and RDS (or other locations) by first setting up ssh keys for password-less transfers between Gadi and Artemis/RDS.\nFor transfer of large files, the use of ‘resumable’ rsync is recommended. As the USyd RDS servers only allow sftp connections, this method is not possible to run on Gadi’s copyq. Instead, the transfer can be initiated using Artemis ‘dtq’ and using Gadi’s ‘data mover’ node: gadi-dm.nci.org.au.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/data_transfer.html#set-up-ssh-keys",
+    "href": "notebooks/data_transfer.html#set-up-ssh-keys",
+    "title": "Transferring data to and from Gadi",
+    "section": "Set up SSH keys",
+    "text": "Set up SSH keys\nSSH key pairs are used for secure communication between two systems. The pair consists of a private key and a public key. The private key should remain private and only be known by the user. It is stored securely on the user’s computer. The public key can be shared with any system the user wants to connect to. It is added to the remote system’s authorized keys. When a connection is attempted, the remote system uses the public key to create a message for the user’s system.\nWe will set up SSH keys to allow us to move data between USyd’s HPC and RDS and Gadi. You only need to do this once.\n\nLog into Gadi with your chosen method, e.g:\n\nssh ab1234@gadi.nci.org.au\n\nMove to your home directory:\n\ncd ~\n\nMake a .ssh directory, if you don’t already have one:\n\nmkdir -p .ssh \n\nSet suitable permissions for the .ssh directory and move into it:\n\nchmod 700 .ssh\ncd .ssh\n\nGenerate SSH key pair:\n\nssh-keygen\nHit enter when prompted, saving the key in ~/.ssh/id_rsa and enter for NO passphrase. A public key will be located in ~/.ssh/id_rsa.pub and a private key in ~/.ssh/id_rsa.\n\nSet suitable permissions for the keys:\n\nchmod 600 id_rsa\nchmod 644 id_rsa.pub\n\nMake an authorized_keys file if you don’t already have one that can be transferred to USyd’s Artemis/RDS system:\n\ntouch -p ~/.ssh/authorized_keys\n\nCopy the contents of the public key file (~/.ssh/id_rsa.pub) to the authorized_keys file to be transferred to USyd’s Artemis/RDS system:\n\ncat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys\n\nSet permissions for the authorized_keys file to be transferred to USyd’s Artemis/RDS system:\n\nchmod 600 ~/.ssh/authorized_keys\n\nConnect to USyd’s Artemis/RDS system using sftp and your unikey:\n\nsftp &lt;your-unikey&gt;@research-data-ext.sydney.edu.au\nProvide your password when prompted. Then make and move into a .ssh directory if you don’t already have one:\nmkdir -p ~/.ssh\ncd ~/.ssh\n\nTransfer the authorized_keys file from Gadi to USyd’s Artemis/RDS system:\n\nput authorized_keys\nDoing this will transfer authorized_keys on Gadi to your current directory. With sftp, it will look for the file relative to where you launched sftp. You can check where you are on Gadi using:\nlls\n\nExit your sftp connection to USyd’s Artemis/RDS system ctrl + z and test the passwordless connection:\n\nsftp &lt;your-unikey&gt;@research-data-ext.sydney.edu.au\nThis time, you shouldn’t be prompted for a password. You can proceed to transfer data between Gadi and USyd’s Artemis/RDS system now on the copyq."
+  },
+  {
+    "objectID": "notebooks/data_transfer.html#customise-the-transfer-script",
+    "href": "notebooks/data_transfer.html#customise-the-transfer-script",
+    "title": "Transferring data to and from Gadi",
+    "section": "Customise the transfer script",
+    "text": "Customise the transfer script\nWhenever you need to copy large files between RDS and Gadi, you should use the script below. This script can be submitted to the copyq on Gadi. A copy of it has been provided in your group’s /g/data/&lt;project&gt;/scripts directory. An example of a script has also been provided here.\nMake a copy of this file to your /scratch workspace on Gadi and edit it to suit your needs.\ncp /g/data/&lt;project&gt;/scripts/transfer.pbs /scratch/&lt;project&gt;/&lt;workspace&gt;\nThen follow the script and move to that workspace:\ncd /scratch/&lt;project&gt;/&lt;workspace&gt;\nYou need to edit the script and fill in the following details before using it:\nIn the # PBS variables part of the script:\n\nProvide the -P variable by replacing &lt;project&gt; with your Gadi project code for accounting\nIncrease the walltime if you are transferring large files, the limit on this queue is 10 hours\nAlter -lstorage=scratch/&lt;project&gt; as required. If you also need to access g/data, you can change this to scratch/&lt;project&gt;+/gdata/&lt;project&gt;\n\nIn the body of the script:\n\nProvide the remote_user variable by replacing &lt;unikey&gt; with your USyd unikey\nProvide the remote_host variable by replacing &lt;project&gt; with your USyd Artemis/RDS project code\nProvide the remote_path variable by replacing &lt;path&gt; with the path to the file or directory you want to transfer, excluding the name of the file or directory to be transferred. This will be provided further down in the script.\n\nNotice that all commands in the script are hashed out. This script can do multiple things, depending on which command is permitted to run (by removing the hash prefix). The header lines above each section describe which command is being run and therefore which direction the data is moving in.\nTo copy a file from RDS to Gadi:\n\nSee the section under # Download a file from RDS to Gadi\nUnhash lines 21-23\nProvide the RDS file as remote_file variable by replacing &lt;filename&gt; with the name of the file you want to transfer\n\nTo copy a directory from RDS to Gadi:\n\nSee the section under # Download a directory from RDS to Gadi\nUnhash lines 26-27\nProvide the RDS directory as remote_dir variable by replacing &lt;dirname&gt; with the name of the file you want to transfer\n\nTo copy a file from Gadi to RDS:\n\nSee the section under # Upload a file from Gadi to RDS\nUnhash lines 30-31\nProvide the Gadi file as local_file variable by replacing &lt;filename&gt; with the name of the file you want to transfer\n\nTo copy a directory from Gadi to RDS:\n\nSee the section under # Upload a directory from Gadi to RDS\nLog into RDS and make a directory with the same name as the directory you want to transfer from Gadi\nUnhash lines 35-36\nProvide the Gadi directory as local_dir variable by replacing &lt;dirname&gt; with the name of the file you want to transfer\n\n#!/bin/bash\n\n# This is a Gadi data transfer script\n\n#PBS -P &lt;project&gt;\n#PBS -N transfer\n#PBS -l walltime=04:00:00\n#PBS -l ncpus=1\n#PBS -l mem=8GB\n#PBS -W umask=022\n#PBS -q copyq\n#PBS -l wd\n#PBS -lstorage=scratch/&lt;project&gt;\n\n# Remote server details:\nremote_user=&lt;unikey&gt;\nremote_host=research-data-ext.sydney.edu.au\nremote_path=/rds/PRJ-&lt;project&gt;/&lt;path&gt;\n\n# Download a file from RDS to Gadi:\n#dest_path=/scratch/&lt;project&gt;/&lt;path&gt;\n#remote_file=&lt;filename&gt;\n#sftp ${remote_user}@${remote_host}:${remote_path}/${remote_file} ${dest_path} \n\n# Download a directory from RDS to Gadi:\n#dest_path=/scratch/&lt;project&gt;/&lt;path&gt;\n#remote_dir=&lt;dirname&gt;\n#sftp -r ${remote_user}@${remote_host}:${remote_path}/${remote_dir} ${dest_path} \n\n# Upload a file from Gadi to RDS:\n#local_file=&lt;filename&gt;\n#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $\"put ${local_file}\" \n\n# Upload a directory from Gadi to RDS:\n# CAVEAT: this method will only work if directory of the same name exists at destination! \n#local_dir=&lt;dirname&gt;\n#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $\"put -r ${local_dir}\" \nFor example, to download a bam file from RDS to Gadi, I’d only unhash the Download a file from RDS to Gadi section:\n#!/bin/bash\n\n# This is a Gadi data transfer script\n\n#PBS -P aa00\n#PBS -N transfer\n#PBS -l walltime=10:00:00\n#PBS -l ncpus=1\n#PBS -l mem=8GB\n#PBS -W umask=022\n#PBS -q copyq\n#PBS -l wd\n#PBS -lstorage=scratch/aa00\n\n# Remote server details:\nremote_user=gsam0000\nremote_host=research-data-ext.sydney.edu.au\nremote_path=/rds/PRJ-MYPROJECT/bams\n\n# Download a file from RDS to Gadi:\ndest_path=/scratch/aa00/bams\nremote_file=sample.bam\nsftp ${remote_user}@${remote_host}:${remote_path}/${remote_file} ${dest_path} \n\n# Download a directory from RDS to Gadi:\n#remote_dir=&lt;dirname&gt;\n#sftp -r ${remote_user}@${remote_host}:${remote_path}/${remote_dir} ${dest_path} \n\n# Upload a file from Gadi to RDS:\n#local_file=&lt;filename&gt;\n#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $\"put ${local_file}\" \n\n# Upload a directory from Gadi to RDS:\n# CAVEAT: this method will only work if directory of the same name exists at destination! \n#local_dir=&lt;dirname&gt;\n#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $\"put -r ${local_dir}\" \nFor example, to download a directory containing multiple fastq.gz files from RDS to Gadi, I’d only unhash the Download a directory from RDS to Gadi section:\n#!/bin/bash\n\n# This is a Gadi data transfer script\n\n#PBS -P aa00\n#PBS -N transfer\n#PBS -l walltime=10:00:00\n#PBS -l ncpus=1\n#PBS -l mem=8GB\n#PBS -W umask=022\n#PBS -q copyq\n#PBS -l wd\n#PBS -lstorage=scratch/aa00\n\n# Remote server details:\nremote_user=&lt;unikey&gt;\nremote_host=research-data-ext.sydney.edu.au\nremote_path=/rds/PRJ-&lt;project&gt;/&lt;path&gt;\n\n# Download a file from RDS to Gadi:\n#dest_path=/scratch/&lt;project&gt;/&lt;path&gt;\n#remote_file=&lt;filename&gt;\n#sftp ${remote_user}@${remote_host}:${remote_path}/${remote_file} ${dest_path} \n\n# Download a directory from RDS to Gadi:\ndest_path=/scratch/aa00/fastqs\nremote_dir=/rds/PRJ-MYPROJECT/fastqs/cmt-fastqs\nsftp -r ${remote_user}@${remote_host}:${remote_path}/${remote_dir} ${dest_path} \n\n# Upload a file from Gadi to RDS:\n#local_file=&lt;filename&gt;\n#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $\"put ${local_file}\" \n\n# Upload a directory from Gadi to RDS:\n# CAVEAT: this method will only work if directory of the same name exists at destination! \n#local_dir=&lt;dirname&gt;\n#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $\"put -r ${local_dir}\""
+  },
+  {
+    "objectID": "notebooks/data_transfer.html#run-the-transfer-script",
+    "href": "notebooks/data_transfer.html#run-the-transfer-script",
+    "title": "Transferring data to and from Gadi",
+    "section": "Run the transfer script",
+    "text": "Run the transfer script\nOnce you have customised the script, you can submit it to the copyq on Gadi. Run the script from the directory where you saved it:\nqsub transfer.pbs\nThis can be a nerve-wracking process, especially if you are transferring large files. You can check the status of your job on Gadi using:\nqstat -Esw\nOnce it says R (running), you can confirm it is going to where you want on RDS/Artemis or Gadi by logging into the system and checking for the presence of the file/directory in its expected location using:\nls &lt;path&gt;"
+  },
+  {
+    "objectID": "notebooks/data_transfer.html#confirm-the-transfer",
+    "href": "notebooks/data_transfer.html#confirm-the-transfer",
+    "title": "Transferring data to and from Gadi",
+    "section": "Confirm the transfer",
+    "text": "Confirm the transfer\nTo confirm the transfer was successful, you’ll need to check your joblogs. These are located in the same directory as your script and are named transfer.o&lt;jobid&gt;. Check for Exit status: 0. If you see this, the transfer was successful.\nHowever, this doesn’t guarantee the integrity of the files. You should check the files themselves to ensure they are intact. You can do this using md5checksums. See this SIH tidbits blogpost about how to use these. You’ll need to create md5checksums for the original files if they don’t already exist and compare them after transfer."
+  },
+  {
+    "objectID": "notebooks/short_mapping_snps.html",
+    "href": "notebooks/short_mapping_snps.html",
+    "title": "Running Parabricks-Genomics-nf",
+    "section": "",
+    "text": "To call SNVs and short indels for Illumina short read data, you will be running the Parabricks-Genomics-nf pipeline. This pipeline was developed by the SIH Bioinformatics group. It leverages existing best practice tools to identify short variants in whole genome sequence data. The pipeline is written in Nextflow and can be configured for multiple compute environments. It has been configured specifically for NCI’s Gadi HPC.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/short_mapping_snps.html#considerations",
+    "href": "notebooks/short_mapping_snps.html#considerations",
+    "title": "Running Parabricks-Genomics-nf",
+    "section": "Considerations",
+    "text": "Considerations\nThis pipeline is a GPU-accelerated implementation of best practice tools for variant calling pipeline. While the software you are running is called “Parabricks”, by running this pipeline you are essentially running significantly sped up versions of BWA mem, Samtools, Google’s DeepVariant, and GLNexus. Parabricks guarantees complete fidelity with the original tools, but with a significant speedup.\nThe pipeline is written in Nextflow and can be configured for multiple compute environments but can only run on NVIDIA GPUs that support CUDA architecture. It has been configured specifically for Gadi and would require significant customisation of the nextflow.config in order to run on other systems.\nFor detailed instructions on how to run the pipeline, see the README.md file in the Parabricks-Genomics-nf GitHub repository."
+  },
+  {
+    "objectID": "notebooks/short_mapping_snps.html#reference-data-on-gadi",
+    "href": "notebooks/short_mapping_snps.html#reference-data-on-gadi",
+    "title": "Running Parabricks-Genomics-nf",
+    "section": "Reference data on Gadi",
+    "text": "Reference data on Gadi\nPrevious cohorts have been run using the Hg38 (chromosome only) and chm13-t2t assemblies. Copies of these reference and their index files are available at /g/data/&lt;project&gt;/reference on Gadi."
+  },
+  {
+    "objectID": "notebooks/short_mapping_snps.html#quickstart-guide",
+    "href": "notebooks/short_mapping_snps.html#quickstart-guide",
+    "title": "Running Parabricks-Genomics-nf",
+    "section": "Quickstart guide",
+    "text": "Quickstart guide\nIt is strongly suggested you read through the detailed instructions in the Parabricks-Genomics-nf GitHub repository. Below is a quickstart guide to get you up and running if you are already familiar with the pipeline.\n1. Download a copy of the Parabricks-Genomics-nf pipeline code to your Gadi environment\ngit clone https://github.com/Sydney-Informatics-Hub/Parabricks-Genomics-nf.git\nMove into this directory, this is where you will be working:\ncd Parabricks-Genomics-nf\n2. Prepare your input file for all samples you wish to process\nYou can do this in a text editor or Excel if that is easier. Just ensure you have a file that has comma-separated columns with a header for each column. For example:\nsample,fq1,fq2,platform,library,center\nsample1,/scratch/aa00/sample1_L001_1_1k.fastq.gz,/scratch/aa00/sample1_L001_2_1k.fastq.gz,illumina,1,Ramaciotti\nsample1,/scratch/aa00/sample1_L002_1_1k.fastq.gz,/scratch/aa00/sample1__L002_2_1k.fastq.gz,illumina,1,Ramaciotti\nsample2,/scratch/aa00/sample2_1_1k.fastq.gz,/scratch/aa00/sample2_2_1k.fastq.gz,illumina,1,Ramaciotti\nsample3,/scratch/aa00/sample3_1_1k.fastq.gz,/scratch/aa00/sample3_2_1k.fastq.gz,illumina,1,Ramaciotti\n3. Run the pipeline\nUse the run_gadi.pbs script provided alongside the code inside the scripts/ directory. This script will submit all jobs to the Gadi HPC queue system. Before executing you will need to edit the script, how you do this will depend on how you intend to run the pipeline. Edit the following PBS variables at the top of the script:\n#PBS -P &lt;PROJECT&gt;\n#PBS -l storage=scratch/&lt;PROJECT&gt;\n\nProvide your group’s project code in place of &lt;PROJECT&gt;\nProvide the storage you will be using for the pipeline in place of storage=. This can be scratch or gdata\n\nFor example:\n#PBS -P aa00\n#PBS -l storage=scratch/aa00+gdata/aa00\nNext, edit the script variables to pass the required files and parameters to the pipeline:\ngadi_account= #REQUIRED: your gadi project code for accounting \ncohort_name= #REQUIRED: name of your sample cohort  \noutdir= #OPTIONAL: name of the results directory \nref= #REQUIRED: full path to your chosen reference genome e.g. /g/data/aa00/reference/hg38.fa\ninput= #REQUIRED: full path to your input sample sheet e.g. /scratch/aa00/samples.csv\nvep_species= #OPTIONAL which VEP species do you want to use for variant annotation e.g. homo_sapiens\nvep_assembly= #OPTIONAL: which genome assembly do you want to use for variant annotation e.g. GRCh38\nFor example:\ngadi_account=aa00\ncohort_name=cmt-2024\noutdir=/scratch/aa00/Parabricks-Genomics-nf/cmt-2024-results\nref=/g/data/aa00/reference/hg38.fa\ninput=/scratch/aa00/Parabricks-Genomics-nf/cmt-2024.csv \nvep_species=homo_sapiens\nvep_assembly=GRCh38\nSave your changes and run the script with:\nqsub scripts/run_gadi.pbs\nYou will receive a message with your unique job id as a numerical code. This will submit the head job (i.e. the run_gadi.pbs script) and all tasks to the job scheduler for execution. You can check the progress of your job by running:\nqstat -Esw \n4. View the results of the pipeline\nThis pipeline runs multiple processes described here, most processes generate some output that you can view in your specified outdir. See here for a description of how the outputs are organised and what files are generated."
+  },
+  {
+    "objectID": "notebooks/short_mapping_snps.html#resources",
+    "href": "notebooks/short_mapping_snps.html#resources",
+    "title": "Running Parabricks-Genomics-nf",
+    "section": "Resources",
+    "text": "Resources\n\nParabricks-Genomics-nf code\nParabricks benchmarking comparison paper by SIH\nParabricks documentation"
+  },
+  {
+    "objectID": "notebooks/nfcore.html",
+    "href": "notebooks/nfcore.html",
+    "title": "Running nf-core pipelines",
+    "section": "",
+    "text": "nf-core provides a standardised set of best practice bioinformatics workflows, including short read RNAseq data processing for differential expression (nf-core/rnaseq), downloading sequencing data from public archives (nf-core/fetchngs), and rare disease genomics(nf-core/raredisease). These workflows are designed to be modular, scalable, and portable, allowing researchers to adapt and execute them using their own data and compute resources.\nHowever, running these workflows on a HPC system like Gadi can be challenging due to the complexity of the workflows and the need to manage the workflow execution. This page provides a guide on how to run nf-core pipelines on Gadi.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/nfcore.html#considerations",
+    "href": "notebooks/nfcore.html#considerations",
+    "title": "Running nf-core pipelines",
+    "section": "Considerations",
+    "text": "Considerations\nnf-core pipelines are designed to be very flexible, as such you need to make a few decisions before you can run them on Gadi. A few things to consider before you try to run one of these pipelines on your data:\n1. Lots of different parameters\nBefore you decide on running a pipeline, get familiar with the documentation, identify what the default settings are, and if you need to change anything. For most applications, default settings are suitable. However you may need to adjust some settings to suit your data or your tool preference.\nEach nf-core pipeline has its own detailed documentation that is on a separate website from their codebase. You can find the documentation for each pipeline on the nf-core website.\nSee our SIH nf-core training for more information on how to design and execute a run command and how to navigate the documentation.\n2. Requires configuration to run on Gadi\nnf-core pipelines are designed to be run on a local machine or a cloud-based system. To run them on Gadi, you will need to use our institutional configuration file, available here. This configuration file has been tested with a number of nf-core pipelines but may require some adjustments to work for your specific application.\nPlease keep in mind that currently, Gadi HPC queues do not have external network access. As such, you may not be able to pull the workflow code base, containers, or reference data as a job on any of the standard queues. NCI currently recommends you run your Nextflow head job either in a GNU screen or tmux session from the login node or submit it as a job to the copyq. See the nf-core documentation for instructions on running pipelines offline.\nA copy of the gadi config file has been saved to: /g/data/&lt;project&gt;/pipelines/nfcore_config/nci_gadi.config along side its usage instructions, /g/data/&lt;project&gt;/pipelines/nfcore_config/nci_gadi.md."
+  },
+  {
+    "objectID": "notebooks/nfcore.html#reference-data-on-gadi",
+    "href": "notebooks/nfcore.html#reference-data-on-gadi",
+    "title": "Running nf-core pipelines",
+    "section": "Reference data on Gadi",
+    "text": "Reference data on Gadi\nAs with other pipelines documented in this guide, you can find reference data files in /g/data/&lt;project&gt;/reference. You can use specific flags to provide these reference files to an nf-core pipelines. Alternatively by default nf-core pipelines can download reference data from the Illumina iGenomes repository on your behalf. See here for more details."
+  },
+  {
+    "objectID": "notebooks/nfcore.html#quickstart-guide",
+    "href": "notebooks/nfcore.html#quickstart-guide",
+    "title": "Running nf-core pipelines",
+    "section": "Quickstart guide",
+    "text": "Quickstart guide\nOnce you’ve confirmed which pipeline you want to run and how, you’ll need to start by downloading the codebase. You can do this in a number of ways:\n1. Download from github\nJust run the git clone command, no need to install anything. For example:\ngit clone https://github.com/nf-core/rnaseq.git\n2. Download using the nf-core tools utility\nFirst load the python3 module already installed on Gadi:\nmodule load python3\nThen install the nf-core tools utility:\npip install nf-core\nSee our guide on installing nf-core tools if you run into any issues.\nDownload the pipeline of choice, following the prompts:\nnf-core download\nSee our guide on downloading pipelines for more details.\n3. Load the required modules\nTo run all the tools in an nf-core pipeline, (same as with all other nextflow pipelines described in this documentation) you will need to load modules required to execute the pipeline itself (nextflow) and all the tools run by the pipeline (singularity). Before running a pipeline, you will need to load the following modules:\nmodule load nextflow \nmodule load singularity\nWe use Singularity, which is a container management tool that allows you to run software on HPC systems without needing to install anything.\n4. Run a pipeline with the gadi profile\nHow you run the pipeline may change depending on the way you downloaded the codebase. But same as with the other nextflow pipelines provided to your group, the executable file is always called main.nf. If you are unsure about the required command for running a pipeline, you can always run the help command. For example:\nnextflow run nf-core-rnaseq/main.nf --help\nThis will typically show a requirement for:\n\nAn input sample sheet (--input)\nA reference genome (--genome)\nA profile for pipeline execution (-profile)\n\nTake a look at our SIH nf-core training for more information on how to design and execute a run command. Same as is documented in the training materials, you will need to add to use the singularity profile to tell Nextflow to use Singularity to execute all tools. You’ll also need to run the gadi profile too to submit tasks to the job scheduler. If you run into issues with providing the Gadi profile with:\n-profile singularity,gadi\nFor example in this nf-core/rnaseq execution command used to process some mouse samples:\nnextflow run nf-core-rnaseq-3.13/workflow/main.nf \\\n    --input samplesheet.csv \\\n    --outdir rnaseq_output \\\n    --fasta /scratch/&lt;project&gt;/mm10_reference/mm10_chr18.fa \\\n    --gtf /scratch/&lt;project&gt;/mm10_reference/mm10_chr18.gtf \\\n    -profile singularity,gadi \\\n    --skip_markduplicates \\\n    --save_trimmed true \\\n    --save_unaligned true\nThen you can provide the path to the Gadi configuration file available at /g/data/&lt;project&gt;/pipelines/nfcore_config/nci_gadi.config. For example:\nnextflow run nf-core-rnaseq-3.13/workflow/main.nf \\\n    --input samplesheet.csv \\\n    --outdir rnaseq_output \\\n    --fasta /scratch/&lt;project&gt;/mm10_reference/mm10_chr18.fa \\\n    --gtf /scratch/&lt;project&gt;/mm10_reference/mm10_chr18.gtf \\\n    -profile singularity \\\n    -c /g/data/&lt;project&gt;/pipelines/nfcore_config/nci_gadi.config \\\n    --skip_markduplicates \\\n    --save_trimmed true \\\n    --save_unaligned true\nTo run the pipeline, you can submit a job to the copyq, or run it interactively on the login node. Edit the PBS variables and pipeline execution command in a script, called nf-core-run.pbs. The following example script can be used to run the nf-core/rnaseq pipeline on Gadi:\n#!/bin/bash\n\n#PBS -P &lt;project&gt;\n#PBS -N nf-core\n#PBS -l walltime=10:00:00\n#PBS -l ncpus=1\n#PBS -l mem=10GB\n#PBS -W umask=022\n#PBS -q copyq\n#PBS -e nf-core.e\n#PBS -o nf-core.o\n#PBS -l wd\n#PBS -l storage=/scratch/&lt;project&gt;+gdata/&lt;project&gt;\n\nmodule load nextflow \nmodule load singularity \n\nnextflow run nf-core-rnaseq-3.13/workflow/main.nf \\\n    --input samplesheet.csv \\\n    --outdir rnaseq_output \\\n    --fasta /scratch/&lt;project&gt;/mm10_reference/mm10_chr18.fa \\\n    --gtf /scratch/&lt;project&gt;/mm10_reference/mm10_chr18.gtf \\\n    -profile singularity \\\n    -c /g/data/&lt;project&gt;/pipelines/nfcore_config/nci_gadi.config \\\n    --skip_markduplicates \\\n    --save_trimmed true \\\n    --save_unaligned true\nExecute the pipeline with:\nqsub nf-core-run.pbs"
+  },
+  {
+    "objectID": "notebooks/nfcore.html#resources",
+    "href": "notebooks/nfcore.html#resources",
+    "title": "Running nf-core pipelines",
+    "section": "Resources",
+    "text": "Resources\n\nnf-core webiste\nRunning nf-core pipelines\nPublic nf-core configs\nSIH nf-core training"
+  },
+  {
+    "objectID": "notebooks/hpc_expectations.html",
+    "href": "notebooks/hpc_expectations.html",
+    "title": "Working on the Gadi HPC",
+    "section": "",
+    "text": "Watch our Pro tips for bioinformatics on HPC webinar (recording and slides) to understand how HPC systems like Gadi work.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/hpc_expectations.html#what-is-high-performance-computing",
+    "href": "notebooks/hpc_expectations.html#what-is-high-performance-computing",
+    "title": "Working on the Gadi HPC",
+    "section": "What is high performance computing?",
+    "text": "What is high performance computing?\nHigh performance computing refers to the use of parallel processing techniques to solve complex computation problems efficiently. HPC systems, like Gadi, consist of clusters of interconnected computers, each equipped with multiple processors and large amounts of memory. These systems are designed to handle massive datasets and perform computations at speeds far beyond those achievable by your personal computer."
+  },
+  {
+    "objectID": "notebooks/hpc_expectations.html#why-do-we-need-hpc-for-bioinformatics",
+    "href": "notebooks/hpc_expectations.html#why-do-we-need-hpc-for-bioinformatics",
+    "title": "Working on the Gadi HPC",
+    "section": "Why do we need HPC for bioinformatics?",
+    "text": "Why do we need HPC for bioinformatics?\nIn bioinformatics, researchers deal with massive datasets generated by technologies such as next-generation sequencing (genomics, transcriptomics) and mass spectrometry (proteomics). Analysing these datasets requires computationally intensive tasks such as sequence alignment, genome assembly, and statistical analysis. HPC systems provide the computational power and memory resources necessary to process these datasets efficiently."
+  },
+  {
+    "objectID": "notebooks/hpc_expectations.html#key-components-of-the-gadi-hpc-system",
+    "href": "notebooks/hpc_expectations.html#key-components-of-the-gadi-hpc-system",
+    "title": "Working on the Gadi HPC",
+    "section": "Key components of the Gadi HPC system",
+    "text": "Key components of the Gadi HPC system\nSee the Gadi Resources Guide for a detailed explanation of the following.\n\nComputing nodes\n\nLogin nodes\nThese nodes are the gateway for Gadi for users to access the resources of the HPC cluster. It is how you log in to Gadi, move around the filesystem, submit jobs to the scheduler, and do small tasks like view the contents of a file.\n\n\nCompute nodes\nThese nodes are the workhorses of any HPC. They are dedicated for executing computational tasks as delegated by the job scheduler when you submit a job. There are various types of compute nodes with different hardware, built for different purposes on Gadi. Depending on the resource requirements of your job (e.g. high memory, GPUs) and the queue you specify, your job will be sent to a specific type of compute node. You can find a breakdown of their technical specifications here.\n\n\n\n\n\n\n‼️ Pay Attention ‼️\n\n\n\nCompute nodes on Gadi don’t currently have access to external internet. If any tasks within a submitted job on the compute node need to access the internet, they will fail. These jobs should be run separtately on the copyq using the data mover nodes.\n\n\n\n\nData mover nodes\nThese nodes are designed specifically for fast data movement. You can use these nodes to transfer files to and from Gadi at high-speed. Steps outlined here. A script for moving data between USyd RDS and Gadi is provided in /g/data/scripts and explained in the following section, transferring data.\n\n\n\nFilesystems\n\n$HOME\nWhen you first log in to Gadi, you’ll be placed in your personal $HOME directory (i.e. /home/555/aa1234). You are the only person who can access this directory. No work should be done in here, but you may wish to install things like custom R or Python libraries here. It is backed up but you have a 10Gb storage limit.\nYou can navigate back here at any point:\ncd ~\n\n\n/scratch\nAll Gadi projects have a dedicated /scratch allocation that is only accessible to members of that group. This is only intended for active work on big files and not for long-term storage. Your allocation is currently 11 TB of storage. This is not backed up and any files not accessed for 100 days will be purged from the system, so be sure to back up your work to RDS. Your /scratch contains a directory for each user (denoted by their Gadi username), however you can organise things however you wish here.\n\n\n/g/data\nSome Gadi projects, including your group’s, have a dedicated g/data allocation that is only accessible to members of that group. This in intended for long-term large data storage. Your allocation is currently 2 TB of storage. This is not backed up though, so ensure you transfer all important files back to RDS. Your g/data contains the following shared directories:\n\npipelines: copies of SIH public pipelines from our GitHub\nreference: T2T and Hg38 assemblies and their indexes\nscripts: copies of shared code for general tasks\n\nls -lah /gdata/&lt;project&gt;\ndrwxr-sr-x 3 gs5517 iz89 4.0K Feb 13 22:42 pipelines\ndrwxr-sr-x 4 gs5517 iz89 4.0K Sep 14  2023 reference\ndrwxr-sr-x 2 gs5517 iz89 4.0K Feb 13 22:43 scripts\n\n\n/apps\nThis directory is accessible to all Gadi users. It is a read-only system containing centrally installed software applications and their module files. You can check what software is installed here:\nls /apps\nYou can use any software that is installed here by first loading the module file, e.g.:\nmodule load samtools\nThen run the tool as per it’s user guide, e.g.:\nsamtools view -H sample.bam\n\n\n\nQueues\nLike on Artemis, the job scheduler is PBSPro, however it is implented in a slightly different way. To run jobs on Gadi, users should submit to a specific queue on a corresponding node. The queue and node you choose to run on will depend on the types of resources your job needs. Pipelines your group use have already been configured to run on specific queues.\nFor custom PBS scripts, you can work out what queue to run your job on by checking the NCI queue documentation and queue limits explainer. Most jobs will be suitable for normal or normalbw queues. The normal queues have more nodes available for your jobs, and will allow users, and jobs that require a specialised queue, to get fair access to those resources. Express queues are designs to support work that needs a faster turnaround, but will be charged accordingly at a higher service unit charge."
+  },
+  {
+    "objectID": "notebooks/hpc_expectations.html#accounting",
+    "href": "notebooks/hpc_expectations.html#accounting",
+    "title": "Working on the Gadi HPC",
+    "section": "Accounting",
+    "text": "Accounting\nCheck your group’s quarterly storage and SU usage report by running:\nnci_project -P &lt;project&gt; -v"
+  },
+  {
+    "objectID": "notebooks/gadi_access.html",
+    "href": "notebooks/gadi_access.html",
+    "title": "Accessing your Gadi project",
+    "section": "",
+    "text": "National Computational Infrastructure (NCI) is a services facility that provides high performance computing (HPC), cloud and data services to Australian researchers.\nGadi is the name of NCI’s HPC facility, located at ANU (Canberra). The system is suitable for:\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/gadi_access.html#resources",
+    "href": "notebooks/gadi_access.html#resources",
+    "title": "Accessing your Gadi project",
+    "section": "Resources",
+    "text": "Resources\n\nGetting Started at NCI\nGadi User Guide\nGadi FAQs\nPro tips for bioinformatics on HPC: recording and slides"
+  },
+  {
+    "objectID": "notebooks/gadi_access.html#set-up-your-nci-account",
+    "href": "notebooks/gadi_access.html#set-up-your-nci-account",
+    "title": "Accessing your Gadi project",
+    "section": "Set up your NCI Account",
+    "text": "Set up your NCI Account\nAll new users must create their account through the NCI online self service portal. To create your account you will need the following information:\n\nYour Name\nInstitutional email address (Gmail, Hotmail, etc. are not accepted)\nMobile phone number\nEither:\n\nNCI project code of an existing project you wish to join\nA new project proposal to be assessed by a Scheme Manager to determine if they will grant your project time\n\n\nNote that resources at NCI are allocated to projects and not to individual users.\nComplete all steps below to set up an NCI account:\n\nClick on ‘Sign up’ link on the NCI online self service portal: \nAccept the terms and conditions: \nProvide your personal details: \nProvide details on the project you’ll be working on. Select I need to join one or more existing projects. Ask Marina for your group’s project code to write in the Projects menu: \nSelect University of Sydney as you institution: \n\nYour username will become active when a project Lead CI approves your request to join their project, or when a Scheme Manager approves your new project proposal. You will receive a confirmation email from the Mancini system when your username is activated."
+  },
+  {
+    "objectID": "notebooks/gadi_access.html#manage-your-nci-account",
+    "href": "notebooks/gadi_access.html#manage-your-nci-account",
+    "title": "Accessing your Gadi project",
+    "section": "Manage your NCI Account",
+    "text": "Manage your NCI Account\nYou can manage your account details and request access to new or existing projects through the NCI online self service portal.\nOnce your access to your group’s Gadi project has been confirmed, you can set up your computer and log in to Gadi. See the setup instructions for how to log in to the HPC system."
+  },
+  {
+    "objectID": "tips_tricks.html",
+    "href": "tips_tricks.html",
+    "title": "Tips and tricks",
+    "section": "",
+    "text": "All materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "ANZAC Neurogenetics Group NCI Gadi Guide",
+    "section": "",
+    "text": "This document contains instructions for how to access and utilise NCI’s HPC, Gadi for the ANZAC Neurogenetics Group. Please be mindful this is not an exhausive resource for using the NCI Gadi HPC. It is only intended to orientate you to the ANZAC Neurogenetics Group workspace.\nNCI’s HPC systems are designed to handle complex computational tasks, such as simulations, data analysis, and modeling, for a wide range of scientific disciplines, including climate modeling, genomics, astronomy, and materials science.\nThe University of Sydney provides its researchers with subsidised access to NCI’s infrastructure. To arrange user credits (service units) for your account, please contact SIH’s Research Computing team through our website.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "index.html#support",
+    "href": "index.html#support",
+    "title": "ANZAC Neurogenetics Group NCI Gadi Guide",
+    "section": "Support",
+    "text": "Support\nSIH is limited in the support it can provide for NCI Gadi users. If you are new to HPC and Gadi, we expect you will attend SIH’s Intro to HPC and NCI’s Intro to Gadi courses. Additionally, familiarise yourself with Gadi using the NCI Gadi user guide:\n\nSIH training calendar\nNCI training calendar\n\nFor additional support, please contact the following people depending on your needs:\n\n\n\nType of issue\nWho\nHow\nDetails\n\n\n\n\nService unit allocation for running jobs\nSIH\nLog a ticket\nSIH schemes\n\n\nAn issue with NCI Gadi\nNCI Helpdesk\nLog a ticket\nProvide your error, log file, jobid\n\n\nAny error returned in running a job\nNCI Helpdesk\nLog a ticket\nProvide your error, log file, jobid\n\n\nA bug in an SIH pipeline\nSIH\nSubmit an issue on Github\nProvide details e.g. this issue\n\n\nA bug in an nf-core pipeline\nnf-core pipeline developers\nSubmit an issue on Github\nIssue template requires specific information\n\n\nBioinformatics advice\nSIH\nLog a ticket\nProvide relevant context, errors, tool names, scripts"
+  }
+]

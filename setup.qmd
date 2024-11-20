@@ -1,0 +1,106 @@
+---
+title: "**Set up your computer**"
+output:
+  html_document:
+    toc: false
+    toc_float: false
+from: markdown+emoji
+---
+
+To work on NCI Gadi, you will need to either install a terminal application on your computer or work on [NCI's Australian Research Environment (ARE)](https://are.nci.org.au/) platform. Before accessing Gadi, you will need to have an NCI account. Ensure you have completed this step by following directions on the [Gadi Access instructions](./notebooks/gadi_access.qmd) on the previous page before proceeding. 
+
+## **Use NCI's ARE platform**
+
+NCI has created a web-based graphical interface for accessing their systems. It is very simple to use and recommended over access methods described below for beginners. 
+
+See NCI's User Guide for instructions on how to access and use [ARE](https://opus.nci.org.au/display/Help/ARE+User+Guide). 
+
+## **Install Visual Studio Code on your computer**
+
+Visual Studio Code (VS Code) is a lightweight and powerful source code editor available for Windows, macOS and Linux computers. As an alternative to a terminal application it offers file additional functionality including file editing. 
+
+1. Download Visual Studio Code for your system from [here](https://code.visualstudio.com/download) and follow the instructions for:
+    * [macOS](https://code.visualstudio.com/docs/setup/mac)
+    * [Windows](https://code.visualstudio.com/docs/setup/windows)
+
+2. Open the VS Code application on your computer 
+
+![](https://user-images.githubusercontent.com/73086054/224881239-86457c3f-9f8f-4724-b780-c633ea8d2180.png)
+
+3. Click on the extensions button (four blocks) on the left side bar and install the remote SSH extension. Click on the blue `install` button. 
+
+![](https://user-images.githubusercontent.com/73086054/224881365-2517157c-7bf9-4bd3-ba98-c9d7e3653674.png)
+
+Connect to your instance with VS code by adding the host details to your `.ssh` config file:
+
+  ```default
+  Host Gadi
+    HostName gadi.nci.org.au
+    User <your-nci-username>
+  ```
+
+  6. Type `Ctrl`+`Shift`+`P` and select `Remote-SSH: Connect to Host` and `Gadi` 
+  7. When prompted, select `Linux` as the platform of the remote host from the dropdown menu 
+  8. Type in your NCI password and hit enter 
+
+Having successfully logged in, you should see a small blue or green box in the bottom left corner of your screen:
+
+![](fig/vs_gadi_connect.png)
+
+To set up your VS Code window:
+
+1. Open a new folder in the file explorer panel on the left side of the screen by typing `Ctrl` + `K`, `Ctrl` + `O` if you're running Windows or `Cmd`+`K`+ `Cmd` + `O` for MacOS 
+2. Select `/scratch/iz89` to open your workspace. You can change this at any point by opening a new folder. Keep in mind you will be requested to provide your password each time.
+2. When prompted, select the box for `Trust the authors of all files in the parent folder ‘home’` then click `Yes, I trust the authors`
+3.	To open a terminal, type `Ctrl`+`J` if you're on a Windows machine or `Cmd`+`J` on MacOS
+
+**Tips for using VS Code**
+
+* [VS code cheatsheet for Windows](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf)
+* [VS code cheatsheet for MacOS](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)
+
+## **Install a terminal application on your computer** 
+
+The options for terminal installation will depend on your computer's operating system. See below for instructions for macOS and Windows. 
+
+### ***MacOS***
+
+Mac operating systems come with a terminal program, called Terminal. Just look for it in your Applications folder, or hit `Command` + `Space` and type 'terminal'. You may find that other, 3rd party terminal programs are more user-friendly and powerful, like [Iterm2](https://iterm2.com/).
+
+### ***Windows*** 
+
+We recommend [MobaXterm](https://mobaxterm.mobatek.net/download.html), which offers a rich experience as a full-featured X-server and terminal emulator for ssh connections, the free version is more than adequate.
+
+To install and start using MobaXterm:
+
+1. Go to https://mobaxterm.mobatek.net/download.html
+2. Under ‘Home Edition’ select the Download now button
+3. Select the MobaXterm Home Edition (Installer edition)
+4. Once the program is downloaded, install it as you would any other windows program
+5. Once the program is installed, start the MobaXterm program
+6. From this screen, click on ‘start local terminal’ (and install Cygwin if prompted) 
+
+![](https://user-images.githubusercontent.com/73086054/224888551-527c08c3-90fa-4f6b-beaf-308114880624.png)
+
+To log in to Gadi, you will use a Secure Shell (SSH) connection. To connect, you need 3 things:
+
+* The address of your NCI Gadi, `gadi.nci.org.au`.
+* Your Gadi username, e.g. `ab1234`.
+* Your password. 
+
+To log in: type the following into your terminal, using your allocated instance’s IP address:
+
+```default
+ssh <username>@gadi.nci.org.au
+```
+
+Then provide your password when prompted. 
+
+::: {.callout-warning}
+### :bangbang: Pay Attention :bangbang:
+When you type a password on the terminal, there will not be any indication the password is being entered. You'll not see a moving cursor, or even any asterisks, or bullets. That is an intentional security mechanism used by all terminal applications and can trip us up sometimes, so be careful when typing or copying your password in.  
+:::
+
+Once you've logged in successfully, you should see a welcome screen like this: 
+
+![](fig/terminal_gadi_connect.png)

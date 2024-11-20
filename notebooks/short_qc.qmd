@@ -1,0 +1,35 @@
+---
+title: "**QC of raw sequence data**"
+output:
+  html_document:
+    toc: false
+    toc_float: false
+from: markdown+emoji
+---
+
+Before processing any pipelines on your raw sequence data, it is important to check the quality of the data. This will help you to understand the quality of the data and to decide on the appropriate processing steps. 
+
+Sequencing data for WGS and RNAseq data is provided in the FASTQ format. This is a text-based format for storing both a nucleotide sequence and its corresponding quality scores. The quality scores are encoded using [ASCII characters](https://help.basespace.illumina.com/files-used-by-basespace/quality-scores), with each character representing a different quality score. The quality scores are used to assess the reliability of the base calls in the sequence data. 
+
+The quality of the sequence data can be assessed using a number of different tools. We will use [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) to assess the quality of the raw sequence data for both WGS and RNAseq data. FastQC is a widely used tool for assessing the quality of sequencing data, and provides a range of different metrics to help you understand the quality of your data.
+
+### **Run FastQC on raw sequence data**
+
+**1. Download a copy of the Parabricks-Genomics-nf pipeline code to your Gadi environment**
+
+```bash
+git clone https://github.com/Sydney-Informatics-Hub/fastqc-nf.git 
+```
+
+**2. Run the pipeline**
+
+See the [code documentation](https://github.com/Sydney-Informatics-Hub/fastqc-nf?tab=readme-ov-file#description) for instructions on how to prepare input and run the pipeline. 
+
+### **Interpreting FastQC results for different data types**
+
+See the [FastQC guide](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) for instructions on how to intepret FastQC results for whole genome sequence data. We've included a [small note in the fastqc-nf documentation](https://github.com/Sydney-Informatics-Hub/fastqc-nf?tab=readme-ov-file#description) noting which sections of the FastQC report will fail for RNAseq data. Keep this in mind. 
+
+### **Resources**
+
+- [FastQC-nf code](https://github.com/Sydney-Informatics-Hub/fastqc-nf)
+- [FastQC guide](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
