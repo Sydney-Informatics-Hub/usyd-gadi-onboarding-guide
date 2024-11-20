@@ -142,16 +142,16 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "ANZAC Neurogenetics Group NCI Gadi Guide",
+    "title": "NCI Gadi Guide for USyd researchers",
     "section": "",
-    "text": "This document contains instructions for how to access and utilise NCI’s HPC, Gadi for the ANZAC Neurogenetics Group. Please be mindful this is not an exhausive resource for using the NCI Gadi HPC. It is only intended to orientate you to the ANZAC Neurogenetics Group workspace.\nNCI’s HPC systems are designed to handle complex computational tasks, such as simulations, data analysis, and modeling, for a wide range of scientific disciplines, including climate modeling, genomics, astronomy, and materials science.\nThe University of Sydney provides its researchers with subsidised access to NCI’s infrastructure. To arrange user credits (service units) for your account, please contact SIH’s Research Computing team through our website.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+    "text": "This document contains instructions for how to access and utilise NCI’s HPC, Gadi for University of Sydney researchers. Please be mindful this is not an exhausive resource for using the NCI Gadi HPC. It is only intended to orientate you to the system and navigate the Gadi user documentation.\nNCI’s HPC systems are designed to handle complex computational tasks, such as simulations, data analysis, and modeling, for a wide range of scientific disciplines, including climate modeling, genomics, astronomy, and materials science.\nThe University of Sydney provides its researchers with subsidised access to NCI’s infrastructure. To arrange user credits (service units) for your account, please contact SIH’s Research Computing team through our website.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
   },
   {
     "objectID": "index.html#support",
     "href": "index.html#support",
-    "title": "ANZAC Neurogenetics Group NCI Gadi Guide",
+    "title": "NCI Gadi Guide for USyd researchers",
     "section": "Support",
-    "text": "Support\nSIH is limited in the support it can provide for NCI Gadi users. If you are new to HPC and Gadi, we expect you will attend SIH’s Intro to HPC and NCI’s Intro to Gadi courses. Additionally, familiarise yourself with Gadi using the NCI Gadi user guide:\n\nSIH training calendar\nNCI training calendar\n\nFor additional support, please contact the following people depending on your needs:\n\n\n\nType of issue\nWho\nHow\nDetails\n\n\n\n\nService unit allocation for running jobs\nSIH\nLog a ticket\nSIH schemes\n\n\nAn issue with NCI Gadi\nNCI Helpdesk\nLog a ticket\nProvide your error, log file, jobid\n\n\nAny error returned in running a job\nNCI Helpdesk\nLog a ticket\nProvide your error, log file, jobid\n\n\nA bug in an SIH pipeline\nSIH\nSubmit an issue on Github\nProvide details e.g. this issue\n\n\nA bug in an nf-core pipeline\nnf-core pipeline developers\nSubmit an issue on Github\nIssue template requires specific information\n\n\nBioinformatics advice\nSIH\nLog a ticket\nProvide relevant context, errors, tool names, scripts"
+    "text": "Support\nSIH is limited in the support it can provide for NCI Gadi users. If you are new to HPC and Gadi, we expect you will attend SIH’s Intro to HPC and NCI’s Intro to Gadi courses. Additionally, familiarise yourself with Gadi using the NCI Gadi user guide:\n\nSIH training calendar\nNCI training calendar\n\nFor additional support, please contact the following people depending on your needs:\n\n\n\nType of issue\nWho\nHow\nDetails\n\n\n\n\nService unit allocation for running jobs\nSIH\nLog a ticket\nSIH schemes\n\n\nAn issue with NCI Gadi\nNCI Helpdesk\nLog a ticket\nProvide your error, log file, jobid\n\n\nAny error returned in running a job\nNCI Helpdesk\nLog a ticket\nProvide your error, log file, jobid\n\n\nA bug in an SIH pipeline\nSIH\nSubmit an issue on Github\nProvide details e.g. this issue\n\n\nBioinformatics advice\nSIH\nLog a ticket\nProvide relevant context, errors, tool names, scripts"
   },
   {
     "objectID": "tips_tricks.html",

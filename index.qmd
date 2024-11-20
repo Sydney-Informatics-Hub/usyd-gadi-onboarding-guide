@@ -1,5 +1,5 @@
 ---
-title: "ANZAC Neurogenetics Group NCI Gadi Guide"
+title: "NCI Gadi Guide for USyd researchers"
 output:
   html_document:
     toc: false
@@ -7,7 +7,7 @@ output:
 
 ---
 
-This document contains instructions for how to access and utilise NCI's HPC, Gadi for the ANZAC Neurogenetics Group. Please be mindful this is not an exhausive resource for using the NCI Gadi HPC. It is only intended to orientate you to the ANZAC Neurogenetics Group workspace.  
+This document contains instructions for how to access and utilise NCI's HPC, Gadi for University of Sydney researchers. Please be mindful this is not an exhausive resource for using the NCI Gadi HPC. It is only intended to orientate you to the system and navigate the Gadi user documentation.  
 
 NCI’s HPC systems are designed to handle complex computational tasks, such as simulations, data analysis, and modeling, for a wide range of scientific disciplines, including climate modeling, genomics, astronomy, and materials science. 
 
@@ -28,5 +28,4 @@ For additional support, please contact the following people depending on your ne
 | An issue with NCI Gadi | NCI Helpdesk | [Log a ticket](https://nci.org.au/users/nci-helpdesk) | Provide your error, log file, jobid |
 | Any error returned in running a job | NCI Helpdesk | [Log a ticket](https://nci.org.au/users/nci-helpdesk) | Provide your error, log file, jobid |
 | A bug in an SIH pipeline | SIH | Submit an issue on Github | Provide details e.g. [this issue](https://github.com/Sydney-Informatics-Hub/Germline-StructuralV-nf/issues/65) |
-| A bug in an nf-core pipeline | nf-core pipeline developers | [Submit an issue on Github](https://github.com/nf-core/rnaseq/issues) | Issue template requires specific information |
 | Bioinformatics advice | SIH| [Log a ticket](https://www.sydney.edu.au/research/facilities/sydney-informatics-hub.html) | Provide relevant context, errors, tool names, scripts |
