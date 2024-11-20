@@ -1,4 +1,4 @@
-# ANZAC Neurogenetics Gadi guide 
+# USyd NCI Gadi guide 
 
 ## Contributing to this repository
 
