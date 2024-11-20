@@ -1,0 +1,9 @@
+
+
+## **Accounting**
+
+Check your group's quarterly storage and SU usage report by running: 
+
+```bash 
+nci_project -P <project> -v
+```
