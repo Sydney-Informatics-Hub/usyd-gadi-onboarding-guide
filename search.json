@@ -1,0 +1,303 @@
+[
+  {
+    "objectID": "notebooks/04_nagivating_system.html",
+    "href": "notebooks/04_nagivating_system.html",
+    "title": "Finding your way around",
+    "section": "",
+    "text": "Finding your way around Gadi’s directories is straightforward once you know a few basic rules. Within these directories, you can create files and subdirectories, move your data, run your analyses, and access software.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/04_nagivating_system.html#working-in-a-linux-environment",
+    "href": "notebooks/04_nagivating_system.html#working-in-a-linux-environment",
+    "title": "Finding your way around",
+    "section": "Working in a Linux environment",
+    "text": "Working in a Linux environment\n\nSandbox.bio terminal basics tutorial\nBash cheatsheet\n\n\n\n\n\n\n\nSome basic Linux commands\n\n\n\nWorking on any Linux-based system, including Gadi, requires a basic understanding of the command line. Here are some common commands you will need to use. Keep in mind these are case-sensitive, and can be adjusted by using flags.\n\nls - list files and directories\ncd - change directory\npwd - print working directory\nmkdir - make directory\ncp - copy files and directories\nmv - move files and directories\nrm - remove files and directories\ncat - concatenate and display files\nless - view files one screen at a time\nhead - display the first few lines of a file\ntail - display the last few lines of a file\nman - display the manual page for a command"
+  },
+  {
+    "objectID": "notebooks/04_nagivating_system.html#the-gadi-filesystem",
+    "href": "notebooks/04_nagivating_system.html#the-gadi-filesystem",
+    "title": "Finding your way around",
+    "section": "The Gadi filesystem",
+    "text": "The Gadi filesystem\n\n\n\nSource: https://opus.nci.org.au/spaces/Help/pages/236880086/Gadi+Resources…\n\n\nKeep these simple formats in mind as you use Gadi:"
+  },
+  {
+    "objectID": "notebooks/04_nagivating_system.html#home",
+    "href": "notebooks/04_nagivating_system.html#home",
+    "title": "Finding your way around",
+    "section": "/home",
+    "text": "/home\nThis is your personal home directory is always located at/home/institution_id/username."
+  },
+  {
+    "objectID": "notebooks/04_nagivating_system.html#scratch",
+    "href": "notebooks/04_nagivating_system.html#scratch",
+    "title": "Finding your way around",
+    "section": "/scratch",
+    "text": "/scratch\nEach user within a project’s scratch directory will have their own workspace at /scratch/&lt;project&gt;/&lt;username&gt;, where you can store temporary data. You can also create new directories in your scratch space to organise your work and share across project users."
+  },
+  {
+    "objectID": "notebooks/04_nagivating_system.html#gdata",
+    "href": "notebooks/04_nagivating_system.html#gdata",
+    "title": "Finding your way around",
+    "section": "/g/data",
+    "text": "/g/data\nGlobal data storage is similar to scratch in that each user has their own workspace this is found at /g/data/project/username. (Note: Not all projects include Global Data storage.)"
+  },
+  {
+    "objectID": "notebooks/04_nagivating_system.html#apps",
+    "href": "notebooks/04_nagivating_system.html#apps",
+    "title": "Finding your way around",
+    "section": "/apps",
+    "text": "/apps\nAll installed software is organised under /apps/software/version."
+  },
+  {
+    "objectID": "notebooks/07_environments.html",
+    "href": "notebooks/07_environments.html",
+    "title": "Domain-specific environments",
+    "section": "",
+    "text": "Coming soon! For now, see: https://opus.nci.org.au/spaces/Help/pages/104202352/Specialised+Environments\n\n\n\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/01_setup.html",
+    "href": "notebooks/01_setup.html",
+    "title": "Set up your computer",
+    "section": "",
+    "text": "To work on NCI Gadi, you will need to either install a terminal application on your computer or work on NCI’s Australian Research Environment (ARE) platform. Before accessing Gadi, you will need to have an NCI account. Ensure you have completed this step by following directions on the Gadi Access instructions on the previous page before proceeding.\nIn order to work on Gadi, you’ll need a terminal application. A terminal is a text-based interface to your computer. It’s a program that takes text commands and passes them to the operating system to execute. We suggest you use one of the following options:\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/01_setup.html#option-1-use-ncis-are-platform",
+    "href": "notebooks/01_setup.html#option-1-use-ncis-are-platform",
+    "title": "Set up your computer",
+    "section": "Option 1: Use NCI’s ARE platform",
+    "text": "Option 1: Use NCI’s ARE platform\n\n\n\n\n\n\nARE: fast access with limited customisation\n\n\n\nThis is a very lightweight solution for accessing Gadi, some interactive tools like Jupyter and RStudio. We recommended it for beginners who don’t want to customise their set up.\n\n\nNCI has created a web-based graphical interface for accessing their systems. It is very simple to use and recommended over access methods described below for beginners.\nSee NCI’s User Guide for instructions on how to access and use ARE."
+  },
+  {
+    "objectID": "notebooks/01_setup.html#option-2-install-visual-studio-code-on-your-computer",
+    "href": "notebooks/01_setup.html#option-2-install-visual-studio-code-on-your-computer",
+    "title": "Set up your computer",
+    "section": "Option 2: Install Visual Studio Code on your computer",
+    "text": "Option 2: Install Visual Studio Code on your computer\n\n\n\n\n\n\nVScode: customised configuration with an integrated terminal\n\n\n\nThis is a more advanced solution for accessing Gadi, with more customisation options. We recommended it for users who are comfortable with terminal applications and want to customise their set up.\n\n\nVisual Studio Code (VS Code) is a lightweight and powerful source code editor available for Windows, macOS and Linux computers. As an alternative to a terminal application it offers file additional functionality including file editing.\n\nDownload Visual Studio Code for your system from here and follow the instructions for:\n\nmacOS\nWindows\n\nOpen the VS Code application on your computer\n\n\n\nClick on the extensions button (four blocks) on the left side bar and install the remote SSH extension. Click on the blue install button.\n\n\nConnect to your instance with VS code by adding the host details to your .ssh config file:\nHost Gadi\n  HostName gadi.nci.org.au\n  User &lt;your-nci-username&gt;\n\nType Ctrl+Shift+P and select Remote-SSH: Connect to Host and Gadi\nWhen prompted, select Linux as the platform of the remote host from the dropdown menu\nType in your NCI password and hit enter\n\nHaving successfully logged in, you should see a small blue or green box in the bottom left corner of your screen:\n\nTo set up your VS Code window:\n\nOpen a new folder in the file explorer panel on the left side of the screen by typing Ctrl + K, Ctrl + O if you’re running Windows or Cmd+K+ Cmd + O for MacOS\nSelect /scratch/iz89 to open your workspace. You can change this at any point by opening a new folder. Keep in mind you will be requested to provide your password each time.\nWhen prompted, select the box for Trust the authors of all files in the parent folder ‘home’ then click Yes, I trust the authors\nTo open a terminal, type Ctrl+J if you’re on a Windows machine or Cmd+J on MacOS\n\nTips for using VS Code\n\nVS code cheatsheet for Windows\nVS code cheatsheet for MacOS"
+  },
+  {
+    "objectID": "notebooks/01_setup.html#option-3-install-a-terminal-application-on-your-computer",
+    "href": "notebooks/01_setup.html#option-3-install-a-terminal-application-on-your-computer",
+    "title": "Set up your computer",
+    "section": "Option 3: Install a terminal application on your computer",
+    "text": "Option 3: Install a terminal application on your computer\n\n\n\n\n\n\nTerminal: lightweight solution for advanced users\n\n\n\nThis is a very lightweight solution for accessing Gadi. We recommended it for users who are comfortable with terminal applications and want to customise their set up.\n\n\nThe options for terminal installation will depend on your computer’s operating system. See below for instructions for macOS and Windows.\n\nMacOS\nMac operating systems come with a terminal program, called Terminal. Just look for it in your Applications folder, or hit Command + Space and type ‘terminal’. You may find that other, 3rd party terminal programs are more user-friendly and powerful, like Iterm2.\n\n\nWindows\nWe recommend MobaXterm, which offers a rich experience as a full-featured X-server and terminal emulator for ssh connections, the free version is more than adequate.\nTo install and start using MobaXterm:\n\nGo to https://mobaxterm.mobatek.net/download.html\nUnder ‘Home Edition’ select the Download now button\nSelect the MobaXterm Home Edition (Installer edition)\nOnce the program is downloaded, install it as you would any other windows program\nOnce the program is installed, start the MobaXterm program\nFrom this screen, click on ‘start local terminal’ (and install Cygwin if prompted)\n\n\nTo log in to Gadi, you will use a Secure Shell (SSH) connection. To connect, you need 3 things:\n\nThe address of your NCI Gadi, gadi.nci.org.au.\nYour Gadi username, e.g. ab1234.\nYour password.\n\nTo log in: type the following into your terminal, using your allocated instance’s IP address:\nssh &lt;username&gt;@gadi.nci.org.au\nThen provide your password when prompted.\n\n\n\n\n\n\n‼️ Pay Attention ‼️\n\n\n\nWhen you type a password on the terminal, there will not be any indication the password is being entered. You’ll not see a moving cursor, or even any asterisks, or bullets. That is an intentional security mechanism used by all terminal applications and can trip us up sometimes, so be careful when typing or copying your password in.\n\n\nOnce you’ve logged in successfully, you should see a welcome screen like this:"
+  },
+  {
+    "objectID": "notebooks/02_system_setup.html",
+    "href": "notebooks/02_system_setup.html",
+    "title": "How is the system set up?",
+    "section": "",
+    "text": "NCI provides computational and data-storage resources to researchers and postgraduate students at Australian higher education institutions and Australian public sector research organisations.\nThis section will point you to the right sections of the NCI documentation and user guides to get you started on the Gadi HPC system.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/02_system_setup.html#overview-of-nci-gadi-hpc",
+    "href": "notebooks/02_system_setup.html#overview-of-nci-gadi-hpc",
+    "title": "How is the system set up?",
+    "section": "Overview of NCI Gadi HPC",
+    "text": "Overview of NCI Gadi HPC\n\nWhat is Gadi?\n\nNCI Gadi is one of Australia’s most powerful supercomputers, designed to support advanced computational research.\n\n\n\n\n\n\n\nComponent\nDetails\n\n\n\n\nCompute\n- Nodes: 4,962- Processors: Intel Sapphire Rapids, Cascade Lake, Skylake, and Broadwell CPUs- GPUs: NVIDIA V100 and DGX A100 GPUs- Performance: Over 10 petaflops of peak performance :contentReferenceoaicite:0\n\n\nStorage\n- Disk Drives: 7,200 4-Terabyte hard disks in 120 NetApp disk arrays- Capacity: 20 Petabytes total usable capacity- Performance: 980 Gigabytes per second maximum performance :contentReferenceoaicite:1\n\n\nFilesystems\n- Total Capacity: Approximately 90 Petabytes- Global Lustre Filesystems: Five, with an aggregate I/O performance of around 450 GB/second- IO Intensive Platform: Dedicated filesystem using 576 2-Terabyte NVMe drives, achieving around 960 Gigabytes per second cumulative performance :contentReferenceoaicite:2\n\n\nArchival Storage\n- Capacity: Over 70 Petabytes of archival project data stored in state-of-the-art magnetic tape libraries :contentReferenceoaicite:3\n\n\nNetworking\n- Interconnect: 100-gigabit network links connecting high-performance computing with high-performance data :contentReferenceoaicite:4\n\n\nCloud Systems\n- Nirin Cloud: High-availability and high-capacity zone integrated with Gadi and NCI’s multi-Petabyte national research data collections, comprising Intel Broadwell and Sandy Bridge processors and NVIDIA K80 GPUs :contentReferenceoaicite:5"
+  },
+  {
+    "objectID": "notebooks/02_system_setup.html#conditions-of-use",
+    "href": "notebooks/02_system_setup.html#conditions-of-use",
+    "title": "How is the system set up?",
+    "section": "Conditions of use",
+    "text": "Conditions of use\n\nGeneral conditions of use\n\nAll users of NCI agree that they will keep themselves informed of, and comply with, all relevant legislation and The Australian National University policies and rules.\nAll users must acknowledge and understand that a breach of these will result in not only a loss of access to NCI resources but the user may be subject to Federal criminal prosecution resulting in fines and/or gaol legislated under the Acts listed above."
+  },
+  {
+    "objectID": "notebooks/02_system_setup.html#key-components-of-the-gadi-hpc-system",
+    "href": "notebooks/02_system_setup.html#key-components-of-the-gadi-hpc-system",
+    "title": "How is the system set up?",
+    "section": "Key components of the Gadi HPC system",
+    "text": "Key components of the Gadi HPC system\nSee the Gadi Resources Guide for a detailed explanation of the following.\n\nComputing nodes\n\n\n\n\n\n\nNavigating the system\n\n\n\nThis section contains some example commands to run on the Gadi HPC system. To generalise across multiple groups we have used &lt;project&gt; in place of a specific project code. When running these commands, please replace &lt;project&gt; with your project code.\nE.g. if your project code is aa00, you would run:\ncd /scratch/aa00\n\n\n\nLogin nodes\nThese nodes are the gateway for Gadi for users to access the resources of the HPC cluster. It is how you log in to Gadi, move around the filesystem, submit jobs to the scheduler, and do small tasks like view the contents of a file.\n\n\nCompute nodes\nThese nodes are the workhorses of any HPC. They are dedicated for executing computational tasks as delegated by the job scheduler when you submit a job. There are various types of compute nodes with different hardware, built for different purposes on Gadi. Depending on the resource requirements of your job (e.g. high memory, GPUs) and the queue you specify, your job will be sent to a specific type of compute node. You can find a breakdown of their technical specifications here.\n\n\n\n\n\n\n‼️ Pay Attention ‼️\n\n\n\nCompute nodes on Gadi don’t currently have access to external internet. If any tasks within a submitted job on the compute node need to access the internet, they will fail. These jobs should be run separtately on the copyq using the data mover nodes.\n\n\n\n\nData mover nodes\nThese nodes are designed specifically for fast data movement. You can use these nodes to transfer files to and from Gadi at high-speed. Steps outlined here. A script for moving data between USyd RDS and Gadi is provided in /g/data/scripts and explained in the following section, transferring data.\n\n\n\nFilesystems\n\n$HOME\nWhen you first log in to Gadi, you’ll be placed in your personal $HOME directory (i.e. /home/555/aa1234). You are the only person who can access this directory. No work should be done in here, but you may wish to install things like custom R or Python libraries here. It is backed up but you have a 10Gb storage limit.\nYou can navigate back here at any point if required by running:\ncd ~\n\n\n/scratch\nAll Gadi projects have a dedicated /scratch allocation that is only accessible to members of your project. This is only intended for active work on big files and not for long-term storage. This is not backed up and any files not accessed for 100 days will be purged from the system, so be sure to back up your work to RDS. Your /scratch contains a directory for each user (denoted by their Gadi username), however you can organise things however you wish here.\nYou can navigate to your /scratch space by running:\ncd /scratch/&lt;project&gt;\n\n\n/g/data\nSome Gadi projects, have a dedicated g/data allocation that is only accessible to members of that group. This in intended for long-term large data storage. This is not backed up though, so ensure you transfer all important files back to RDS. If you are unsure if your project has a /g/data allocation, you can check by running:\ncd /gdata/&lt;project&gt;\n\n\n/g/data/if89\n\nif89 guide\n\nYou can also access a communally maintained bioinformatics software project at /g/data/if89. Users currently have to request access to if89, but it is a good place to find bioinformatics software previously installed by others. To request access to if89:\n\nLog into MyNCI\nNavigate to Projects and Groups\nSearch for if89 and request access\nClick join.\n\nAccess needs to be manually approved. If you are experiencing delays of &gt;24 hours, please contact SIH.\n\n\n/apps\nThis directory is accessible to all Gadi users. It is a read-only system containing centrally installed software applications and their module files. You can check what software is installed here:\nls /apps\nYou can use any software that is installed here by first loading the module file, e.g.:\nmodule load samtools\nThen run the tool as per it’s user guide, e.g.:\nsamtools view -H sample.bam\n\n\n\nQueues\nLike on Artemis, the job scheduler is PBSPro, however it is implented in a slightly different way. To run jobs on Gadi, users should submit to a specific queue on a corresponding node. The queue and node you choose to run on will depend on the types of resources your job needs. Pipelines your group use have already been configured to run on specific queues.\nFor custom PBS scripts, you can work out what queue to run your job on by checking the NCI queue documentation and queue limits explainer. Most jobs will be suitable for normal or normalbw queues. The normal queues have more nodes available for your jobs, and will allow users, and jobs that require a specialised queue, to get fair access to those resources. Express queues are designs to support work that needs a faster turnaround, but will be charged accordingly at a higher service unit charge."
+  },
+  {
+    "objectID": "notebooks/05_data_transfer.html",
+    "href": "notebooks/05_data_transfer.html",
+    "title": "Transferring data to and from Gadi",
+    "section": "",
+    "text": "The data transfer queue on Gadi is called ‘copyq’. You can easily use this queue to transfer data between Gadi and RDS (or other locations) by first setting up ssh keys for password-less transfers between Gadi and Artemis/RDS.\nFor transfer of large files, the use of ‘resumable’ rsync is recommended. As the USyd RDS servers only allow sftp connections, this method is not possible to run on Gadi’s copyq. Instead, the transfer can be initiated using Artemis ‘dtq’ and using Gadi’s ‘data mover’ node: gadi-dm.nci.org.au.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/05_data_transfer.html#set-up-ssh-keys",
+    "href": "notebooks/05_data_transfer.html#set-up-ssh-keys",
+    "title": "Transferring data to and from Gadi",
+    "section": "Set up SSH keys",
+    "text": "Set up SSH keys\nSSH key pairs are used for secure communication between two systems. The pair consists of a private key and a public key. The private key should remain private and only be known by the user. It is stored securely on the user’s computer. The public key can be shared with any system the user wants to connect to. It is added to the remote system’s authorized keys. When a connection is attempted, the remote system uses the public key to create a message for the user’s system.\nWe will set up SSH keys to allow us to move data between USyd’s HPC and RDS and Gadi. You only need to do this once.\n\nLog into Gadi with your chosen method, e.g:\n\nssh ab1234@gadi.nci.org.au\n\nMove to your home directory:\n\ncd ~\n\nMake a .ssh directory, if you don’t already have one:\n\nmkdir -p .ssh \n\nSet suitable permissions for the .ssh directory and move into it:\n\nchmod 700 .ssh\ncd .ssh\n\nGenerate SSH key pair:\n\nssh-keygen\nHit enter when prompted, saving the key in ~/.ssh/id_rsa and enter for NO passphrase. A public key will be located in ~/.ssh/id_rsa.pub and a private key in ~/.ssh/id_rsa.\n\nSet suitable permissions for the keys:\n\nchmod 600 id_rsa\nchmod 644 id_rsa.pub\n\nMake an authorized_keys file if you don’t already have one that can be transferred to USyd’s Artemis/RDS system:\n\ntouch -p ~/.ssh/authorized_keys\n\nCopy the contents of the public key file (~/.ssh/id_rsa.pub) to the authorized_keys file to be transferred to USyd’s Artemis/RDS system:\n\ncat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys\n\nSet permissions for the authorized_keys file to be transferred to USyd’s Artemis/RDS system:\n\nchmod 600 ~/.ssh/authorized_keys\n\nConnect to USyd’s Artemis/RDS system using sftp and your unikey:\n\nsftp &lt;your-unikey&gt;@research-data-ext.sydney.edu.au\nProvide your password when prompted. Then make and move into a .ssh directory if you don’t already have one:\nmkdir -p ~/.ssh\ncd ~/.ssh\n\nTransfer the authorized_keys file from Gadi to USyd’s Artemis/RDS system:\n\nput authorized_keys\nDoing this will transfer authorized_keys on Gadi to your current directory. With sftp, it will look for the file relative to where you launched sftp. You can check where you are on Gadi using:\nlls\n\nExit your sftp connection to USyd’s Artemis/RDS system ctrl + z and test the passwordless connection:\n\nsftp &lt;your-unikey&gt;@research-data-ext.sydney.edu.au\nThis time, you shouldn’t be prompted for a password. You can proceed to transfer data between Gadi and USyd’s Artemis/RDS system now on the copyq."
+  },
+  {
+    "objectID": "notebooks/05_data_transfer.html#customise-the-transfer-script",
+    "href": "notebooks/05_data_transfer.html#customise-the-transfer-script",
+    "title": "Transferring data to and from Gadi",
+    "section": "Customise the transfer script",
+    "text": "Customise the transfer script\nWhenever you need to copy large files between RDS and Gadi, you should use the script below. This script can be submitted to the copyq on Gadi. A copy of it has been provided in your group’s /g/data/&lt;project&gt;/scripts directory. An example of a script has also been provided here.\nMake a copy of this file to your /scratch workspace on Gadi and edit it to suit your needs.\ncp /g/data/&lt;project&gt;/scripts/transfer.pbs /scratch/&lt;project&gt;/&lt;workspace&gt;\nThen follow the script and move to that workspace:\ncd /scratch/&lt;project&gt;/&lt;workspace&gt;\nYou need to edit the script and fill in the following details before using it:\nIn the # PBS variables part of the script:\n\nProvide the -P variable by replacing &lt;project&gt; with your Gadi project code for accounting\nIncrease the walltime if you are transferring large files, the limit on this queue is 10 hours\nAlter -lstorage=scratch/&lt;project&gt; as required. If you also need to access g/data, you can change this to scratch/&lt;project&gt;+/gdata/&lt;project&gt;\n\nIn the body of the script:\n\nProvide the remote_user variable by replacing &lt;unikey&gt; with your USyd unikey\nProvide the remote_host variable by replacing &lt;project&gt; with your USyd Artemis/RDS project code\nProvide the remote_path variable by replacing &lt;path&gt; with the path to the file or directory you want to transfer, excluding the name of the file or directory to be transferred. This will be provided further down in the script.\n\nNotice that all commands in the script are hashed out. This script can do multiple things, depending on which command is permitted to run (by removing the hash prefix). The header lines above each section describe which command is being run and therefore which direction the data is moving in.\nTo copy a file from RDS to Gadi:\n\nSee the section under # Download a file from RDS to Gadi\nUnhash lines 21-23\nProvide the RDS file as remote_file variable by replacing &lt;filename&gt; with the name of the file you want to transfer\n\nTo copy a directory from RDS to Gadi:\n\nSee the section under # Download a directory from RDS to Gadi\nUnhash lines 26-27\nProvide the RDS directory as remote_dir variable by replacing &lt;dirname&gt; with the name of the file you want to transfer\n\nTo copy a file from Gadi to RDS:\n\nSee the section under # Upload a file from Gadi to RDS\nUnhash lines 30-31\nProvide the Gadi file as local_file variable by replacing &lt;filename&gt; with the name of the file you want to transfer\n\nTo copy a directory from Gadi to RDS:\n\nSee the section under # Upload a directory from Gadi to RDS\nLog into RDS and make a directory with the same name as the directory you want to transfer from Gadi\nUnhash lines 35-36\nProvide the Gadi directory as local_dir variable by replacing &lt;dirname&gt; with the name of the file you want to transfer\n\n#!/bin/bash\n\n# This is a Gadi data transfer script\n\n#PBS -P &lt;project&gt;\n#PBS -N transfer\n#PBS -l walltime=04:00:00\n#PBS -l ncpus=1\n#PBS -l mem=8GB\n#PBS -W umask=022\n#PBS -q copyq\n#PBS -l wd\n#PBS -lstorage=scratch/&lt;project&gt;\n\n# Remote server details:\nremote_user=&lt;unikey&gt;\nremote_host=research-data-ext.sydney.edu.au\nremote_path=/rds/PRJ-&lt;project&gt;/&lt;path&gt;\n\n# Download a file from RDS to Gadi:\n#dest_path=/scratch/&lt;project&gt;/&lt;path&gt;\n#remote_file=&lt;filename&gt;\n#sftp ${remote_user}@${remote_host}:${remote_path}/${remote_file} ${dest_path} \n\n# Download a directory from RDS to Gadi:\n#dest_path=/scratch/&lt;project&gt;/&lt;path&gt;\n#remote_dir=&lt;dirname&gt;\n#sftp -r ${remote_user}@${remote_host}:${remote_path}/${remote_dir} ${dest_path} \n\n# Upload a file from Gadi to RDS:\n#local_file=&lt;filename&gt;\n#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $\"put ${local_file}\" \n\n# Upload a directory from Gadi to RDS:\n# CAVEAT: this method will only work if directory of the same name exists at destination! \n#local_dir=&lt;dirname&gt;\n#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $\"put -r ${local_dir}\" \nFor example, to download a bam file from RDS to Gadi, I’d only unhash the Download a file from RDS to Gadi section:\n#!/bin/bash\n\n# This is a Gadi data transfer script\n\n#PBS -P aa00\n#PBS -N transfer\n#PBS -l walltime=10:00:00\n#PBS -l ncpus=1\n#PBS -l mem=8GB\n#PBS -W umask=022\n#PBS -q copyq\n#PBS -l wd\n#PBS -lstorage=scratch/aa00\n\n# Remote server details:\nremote_user=gsam0000\nremote_host=research-data-ext.sydney.edu.au\nremote_path=/rds/PRJ-MYPROJECT/bams\n\n# Download a file from RDS to Gadi:\ndest_path=/scratch/aa00/bams\nremote_file=sample.bam\nsftp ${remote_user}@${remote_host}:${remote_path}/${remote_file} ${dest_path} \n\n# Download a directory from RDS to Gadi:\n#remote_dir=&lt;dirname&gt;\n#sftp -r ${remote_user}@${remote_host}:${remote_path}/${remote_dir} ${dest_path} \n\n# Upload a file from Gadi to RDS:\n#local_file=&lt;filename&gt;\n#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $\"put ${local_file}\" \n\n# Upload a directory from Gadi to RDS:\n# CAVEAT: this method will only work if directory of the same name exists at destination! \n#local_dir=&lt;dirname&gt;\n#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $\"put -r ${local_dir}\" \nFor example, to download a directory containing multiple fastq.gz files from RDS to Gadi, I’d only unhash the Download a directory from RDS to Gadi section:\n#!/bin/bash\n\n# This is a Gadi data transfer script\n\n#PBS -P aa00\n#PBS -N transfer\n#PBS -l walltime=10:00:00\n#PBS -l ncpus=1\n#PBS -l mem=8GB\n#PBS -W umask=022\n#PBS -q copyq\n#PBS -l wd\n#PBS -lstorage=scratch/aa00\n\n# Remote server details:\nremote_user=&lt;unikey&gt;\nremote_host=research-data-ext.sydney.edu.au\nremote_path=/rds/PRJ-&lt;project&gt;/&lt;path&gt;\n\n# Download a file from RDS to Gadi:\n#dest_path=/scratch/&lt;project&gt;/&lt;path&gt;\n#remote_file=&lt;filename&gt;\n#sftp ${remote_user}@${remote_host}:${remote_path}/${remote_file} ${dest_path} \n\n# Download a directory from RDS to Gadi:\ndest_path=/scratch/aa00/fastqs\nremote_dir=/rds/PRJ-MYPROJECT/fastqs/cmt-fastqs\nsftp -r ${remote_user}@${remote_host}:${remote_path}/${remote_dir} ${dest_path} \n\n# Upload a file from Gadi to RDS:\n#local_file=&lt;filename&gt;\n#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $\"put ${local_file}\" \n\n# Upload a directory from Gadi to RDS:\n# CAVEAT: this method will only work if directory of the same name exists at destination! \n#local_dir=&lt;dirname&gt;\n#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $\"put -r ${local_dir}\""
+  },
+  {
+    "objectID": "notebooks/05_data_transfer.html#run-the-transfer-script",
+    "href": "notebooks/05_data_transfer.html#run-the-transfer-script",
+    "title": "Transferring data to and from Gadi",
+    "section": "Run the transfer script",
+    "text": "Run the transfer script\nOnce you have customised the script, you can submit it to the copyq on Gadi. Run the script from the directory where you saved it:\nqsub transfer.pbs\nThis can be a nerve-wracking process, especially if you are transferring large files. You can check the status of your job on Gadi using:\nqstat -Esw\nOnce it says R (running), you can confirm it is going to where you want on RDS/Artemis or Gadi by logging into the system and checking for the presence of the file/directory in its expected location using:\nls &lt;path&gt;"
+  },
+  {
+    "objectID": "notebooks/05_data_transfer.html#confirm-the-transfer",
+    "href": "notebooks/05_data_transfer.html#confirm-the-transfer",
+    "title": "Transferring data to and from Gadi",
+    "section": "Confirm the transfer",
+    "text": "Confirm the transfer\nTo confirm the transfer was successful, you’ll need to check your joblogs. These are located in the same directory as your script and are named transfer.o&lt;jobid&gt;. Check for Exit status: 0. If you see this, the transfer was successful.\nHowever, this doesn’t guarantee the integrity of the files. You should check the files themselves to ensure they are intact. You can do this using md5checksums. See this SIH tidbits blogpost about how to use these. You’ll need to create md5checksums for the original files if they don’t already exist and compare them after transfer."
+  },
+  {
+    "objectID": "notebooks/09_job_monitoring.html",
+    "href": "notebooks/09_job_monitoring.html",
+    "title": "Monitoring your job",
+    "section": "",
+    "text": "Jobs submitted to Gadi are given a jobID, this is shown to you as soon as it has been accepted and is a string of eight numbers, e.g. 12345678. You should monitor your jobs to keep track of their progress but refrain from checking your jobs too frequently. Repeated queries will be considered attacks, especially in quick succession and you may get a warning from NCI. NCI recommends querying your jobs’ status a maximum of once every 10 minutes.\n\nJob monitoring on Gadi\n\n\n\n\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "tips_tricks.html",
+    "href": "tips_tricks.html",
+    "title": "Tips and tricks",
+    "section": "",
+    "text": "All materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "NCI Gadi Guide for USyd researchers",
+    "section": "",
+    "text": "This document contains instructions for how to access and utilise NCI’s HPC, Gadi for University of Sydney researchers. Please be mindful this is not an exhausive resource for using the NCI Gadi HPC. It is only intended to orientate you to the system and navigate the Gadi user documentation.\nNCI’s HPC systems are designed to handle complex computational tasks, such as simulations, data analysis, and modeling, for a wide range of scientific disciplines, including climate modeling, genomics, astronomy, and materials science.\nThe University of Sydney provides its researchers with subsidised access to NCI’s infrastructure. To arrange user credits (service units) for your account, please contact SIH’s Research Computing team through our website.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "index.html#support",
+    "href": "index.html#support",
+    "title": "NCI Gadi Guide for USyd researchers",
+    "section": "Support",
+    "text": "Support\nSIH is limited in the support it can provide for NCI Gadi users. If you are new to HPC and Gadi, we expect you will attend SIH’s Intro to HPC and NCI’s Intro to Gadi courses. Additionally, familiarise yourself with Gadi using the NCI Gadi user guide:\n\nSIH training calendar\nNCI training calendar\n\nFor additional support, please contact the following people depending on your needs:\n\n\n\nType of issue\nWho\nHow\nDetails\n\n\n\n\nService unit allocation for running jobs\nSIH\nLog a ticket\nSIH schemes\n\n\nAn issue with NCI Gadi\nNCI Helpdesk\nLog a ticket\nProvide your error, log file, jobid\n\n\nAny error returned in running a job\nNCI Helpdesk\nLog a ticket\nProvide your error, log file, jobid\n\n\nA bug in an SIH pipeline\nSIH\nSubmit an issue on Github\nProvide details e.g. this issue\n\n\nBioinformatics advice\nSIH\nLog a ticket\nProvide relevant context, errors, tool names, scripts"
+  },
+  {
+    "objectID": "notebooks/08_job_script.html",
+    "href": "notebooks/08_job_script.html",
+    "title": "Writing a job script",
+    "section": "",
+    "text": "PBS directives\nJob submission tutorial\nWhile you can run simple commands on the login nodes on Gadi, there are limits to the resources you can access here. As such, you must run complex or resource-intensive tasks on Gadi’s job queues. To do this, you need to create a PBS (Portable Batch System) submission script that specifies your job’s requirements. NCI runs the Altair PBS professional workload manager.\nPBS scripts are text files that contain directives and commands that specify the resources required for a job and the commands to run, you can name them as &lt;script_name&gt;.pbs. The script can be submitted to the job scheduler, which will allocate the necessary resources and execute the job using:\nBelow we describe the process for writing and submitting a job script on Gadi.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/08_job_script.html#define-job-parameters",
+    "href": "notebooks/08_job_script.html#define-job-parameters",
+    "title": "Writing a job script",
+    "section": "1. Define Job Parameters",
+    "text": "1. Define Job Parameters\nBegin your script with directives that outline your job’s resource needs and execution details. Each directive starts with #PBS in order to directly communicate with the job scheduler and not be confused with other code in your script. This section should sit at the top of your script.\nFor example:\n#!/bin/bash\n\n#PBS -P aa00\n#PBS -q normal\n#PBS -l ncpus=48\n#PBS -l mem=190GB\n#PBS -l jobfs=200GB\n#PBS -l walltime=02:00:00\n#PBS -l storage=scratch/aa00+gdata/aa00\n#PBS -l wd\n\n-P: Project code for resource accounting.\n-q: Queue selection (e.g., normal).\n-l ncpus: Number of CPU cores.\n-l mem: Memory allocation.\n-l jobfs: Local disk space on the compute node.\n-l walltime: Maximum job duration.\n-l storage: Filesystems your job will access.\n-l wd: Set the working directory to the submission directory."
+  },
+  {
+    "objectID": "notebooks/08_job_script.html#load-necessary-modules",
+    "href": "notebooks/08_job_script.html#load-necessary-modules",
+    "title": "Writing a job script",
+    "section": "2. Load Necessary Modules",
+    "text": "2. Load Necessary Modules\nGadi uses the module system to manage software applications that are installed in /apps. If you’re using one or more tools installed in /apps you must load the appropriate modules for your workflow before running your script. Modules ensure you’re using the correct software versions and their dependencies. This should go directly under the PBS directives and before the commands to run your application.\nFor example:\nmodule load python3/3.7.4\nmodule load gcc/9.2.0\nTo find available modules: - Use module avail to list all available software. - Use module spider &lt;software&gt; to search for a specific software package and its versions."
+  },
+  {
+    "objectID": "notebooks/08_job_script.html#execute-your-chosen-application",
+    "href": "notebooks/08_job_script.html#execute-your-chosen-application",
+    "title": "Writing a job script",
+    "section": "3. Execute your chosen application",
+    "text": "3. Execute your chosen application\nSpecify the commands to run your application or script within the job script. Ensure all file paths and environment variables are correctly set. Redirect output and error messages to log files for easier debugging.\nGadi supports running both native software and containerized applications using Singularity. Containers are a convenient way to use pre-built environments. Here are examples for different scenarios:\n\nRunning a custom script\nIf you’re running a Python script:\npython3 your_script.py &gt; output.log 2&gt;&1\n\n&gt; output.log: Redirects standard output to a log file.\n2&gt;&1: Redirects standard error to the same log file.\n\n\n\nRunning a compiled program\nIf you’re running a pre-compiled executable:\nmy_program input_data.txt &gt; results.log 2&gt;&1\n\n\nRunning a Singularity Container\nSingularity is used to execute containerised applications on Gadi. Here’s an example using a FoldSeek container from quay.io:\nFirst, you’ll need to get a copy of the container you want to run as Gadi job queues do not have external network access and cannot download anything from the internet.\nRun the following commands to download the container:\nmodule load singularity\nsingularity pull docker://quay.io/biocontainers/foldseek:0.6.2--h779adbc_0\nThis will create a .sif (Singularity Image File) in the current directory, docker://: Pulls the container from Quay.io or DockerHub directly:\nfoldseek_0.6.2--h779adbc_0.sif\nAdd the Singularity commands to your job script. For example:\n\n\nRedirecting Output in Singularity\nTo capture output:\nsingularity exec \\\n    foldseek_0.6.2--h779adbc_0.sif \\\n    foldseek easy-search input.fasta \\\n    database \\\n    output \\\n    foldseek_result.tsv &gt; output.log 2&gt;&1"
+  },
+  {
+    "objectID": "notebooks/08_job_script.html#submit-your-job",
+    "href": "notebooks/08_job_script.html#submit-your-job",
+    "title": "Writing a job script",
+    "section": "4. Submit your job",
+    "text": "4. Submit your job\nSave your job script with a .sh or .pbs extension and submit it using the qsub command:\nqsub job_script.sh\nAfter submission, PBS assigns a unique job ID, which you can use to monitor your job."
+  },
+  {
+    "objectID": "notebooks/08_job_script.html#full-script-example",
+    "href": "notebooks/08_job_script.html#full-script-example",
+    "title": "Writing a job script",
+    "section": "Full script example",
+    "text": "Full script example\nHere is a very simple example of a full script that runs a Foldseek container on Gadi’s normal CPU queue:\n#!/bin/bash\n\n#PBS -P aa00\n#PBS -q normal\n#PBS -l ncpus=4\n#PBS -l mem=10GB\n#PBS -l jobfs=200GB\n#PBS -l walltime=02:00:00\n#PBS -l storage=scratch/aa00+gdata/aa00\n#PBS -l wd\n\n# Load modules\nmodule load singularity\n\n# Run FoldSeek\nsingularity exec \\\n    /scratch/aa00/foldseek_0.6.2--h779adbc_0.sif \\\n    foldseek easy-search /scratch/aa00/input.fasta \\\n    /scratch/aa00/database \\\n    /scratch/aa00/output \\\n    /scratch/aa00/foldseek_result.tsv &gt; /scratch/aa00/output.log 2&gt;&1"
+  },
+  {
+    "objectID": "notebooks/10_job_efficiency.html",
+    "href": "notebooks/10_job_efficiency.html",
+    "title": "Optimising your job",
+    "section": "",
+    "text": "Coming soon!\n\n\n\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/00_gadi_access.html",
+    "href": "notebooks/00_gadi_access.html",
+    "title": "Accessing your Gadi project",
+    "section": "",
+    "text": "National Computational Infrastructure (NCI) is a services facility that provides high performance computing (HPC), cloud and data services to Australian researchers.\nGadi is the name of NCI’s HPC facility, located at ANU (Canberra). The system is suitable for:\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/00_gadi_access.html#resources",
+    "href": "notebooks/00_gadi_access.html#resources",
+    "title": "Accessing your Gadi project",
+    "section": "Resources",
+    "text": "Resources\n\nGetting Started at NCI\nGadi User Guide\nGadi FAQs\nPro tips for bioinformatics on HPC: recording and slides"
+  },
+  {
+    "objectID": "notebooks/00_gadi_access.html#set-up-your-nci-account",
+    "href": "notebooks/00_gadi_access.html#set-up-your-nci-account",
+    "title": "Accessing your Gadi project",
+    "section": "Set up your NCI Account",
+    "text": "Set up your NCI Account\nAll new users must create their account through the NCI online self service portal. To create your account you will need the following information:\n\nYour Name\nInstitutional email address (Gmail, Hotmail, etc. are not accepted)\nMobile phone number\nEither:\n\nNCI project code of an existing project you wish to join\nA new project proposal to be assessed by a Scheme Manager to determine if they will grant your project time\n\n\nNote that resources at NCI are allocated to projects and not to individual users.\nComplete all steps below to set up an NCI account:\n\nClick on ‘Sign up’ link on the NCI online self service portal: \nAccept the terms and conditions: \nProvide your personal details: \nProvide details on the project you’ll be working on. Select I need to join one or more existing projects. Ask Marina for your group’s project code to write in the Projects menu: \nSelect University of Sydney as you institution: \n\nYour username will become active when a project Lead CI approves your request to join their project, or when a Scheme Manager approves your new project proposal. You will receive a confirmation email from the Mancini system when your username is activated."
+  },
+  {
+    "objectID": "notebooks/00_gadi_access.html#manage-your-nci-account",
+    "href": "notebooks/00_gadi_access.html#manage-your-nci-account",
+    "title": "Accessing your Gadi project",
+    "section": "Manage your NCI Account",
+    "text": "Manage your NCI Account\nYou can manage your account details and request access to new or existing projects through the NCI online self service portal.\nOnce your access to your group’s Gadi project has been confirmed, you can set up your computer and log in to Gadi. See the setup instructions for how to log in to the HPC system."
+  },
+  {
+    "objectID": "notebooks/06_accounting.html",
+    "href": "notebooks/06_accounting.html",
+    "title": "Accounting",
+    "section": "",
+    "text": "Coming soon! For now, see: https://opus.nci.org.au/spaces/Help/pages/236881132/Allocations…\n\n\n\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/11_software.html",
+    "href": "notebooks/11_software.html",
+    "title": "Installing and managing software",
+    "section": "",
+    "text": "All materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/11_software.html#running-containers",
+    "href": "notebooks/11_software.html#running-containers",
+    "title": "Installing and managing software",
+    "section": "Running containers",
+    "text": "Running containers"
+  },
+  {
+    "objectID": "notebooks/03_expectations.html",
+    "href": "notebooks/03_expectations.html",
+    "title": "What does the system expect of its users?",
+    "section": "",
+    "text": "The do’s and don’ts of using Gadi\nSIH Into to Gadi HPC tutorial\nPro tips for bioinformatics on HPC webinar\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/03_expectations.html#what-is-high-performance-computing",
+    "href": "notebooks/03_expectations.html#what-is-high-performance-computing",
+    "title": "What does the system expect of its users?",
+    "section": "What is high performance computing?",
+    "text": "What is high performance computing?\nHigh performance computing refers to the use of parallel processing techniques to solve complex computation problems efficiently. HPC systems, like Gadi, consist of clusters of interconnected computers, each equipped with multiple processors and large amounts of memory. These systems are designed to handle massive datasets and perform computations at speeds far beyond those achievable by your personal computer."
+  },
+  {
+    "objectID": "notebooks/03_expectations.html#why-do-we-need-hpc-for-bioinformatics",
+    "href": "notebooks/03_expectations.html#why-do-we-need-hpc-for-bioinformatics",
+    "title": "What does the system expect of its users?",
+    "section": "Why do we need HPC for bioinformatics?",
+    "text": "Why do we need HPC for bioinformatics?\nIn bioinformatics, researchers deal with massive datasets generated by technologies such as next-generation sequencing (genomics, transcriptomics) and mass spectrometry (proteomics). Analysing these datasets requires computationally intensive tasks such as sequence alignment, genome assembly, and statistical analysis. HPC systems provide the computational power and memory resources necessary to process these datasets efficiently."
+  },
+  {
+    "objectID": "notebooks/03_expectations.html#expectations",
+    "href": "notebooks/03_expectations.html#expectations",
+    "title": "What does the system expect of its users?",
+    "section": "Expectations",
+    "text": "Expectations\nGadi is a shared resource and its efficient use not only ensures fair access for all users but also helps minimise the environmental impact of high-performance computing, as systems like Gadi consume significant energy resources. When you are using a system like Gadi, there are potentially hundreds of other users accessing the system at the same time as you. For Gadi to remain efficient and usable, everyone needs to be courteous and use the system with consideration for others.\nHere are some tips to help you be a good citizen of the HPC community:\n\n1. Use job queues appropriately\n\nGadi job queues\nGadi queue limits\n\nGadi runs a PBSpro job scheduler that manages the allocation of resources to users. When you submit a job, it is placed in a queue and will run when the requested resources become available. Unlike on Artemis where your job is allocated to a suitable queue based on your resource request, Gadi users need to explicitly request their job is sent to a specific queue. It is important for you to pick a job queue that is appropriate for your job.\n\n\n2. Responsibly manage your data\n\nNCI file management policy\nTransferring data between RDS and Gadi\n\n/scratch is not a safe space for long term data storage. If it has not been accessed in 100 days, it will be subjected to NCI’s clean up policy. If you have a /g/data allocation, this is a better place to store your data whilst working on Gadi. Once you have finished your analysis, it is best practice to move your data to a more permanent storage solution, like RDS.\n\n\n3. Don’t request more resources than you need\n\nGadi benchmarking tool\n\nDon’t request resources that you won’t need, it will only result in your job and other users jobs being held up, and you wasting your service unit allocation. The PBS scheduler will find time for 2 cpus faster than 4 cpus, so in the interest of speed, be efficient. Given the bursty nature of some jobs, it can be hard to know what resources a tool needs. We suggest the following:\n\nStep 1: Consult the software documentation\n\nOften, developers will outline the minimum amount of RAM (memory) and whether a tool is multi-threaded (e.g. use &gt;1 CPU or GPU)\n\nStep 2: Run a test job using our Gadi benchmarking tool\n\nThis will give you a good idea of how much resources you need to request for your main job.\n\nStep 3: Ask for help\n\n\n\n4. Keep track of your resource usage\n\nMonitor your jobs\nMonitor your project allocation\nWhat does a job cost?\nWhy are my jobs not running?\n\nRunning jobs on gadi requires users to have sufficient compute hours available. These compute hours are granted to projects rather than directly to the user. It is important to communicate with your project team to ensure you are not using more than your fair share of resources. You can monitor your project’s usage by running:\nnci_project -P &lt;project&gt; -v\nIf you are consistently overusing resources, you may need to look into optimising your workloads and/or requesting more resources from NCI. Get in touch with SIH to discuss your options.\nAt completion, your project is only charged the SU actually consumed by the job (ie based on walltime used, not walltime requested). Like Artemis, Gadi produces PBS logs. The “.o” job log will report the compute used (similar to the Artemis “.o” and “usage” logs combined).\nLike KSU, each project is assigned a finite amount of disk space and iNode (index node - can be likened to the total number of files and folders). You MUST monitor your disk and iNode usage, and this can be done with the command:\nlquota\nwhich shows disk resource availability for every project you are a member of.\nIt is important to have an understanding of how much output your job will create, and ensure that you can remain within quotas/limits. Jobs can fail with “disk quota exceeded” messages."
+  }
+]
