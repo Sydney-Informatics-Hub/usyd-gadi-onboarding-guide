@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>NCI Gadi User Guide - Tips and tricks</title>
+<title>USyd NCI Gadi User Guide - Set up your computer</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,27 +20,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/cookie-consent/cookie-consent.js"></script>
-<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -98,8 +132,8 @@ cookieconsent.run({
   
 
 
-<link rel="stylesheet" href="lesson.css">
-<link rel="stylesheet" href="bootstrap-icons.css">
+<link rel="stylesheet" href="../lesson.css">
+<link rel="stylesheet" href="../bootstrap-icons.css">
 </head>
 
 <body class="nav-fixed">
@@ -109,8 +143,8 @@ cookieconsent.run({
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">NCI Gadi User Guide</span>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">USyd NCI Gadi User Guide</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -120,15 +154,15 @@ cookieconsent.run({
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./notebooks/gadi_access.html"> 
+    <a class="nav-link" href="../notebooks/00_gadi_access.html"> 
 <span class="menu-text">Access Gadi</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./setup.html"> 
+    <a class="nav-link active" href="../notebooks/01_setup.html" aria-current="page"> 
 <span class="menu-text">Set up your computer</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -137,11 +171,11 @@ cookieconsent.run({
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-introduction-to-gadi">    
         <li>
-    <a class="dropdown-item" href="./notebooks/hpc_expectations.html">
+    <a class="dropdown-item" href="../notebooks/02_system.html">
  <span class="dropdown-text">System offerings</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./notebooks/hpc_expectations.html">
+    <a class="dropdown-item" href="../notebooks/03_expectations.html">
  <span class="dropdown-text">Infrastructure expectations</span></a>
   </li>  
     </ul>
@@ -152,31 +186,39 @@ cookieconsent.run({
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-working-on-gadi">    
         <li>
-    <a class="dropdown-item" href="./notebooks/data_transfer.html">
+    <a class="dropdown-item" href="../notebooks/04_system.html">
+ <span class="dropdown-text">Navigating the system</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/05_data_transfer.html">
  <span class="dropdown-text">Transferring data</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./notebooks/data_transfer.html">
- <span class="dropdown-text">Specialised environments</span></a>
+    <a class="dropdown-item" href="../notebooks/06_accounting.html">
+ <span class="dropdown-text">Accounting</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./notebooks/data_transfer.html">
- <span class="dropdown-text">Monitoring your jobs</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./notebooks/data_transfer.html">
+    <a class="dropdown-item" href="../notebooks/07_environments.html">
  <span class="dropdown-text">Specialised environments</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-writing-a-job-script" role="button" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Writing a job script</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-running-a-job" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Running a job</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-writing-a-job-script">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-running-a-job">    
         <li>
-    <a class="dropdown-item" href="./notebooks/index_fasta.html">
- <span class="dropdown-text">Index reference genomes</span></a>
+    <a class="dropdown-item" href="../notebooks/08_job_script.html">
+ <span class="dropdown-text">Job scripts and submission</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/09_job_monitoring.html">
+ <span class="dropdown-text">Job monitoring</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/10_job_efficiency.html">
+ <span class="dropdown-text">Resource efficiency</span></a>
   </li>  
     </ul>
   </li>
@@ -192,14 +234,26 @@ cookieconsent.run({
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#option-1-use-ncis-are-platform" id="toc-option-1-use-ncis-are-platform" class="nav-link active" data-scroll-target="#option-1-use-ncis-are-platform"><strong>Option 1: Use NCI’s ARE platform</strong></a></li>
+  <li><a href="#option-2-install-visual-studio-code-on-your-computer" id="toc-option-2-install-visual-studio-code-on-your-computer" class="nav-link" data-scroll-target="#option-2-install-visual-studio-code-on-your-computer"><strong>Option 2: Install Visual Studio Code on your computer</strong></a></li>
+  <li><a href="#option-3-install-a-terminal-application-on-your-computer" id="toc-option-3-install-a-terminal-application-on-your-computer" class="nav-link" data-scroll-target="#option-3-install-a-terminal-application-on-your-computer"><strong>Option 3: Install a terminal application on your computer</strong></a>
+  <ul class="collapse">
+  <li><a href="#macos" id="toc-macos" class="nav-link" data-scroll-target="#macos"><strong><em>MacOS</em></strong></a></li>
+  <li><a href="#windows" id="toc-windows" class="nav-link" data-scroll-target="#windows"><strong><em>Windows</em></strong></a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Tips and tricks</h1>
+<h1 class="title"><strong>Set up your computer</strong></h1>
 </div>
 
 
@@ -216,8 +270,140 @@ cookieconsent.run({
 </header>
 
 
+<p>To work on NCI Gadi, you will need to either install a terminal application on your computer or work on <a href="https://are.nci.org.au/">NCI’s Australian Research Environment (ARE)</a> platform. Before accessing Gadi, you will need to have an NCI account. Ensure you have completed this step by following directions on the <a href="./notebooks/gadi_access.qmd">Gadi Access instructions</a> on the previous page before proceeding.</p>
+<p>In order to work on Gadi, you’ll need a terminal application. A terminal is a text-based interface to your computer. It’s a program that takes text commands and passes them to the operating system to execute. We suggest you use one of the following options:</p>
+<section id="option-1-use-ncis-are-platform" class="level2">
+<h2 class="anchored" data-anchor-id="option-1-use-ncis-are-platform"><strong>Option 1: Use NCI’s ARE platform</strong></h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+ARE: fast access with limited customisation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is a very lightweight solution for accessing Gadi, some interactive tools like Jupyter and RStudio. We recommended it for beginners who don’t want to customise their set up.</p>
+</div>
+</div>
+<p>NCI has created a web-based graphical interface for accessing their systems. It is very simple to use and recommended over access methods described below for beginners.</p>
+<p>See NCI’s User Guide for instructions on how to access and use <a href="https://opus.nci.org.au/display/Help/ARE+User+Guide">ARE</a>.</p>
+</section>
+<section id="option-2-install-visual-studio-code-on-your-computer" class="level2">
+<h2 class="anchored" data-anchor-id="option-2-install-visual-studio-code-on-your-computer"><strong>Option 2: Install Visual Studio Code on your computer</strong></h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+VScode: customised configuration with an integrated terminal
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is a more advanced solution for accessing Gadi, with more customisation options. We recommended it for users who are comfortable with terminal applications and want to customise their set up.</p>
+</div>
+</div>
+<p>Visual Studio Code (VS Code) is a lightweight and powerful source code editor available for Windows, macOS and Linux computers. As an alternative to a terminal application it offers file additional functionality including file editing.</p>
+<ol type="1">
+<li>Download Visual Studio Code for your system from <a href="https://code.visualstudio.com/download">here</a> and follow the instructions for:
+<ul>
+<li><a href="https://code.visualstudio.com/docs/setup/mac">macOS</a></li>
+<li><a href="https://code.visualstudio.com/docs/setup/windows">Windows</a></li>
+</ul></li>
+<li>Open the VS Code application on your computer</li>
+</ol>
+<p><img src="https://user-images.githubusercontent.com/73086054/224881239-86457c3f-9f8f-4724-b780-c633ea8d2180.png" class="img-fluid"></p>
+<ol start="3" type="1">
+<li>Click on the extensions button (four blocks) on the left side bar and install the remote SSH extension. Click on the blue <code>install</code> button.</li>
+</ol>
+<p><img src="https://user-images.githubusercontent.com/73086054/224881365-2517157c-7bf9-4bd3-ba98-c9d7e3653674.png" class="img-fluid"></p>
+<p>Connect to your instance with VS code by adding the host details to your <code>.ssh</code> config file:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Host Gadi</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  HostName gadi.nci.org.au</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  User &lt;your-nci-username&gt;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="6" type="1">
+<li>Type <code>Ctrl</code>+<code>Shift</code>+<code>P</code> and select <code>Remote-SSH: Connect to Host</code> and <code>Gadi</code></li>
+<li>When prompted, select <code>Linux</code> as the platform of the remote host from the dropdown menu</li>
+<li>Type in your NCI password and hit enter</li>
+</ol>
+<p>Having successfully logged in, you should see a small blue or green box in the bottom left corner of your screen:</p>
+<p><img src="../fig/vs_gadi_connect.png" class="img-fluid"></p>
+<p>To set up your VS Code window:</p>
+<ol type="1">
+<li>Open a new folder in the file explorer panel on the left side of the screen by typing <code>Ctrl</code> + <code>K</code>, <code>Ctrl</code> + <code>O</code> if you’re running Windows or <code>Cmd</code>+<code>K</code>+ <code>Cmd</code> + <code>O</code> for MacOS</li>
+<li>Select <code>/scratch/iz89</code> to open your workspace. You can change this at any point by opening a new folder. Keep in mind you will be requested to provide your password each time.</li>
+<li>When prompted, select the box for <code>Trust the authors of all files in the parent folder ‘home’</code> then click <code>Yes, I trust the authors</code></li>
+<li>To open a terminal, type <code>Ctrl</code>+<code>J</code> if you’re on a Windows machine or <code>Cmd</code>+<code>J</code> on MacOS</li>
+</ol>
+<p><strong>Tips for using VS Code</strong></p>
+<ul>
+<li><a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf">VS code cheatsheet for Windows</a></li>
+<li><a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf">VS code cheatsheet for MacOS</a></li>
+</ul>
+</section>
+<section id="option-3-install-a-terminal-application-on-your-computer" class="level2">
+<h2 class="anchored" data-anchor-id="option-3-install-a-terminal-application-on-your-computer"><strong>Option 3: Install a terminal application on your computer</strong></h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Terminal: lightweight solution for advanced users
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is a very lightweight solution for accessing Gadi. We recommended it for users who are comfortable with terminal applications and want to customise their set up.</p>
+</div>
+</div>
+<p>The options for terminal installation will depend on your computer’s operating system. See below for instructions for macOS and Windows.</p>
+<section id="macos" class="level3">
+<h3 class="anchored" data-anchor-id="macos"><strong><em>MacOS</em></strong></h3>
+<p>Mac operating systems come with a terminal program, called Terminal. Just look for it in your Applications folder, or hit <code>Command</code> + <code>Space</code> and type ‘terminal’. You may find that other, 3rd party terminal programs are more user-friendly and powerful, like <a href="https://iterm2.com/">Iterm2</a>.</p>
+</section>
+<section id="windows" class="level3">
+<h3 class="anchored" data-anchor-id="windows"><strong><em>Windows</em></strong></h3>
+<p>We recommend <a href="https://mobaxterm.mobatek.net/download.html">MobaXterm</a>, which offers a rich experience as a full-featured X-server and terminal emulator for ssh connections, the free version is more than adequate.</p>
+<p>To install and start using MobaXterm:</p>
+<ol type="1">
+<li>Go to https://mobaxterm.mobatek.net/download.html</li>
+<li>Under ‘Home Edition’ select the Download now button</li>
+<li>Select the MobaXterm Home Edition (Installer edition)</li>
+<li>Once the program is downloaded, install it as you would any other windows program</li>
+<li>Once the program is installed, start the MobaXterm program</li>
+<li>From this screen, click on ‘start local terminal’ (and install Cygwin if prompted)</li>
+</ol>
+<p><img src="https://user-images.githubusercontent.com/73086054/224888551-527c08c3-90fa-4f6b-beaf-308114880624.png" class="img-fluid"></p>
+<p>To log in to Gadi, you will use a Secure Shell (SSH) connection. To connect, you need 3 things:</p>
+<ul>
+<li>The address of your NCI Gadi, <code>gadi.nci.org.au</code>.</li>
+<li>Your Gadi username, e.g.&nbsp;<code>ab1234</code>.</li>
+<li>Your password.</li>
+</ul>
+<p>To log in: type the following into your terminal, using your allocated instance’s IP address:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ssh &lt;username&gt;@gadi.nci.org.au</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then provide your password when prompted.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="emoji" data-emoji="bangbang">‼️</span> Pay Attention <span class="emoji" data-emoji="bangbang">‼️</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When you type a password on the terminal, there will not be any indication the password is being entered. You’ll not see a moving cursor, or even any asterisks, or bullets. That is an intentional security mechanism used by all terminal applications and can trip us up sometimes, so be careful when typing or copying your password in.</p>
+</div>
+</div>
+<p>Once you’ve logged in successfully, you should see a welcome screen like this:</p>
+<p><img src="../fig/terminal_gadi_connect.png" class="img-fluid"></p>
 
 
+</section>
+</section>
 
 <p>All materials copyright Sydney Informatics Hub, University of Sydney</p></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

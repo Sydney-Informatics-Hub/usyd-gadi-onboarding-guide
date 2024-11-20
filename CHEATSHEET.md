@@ -1,3 +1,0 @@
-# Tips and tricks
-
-TBD 

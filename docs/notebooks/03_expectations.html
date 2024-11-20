@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>NCI Gadi User Guide - Tips and tricks</title>
+<title>USyd NCI Gadi User Guide - Working on the Gadi HPC</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,27 +20,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/cookie-consent/cookie-consent.js"></script>
-<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -98,8 +132,8 @@ cookieconsent.run({
   
 
 
-<link rel="stylesheet" href="lesson.css">
-<link rel="stylesheet" href="bootstrap-icons.css">
+<link rel="stylesheet" href="../lesson.css">
+<link rel="stylesheet" href="../bootstrap-icons.css">
 </head>
 
 <body class="nav-fixed">
@@ -109,8 +143,8 @@ cookieconsent.run({
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">NCI Gadi User Guide</span>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">USyd NCI Gadi User Guide</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -120,15 +154,15 @@ cookieconsent.run({
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./notebooks/gadi_access.html"> 
+    <a class="nav-link" href="../notebooks/00_gadi_access.html"> 
 <span class="menu-text">Access Gadi</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./setup.html"> 
+    <a class="nav-link" href="../notebooks/01_setup.html"> 
 <span class="menu-text">Set up your computer</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -137,11 +171,11 @@ cookieconsent.run({
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-introduction-to-gadi">    
         <li>
-    <a class="dropdown-item" href="./notebooks/hpc_expectations.html">
+    <a class="dropdown-item" href="../notebooks/02_system.html">
  <span class="dropdown-text">System offerings</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./notebooks/hpc_expectations.html">
+    <a class="dropdown-item" href="../notebooks/03_expectations.html">
  <span class="dropdown-text">Infrastructure expectations</span></a>
   </li>  
     </ul>
@@ -152,31 +186,39 @@ cookieconsent.run({
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-working-on-gadi">    
         <li>
-    <a class="dropdown-item" href="./notebooks/data_transfer.html">
+    <a class="dropdown-item" href="../notebooks/04_system.html">
+ <span class="dropdown-text">Navigating the system</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/05_data_transfer.html">
  <span class="dropdown-text">Transferring data</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./notebooks/data_transfer.html">
- <span class="dropdown-text">Specialised environments</span></a>
+    <a class="dropdown-item" href="../notebooks/06_accounting.html">
+ <span class="dropdown-text">Accounting</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./notebooks/data_transfer.html">
- <span class="dropdown-text">Monitoring your jobs</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./notebooks/data_transfer.html">
+    <a class="dropdown-item" href="../notebooks/07_environments.html">
  <span class="dropdown-text">Specialised environments</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-writing-a-job-script" role="button" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Writing a job script</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-running-a-job" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Running a job</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-writing-a-job-script">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-running-a-job">    
         <li>
-    <a class="dropdown-item" href="./notebooks/index_fasta.html">
- <span class="dropdown-text">Index reference genomes</span></a>
+    <a class="dropdown-item" href="../notebooks/08_job_script.html">
+ <span class="dropdown-text">Job scripts and submission</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/09_job_monitoring.html">
+ <span class="dropdown-text">Job monitoring</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/10_job_efficiency.html">
+ <span class="dropdown-text">Resource efficiency</span></a>
   </li>  
     </ul>
   </li>
@@ -192,14 +234,28 @@ cookieconsent.run({
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-is-high-performance-computing" id="toc-what-is-high-performance-computing" class="nav-link active" data-scroll-target="#what-is-high-performance-computing"><strong>What is high performance computing?</strong></a></li>
+  <li><a href="#why-do-we-need-hpc-for-bioinformatics" id="toc-why-do-we-need-hpc-for-bioinformatics" class="nav-link" data-scroll-target="#why-do-we-need-hpc-for-bioinformatics"><strong>Why do we need HPC for bioinformatics?</strong></a></li>
+  <li><a href="#key-components-of-the-gadi-hpc-system" id="toc-key-components-of-the-gadi-hpc-system" class="nav-link" data-scroll-target="#key-components-of-the-gadi-hpc-system"><strong>Key components of the Gadi HPC system</strong></a>
+  <ul class="collapse">
+  <li><a href="#computing-nodes" id="toc-computing-nodes" class="nav-link" data-scroll-target="#computing-nodes"><strong><em>Computing nodes</em></strong></a></li>
+  <li><a href="#filesystems" id="toc-filesystems" class="nav-link" data-scroll-target="#filesystems"><strong><em>Filesystems</em></strong></a></li>
+  <li><a href="#queues" id="toc-queues" class="nav-link" data-scroll-target="#queues"><strong><em>Queues</em></strong></a></li>
+  </ul></li>
+  <li><a href="#accounting" id="toc-accounting" class="nav-link" data-scroll-target="#accounting"><strong>Accounting</strong></a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Tips and tricks</h1>
+<h1 class="title"><strong>Working on the Gadi HPC</strong></h1>
 </div>
 
 
@@ -216,8 +272,101 @@ cookieconsent.run({
 </header>
 
 
+<p>Watch our <a href="https://www.biocommons.org.au/events/workflows-hpc">Pro tips for bioinformatics on HPC webinar</a> (<a href="https://youtu.be/YKJDRXCmGMo">recording</a> and <a href="https://zenodo.org/record/8008227">slides</a>) to understand how HPC systems like Gadi work.</p>
+<section id="resources" class="level4">
+<h4 class="anchored" data-anchor-id="resources"><strong>Resources</strong></h4>
+<ul>
+<li><a href="https://www.biocommons.org.au/events/workflows-hpc">Pro tips for bioinformatics on HPC webinar</a></li>
+<li><a href="https://sydney-informatics-hub.github.io/training.gadi.intro/">SIH Into to Gadi HPC tutorial</a></li>
+</ul>
+</section>
+<section id="what-is-high-performance-computing" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-high-performance-computing"><strong>What is high performance computing?</strong></h2>
+<p>High performance computing refers to the use of parallel processing techniques to solve complex computation problems efficiently. HPC systems, like Gadi, consist of clusters of interconnected computers, each equipped with multiple processors and large amounts of memory. These systems are designed to handle massive datasets and perform computations at speeds far beyond those achievable by your personal computer.</p>
+</section>
+<section id="why-do-we-need-hpc-for-bioinformatics" class="level2">
+<h2 class="anchored" data-anchor-id="why-do-we-need-hpc-for-bioinformatics"><strong>Why do we need HPC for bioinformatics?</strong></h2>
+<p>In bioinformatics, researchers deal with massive datasets generated by technologies such as next-generation sequencing (genomics, transcriptomics) and mass spectrometry (proteomics). Analysing these datasets requires computationally intensive tasks such as sequence alignment, genome assembly, and statistical analysis. HPC systems provide the computational power and memory resources necessary to process these datasets efficiently.</p>
+</section>
+<section id="key-components-of-the-gadi-hpc-system" class="level2">
+<h2 class="anchored" data-anchor-id="key-components-of-the-gadi-hpc-system"><strong>Key components of the Gadi HPC system</strong></h2>
+<p>See the <a href="https://opus.nci.org.au/pages/viewpage.action?pageId=236880086">Gadi Resources Guide</a> for a detailed explanation of the following.</p>
+<section id="computing-nodes" class="level3">
+<h3 class="anchored" data-anchor-id="computing-nodes"><strong><em>Computing nodes</em></strong></h3>
+<section id="login-nodes" class="level4">
+<h4 class="anchored" data-anchor-id="login-nodes">Login nodes</h4>
+<p>These nodes are the gateway for Gadi for users to access the resources of the HPC cluster. It is how you log in to Gadi, move around the filesystem, submit jobs to the scheduler, and do small tasks like view the contents of a file.</p>
+</section>
+<section id="compute-nodes" class="level4">
+<h4 class="anchored" data-anchor-id="compute-nodes">Compute nodes</h4>
+<p>These nodes are the workhorses of any HPC. They are dedicated for executing computational tasks as delegated by the job scheduler when you submit a job. There are various types of compute nodes with different hardware, built for different purposes on Gadi. Depending on the resource requirements of your job (e.g.&nbsp;high memory, GPUs) and the queue you specify, your job will be sent to a specific type of compute node. You can find a breakdown of their technical specifications <a href="https://nci.org.au/our-systems/hpc-systems">here</a>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="emoji" data-emoji="bangbang">‼️</span> Pay Attention <span class="emoji" data-emoji="bangbang">‼️</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Compute nodes on Gadi don’t currently have access to external internet. If any tasks within a submitted job on the compute node need to access the internet, they will fail. These jobs should be run separtately on the <code>copyq</code> using the data mover nodes.</p>
+</div>
+</div>
+</section>
+<section id="data-mover-nodes" class="level4">
+<h4 class="anchored" data-anchor-id="data-mover-nodes">Data mover nodes</h4>
+<p>These nodes are designed specifically for fast data movement. You can use these nodes to transfer files to and from Gadi at high-speed. Steps outlined <a href="https://opus.nci.org.au/pages/viewpage.action?pageId=236880317">here</a>. A script for moving data between USyd RDS and Gadi is provided in <code>/g/data/scripts</code> and explained in the following section, <a href="./data_transfer.qmd">transferring data</a>.</p>
+</section>
+</section>
+<section id="filesystems" class="level3">
+<h3 class="anchored" data-anchor-id="filesystems"><strong><em>Filesystems</em></strong></h3>
+<section id="home" class="level4">
+<h4 class="anchored" data-anchor-id="home"><code>$HOME</code></h4>
+<p>When you first log in to Gadi, you’ll be placed in your personal $HOME directory (i.e.&nbsp;<code>/home/555/aa1234</code>). You are the only person who can access this directory. <strong>No work</strong> should be done in here, but you may wish to install things like custom R or Python libraries here. It is backed up but you have a 10Gb storage limit.</p>
+<p>You can navigate back here at any point:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="scratch" class="level4">
+<h4 class="anchored" data-anchor-id="scratch"><code>/scratch</code></h4>
+<p>All Gadi projects have a dedicated <code>/scratch</code> allocation that is only accessible to members of that group. This is only intended for active work on big files and not for long-term storage. Your allocation is currently <strong>11 TB of storage</strong>. This is not backed up and any files not accessed for 100 days will be purged from the system, so be sure to back up your work to RDS. Your <code>/scratch</code> contains a directory for each user (denoted by their Gadi username), however you can organise things however you wish here.</p>
+</section>
+<section id="gdata" class="level4">
+<h4 class="anchored" data-anchor-id="gdata"><code>/g/data</code></h4>
+<p>Some Gadi projects, including your group’s, have a dedicated <code>g/data</code> allocation that is only accessible to members of that group. This in intended for long-term large data storage. Your allocation is currently <strong>2 TB of storage</strong>. This is not backed up though, so ensure you transfer all important files back to RDS. Your <code>g/data</code> contains the following shared directories:</p>
+<ul>
+<li><code>pipelines</code>: copies of SIH public pipelines from <a href="https://github.com/Sydney-Informatics-Hub/Bioinformatics">our GitHub</a></li>
+<li><code>reference</code>: T2T and Hg38 assemblies and their indexes</li>
+<li><code>scripts</code>: copies of shared code for general tasks</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lah</span> /gdata/<span class="op">&lt;</span>project<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">drwxr-sr-x</span> 3 gs5517 iz89 4.0K Feb 13 22:42 pipelines</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">drwxr-sr-x</span> 4 gs5517 iz89 4.0K Sep 14  2023 reference</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">drwxr-sr-x</span> 2 gs5517 iz89 4.0K Feb 13 22:43 scripts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="apps" class="level4">
+<h4 class="anchored" data-anchor-id="apps"><code>/apps</code></h4>
+<p>This directory is accessible to all Gadi users. It is a read-only system containing centrally installed software applications and their module files. You can check what software is installed here:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> /apps</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can use any software that is installed here by first loading the module file, e.g.:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load samtools</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then run the tool as per it’s user guide, e.g.:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-H</span> sample.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="queues" class="level3">
+<h3 class="anchored" data-anchor-id="queues"><strong><em>Queues</em></strong></h3>
+<p>Like on Artemis, the job scheduler is PBSPro, however it is implented in a slightly different way. To run jobs on Gadi, users should submit to a specific queue on a corresponding node. The queue and node you choose to run on will depend on the types of resources your job needs. Pipelines your group use have already been configured to run on specific queues.</p>
+<p>For custom PBS scripts, you can work out what queue to run your job on by checking the <a href="https://opus.nci.org.au/pages/viewpage.action?pageId=236880996">NCI queue documentation</a> and <a href="https://opus.nci.org.au/pages/viewpage.action?pageId=236881198">queue limits explainer</a>. Most jobs will be suitable for normal or normalbw queues. The normal queues have more nodes available for your jobs, and will allow users, and jobs that require a specialised queue, to get fair access to those resources. Express queues are designs to support work that needs a faster turnaround, but will be charged accordingly at a higher service unit charge.</p>
+</section>
+</section>
+<section id="accounting" class="level2">
+<h2 class="anchored" data-anchor-id="accounting"><strong>Accounting</strong></h2>
+<p>Check your group’s quarterly storage and SU usage report by running:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nci_project</span> <span class="at">-P</span> <span class="op">&lt;</span>project<span class="op">&gt;</span> -v</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
+</section>
 
 <p>All materials copyright Sydney Informatics Hub, University of Sydney</p></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

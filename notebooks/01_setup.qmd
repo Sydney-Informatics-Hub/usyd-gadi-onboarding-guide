@@ -9,13 +9,31 @@ from: markdown+emoji
 
 To work on NCI Gadi, you will need to either install a terminal application on your computer or work on [NCI's Australian Research Environment (ARE)](https://are.nci.org.au/) platform. Before accessing Gadi, you will need to have an NCI account. Ensure you have completed this step by following directions on the [Gadi Access instructions](./notebooks/gadi_access.qmd) on the previous page before proceeding. 
 
-## **Use NCI's ARE platform**
+In order to work on Gadi, you'll need a terminal application. A terminal is a text-based interface to your computer. It's a program that takes text commands and passes them to the operating system to execute. We suggest you use one of the following options: 
+
+## **Option 1: Use NCI's ARE platform**
+
+::: {.callout-note}
+
+## ARE: fast access with limited customisation
+This is a very lightweight solution for accessing Gadi, some interactive tools like Jupyter and RStudio. We recommended it for beginners who don't want to customise their set up.
+:::
 
 NCI has created a web-based graphical interface for accessing their systems. It is very simple to use and recommended over access methods described below for beginners. 
 
+
+
 See NCI's User Guide for instructions on how to access and use [ARE](https://opus.nci.org.au/display/Help/ARE+User+Guide). 
 
-## **Install Visual Studio Code on your computer**
+
+
+## **Option 2: Install Visual Studio Code on your computer**
+
+::: {.callout-note}
+
+## VScode: customised configuration with an integrated terminal
+This is a more advanced solution for accessing Gadi, with more customisation options. We recommended it for users who are comfortable with terminal applications and want to customise their set up. 
+:::
 
 Visual Studio Code (VS Code) is a lightweight and powerful source code editor available for Windows, macOS and Linux computers. As an alternative to a terminal application it offers file additional functionality including file editing. 
 
@@ -45,7 +63,7 @@ Connect to your instance with VS code by adding the host details to your `.ssh` 
 
 Having successfully logged in, you should see a small blue or green box in the bottom left corner of your screen:
 
-![](fig/vs_gadi_connect.png)
+![](../fig/vs_gadi_connect.png)
 
 To set up your VS Code window:
 
@@ -59,7 +77,13 @@ To set up your VS Code window:
 * [VS code cheatsheet for Windows](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf)
 * [VS code cheatsheet for MacOS](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)
 
-## **Install a terminal application on your computer** 
+## **Option 3: Install a terminal application on your computer** 
+
+::: {.callout-note}
+
+## Terminal: lightweight solution for advanced users
+This is a very lightweight solution for accessing Gadi. We recommended it for users who are comfortable with terminal applications and want to customise their set up.
+:::
 
 The options for terminal installation will depend on your computer's operating system. See below for instructions for macOS and Windows. 
 
@@ -103,4 +127,4 @@ When you type a password on the terminal, there will not be any indication the p
 
 Once you've logged in successfully, you should see a welcome screen like this: 
 
-![](fig/terminal_gadi_connect.png)
+![](../fig/terminal_gadi_connect.png)
