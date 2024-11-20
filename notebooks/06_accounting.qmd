@@ -1,9 +1,10 @@
+---
+title: "**Accounting**"
+output:
+  html_document:
+    toc: false
+    toc_float: false
+from: markdown+emoji
+---
 
-
-## **Accounting**
-
-Check your group's quarterly storage and SU usage report by running: 
-
-```bash 
-nci_project -P <project> -v
-```
+Coming soon! For now, see: https://opus.nci.org.au/spaces/Help/pages/236881132/Allocations...

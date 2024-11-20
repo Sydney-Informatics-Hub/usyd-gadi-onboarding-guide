@@ -1,0 +1,12 @@
+---
+title: "**Installing and managing software**"
+output:
+  html_document:
+    toc: false
+    toc_float: false
+from: markdown+emoji
+---
+
+## Shared modules 
+
+## Running containers 

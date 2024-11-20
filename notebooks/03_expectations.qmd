@@ -1,5 +1,5 @@
 ---
-title: "**Working on the Gadi HPC**"
+title: "**What does the system expect of its users?**"
 output:
   html_document:
     toc: false
@@ -56,6 +56,7 @@ Don't request resources that you won't need, it will only result in your job and
 - [Monitor your jobs](https://opus.nci.org.au/spaces/Help/pages/236880322/Job+monitoring...)
 - [Monitor your project allocation](https://opus.nci.org.au/spaces/Help/pages/236881132/Allocations...)
 - [What does a job cost?](https://opus.nci.org.au/spaces/Help/pages/236880942/Job+Costs...)
+- [Why are my jobs not running?](https://opus.nci.org.au/spaces/Help/pages/230490410/Why+are+my+jobs+not+running+...)
 
 Running jobs on gadi requires users to have sufficient compute hours available. These compute hours are granted to projects rather than directly to the user. It is important to communicate with your project team to ensure you are not using more than your fair share of resources. You can monitor your project's usage by running:
 
@@ -64,3 +65,15 @@ nci_project -P <project> -v
 ```
 
 If you are consistently overusing resources, you may need to look into optimising your workloads and/or requesting more resources from NCI. Get in touch with SIH to discuss your options.
+
+At completion, your project is only charged the SU actually consumed by the job (ie based on walltime used, not walltime requested). Like Artemis, Gadi produces PBS logs. The “.o” job log will report the compute used (similar to the Artemis “.o” and “usage” logs combined).
+
+Like KSU, each project is assigned a finite amount of disk space and iNode (index node - can be likened to the total number of files and folders). You MUST monitor your disk and iNode usage, and this can be done with the command:
+
+```bash
+lquota
+```
+
+which shows disk resource availability for every project you are a member of.
+
+It is important to have an understanding of how much output your job will create, and ensure that you can remain within quotas/limits. Jobs can fail with “disk quota exceeded” messages.

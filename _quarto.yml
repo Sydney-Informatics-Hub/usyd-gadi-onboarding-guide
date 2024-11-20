@@ -16,19 +16,21 @@ website:
       - text: "Introduction to Gadi"
         menu: 
         - text: "System offerings"
-          href: notebooks/02_system.html
+          href: notebooks/02_system_setup.html
         - text: "Infrastructure expectations"
           href: notebooks/03_expectations.html
       - text: "Working on Gadi"
         menu: 
         - text: "Navigating the system"
-          href: notebooks/04_system.html
+          href: notebooks/04_nagivating_system.html
         - text: "Transferring data"
           href: notebooks/05_data_transfer.html
         - text: "Accounting"
           href: notebooks/06_accounting.html
         - text: "Specialised environments"
           href: notebooks/07_environments.html
+        - text: "Managing software"
+          href: notebooks/11_software.html
       - text: "Running a job"
         menu:
         - text: "Job scripts and submission"
