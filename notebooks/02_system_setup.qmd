@@ -15,7 +15,7 @@ This section will point you to the right sections of the NCI documentation and u
 
 - [What is Gadi?](https://opus.nci.org.au/spaces/Help/pages/236881323/What+is+Gadi+...)
 
-**NCI Gadi** is one of Australia's most powerful supercomputers, designed to support advanced computational research. 
+**NCI Gadi** is one of Australia's most powerful supercomputers, designed to support advanced computational research.
 
 | **Component** | **Details**                                                                                                                                                                                                                   |
 |---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -27,11 +27,11 @@ This section will point you to the right sections of the NCI documentation and u
 | **Cloud Systems** | - **Nirin Cloud**: High-availability and high-capacity zone integrated with Gadi and NCI's multi-Petabyte national research data collections, comprising Intel Broadwell and Sandy Bridge processors and NVIDIA K80 GPUs :contentReference[oaicite:5]{index=5} |
 
 
-## Conditions of use 
+## Conditions of use
 
 - [General conditions of use](https://opus.nci.org.au/spaces/Help/pages/230490621/Conditions+of+Use+and+Policies...)
 
-All users of NCI agree that they will keep themselves informed of, and comply with, all relevant legislation and The Australian National University policies and rules. 
+All users of NCI agree that they will keep themselves informed of, and comply with, all relevant legislation and The Australian National University policies and rules.
 
 All users must acknowledge and understand that a breach of these will result in not only a loss of access to NCI resources but the user may be subject to Federal criminal prosecution resulting in fines and/or gaol legislated under the Acts listed above.
 
@@ -46,7 +46,7 @@ See the [Gadi Resources Guide](https://opus.nci.org.au/pages/viewpage.action?pag
 
 ## Navigating the system
 
-This section contains some example commands to run on the Gadi HPC system. To generalise across multiple groups we have used `<project>` in place of a specific project code. When running these commands, please replace `<project>` with your project code. 
+This section contains some example commands to run on the Gadi HPC system. To generalise across multiple groups we have used `<project>` in place of a specific project code. When running these commands, please replace `<project>` with your project code.
 
 E.g. if your project code is `aa00`, you would run:
 
@@ -55,20 +55,20 @@ cd /scratch/aa00
 ```
 :::
 
-#### Login nodes 
+#### Login nodes
 
-These nodes are the gateway for Gadi for users to access the resources of the HPC cluster. It is how you log in to Gadi, move around the filesystem, submit jobs to the scheduler, and do small tasks like view the contents of a file. 
+These nodes are the gateway for Gadi for users to access the resources of the HPC cluster. It is how you log in to Gadi, move around the filesystem, submit jobs to the scheduler, and do small tasks like view the contents of a file.
 
-#### Compute nodes 
+#### Compute nodes
 
-These nodes are the workhorses of any HPC. They are dedicated for executing computational tasks as delegated by the job scheduler when you submit a job. There are various types of compute nodes with different hardware, built for different purposes on Gadi. Depending on the resource requirements of your job (e.g. high memory, GPUs) and the queue you specify, your job will be sent to a specific type of compute node. You can find a breakdown of their technical specifications [here](https://nci.org.au/our-systems/hpc-systems). 
+These nodes are the workhorses of any HPC. They are dedicated for executing computational tasks as delegated by the job scheduler when you submit a job. There are various types of compute nodes with different hardware, built for different purposes on Gadi. Depending on the resource requirements of your job (e.g. high memory, GPUs) and the queue you specify, your job will be sent to a specific type of compute node. You can find a breakdown of their technical specifications [here](https://nci.org.au/our-systems/hpc-systems).
 
 ::: {.callout-warning}
 ### :bangbang: Pay Attention :bangbang:
-Compute nodes on Gadi don't currently have access to external internet. If any tasks within a submitted job on the compute node need to access the internet, they will fail. These jobs should be run separtately on the `copyq` using the data mover nodes. 
+Compute nodes on Gadi don't currently have access to external internet. If any tasks within a submitted job on the compute node need to access the internet, they will fail. These jobs should be run separtately on the `copyq` using the data mover nodes. Or else use an ARE job.
 :::
 
-#### Data mover nodes 
+#### Data mover nodes
 
 These nodes are designed specifically for fast data movement. You can use these nodes to transfer files to and from Gadi at high-speed. Steps outlined [here](https://opus.nci.org.au/pages/viewpage.action?pageId=236880317). A script for moving data between USyd RDS and Gadi is provided in `/g/data/scripts` and explained in the following section, [transferring data](./data_transfer.qmd).
 
@@ -76,9 +76,9 @@ These nodes are designed specifically for fast data movement. You can use these 
 
 #### `$HOME`
 
-When you first log in to Gadi, you'll be placed in your personal $HOME directory (i.e. `/home/555/aa1234`). You are the only person who can access this directory. **No work** should be done in here, but you may wish to install things like custom R or Python libraries here. It is backed up but you have a 10Gb storage limit. 
+When you first log in to Gadi, you'll be placed in your personal $HOME directory (i.e. `/home/555/aa1234`). You are the only person who can access this directory. **No work** should be done in here, but you may wish to install things like custom R or Python libraries here. It is backed up but you have a 10Gb storage limit.
 
-You can navigate back here at any point if required by running: 
+You can navigate back here at any point if required by running:
 
 ```bash
 cd ~
@@ -86,7 +86,7 @@ cd ~
 
 #### `/scratch`
 
-All Gadi projects have a dedicated `/scratch` allocation that is only accessible to members of your project. This is only intended for active work on big files and not for long-term storage. This is not backed up and any files not accessed for 100 days will be purged from the system, so be sure to back up your work to RDS. Your `/scratch` contains a directory for each user (denoted by their Gadi username), however you can organise things however you wish here. 
+All Gadi projects have a dedicated `/scratch` allocation that is only accessible to members of your project. This is only intended for active work on big files and not for long-term storage. This is not backed up and any files not accessed for 100 days will be purged from the system, so be sure to back up your work to RDS. Your `/scratch` contains a directory for each user (denoted by their Gadi username), however you can organise things however you wish here.
 
 You can navigate to your `/scratch` space by running:
 
@@ -108,22 +108,22 @@ cd /gdata/<project>
 
 You can also access a communally maintained bioinformatics software project at `/g/data/if89`. Users currently have to request access to if89, but it is a good place to find bioinformatics software previously installed by others. To request access to __if89__:
 
-1. Log into [MyNCI](https://my.nci.org.au/mancini/login?next=/mancini/) 
+1. Log into [MyNCI](https://my.nci.org.au/mancini/login?next=/mancini/)
 2. Navigate to __Projects and Groups__
 3. Search for __if89__ and request access
-4. Click join. 
+4. Click join.
 
-Access needs to be manually approved. If you are experiencing delays of >24 hours, please contact SIH. 
+Access needs to be manually approved. If you are experiencing delays of >24 hours, please contact SIH.
 
 #### `/apps`
 
-This directory is accessible to all Gadi users. It is a read-only system containing centrally installed software applications and their module files. You can check what software is installed here: 
+This directory is accessible to all Gadi users. It is a read-only system containing centrally installed software applications and their module files. You can check what software is installed here:
 
 ```bash
 ls /apps
 ```
 
-You can use any software that is installed here by first loading the module file, e.g.: 
+You can use any software that is installed here by first loading the module file, e.g.:
 
 ```bash
 module load samtools
@@ -137,6 +137,6 @@ samtools view -H sample.bam
 
 ### ***Queues***
 
-Like on Artemis, the job scheduler is PBSPro, however it is implented in a slightly different way. To run jobs on Gadi, users should submit to a specific queue on a corresponding node. The queue and node you choose to run on will depend on the types of resources your job needs. Pipelines your group use have already been configured to run on specific queues. 
+Like on Artemis, the job scheduler is PBSPro, however it is implented in a slightly different way. To run jobs on Gadi, users should submit to a specific queue on a corresponding node. The queue and node you choose to run on will depend on the types of resources your job needs. Pipelines your group use have already been configured to run on specific queues.
 
-For custom PBS scripts, you can work out what queue to run your job on by checking the [NCI queue documentation](https://opus.nci.org.au/pages/viewpage.action?pageId=236880996) and [queue limits explainer](https://opus.nci.org.au/pages/viewpage.action?pageId=236881198). Most jobs will be suitable for normal or normalbw queues. The normal queues have more nodes available for your jobs, and will allow users, and jobs that require a specialised queue, to get fair access to those resources. Express queues are designs to support work that needs a faster turnaround, but will be charged accordingly at a higher service unit charge.  
+For custom PBS scripts, you can work out what queue to run your job on by checking the [NCI queue documentation](https://opus.nci.org.au/pages/viewpage.action?pageId=236880996) and [queue limits explainer](https://opus.nci.org.au/pages/viewpage.action?pageId=236881198). Most jobs will be suitable for normal or normalbw queues. The normal queues have more nodes available for your jobs, and will allow users, and jobs that require a specialised queue, to get fair access to those resources. Express queues are designs to support work that needs a faster turnaround, but will be charged accordingly at a higher service unit charge.

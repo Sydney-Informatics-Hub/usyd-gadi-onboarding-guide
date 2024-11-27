@@ -618,13 +618,15 @@ div.error {
 }
  .footertext {
 	 text-align: center;
+	 font-size: 14px;
 }
  footer .license, footer .help-links {
-	 font-size: inherit;
+	 font-size: 16px;
 	 margin-top: 10px;
 	 margin-bottom: 10px;
 	 font-weight: 500;
 	 line-height: 1.1;
+	 text-align: left;
 }
  img.navbar-logo {
 	 height: 40px;

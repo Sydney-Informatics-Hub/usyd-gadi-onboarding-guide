@@ -7,25 +7,25 @@ output:
 
 ---
 
-This document contains instructions for how to access and utilise NCI's HPC, Gadi for University of Sydney researchers. Please be mindful this is not an exhausive resource for using the NCI Gadi HPC. It is only intended to orientate you to the system and navigate the Gadi user documentation.  
+This document contains instructions for how to access and utilise NCI's HPC, Gadi for University of Sydney researchers. Please be mindful this is not an exhaustive resource for using the NCI Gadi HPC. It is only intended to orientate you to the system and navigate the Gadi user documentation.
 
-NCI’s HPC systems are designed to handle complex computational tasks, such as simulations, data analysis, and modeling, for a wide range of scientific disciplines, including climate modeling, genomics, astronomy, and materials science. 
+NCI’s HPC systems are designed to handle complex computational tasks, such as simulations, data analysis, and modeling, for a wide range of scientific disciplines, including climate modeling, genomics, astronomy, and materials science.
 
-The University of Sydney provides its researchers with subsidised access to NCI’s infrastructure. To arrange user credits (service units) for your account, please contact SIH's Research Computing team through our [website](https://www.sydney.edu.au/research/facilities/sydney-informatics-hub/schemes.html).
+The University of Sydney provides its researchers with subsidised access to NCI’s infrastructure. After creating an NCI account and project, visit [https://nci.sydney.edu.au/](https://nci.sydney.edu.au/) to request Service Units for your project (note: you must be on the University of Sydney Network/VPN).
 
-## Support 
+## Support
 
-SIH is limited in the support it can provide for NCI Gadi users. If you are new to HPC and Gadi, we expect you will attend [SIH's Intro to HPC](https://sydney-informatics-hub.github.io/training.artemis/) and NCI's Intro to Gadi courses. Additionally, familiarise yourself with Gadi using the [NCI Gadi user guide](https://opus.nci.org.au/display/Help/Gadi+User+Guide):
+SIH is limited in the support it can provide for NCI Gadi users. If you are new to HPC and Gadi, we expect you will attend [SIH's Intro to HPC](https://sydney-informatics-hub.github.io/training.artemis/) and [NCI's Intro to Gadi](https://opus.nci.org.au/spaces/Help/pages/48497461/NCI+Training+and+Educational+Events) courses. Additionally, familiarise yourself with Gadi using the [NCI Gadi user guide](https://opus.nci.org.au/display/Help/Gadi+User+Guide):
 
 * [SIH training calendar](https://www.sydney.edu.au/research/facilities/sydney-informatics-hub/workshops-and-training/training-calendar.html)
-* [NCI training calendar](https://opus.nci.org.au/display/Help/NCI+Training+and+Educational+Events) 
+* [NCI training calendar](https://opus.nci.org.au/display/Help/NCI+Training+and+Educational+Events)
 
-For additional support, please contact the following people depending on your needs: 
+For additional support, please contact the following people depending on your needs:
 
 | Type of issue | Who | How | Details |
 |:---------|:----|:----|:---------|
-| Service unit allocation for running jobs | SIH | [Log a ticket](https://www.sydney.edu.au/research/facilities/sydney-informatics-hub.html) | [SIH schemes](https://www.sydney.edu.au/research/facilities/sydney-informatics-hub/schemes.html) |
-| An issue with NCI Gadi | NCI Helpdesk | [Log a ticket](https://nci.org.au/users/nci-helpdesk) | Provide your error, log file, jobid |
-| Any error returned in running a job | NCI Helpdesk | [Log a ticket](https://nci.org.au/users/nci-helpdesk) | Provide your error, log file, jobid |
+| Service unit allocation for running jobs | SIH | [Make a request](https://nci.sydney.edu.au/) | [SIH schemes](https://www.sydney.edu.au/research/facilities/sydney-informatics-hub/schemes.html) |
+| An issue with NCI Gadi | NCI Helpdesk | [Log an NCI ticket](https://nci.org.au/users/nci-helpdesk) | Provide your error, log file, jobid |
+| Any error returned in running a job | NCI Helpdesk | [Log an NCI ticket](https://nci.org.au/users/nci-helpdesk) | Provide your error, log file, jobid |
 | A bug in an SIH pipeline | SIH | Submit an issue on Github | Provide details e.g. [this issue](https://github.com/Sydney-Informatics-Hub/Germline-StructuralV-nf/issues/65) |
-| Bioinformatics advice | SIH| [Log a ticket](https://www.sydney.edu.au/research/facilities/sydney-informatics-hub.html) | Provide relevant context, errors, tool names, scripts |
+| Bioinformatics advice | SIH| [Log an SIH ticket](https://www.sydney.edu.au/research/facilities/sydney-informatics-hub.html) | Provide relevant context, errors, tool names, scripts |
