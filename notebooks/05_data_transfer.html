@@ -242,20 +242,10 @@ cookieconsent.run({
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#research-data-store-rds" id="toc-research-data-store-rds" class="nav-link active" data-scroll-target="#research-data-store-rds">Research data store (RDS)</a></li>
-  <li><a href="#data-transfer-options" id="toc-data-transfer-options" class="nav-link" data-scroll-target="#data-transfer-options">Data transfer options</a>
-  <ul class="collapse">
-  <li><a href="#globus---coming-soon" id="toc-globus---coming-soon" class="nav-link" data-scroll-target="#globus---coming-soon">Globus - COMING SOON</a></li>
-  <li><a href="#transfer-using-sftp-from-gadi-copyq" id="toc-transfer-using-sftp-from-gadi-copyq" class="nav-link" data-scroll-target="#transfer-using-sftp-from-gadi-copyq">Transfer using sftp from Gadi copyq</a></li>
-  <li><a href="#transfer-using-rsync-from-artemis-dtq---prior-to-decomission-only" id="toc-transfer-using-rsync-from-artemis-dtq---prior-to-decomission-only" class="nav-link" data-scroll-target="#transfer-using-rsync-from-artemis-dtq---prior-to-decomission-only">Transfer using rsync from Artemis dtq - PRIOR TO DECOMISSION ONLY</a></li>
-  <li><a href="#transfer-using-rds-mapped-network-drive-and-data-transfer-client" id="toc-transfer-using-rds-mapped-network-drive-and-data-transfer-client" class="nav-link" data-scroll-target="#transfer-using-rds-mapped-network-drive-and-data-transfer-client">Transfer using RDS mapped network drive and data transfer client</a></li>
-  <li><a href="#transfer-from-ssh-connection-to-rds" id="toc-transfer-from-ssh-connection-to-rds" class="nav-link" data-scroll-target="#transfer-from-ssh-connection-to-rds">Transfer from ssh connection to RDS</a></li>
-  </ul></li>
-  <li><a href="#set-up-ssh-keys-for-passwordless-data-transfer" id="toc-set-up-ssh-keys-for-passwordless-data-transfer" class="nav-link" data-scroll-target="#set-up-ssh-keys-for-passwordless-data-transfer">Set up SSH keys for passwordless data transfer</a></li>
-  <li><a href="#transfer-using-sftp-from-gadi-copyq-1" id="toc-transfer-using-sftp-from-gadi-copyq-1" class="nav-link" data-scroll-target="#transfer-using-sftp-from-gadi-copyq-1">Transfer using sftp from Gadi copyq</a></li>
-  <li><a href="#transfer-using-rsync-from-artemis-dtq---prior-to-decomission-only-1" id="toc-transfer-using-rsync-from-artemis-dtq---prior-to-decomission-only-1" class="nav-link" data-scroll-target="#transfer-using-rsync-from-artemis-dtq---prior-to-decomission-only-1">Transfer using rsync from Artemis dtq - PRIOR TO DECOMISSION ONLY</a></li>
-  <li><a href="#transfer-using-rds-mapped-network-drive-and-data-transfer-client-1" id="toc-transfer-using-rds-mapped-network-drive-and-data-transfer-client-1" class="nav-link" data-scroll-target="#transfer-using-rds-mapped-network-drive-and-data-transfer-client-1">Transfer using RDS mapped network drive and data transfer client</a></li>
-  <li><a href="#transfer-from-ssh-connection-to-rds-1" id="toc-transfer-from-ssh-connection-to-rds-1" class="nav-link" data-scroll-target="#transfer-from-ssh-connection-to-rds-1">Transfer from ssh connection to RDS</a></li>
+  <li><a href="#set-up-ssh-keys" id="toc-set-up-ssh-keys" class="nav-link active" data-scroll-target="#set-up-ssh-keys"><strong>Set up SSH keys</strong></a></li>
+  <li><a href="#customise-the-transfer-script" id="toc-customise-the-transfer-script" class="nav-link" data-scroll-target="#customise-the-transfer-script"><strong>Customise the transfer script</strong></a></li>
+  <li><a href="#run-the-transfer-script" id="toc-run-the-transfer-script" class="nav-link" data-scroll-target="#run-the-transfer-script"><strong>Run the transfer script</strong></a></li>
+  <li><a href="#confirm-the-transfer" id="toc-confirm-the-transfer" class="nav-link" data-scroll-target="#confirm-the-transfer"><strong>Confirm the transfer</strong></a></li>
   </ul>
 </nav>
     </div>
@@ -281,54 +271,18 @@ cookieconsent.run({
 </header>
 
 
-<section id="research-data-store-rds" class="level2">
-<h2 class="anchored" data-anchor-id="research-data-store-rds">Research data store (RDS)</h2>
-<p>The RDS is NOT being decommisioned along with Artemis HPC. Any RDS projects you currently have will persist on RDS. It is your responsibility to backup any data on Artemis filesystems (<code>/home</code>, <code>/scratch</code>, <code>/project</code>) that you wish to keep prior to the decomission date of August 29 2025.</p>
-<p>In this section, we will focus on how to transfer data between Gadi HPC and RDS.</p>
+<p>The data transfer queue on Gadi is called ‘copyq’. You can easily use this queue to transfer data between Gadi and RDS (or other locations) by first setting up ssh keys for password-less transfers between Gadi and Artemis/RDS.</p>
+<p>For transfer of large files, the use of ‘resumable’ rsync is recommended. As the USyd RDS servers only allow sftp connections, this method is not possible to run on Gadi’s copyq. Instead, the transfer can be initiated using Artemis ‘dtq’ and using Gadi’s ‘data mover’ node: <code>gadi-dm.nci.org.au</code>.</p>
+<section id="resources" class="level4">
+<h4 class="anchored" data-anchor-id="resources"><strong>Resources</strong></h4>
+<ul>
+<li><a href="https://medium.com/@prateek.malhotra004/streamlining-secure-remote-access-a-guide-to-passwordless-ssh-connections-between-linux-servers-8c26bb008af9">Instructions for SSH key set up</a></li>
+</ul>
 </section>
-<section id="data-transfer-options" class="level2">
-<h2 class="anchored" data-anchor-id="data-transfer-options">Data transfer options</h2>
-<section id="globus---coming-soon" class="level3">
-<h3 class="anchored" data-anchor-id="globus---coming-soon">Globus - COMING SOON</h3>
-<p>In the coming months, <a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+Data+Transfer">Globus</a> will be available for simplified and efficient data transfer. We will provide training and materials on this once available. In the meantime, the below options are available, and examples for each method will be provided in the subsequent sections.</p>
-</section>
-<section id="transfer-using-sftp-from-gadi-copyq" class="level3">
-<h3 class="anchored" data-anchor-id="transfer-using-sftp-from-gadi-copyq">Transfer using sftp from Gadi copyq</h3>
-<p>The data transfer queue on Gadi is called <code>copyq</code>. This is comparable to the data transfer queue on Artemis <code>dtq</code>. Data transfer methods that you used to put data onto Artemis for example from the web via <code>wget</code> or from another server should be easily portable to use on Gadi’s <code>copyq</code>.</p>
-<p>Please note that the compute nodes on Gadi <strong>do not have</strong> internet access like the Artemis compute nodes do, so all required data must first be downloaded before submitting a compute job that requries the data.</p>
-<p>Due to stringent security settings around Artemis and RDS, commands like <code>rsync</code> or <code>scp</code> CANNOT be initiated from NCI Gadi login nodes or <code>copy</code>. To initiate the transfer from Gadi, <code>sftp</code> must be used. One can <code>rsync</code> or <code>scp</code> from Artemis login nodes or <code>dt</code> to Gadi, however this option will of course cease when Artemis is decomissioned.</p>
-</section>
-<section id="transfer-using-rsync-from-artemis-dtq---prior-to-decomission-only" class="level3">
-<h3 class="anchored" data-anchor-id="transfer-using-rsync-from-artemis-dtq---prior-to-decomission-only">Transfer using rsync from Artemis dtq - PRIOR TO DECOMISSION ONLY</h3>
-<p>For transfer of large files, the use of resumable <code>rsync</code> is recommended (see script below). As the USyd RDS servers only allow sftp connections, this method is not possible to run on Gadi’s <code>copyq</code>. Instead, the transfer can be initiated using Artemis <code>dtq</code> and using Gadi’s data mover node: <code>gadi-dm.nci.org.au</code>. After decomisison, Globus will provide fast and reliable large data transfers.</p>
-</section>
-<section id="transfer-using-rds-mapped-network-drive-and-data-transfer-client" class="level3">
-<h3 class="anchored" data-anchor-id="transfer-using-rds-mapped-network-drive-and-data-transfer-client">Transfer using RDS mapped network drive and data transfer client</h3>
-<p>For smaller files or datasets, you can map your RDS project as a network drive and transfer the data to Gadi via an intermediate data transfer client GUI such as <code>filezilla</code>. While simple to use, these are not recommended for large data transfers, as the local computer becomes a bottleneck. Faster speeds will be obtained on campus, but still may be prohibitively slow for larger datasets.</p>
-</section>
-<section id="transfer-from-ssh-connection-to-rds" class="level3">
-<h3 class="anchored" data-anchor-id="transfer-from-ssh-connection-to-rds">Transfer from ssh connection to RDS</h3>
-<p>You can also initiate the transfer on the command line by <code>ssh</code> to either <code>research-data-ext.sydney.edu.au</code> (off-campus) or <code>research-data-int.sydney.edu.au</code> (on campus or USyd VPN) then using typical transfer commands such as <code>rsync</code> or <code>scp</code>. Since the connection will be terminated if your computer sleeps, terminal crashes, network drops out etc, this method is not particualrly robust for large transfers. Using something like <code>tmux</code> or <code>screen</code> can help, however note that the login server has finite capacity, and transfer speeds can be seriously impacted during times of high load.</p>
-</section>
-</section>
-<section id="set-up-ssh-keys-for-passwordless-data-transfer" class="level2">
-<h2 class="anchored" data-anchor-id="set-up-ssh-keys-for-passwordless-data-transfer">Set up SSH keys for passwordless data transfer</h2>
-<p>If you are transferring data directly for example <code>scp</code> on the command line or via a transfer client on your local computer, entering a password to initiate the transfer is straightforward. If however you want to transfer via a job submitted to either <code>copy</code> or <code>dtq</code>, you will need to set up SSH keys first.</p>
+<section id="set-up-ssh-keys" class="level2">
+<h2 class="anchored" data-anchor-id="set-up-ssh-keys"><strong>Set up SSH keys</strong></h2>
 <p>SSH key pairs are used for secure communication between two systems. The pair consists of a <strong>private</strong> key and a <strong>public</strong> key. The <strong>private</strong> key should remain private and only be known by the user. It is stored securely on the user’s computer. The <strong>public</strong> key can be shared with any system the user wants to connect to. It is added to the remote system’s authorized keys. When a connection is attempted, the remote system uses the public key to create a message for the user’s system.</p>
-<p>There are many general guides for this online, for example <a href="https://medium.com/@prateek.malhotra004/streamlining-secure-remote-access-a-guide-to-passwordless-ssh-connections-between-linux-servers-8c26bb008af9">this one</a>. For step-by-step instructions on how to set up keys between Gadi and RDS, expand the drop down below.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Click to expand
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Follow the below steps carefully to set up SSH keys between RDS and Gadi. Note, <strong>you only need to do this once</strong>.</p>
+<p>We will set up SSH keys to allow us to move data between USyd’s HPC and RDS and Gadi. <strong>You only need to do this once</strong>.</p>
 <ol type="1">
 <li>Log into Gadi with your chosen method, e.g:</li>
 </ol>
@@ -386,21 +340,11 @@ Click to expand
 </ol>
 <div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sftp</span> <span class="op">&lt;</span>your-unikey<span class="op">&gt;</span>@research-data-ext.sydney.edu.au</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This time, you shouldn’t be prompted for a password. You can proceed to transfer data between Gadi and USyd’s Artemis/RDS system now on the <code>copyq</code>.</p>
-</div>
-</div>
-</div>
 </section>
-<section id="transfer-using-sftp-from-gadi-copyq-1" class="level2">
-<h2 class="anchored" data-anchor-id="transfer-using-sftp-from-gadi-copyq-1">Transfer using sftp from Gadi copyq</h2>
-<p>The scripts below use <code>sftp</code> to transfer data between RDS and Gadi on the Gadi <code>copyq</code>.</p>
-<p>Copies of it these scripts have been placed in <code>/scratch/qc03/data-transfer-scripts/</code>.</p>
-<p>Make a copy of these scripts to your <code>/scratch/&lt;nci-project-code&gt;</code> or <code>/home/&lt;nci-user-id&gt;</code> workspace on Gadi and edit to suit your needs.</p>
-<p>TBC</p>
-<ul>
-<li>separate below content into indivdual scripts eg “file_from_rds_to_gadi.pbs”, “folder_from_rds_to_gadi.pbs” etc</li>
-<li>make the demo scripts folder (read and write user and group for folder) and change perms for files so read only</li>
-<li>update below content and put example code for each script below under each relevant subheading</li>
-</ul>
+<section id="customise-the-transfer-script" class="level2">
+<h2 class="anchored" data-anchor-id="customise-the-transfer-script"><strong>Customise the transfer script</strong></h2>
+<p>Whenever you need to copy large files between RDS and Gadi, you should use the script below. This script can be submitted to the <code>copyq</code> on Gadi. A copy of it has been provided in your group’s <code>/g/data/&lt;project&gt;/scripts</code> directory. An example of a script has also been provided here.</p>
+<p>Make a copy of this file to your <code>/scratch</code> workspace on Gadi and edit it to suit your needs.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /g/data/<span class="op">&lt;</span>project<span class="op">&gt;</span>/scripts/transfer.pbs /scratch/<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>workspace<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Then follow the script and move to that workspace:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /scratch/<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>workspace<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -555,37 +499,20 @@ Click to expand
 <span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a><span class="co"># CAVEAT: this method will only work if directory of the same name exists at destination! </span></span>
 <span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a><span class="co">#local_dir=&lt;dirname&gt;</span></span>
 <span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a><span class="co">#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $"put -r ${local_dir}" </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Run the transfer script</strong></p>
+</section>
+<section id="run-the-transfer-script" class="level2">
+<h2 class="anchored" data-anchor-id="run-the-transfer-script"><strong>Run the transfer script</strong></h2>
 <p>Once you have customised the script, you can submit it to the <code>copyq</code> on Gadi. Run the script from the directory where you saved it:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qsub</span> transfer.pbs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This can be a nerve-wracking process, especially if you are transferring large files. You can check the status of your job on Gadi using:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-Esw</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Once it says R (running), you can confirm it is going to where you want on RDS/Artemis or Gadi by logging into the system and checking for the presence of the file/directory in its expected location using:</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="op">&lt;</span>path<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Confirm the transfer</strong></p>
+</section>
+<section id="confirm-the-transfer" class="level2">
+<h2 class="anchored" data-anchor-id="confirm-the-transfer"><strong>Confirm the transfer</strong></h2>
 <p>To confirm the transfer was successful, you’ll need to check your joblogs. These are located in the same directory as your script and are named <code>transfer.o&lt;jobid&gt;</code>. Check for <strong>Exit status: 0</strong>. If you see this, the transfer was successful.</p>
 <p>However, this doesn’t guarantee the integrity of the files. You should check the files themselves to ensure they are intact. You can do this using md5checksums. See this <a href="https://sydney-informatics-hub.github.io/tidbits/safely-downloading-your-sequence-data-to-rds.html">SIH tidbits blogpost</a> about how to use these. You’ll need to create md5checksums for the original files if they don’t already exist and compare them after transfer.</p>
-</section>
-<section id="transfer-using-rsync-from-artemis-dtq---prior-to-decomission-only-1" class="level2">
-<h2 class="anchored" data-anchor-id="transfer-using-rsync-from-artemis-dtq---prior-to-decomission-only-1">Transfer using rsync from Artemis dtq - PRIOR TO DECOMISSION ONLY</h2>
-<p>TBC</p>
-<p>See my favourite script at https://sydney-informatics-hub.github.io/training.gadi.intro/05-Data-transfer/index.html</p>
-<ul>
-<li>provide example for single file transfer (as show at above link) - also put in the qc03 demo transfer scripts folder</li>
-<li>provide example for recursive folder transfer (with comment about inclusion or exclusion of trailing slash on source path)</li>
-<li>provide example for job array based transfer</li>
-<li>provide example for to gadi and from gadi by reversing host/source/dest</li>
-</ul>
-</section>
-<section id="transfer-using-rds-mapped-network-drive-and-data-transfer-client-1" class="level2">
-<h2 class="anchored" data-anchor-id="transfer-using-rds-mapped-network-drive-and-data-transfer-client-1">Transfer using RDS mapped network drive and data transfer client</h2>
-<p>TBC</p>
-<p>also include link to the confluence ‘how to map rds network drive’ page</p>
-</section>
-<section id="transfer-from-ssh-connection-to-rds-1" class="level2">
-<h2 class="anchored" data-anchor-id="transfer-from-ssh-connection-to-rds-1">Transfer from ssh connection to RDS</h2>
-<p>TBC</p>
-<p>include ext and int include use of screen or tmux</p>
 
 
 </section>
