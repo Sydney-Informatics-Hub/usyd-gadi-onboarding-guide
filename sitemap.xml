@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/index.html</loc>
-    <lastmod>2024-11-28T06:06:34.381Z</lastmod>
+    <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/notebooks/07_environments.html</loc>
+    <lastmod>2025-02-07T04:01:13.078Z</lastmod>
   </url>
   <url>
     <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/notebooks/05_data_transfer.html</loc>
-    <lastmod>2024-11-28T06:06:34.385Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/notebooks/03_expectations.html</loc>
-    <lastmod>2024-11-28T06:06:34.381Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/notebooks/00_gadi_access.html</loc>
-    <lastmod>2024-11-28T06:06:34.381Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/notebooks/04_nagivating_system.html</loc>
-    <lastmod>2024-11-28T06:06:34.381Z</lastmod>
+    <lastmod>2025-02-07T04:01:13.078Z</lastmod>
   </url>
   <url>
     <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/notebooks/11_software.html</loc>
-    <lastmod>2024-11-28T06:06:34.385Z</lastmod>
+    <lastmod>2025-02-07T04:01:13.078Z</lastmod>
   </url>
   <url>
-    <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/notebooks/06_accounting.html</loc>
-    <lastmod>2024-11-28T06:06:34.385Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/tips_tricks.html</loc>
-    <lastmod>2024-11-28T06:06:34.385Z</lastmod>
+    <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/notebooks/04_nagivating_system.html</loc>
+    <lastmod>2025-02-07T04:01:13.078Z</lastmod>
   </url>
   <url>
     <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/notebooks/09_job_monitoring.html</loc>
-    <lastmod>2024-11-28T06:06:34.385Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/notebooks/07_environments.html</loc>
-    <lastmod>2024-11-28T06:06:34.385Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/notebooks/10_job_efficiency.html</loc>
-    <lastmod>2024-11-28T06:06:34.385Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/notebooks/01_setup.html</loc>
-    <lastmod>2024-11-28T06:06:34.381Z</lastmod>
+    <lastmod>2025-02-07T04:01:13.078Z</lastmod>
   </url>
   <url>
     <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/notebooks/02_system_setup.html</loc>
-    <lastmod>2024-11-28T06:06:34.381Z</lastmod>
+    <lastmod>2025-02-07T04:01:13.078Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/index.html</loc>
+    <lastmod>2025-02-07T04:01:13.077Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/tips_tricks.html</loc>
+    <lastmod>2025-02-07T04:01:13.079Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/notebooks/00_gadi_access.html</loc>
+    <lastmod>2025-02-07T04:01:13.078Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/notebooks/06_accounting.html</loc>
+    <lastmod>2025-02-07T04:01:13.078Z</lastmod>
   </url>
   <url>
     <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/notebooks/08_job_script.html</loc>
-    <lastmod>2024-11-28T06:06:34.385Z</lastmod>
+    <lastmod>2025-02-07T04:01:13.078Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/notebooks/10_job_efficiency.html</loc>
+    <lastmod>2025-02-07T04:01:13.078Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/notebooks/01_setup.html</loc>
+    <lastmod>2025-02-07T04:01:13.078Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Sydney-Informatics-Hub.github.io/usyd-gadi-onboarding-guide/notebooks/03_expectations.html</loc>
+    <lastmod>2025-02-07T04:01:13.078Z</lastmod>
   </url>
 </urlset>
