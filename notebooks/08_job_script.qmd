@@ -1,5 +1,5 @@
 ---
-title: "**Writing a job script**"
+title: "**Gadi job script**"
 output:
   html_document:
     toc: false
@@ -10,19 +10,21 @@ from: markdown+emoji
 - [PBS directives](https://opus.nci.org.au/spaces/Help/pages/236881349/PBS+Directives...)
 - [Job submission tutorial](https://opus.nci.org.au/spaces/Help/pages/241927319/Job+Submission+Tutorial...)
 
-While you can run simple commands on the login nodes on Gadi, there are limits to the resources you can access here. As such, you must run complex or resource-intensive tasks on Gadi's job queues. To do this, you need to create a PBS (Portable Batch System) submission script that specifies your job's requirements. NCI runs the [Altair PBS professional workload manager](https://altair.com/pbs-professional). 
+## Introduction to PBS scripts
 
-PBS scripts are text files that contain directives and commands that specify the resources required for a job and the commands to run, you can name them as `<script_name>.pbs`. The script can be submitted to the job scheduler, which will allocate the necessary resources and execute the job using: 
+Like Artemis, NCI runs the [Altair PBS professional workload manager](https://altair.com/pbs-professional). 
 
-```bash
-qsub <script_name>.pbs
-```
+While you can run simple commands on the login nodes on Gadi, there are limits to the resources you can access here. Commands that exceed CPU, memory and walltime restrictions are killed. 
 
-Below we describe the process for writing and submitting a job script on Gadi.
+As such, you must run complex or resource-intensive tasks on Gadi's job queues. To do this, you need to create a PBS (Portable Batch System) submission script that specifies your job's compute requirements along with the commands to execute the tasks. 
 
-## __1. Define Job Parameters__
+PBS scripts are text files that contain directives and commands that specify the resources required for a job and the commands to run. Typically they are named `<script_name>.pbs` however the `.pbs` suffix is not required, merely helpful to discern the intention of the script. 
 
-Begin your script with directives that outline your job's resource needs and execution details. Each directive starts with #PBS in order to directly communicate with the job scheduler and not be confused with other code in your script. This section should sit at the top of your script. 
+Once submitted to the PBS job scheduler with the `qsub` command, the scheduler reads the compute requirements from the `directives` component of the script, and either runs your job right away (if the requested resources are available) or queues the job to run later (if the requested resurces are not currently available). 
+
+## PBS directives
+
+PBS directives outline your job's resource needs and execution details. Each directive starts with `#PBS` in order to directly communicate with the job scheduler and not be confused with other code or comments in your script. Th directives section should sit at the top of your script, and any commands required to perform your compute task follow below.  
 
 For example:
 
@@ -39,14 +41,75 @@ For example:
 #PBS -l wd
 ```
 
-- `-P`: Project code for resource accounting.
-- `-q`: Queue selection (e.g., normal).
-- `-l ncpus`: Number of CPU cores.
-- `-l mem`: Memory allocation.
-- `-l jobfs`: Local disk space on the compute node.
-- `-l walltime`: Maximum job duration.
-- `-l storage`: Filesystems your job will access.
-- `-l wd`: Set the working directory to the submission directory.
+- `-P`: Project code for resource accounting
+    - Must be a valid NCI project code of which you are a member
+- `-q`: Queue selection (e.g., normal or hugemem)
+    - See Gadi's [queue structure](https://opus.nci.org.au/spaces/Help/pages/236880996/Queue+Structure+on+Gadi... and [queue limits](https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...) pages for more details
+- `-l ncpus`: Number of CPUs
+- `-l mem`: Memory allocation
+- `-l jobfs`: Local-to-the-node disk space on the compute node
+- `-l walltime`: Maximum job duration
+- `-l storage`: Filesystems your job will access
+    - `/scratch/<project>` is accessible by default. To access any other gdata or scratch locations, list them here. Note to use no spaces or leading `/` characters
+- `-l wd`: Set the working directory to the submission directory
+    - This is equivalent to `cd $PBS_O_WORKDIR`
+
+
+## Differences between Artemis and Gadi PBS scripts
+
+- The `-l storage` directive is required on Gadi but not Artemis. Failure to include required storage locations will kill the job, for example with `no such file or directory` errors
+- On Gadi, user must review their resoure requirements against the queue structure and limits in order to request a specific queue. On Artemis, the scheduler managed this automatically according to requested resources and queue loads
+- Maximum walltime for any queue is 48 hours. For large numbers of nodes requested in a single job, the maximum walltime reduces. This is described in the [queue limits](https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...) page. 
+    - See [Working within walltime limit](./NN_walltime_limit.qmd) for more details 
+- The requested resources are checked against the quantity of remaining KSU in the project specified at `-P`. If there is insufficient KSU to run the job, the job will be held. This will show as `H` status when the job is queried with `qstat`. 
+    - See [Accounting](./06_accounting.qmd) for more details 
+- Job arrays (eg `$#PBS J 1-1000`) are not permitted on Gadi 
+    - See [Parallel jobs](./NN_parallel_jobs.qmd) and [nci-parallel](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...) for more details
+- Unlike Artemis, Gadi compute nodes lack internet access. If you have a job script that relies on an external network call such as reading from a live database, you will need to adapt your method (for example pre-downloading the required information with `copyq` before running the compute job) or use an alternate platform such as [Nirin](https://opus.nci.org.au/spaces/Help/pages/152207472/Nirin+Cloud+User+Guide)
+
+
+Below is an example Artemis job script: 
+
+```bash
+#!/bin/bash
+
+#PBS -P aa00
+#PBS -N myjob
+#PBS -l walltime=02:00:00
+#PBS -l select=1:ncpus=4:mem=16gb
+#PBS -q defaultQ
+
+module load python/3.12.2
+
+cd $PBS_O_WORKDIR
+
+python3 ./myscript.py ./myinput
+```
+
+The same job script, adjusted for Gadi:
+
+```bash
+#!/bin/bash
+
+#PBS -P aa00
+#PBS -N myjob
+#PBS -l walltime=02:00:00
+#PBS -l ncpus=4
+#PBS -l mem=16GB
+#PBS -q normal
+#PBS -l storage=scratch/bb11+gdata/aa00+gdata/bb11
+#PBS -l wd
+
+module load python3/3.12.1
+
+python3 ./myscript.py ./myinput
+```
+
+As you can see, there is very little difference between these two scripts. 
+
+Adapting your existing Artemis job scripts to Gadi should be fairly simple for most users, beginning with adjusting the directives and establishing required software. See [Software](./11_software.qmd). for more details on this. 
+
+
 
 ## __2. Load Necessary Modules__
 
