@@ -67,7 +67,7 @@ Note that this option is only available prior to the commission of Artemis (*whe
 
 To transfer data between Artemis and Gadi from the Artemis login shell:
 
-  1. Open a terminal and ssh into Artemis:
+  1. Open a terminal (using the 'Terminal' app on MacOS or the 'Command Prompt' app on Windows and then log into Artemis using ssh:
 
   ```bash
   ssh <Your UniKey>@hpc.sydney.edu.au
@@ -81,7 +81,7 @@ To transfer data between Artemis and Gadi from the Artemis login shell:
 
   replace `/rds` in the above with `/project` or `/scratch` for your preferred source folder or file.
 
-If you want to copy the other way around (ie. from Gadi /scratch to RDS) then simple reverse the order of the above command in step 2, e.g:
+If you want to copy the other way around (ie. from Gadi /scratch to RDS) then simply reverse the order of the above command in step 2, e.g:
 
   ```bash
   scp -r <nci login>@gadi-dm.nci.org.au /rds/PRJ-<Project Short ID>/<Path to File or Folder>
@@ -213,7 +213,7 @@ This time, you shouldn't be prompted for a password. You can proceed to transfer
 
 The scripts below use `sftp` to transfer data between RDS and Gadi on the Gadi `copyq`. 
 
-Copies of these scripts have been placed in `/scratch/qc03/data-transfer-scripts/`. 
+Copies of these scripts have been placed in `/scratch/qc03/data-transfer-scripts/gadi-scripts`. 
 
 Make a copy of these scripts to your `/scratch/<nci-project-code>` or `/home/<nci-user-id>` workspace on Gadi and edit to suit your needs.
 
@@ -249,32 +249,171 @@ In the body of the script:
 * Provide the `remote_host` variable by replacing `<project>` with your USyd Artemis/RDS project code
 * Provide the `remote_path` variable by replacing `<path>` with the path to the file or directory you want to transfer, excluding the name of the file or directory to be transferred. This will be provided further down in the script.
 
-Notice that all commands in the script are hashed out. This script can do multiple things, depending on which command is permitted to run (by removing the hash prefix). The header lines above each section describe which command is being run and therefore which direction the data is moving in.  
 
-To copy a file from RDS to Gadi: 
+**Transfer a file from RDS to Gadi:**
 
-1. See the section under `# Download a file from RDS to Gadi`
-2. Unhash lines 21-23
+1. Use `file_from_rds_to_gadi.pbs` script
+2. Replace variables in `<brackets>` as described above 
 3. Provide the RDS file as `remote_file` variable by replacing `<filename>` with the name of the file you want to transfer
 
-To copy a directory from RDS to Gadi:
+```bash
+#!/bin/bash
 
-1. See the section under `# Download a directory from RDS to Gadi` 
-2. Unhash lines 26-27
-3. Provide the RDS directory as `remote_dir` variable by replacing `<dirname>` with the name of the file you want to transfer
+# Transfer a file from RDS to Gadi
+#
+# Make the following replacements in this file:
+# <unikey>:      Your USyd unikey
+# <rds_project>: Your RDS project name
+# <path>:        The location on RDS of your data
+# <filename>:    The name of the file to copy
+# <nci_project>: Your NCI project name
 
-To copy a file from Gadi to RDS: 
+#PBS -P <nci_project>
+#PBS -N transfer
+#PBS -l walltime=04:00:00
+#PBS -l ncpus=1
+#PBS -l mem=8GB
+#PBS -W umask=022
+#PBS -q copyq
+#PBS -l wd
+#PBS -lstorage=scratch/<project_nci>
 
-1. See the section under `# Upload a file from Gadi to RDS` 
-2. Unhash lines 30-31
+# Artemis:
+remote_user=<unikey>
+remote_host=research-data-ext.sydney.edu.au
+remote_path=/rds/PRJ-<rds_project>/<path>
+remote_file=<filename>
+
+# Gadi:
+dest_path=/scratch/<nci_project>/<path>
+
+# Copy file with sftp
+sftp ${remote_user}@${remote_host}:${remote_path}/${remote_file} ${dest_path}
+```
+
+**Transfer a folder from RDS to Gadi:**
+
+1. Use `folder_from_rds_to_gadi.pbs` script
+2. Replace variables in `<brackets>` as described above 
+3. Provide the RDS directory as `remote_dir` variable by replacing `<folder>` with the name of the file you want to transfer
+
+```bash
+#!/bin/bash
+
+# Transfer a folder from RDS to Gadi
+# This will recreate your RDS path (/rds/PRJ-<rds_project>)
+# on Gadi in /scratch/<nci_project>
+
+# Make the following replacements in this file:
+# <unikey>:      Your USyd unikey
+# <rds_project>: Your RDS project name
+# <path>:        The location on RDS of your data
+# <dirname>:     The name of the folder to copy
+# <nci_project>: Your NCI project name
+
+#PBS -P <nci_project>
+#PBS -N transfer
+#PBS -l walltime=04:00:00
+#PBS -l ncpus=1
+#PBS -l mem=8GB
+#PBS -W umask=022
+#PBS -q copyq
+#PBS -l wd
+#PBS -lstorage=scratch/<nci_project>
+
+# RDS:
+remote_user=<unikey>
+remote_host=research-data-ext.sydney.edu.au
+remote_path=/rds/PRJ-<rds_project>/<path>
+remote_dir=<dirname>
+
+# Gadi:
+dest_path=/scratch/<nci_project>/<path>
+
+# Copy folder with sftp
+sftp -r ${remote_user}@${remote_host}:${remote_path}/${remote_dir} ${dest_path}
+```
+
+**To copy a file from Gadi to RDS:**
+
+1. Use `file_from_gadi_to_rds.pbs` script
+2. Replace variables in `<brackets>` as described above 
 3. Provide the Gadi file as `local_file` variable by replacing `<filename>` with the name of the file you want to transfer
 
-To copy a directory from Gadi to RDS: 
+```bash
+#!/bin/bash
 
-1. See the section under `# Upload a directory from Gadi to RDS`
-2. Log into RDS and make a directory with the same name as the directory you want to transfer from Gadi
-3. Unhash lines 35-36
-4. Provide the Gadi directory as `local_dir` variable by replacing `<dirname>` with the name of the file you want to transfer
+# Transfer a file from Gadi to RDS
+
+# Make the following replacements in this file:
+# <unikey>:      Your USyd unikey
+# <rds_project>: Your RDS project name
+# <path>:        The location on RDS to put your data
+# <filename>:    The file to copy
+# <nci_project>: Your NCI project name
+
+#PBS -P <nci_project>
+#PBS -N transfer
+#PBS -l walltime=04:00:00
+#PBS -l ncpus=1
+#PBS -l mem=8GB
+#PBS -W umask=022
+#PBS -q copyq
+#PBS -l wd
+#PBS -lstorage=scratch/<nci_project>
+
+remote_user=<unikey>
+remote_host=research-data-ext.sydney.edu.au
+remote_path=/rds/PRJ-<rds_project>/<path>
+
+local_file=<filename>
+
+sftp ${remote_user}@${remote_host}:${remote_path} <<< $"put ${local_file}"
+```
+
+**Transfer a folder from Gadi to RDS:
+
+1. Use `file_from_gadi_to_rds.pbs` script
+2. Replace variables in `<brackets>` as described above
+3. Log into RDS and make a directory with the same name as the directory you want to transfer from Gadi
+4. Provide the Gadi directory as `local_dir` variable by replacing `<folder>` with the name of the file you want to transfer
+
+```bash
+#!/bin/bash
+
+# Transfer a folder from Gadi to RDS
+#
+
+# Make the following replacements in this file:
+# <unikey>:      Your USyd unikey
+# <rds_project>: Your RDS project name
+# <path>:        The location on RDS to put your folder (Must exist on RDS)
+# <folder>:      The folder to copy
+# <nci_project>: Your NCI project name
+
+#PBS -P <nci_project>
+#PBS -N transfer
+#PBS -l walltime=04:00:00
+#PBS -l ncpus=1
+#PBS -l mem=8GB
+#PBS -W umask=022
+#PBS -q copyq
+#PBS -l wd
+#PBS -lstorage=scratch/<nci_project>
+
+remote_user=<unikey>
+remote_host=research-data-ext.sydney.edu.au
+remote_path=/rds/PRJ-<rds_project>/<path>
+
+local_dir=<folder>
+
+# CAVEAT: this method will only work if directory of the same name exists at destination!
+sftp ${remote_user}@${remote_host}:${remote_path} <<< $"put -r ${folder}"
+```
+
+### Generic Gadi script for data transfer to and from RDS
+
+Below is a generic script that can handle all cases. Notice that all commands in the script are hashed out. This script can do multiple things, depending on which command is permitted to run (by removing the hash prefix). The header lines above each section describe which command is being run and therefore which direction the data is moving in.  
 
 ```bash
 #!/bin/bash
@@ -471,17 +610,3 @@ do
         fi
 done
 ```
-
-
-## Transfer using RDS mapped network drive and data transfer client
-
-TBC
-
-also include link to the confluence 'how to map rds network drive' page
-
-## Transfer from ssh connection to RDS
-
-TBC
-
-include ext and int
-include use of screen or tmux
