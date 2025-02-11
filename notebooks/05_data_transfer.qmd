@@ -371,7 +371,7 @@ local_file=<filename>
 sftp ${remote_user}@${remote_host}:${remote_path} <<< $"put ${local_file}"
 ```
 
-**Transfer a folder from Gadi to RDS:
+**Transfer a folder from Gadi to RDS:**
 
 1. Use `file_from_gadi_to_rds.pbs` script
 2. Replace variables in `<brackets>` as described above
