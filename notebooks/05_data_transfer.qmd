@@ -19,30 +19,93 @@ In this section, we will focus on how to transfer data between Gadi HPC and RDS.
 
 In the coming months, [Globus](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+Data+Transfer) will be available for simplified and efficient data transfer. We will provide training and materials on this once available. In the meantime, the below options are available, and examples for each method will be provided in the subsequent sections. 
 
-### Transfer using sftp from Gadi copyq
-
-The data transfer queue on Gadi is called `copyq`. This is comparable to the data transfer queue on Artemis `dtq`. Data transfer methods that you used to put data onto Artemis for example from the web via `wget` or from another server should be easily portable to use on Gadi's `copyq`. 
-
-Please note that the compute nodes on Gadi **do not have** internet access like the Artemis compute nodes do, so all required data must first be downloaded before submitting a compute job that requries the data.  
-
-Due to stringent security settings around Artemis and RDS, commands like `rsync` or `scp` CANNOT be initiated from NCI Gadi login nodes or `copy`. To initiate the transfer from Gadi, `sftp` must be used.  One can `rsync` or `scp` from Artemis login nodes or `dt` to Gadi, however this option will of course cease when Artemis is decomissioned. 
-
-### Transfer using rsync from Artemis dtq - PRIOR TO DECOMISSION ONLY
-
-For transfer of large files, the use of resumable `rsync` is recommended (see script below). As the USyd RDS servers only allow sftp connections, this method is not possible to run on Gadi’s `copyq`. Instead, the transfer can be initiated using Artemis `dtq` and using Gadi’s data mover node: `gadi-dm.nci.org.au`. After decomisison, Globus will provide fast and reliable large data transfers. 
-
 ### Transfer using RDS mapped network drive and data transfer client
 
-For smaller files or datasets, you can map your RDS project as a network drive and transfer the data to Gadi via an intermediate data transfer client GUI such as `filezilla`. While simple to use, these are not recommended for large data transfers, as the local computer becomes a bottleneck. Faster speeds will be obtained on campus, but still may be prohibitively slow for larger datasets. 
+For smaller files or datasets, you can map your RDS project as a network drive and transfer the data to Gadi via an intermediate data transfer client GUI such as `filezilla` or `cyberduck`. While simple to use, these are not recommended for large data transfers, as the local computer becomes a bottleneck and they are generally not resumeable after interruption. Faster speeds will be obtained on campus, but still may be prohibitively slow for larger datasets. 
 
 ### Transfer from ssh connection to RDS
 
 You can also initiate the transfer on the command line by `ssh` to either `research-data-ext.sydney.edu.au` (off-campus) or `research-data-int.sydney.edu.au` (on campus or USyd VPN) then using typical transfer commands such as `rsync` or `scp`. Since the connection will be terminated if your computer sleeps, terminal crashes, network drops out etc, this method is not particualrly robust for large transfers. Using something like `tmux` or `screen` can help, however note that the login server has finite capacity, and transfer speeds can be seriously impacted during times of high load. 
 
+### Transfer using sftp from Gadi copyq
+
+The data transfer queue on Gadi is called `copyq`. This is comparable to the data transfer queue on Artemis `dtq`. Data transfer methods/scripts that you used to put data onto Artemis for example from the web via `wget` or from another server should be easily portable to use on Gadi's `copyq`. 
+
+Please note that the compute nodes on Gadi **do not have** internet access like the Artemis compute nodes do, so all required data must first be downloaded before submitting a compute job that requries the data.  
+
+Due to stringent security settings around Artemis and RDS, commands like `rsync` or `scp` **cannot** be initiated from NCI Gadi login nodes or `copyq`. To initiate the transfer from Gadi, `sftp` must be used.  One can `rsync` or `scp` from Artemis login nodes or using `dtq` to Gadi, however this option will of course cease when Artemis is decomissioned. 
+
+### Transfer using rsync from Artemis dtq - PRIOR TO DECOMISSION ONLY
+
+For transfer of large files directly from Artemis to Gadi, the use of resumable `rsync` is recommended (see script below). As the USyd RDS servers only allow sftp connections, this method is not possible to run on Gadi’s `copyq`. Instead, the transfer can be initiated using Artemis `dtq` and using Gadi’s data mover node: `gadi-dm.nci.org.au`. After the decomisison of Artemis, Globus will provide fast and reliable large data transfers. 
+
+## Transfer using RDS mapped network drive and data transfer client
+
+Instructions for transferring a small amount of data by mounting RDS as a network drive and copying the data using a the `cyberduck` data transfer client (The process using `filezilla` is similar using the same username and server address as shown in the list below).
+
+To mount your RDS drive in either Windows or MacOS, please follow the instructions described [here](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/228589620/Research+Data+Store). You should have a File Explorer (Windows) or Finder (MacOS) window open and displaying the files and folders in your RDS project directory.
+
+Next download `cyberduck` from https://cyberduck.io and open it and connect to Gadi:
+
+  1. Click on the `Open Connection` icon at the top of the window.
+  2. Select **SFTP (SSH File Transfer Protocol)** from the drop-down menu at the top of box.
+  3. In the **Server** field, enter `gadi-dm.nci.org.au`.
+  4. In the **Username** field, enter your **NCI Username**.
+  5. In hte **Password** field, enter your **NCI password**.
+  6. Click **Connect**.
+  7. If an **Unknown fingerprint** box appears, click the **Always** check box in the lower-left hand corner, then click **Allow**.
+
+If you have successfully logged in, you will see a directory listing of `/home/<user login>`. You can browse to your project folder either in `/scratch` or `/g/data` by pressing `Ctrl + g` and then typing `/scratch/<project id>` or `/g/data/<project id>`.
+
+You can then transfer data to and from RDS and NCI by dragging and dropping files between your computer’s file explorer and the Cyberduck window.
+
+## Transfer from ssh connection to RDS
+
+### Data transfer from Artemis (and RDS) to Gadi at the login shell - PRIOR TO DECOMMISION ONLY
+
+Note that this option is only available prior to the commission of Artemis (*when*) - after that date you will have to use either GLOBUS (*preferred?*), or copy data when logged into Gadi (wither at the login shell or using `copyq` scripts)
+
+To transfer data between Artemis and Gadi from the Artemis login shell:
+
+  1. Open a terminal and ssh into Artemis:
+
+  ```bash
+  ssh <Your UniKey>@hpc.sydney.edu.au
+  ```
+
+  2. Copy the data from either `rds`, `project` or `scratch` to a specific location on Gadi, e.g:
+
+  ```bash
+  scp -r /rds/PRJ-<Project Short ID>/<Path to File or Folder> <nci login>@gadi-dm.nci.org.au
+  ```
+
+  replace `/rds` in the above with `/project` or `/scratch` for your preferred source folder or file.
+
+If you want to copy the other way around (ie. from Gadi /scratch to RDS) then simple reverse the order of the above command in step 2, e.g:
+
+  ```bash
+  scp -r <nci login>@gadi-dm.nci.org.au /rds/PRJ-<Project Short ID>/<Path to File or Folder>
+  ```
+
+### Data transfer from RDS to Gadi at the login shell:
+
+TBC
+
+e.g:
+
+```bash
+sftp -r <Your UniKey>@research-data-ext.sydney.edu.au:/rds/PRJ-<Project Short ID>/<Path to File or Folder> 
+```
+
+### Use of screen or tmux
+
+ToDo
+
+include use of screen or tmux
 
 ## Set up SSH keys for passwordless data transfer
 
-If you are transferring data directly for example `scp` on the command line or via a transfer client on your local computer, entering a password to initiate the transfer is straightforward. If however you want to transfer via a job submitted to either `copy` or `dtq`, you will need to set up SSH keys first.
+If you are transferring data directly for example `scp` on the command line or via a transfer client on your local computer, entering a password to initiate the transfer is straightforward. If however you want to transfer via a job submitted to either `copyq` or `dtq`, you will need to set up SSH keys first.
 
 SSH key pairs are used for secure communication between two systems. The pair consists of a **private** key and a **public** key. The **private** key should remain private and only be known by the user. It is stored securely on the user's computer. The **public** key can be shared with any system the user wants to connect to. It is added to the remote system's authorized keys. When a connection is attempted, the remote system uses the public key to create a message for the user's system.
 
@@ -150,7 +213,7 @@ This time, you shouldn't be prompted for a password. You can proceed to transfer
 
 The scripts below use `sftp` to transfer data between RDS and Gadi on the Gadi `copyq`. 
 
-Copies of it these scripts have been placed in `/scratch/qc03/data-transfer-scripts/`. 
+Copies of these scripts have been placed in `/scratch/qc03/data-transfer-scripts/`. 
 
 Make a copy of these scripts to your `/scratch/<nci-project-code>` or `/home/<nci-user-id>` workspace on Gadi and edit to suit your needs.
 
@@ -372,6 +435,43 @@ See my favourite script at https://sydney-informatics-hub.github.io/training.gad
 - provide example for recursive folder transfer (with comment about inclusion or exclusion of trailing slash on source path)
 - provide example for job array based transfer 
 - provide example for to gadi and from gadi by reversing host/source/dest
+
+```bash
+#!/bin/bash
+
+# This is an Artemis data transfer script
+
+#PBS -P <project>
+#PBS -N transfer
+#PBS -l walltime=04:00:00
+#PBS -l ncpus=1
+#PBS -l mem=8GB
+#PBS -W umask=022
+#PBS -q dtq
+
+source_path=/rds/PRJ-<project>/<path>/<file>
+
+destination=<user>@gadi-dm.nci.org.au
+destination_path=<path-on-gadi>
+
+while [ 1 ]
+do
+        echo Transferring ${source_path} to ${destination}:${destination_path}
+        rsync -rtlPvz --append-verify ${source_path} ${destination}:${destination_path}
+
+        if [ "$?" = "0" ]
+        then
+                echo "Rsync completed normally"
+                dt=$(date)
+                echo Finished transferring at $dt
+        exit
+        else
+                echo "Rsync failure. Backing off and retrying in 3 minutes"
+                sleep 180
+        fi
+done
+```
+
 
 ## Transfer using RDS mapped network drive and data transfer client
 
