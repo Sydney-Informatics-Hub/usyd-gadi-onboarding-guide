@@ -158,22 +158,22 @@ chmod 644 id_rsa.pub
 7. Make an `authorized_keys` file if you don't already have one that can be transferred to USyd's Artemis/RDS system: 
 
 ```bash
-touch -p ~/.ssh/authorized_keys
+touch ~/.ssh/authorized_keys
 ```
 
-8. Copy the contents of the public key file (`~/.ssh/id_rsa.pub`) to the `authorized_keys` file to be transferred to USyd's Artemis/RDS system: 
+7. Copy the contents of the public key file (`~/.ssh/id_rsa.pub`) to the `authorized_keys` file to be transferred to USyd's Artemis/RDS system: 
 
 ```bash
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 ```
 
-9. Set permissions for the `authorized_keys` file to be transferred to USyd's Artemis/RDS system: 
+8. Set permissions for the `authorized_keys` file to be transferred to USyd's Artemis/RDS system: 
 
 ```bash
 chmod 600 ~/.ssh/authorized_keys
 ```
 
-10. Connect to USyd's Artemis/RDS system using sftp and your unikey:
+9. Connect to USyd's Artemis/RDS system using sftp and your unikey:
 
 ```bash
 sftp <your-unikey>@research-data-ext.sydney.edu.au
@@ -186,7 +186,7 @@ mkdir -p ~/.ssh
 cd ~/.ssh
 ```
 
-11. Transfer the `authorized_keys` file from Gadi to USyd's Artemis/RDS system: 
+10. Transfer the `authorized_keys` file from Gadi to USyd's Artemis/RDS system: 
 
 ```bash 
 put authorized_keys
@@ -198,7 +198,7 @@ Doing this will transfer authorized_keys on Gadi to your current directory. With
 lls
 ```
 
-12. Exit your sftp connection to USyd's Artemis/RDS system `ctrl + z` and test the passwordless connection: 
+11. Exit your sftp connection to USyd's Artemis/RDS system `ctrl + z` and test the passwordless connection: 
 
 ```bash
 sftp <your-unikey>@research-data-ext.sydney.edu.au
