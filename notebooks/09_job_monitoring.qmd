@@ -10,3 +10,6 @@ from: markdown+emoji
 Jobs submitted to Gadi are given a jobID, this is shown to you as soon as it has been accepted and is a string of eight numbers, e.g. 12345678. You should monitor your jobs to keep track of their progress but refrain from checking your jobs too frequently. Repeated queries will be considered attacks, especially in quick succession and you may get a warning from NCI. NCI recommends querying your jobs' status a maximum of once every 10 minutes.
 
 - [Job monitoring on Gadi](https://opus.nci.org.au/spaces/Help/pages/236880322/Job+monitoring...) 
+
+Job logs - artemis v gadi, no _usage 
+

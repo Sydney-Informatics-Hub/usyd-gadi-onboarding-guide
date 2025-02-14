@@ -7,4 +7,62 @@ output:
 from: markdown+emoji
 ---
 
-Coming soon! 
+**COMING SOON - NOT COMPLETE!**
+
+- what does optimise mean
+  - improve speed
+  - improve cpu efficiency
+  - minimise SU charge
+- why optimise
+  - efficiency monitoring by NCI
+  - efficient use of compute hours provide by USyd
+  - efficient use of energy resource
+- how to optimise
+  - appropriate resource and queue requests
+  - right queue for the job
+  - checkpointing to enable ease of resume
+  - do benchmarking
+
+
+## Simple example 1
+
+The Broadwell nodes have different memory per CPU ratios than the Cascade Lake nodes. This can be particularly helpful in reducing KSU usage for 'normal' compute jobs that require more than 4 GB RAM per CPU but less than what justifies a high memory queue. On the Broadwell 'normalbw' queue, there are nodes with 9 GB RAM per CPU. With a charge rate of just 1.25 SU per CPU hour (compared to 2 SU per CPU hour on the equivalent Cascade Lake queue), a job requiring 64 GB RAM for 1 hour could use 7 CPUs on the Broadwell nodes for a charge of `7 cpu * 1 h * 1.25 charge rate = 8.75 SU`. The same job on the Cascade Lake 'normal' queue would require 16 CPU, totalling `16 cpu * 1 h * 2 charge rate = 32 SU`. The reduced processor speed on Broadwell vs Cascade Lake may cause the Broadwell job to require slightly more walltime, however this increase in walltime will typically still cost less overall. We will discuss this in more detail in the section on [job efficiency and optimisation](./10_job_efficiency.qmd) where we will review tool benchmarking and job efficiency strategies. 
+
+## Simple example 2 
+
+
+## Resource benchmarking
+
+- what is benchmarking
+  - we are talking about benchmarking compute resources, not technical benchmarking
+- why benchmark
+- how to benchmark 
+
+## Benchmarking template scripts
+
+[Gadi tempalte benchmarking scripts](https://github.com/Sydney-Informatics-Hub/Gadi-benchmarking) - this repository contains a pair of scripts designed to test single runs of a command/tool at various CPU and memory settings on differnet queues. It does requrie some modification (and carefully use and follow the guide!) to set it up, but once you know how to use this tempalte, it can expedite testing chunks of your workflow to obtain the most efficient (ie optimsied) queue and resource requets for the task. Running the `gadi_usage_report.pl` script from [this repository](https://github.com/Sydney-Informatics-Hub/HPC_usage_reports) will summarise the resources used by the benchmark jobs into a table that can be viewed or plotted to determine best resoruces. 
+
+It is not critical to use this template, but it can be a helpful tool if you have not benchmarked before, or if you benchmark multiple tools/code chunks regularly and want a simple and replicable method. 
+
+## Tips for benchmarking
+- Test individual parts of your code where possible - ie one command, one tool, one chunk of code
+  - this enables you to determine which parts of your workflow have differeing cmpute requirements
+  - parts with differing compute requirements can be allocated to different queues and resources, saving you KSU
+- Do initial benchmarking on a small subset of your data - ie subsample, reduce sample numbers, reduce permutations, etc
+- Follow up with scalability testing: Once you have refined the candidate best resources, re-run the benchmark on a representative subset (ie whole sample, more iterations) and compare the CPU efficiency
+  - Is it as good as the initial test benchmark in terms of CPU and memory efficiency?
+  - If so, then go ahead and apply this setting to your full run
+  - If not, re-run full benchmarks with the larger test dataset, or dig deeper into what is causing the loss of effiency at scale
+- Embrace the labour of benchmarking!
+  - While it may seem like a time-consuming impediment to getting on with analysing your data, it can save you a lot of time and KSU down the track. 
+  - Benchmarking will make your analysis faster and use less USyd-funded resources and energy resources
+  - benchmarking can prevent avoidable job failures such as a job runing out of walltime or memory, which will cost more time and resources to resubmit
+
+## Demo benchmarking activity
+
+- use the template, demo how to edit 
+- run on a couple of queues
+- run the usage script
+- view the table and identify optimal resources 
+
+## Example of a complete benchmark study including scalability testing plots

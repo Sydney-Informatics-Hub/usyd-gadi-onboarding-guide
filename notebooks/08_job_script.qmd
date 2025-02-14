@@ -1,5 +1,5 @@
 ---
-title: "**Gadi job script**"
+title: "**Running jobs on Gadi**"
 output:
   html_document:
     toc: false
@@ -7,26 +7,42 @@ output:
 from: markdown+emoji
 ---
 
-- [PBS directives](https://opus.nci.org.au/spaces/Help/pages/236881349/PBS+Directives...)
-- [Job submission tutorial](https://opus.nci.org.au/spaces/Help/pages/241927319/Job+Submission+Tutorial...)
+## Introduction
 
-## Introduction to PBS scripts
+In this section, we will compare Artemis job scripts to Gadi job scripts, and provide some guidance on how to adapt your Artemis workflow to NCI Gadi HPC.  
+
+The main challenges users may face adapting Artemis workflows to Gadi are:
+
+- Adjusting PBS directives to suit Gadi requirements and queue structure
+- Lack of internet access for Gadi compute nodes 
+- [Data transfer](./05_data_transfer.qmd)
+- [Gadi walltime limit of 48 hours](./12_walltime.qmd)
+- [Understanding NCI accounting of KSU, disk and iNode limits](./06_accounting.qmd)
+- [Automatic 100-day Gadi /scratch purge policy](https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...#RecoverFiles...-RecoverQuarantinedFilesonscratch)
+- [Software installation and version upgrades on Gadi](./11_software.qmd) 
+- [Job arrays not supported on Gadi](./13_parralel_jobs.qmd) 
+
+In this section, we will look at the first two on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.
+
+## Job scheduler 
 
 Like Artemis, NCI runs the [Altair PBS professional workload manager](https://altair.com/pbs-professional). 
 
-While you can run simple commands on the login nodes on Gadi, there are limits to the resources you can access here. Commands that exceed CPU, memory and walltime restrictions are killed. 
+While you can run simple commands on the login nodes on Gadi, commands are throttled. This means they execute more slowly than on the compute nodes and are automatically killed if they exceed CPU, memory and time restrictions that are in place. This is to ensure the login nodes are not over-loaded, ensuring that they remain responsive for all users.  
 
-As such, you must run complex or resource-intensive tasks on Gadi's job queues. To do this, you need to create a PBS (Portable Batch System) submission script that specifies your job's compute requirements along with the commands to execute the tasks. 
+Submitting complex or resource-intensive tasks on Gadi's job queues is very similar to submitting jobs on Artemis. You will submit a PBS (Portable Batch System) submission script that specifies your job's compute requirements along with the commands to execute the tasks. 
 
 PBS scripts are text files that contain directives and commands that specify the resources required for a job and the commands to run. Typically they are named `<script_name>.pbs` however the `.pbs` suffix is not required, merely helpful to discern the intention of the script. 
 
 Once submitted to the PBS job scheduler with the `qsub` command, the scheduler reads the compute requirements from the `directives` component of the script, and either runs your job right away (if the requested resources are available) or queues the job to run later (if the requested resurces are not currently available). 
 
+
 ## PBS directives
 
-PBS directives outline your job's resource needs and execution details. Each directive starts with `#PBS` in order to directly communicate with the job scheduler and not be confused with other code or comments in your script. Th directives section should sit at the top of your script, and any commands required to perform your compute task follow below.  
+PBS directives outline your job's resource needs and execution details. Each directive starts with `#PBS` in order to directly communicate with the job scheduler and not be confused with other code or comments in your script. The directives section should sit at the top of your script, with no blank lines between them, and any commands required to perform your compute task follow below the last directive.  
 
-For example:
+The  [NCI Gadi PBS directives guide](https://opus.nci.org.au/spaces/Help/pages/236881349/PBS+Directives...) provides a detailed overview of directives. Some simple examples are shown below. 
+
 
 ```default
 #!/bin/bash
@@ -44,20 +60,21 @@ For example:
 - `-P`: Project code for resource accounting
     - Must be a valid NCI project code of which you are a member
 - `-q`: Queue selection (e.g., normal or hugemem)
-    - See Gadi's [queue structure](https://opus.nci.org.au/spaces/Help/pages/236880996/Queue+Structure+on+Gadi... and [queue limits](https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...) pages for more details
-- `-l ncpus`: Number of CPUs
-- `-l mem`: Memory allocation
+    - See Gadi's [queue structure](https://opus.nci.org.au/spaces/Help/pages/236880996/Queue+Structure+on+Gadi...) and [queue limits](https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...) pages for more details
+- `-l ncpus`: Number of requested CPUs
+- `-l mem`: amount of requested memory
 - `-l jobfs`: Local-to-the-node disk space on the compute node
-- `-l walltime`: Maximum job duration
+- `-l walltime`: Requested job walltime
+    - Your job will only be charged for the walltime it uses, not the maximum walltime requested
 - `-l storage`: Filesystems your job will access
-    - `/scratch/<project>` is accessible by default. To access any other gdata or scratch locations, list them here. Note to use no spaces or leading `/` characters
+    - `/scratch/<project>` is accessible by default. To access any other scratch or gdata locations, list them here. Note to use no spaces or leading `/` characters
 - `-l wd`: Set the working directory to the submission directory
     - This is equivalent to `cd $PBS_O_WORKDIR`
 
 
 ## Differences between Artemis and Gadi PBS scripts
 
-- The `-l storage` directive is required on Gadi but not Artemis. Failure to include required storage locations will kill the job, for example with `no such file or directory` errors
+- The `-l storage` directive is required on Gadi but not Artemis. Failure to include required storage locations will kill the job, for example with `No such file or directory` errors
 - On Gadi, user must review their resoure requirements against the queue structure and limits in order to request a specific queue. On Artemis, the scheduler managed this automatically according to requested resources and queue loads
 - Maximum walltime for any queue is 48 hours. For large numbers of nodes requested in a single job, the maximum walltime reduces. This is described in the [queue limits](https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...) page. 
     - See [Working within walltime limit](./NN_walltime_limit.qmd) for more details 
@@ -73,8 +90,8 @@ Below is an example Artemis job script:
 ```bash
 #!/bin/bash
 
-#PBS -P aa00
-#PBS -N myjob
+#PBS -P <USyd project code>
+#PBS -N myjobname
 #PBS -l walltime=02:00:00
 #PBS -l select=1:ncpus=4:mem=16gb
 #PBS -q defaultQ
@@ -91,8 +108,8 @@ The same job script, adjusted for Gadi:
 ```bash
 #!/bin/bash
 
-#PBS -P aa00
-#PBS -N myjob
+#PBS -P <NCI project code>
+#PBS -N myjobname
 #PBS -l walltime=02:00:00
 #PBS -l ncpus=4
 #PBS -l mem=16GB
@@ -105,117 +122,111 @@ module load python3/3.12.1
 python3 ./myscript.py ./myinput
 ```
 
-As you can see, there is very little difference between these two scripts. 
+As you can see, there is very little difference between these two scripts. They both request 4 CPUs, 16 GB RAM, and 2 hours walltime. They both change the working directory to the submission directory, they both load python (different versions as available on the system) and both run the same job command. 
 
-Adapting your existing Artemis job scripts to Gadi should be fairly simple for most users, beginning with adjusting the directives and establishing required software. See [Software](./11_software.qmd). for more details on this. 
+The command to submit this script is also the same on Artemis and Gadi:
 
-
-
-## __2. Load Necessary Modules__
-
-Gadi uses the module system to manage software applications that are installed in `/apps`. If you're using one or more tools installed in `/apps` you must load the appropriate modules for your workflow before running your script. Modules ensure you’re using the correct software versions and their dependencies. This should go directly under the PBS directives and before the commands to run your application.
-
-For example:
-
-```bash
-module load python3/3.7.4
-module load gcc/9.2.0
+```
+qsub run_my_python_script.pbs
 ```
 
-To find available modules:
-- Use `module avail` to list all available software.
-- Use `module spider <software>` to search for a specific software package and its versions.
+Adapting your existing Artemis job scripts to Gadi should be fairly simple for most users, beginning with adjusting the directives and establishing required software. See [Software](./11_software.qmd) for more details on this.
 
-## __3. Execute your chosen application__
+## Selecting the right queue
 
-Specify the commands to run your application or script within the job script. Ensure all file paths and environment variables are correctly set. Redirect output and error messages to log files for easier debugging. 
+Artemis `defaultQ` routed jobs to the appropriate queue based on directives and resource avalability. Gadi requires users to directly specify the appropriate queue.
 
-Gadi supports running both native software and containerized applications using **Singularity**. Containers are a convenient way to use pre-built environments. Here are examples for different scenarios:
+To select the queue, you match up the resources your job needs to the queue limits, also factoring in the charge rate. 
 
-#### **Running a custom script**
+View the available queues on the [Gadi queue structure page](https://opus.nci.org.au/spaces/Help/pages/236880996/Queue+Structure+on+Gadi...). Note that there are:
 
-If you’re running a Python script:
+- general purpose queues
+- large memory queues
+- express queues
+- GPU queues
+- 'Cascade Lake' and 'Broadwell (ex-Raijin)' queues
+    - The Cascade Lake nodes are newer hardware and thus faster than the Broadwell nodes. Raijin was the previous NCI HPC, decomissioned in 2019 
+    - They have a lower charge rate than the equivalent Cascade Lake queue, and this can be utilised to help minimise compute cost when the reduced processor speed is not overly detrimental to the job or your research timeline
+- data transfer queue (copyq) 
 
-```bash
-python3 your_script.py > output.log 2>&1
+
+Each queue has different hardware, limits, and charge rates. Before submitting any jobs on Gadi, it is important to review this page along with the [queue limits page](https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...) which describes each queue in more detail. 
+
+You will note that each queue also has a corresponding queue that ends in `-exec`. You cannot submit directly to the `-exec` (execution) queue - your jobs will be placed there via the 'route queue' that you submit to. ie you will submit to `normal` (route queue) and the job will run on `normal-exec` (execution queue). 
+
+
+### Example 1
+
+You have a small job that only uses a single CPU and 2 GB RAM, but will run for a whole day. Which of the queues would be apropriate?
+
+Answer: normal, normalbw, express, expressbw. While you could use the express queues, the charge rate is higher so the non-express normal queues would be more economical. 
+
+### Example 2 
+
+You have a job that requires 384 GB memory and 12 CPU. Which queue would you use?
+
+Answer: hugemem, with 12 CPU and 384 GB memory, or hugemembw, with 14 CPU as CPUs must be requested in multiples of 7 on this queue. 
+
+Which would be the better choice? 
+
+If the job ran for 2 hours, charge rate would be:
+hugemem: 12 CPU * 2 h * 3 charge rate = 72 SU
+hugemembw: 14 CPU * 2 h * 1.25 charge rate = 35 SU. 
+
+Hugemem may execute faster with the newer hardware, yet hugemembw may consume less KSU. hugemembw also has more mem per CPU than hugemem (36 GB vs 32 GB). Benchmarking will demonstrate which of these configurations is more suited to your job. 
+
+
+### Example 3
+
+You have a job that requires 20,000 CPU. Fill in the below directives for this job, including the maximum permissable walltime:
+
 ```
-- `> output.log`: Redirects standard output to a log file.
-- `2>&1`: Redirects standard error to the same log file.
+#PBS -l ncpus=20016
+#PBS -l mem=3803040GB
+#PBS -l walltime=05:00:00
 
-#### **Running a compiled program**
-
-If you’re running a pre-compiled executable:
-
-```bash
-my_program input_data.txt > results.log 2>&1
-```
-
-#### **Running a Singularity Container**
-
-Singularity is used to execute containerised applications on Gadi. Here's an example using a **FoldSeek** container from [quay.io](https://quay.io/repository/biocontainers/foldseek):
-
-First, you'll need to get a copy of the container you want to run as Gadi job queues do not have external network access and cannot download anything from the internet. 
-
-Run the following commands to download the container:
-
-```bash
-module load singularity
-singularity pull docker://quay.io/biocontainers/foldseek:0.6.2--h779adbc_0
-```
-
-This will create a `.sif` (Singularity Image File) in the current directory, **`docker://`**: Pulls the container from Quay.io or DockerHub directly:
-
-```bash
-foldseek_0.6.2--h779adbc_0.sif
-```
-
-Add the Singularity commands to your job script. For example:
-
-#### **Redirecting Output in Singularity**
-To capture output:
-```bash
-singularity exec \
-    foldseek_0.6.2--h779adbc_0.sif \
-    foldseek easy-search input.fasta \
-    database \
-    output \
-    foldseek_result.tsv > output.log 2>&1
 ```
 
-## __4. Submit your job__
+Why 20,016? When requesting >1 node on Gadi, only whole nodes can be requested. So to reach 20,000 CPU in a single job would require the use of the Cascade Lake normal queue, where the nodes have 48 CPU per node, and this would be 20,000 * 48 = 416.7 nodes, so we need to round up to 417 nodes, which is 417 * 48 = 20,016 CPU. 
+Why 5 hour walltime not 48 hours? As the quantity of CPU requested increases, maximum walltime goes down. This information can be found in the last column on the queue limts table. 
 
-Save your job script with a `.sh` or `.pbs` extension and submit it using the qsub command:
+### Example 4
 
-```bash
-qsub job_script.sh
-```
+Your job requires GPUs. Which queues could you use?
 
-After submission, PBS assigns a unique job ID, which you can use to monitor your job.
+Answer: gpuvolta or dgxa100 queue
 
-## Full script example 
+## Lack of internet access on compute nodes 
 
-Here is a very simple example of a full script that runs a Foldseek container on Gadi's normal CPU queue: 
+- example single job on Artemis vs a 2-part job (one copyq, one compute) on Gadi 
 
-```bash
-#!/bin/bash
+## Submitting a PBS script
 
-#PBS -P aa00
-#PBS -q normal
-#PBS -l ncpus=4
-#PBS -l mem=10GB
-#PBS -l jobfs=200GB
-#PBS -l walltime=02:00:00
-#PBS -l storage=scratch/aa00+gdata/aa00
-#PBS -l wd
+Like on Artemis, the `qsub` command is used to submit the job to the scheduler. Please visit the [NCI Gadi job submisison page](https://opus.nci.org.au/spaces/Help/pages/236880320/Job+Submission...) if you require  more details on this. 
 
-# Load modules
-module load singularity
+## Interactive jobs
 
-# Run FoldSeek
-singularity exec \
-    /scratch/aa00/foldseek_0.6.2--h779adbc_0.sif \
-    foldseek easy-search /scratch/aa00/input.fasta \
-    /scratch/aa00/database \
-    /scratch/aa00/output \
-    /scratch/aa00/foldseek_result.tsv > /scratch/aa00/output.log 2>&1
-````
+
+## Alternative means of running jobs
+
+We have looked at running jobs with a PBS script or interactive compute session. If these methods do not suit your needs, below are some other options available to you through your NCI account. 
+
+### Persistent sesszions
+
+### I/O intensive
+
+### ARE
+
+### Cloud 
+
+
+
+
+
+
+
+
+
+
+
+
