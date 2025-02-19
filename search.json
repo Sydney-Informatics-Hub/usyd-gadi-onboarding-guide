@@ -1,10 +1,304 @@
 [
   {
+    "objectID": "tips_tricks.html",
+    "href": "tips_tricks.html",
+    "title": "Tips and tricks",
+    "section": "",
+    "text": "All materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/09_job_monitoring.html",
+    "href": "notebooks/09_job_monitoring.html",
+    "title": "Monitoring your job",
+    "section": "",
+    "text": "You should monitor your jobs to keep track of their progress but refrain from checking your jobs too frequently. Repeated queries will be considered attacks, especially in quick succession and you may get a warning from NCI. NCI recommends querying your jobs’ status a maximum of once every 10 minutes.\nLike Artemis, you can use the qstat command to monitor jobs on Gadi. The NCI Gadi job monitoring page describes some commonly used flags to qstat.\nYou can also use the bespoke nqstat_anu utility (ANU = The Australian National University, where Gadi is housed) which provides a way of observing how much CPU and memory your job is currently using.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/09_job_monitoring.html#job-monitoring",
+    "href": "notebooks/09_job_monitoring.html#job-monitoring",
+    "title": "Monitoring your job",
+    "section": "",
+    "text": "You should monitor your jobs to keep track of their progress but refrain from checking your jobs too frequently. Repeated queries will be considered attacks, especially in quick succession and you may get a warning from NCI. NCI recommends querying your jobs’ status a maximum of once every 10 minutes.\nLike Artemis, you can use the qstat command to monitor jobs on Gadi. The NCI Gadi job monitoring page describes some commonly used flags to qstat.\nYou can also use the bespoke nqstat_anu utility (ANU = The Australian National University, where Gadi is housed) which provides a way of observing how much CPU and memory your job is currently using."
+  },
+  {
+    "objectID": "notebooks/09_job_monitoring.html#job-ids",
+    "href": "notebooks/09_job_monitoring.html#job-ids",
+    "title": "Monitoring your job",
+    "section": "Job IDs",
+    "text": "Job IDs\nLike Artemis jobs, jobs submitted to Gadi are given a jobID. This is shown to you as soon as it has been accepted, for example 135615373.gadi-pbs.\nWhen querying the job with qstat, you can use the full ID, or just the string of numbers (omit the .gadi.pbs).\nFor example, the below two commands are equivalent:\nqstat -xf 135615373.gadi-pbs\nqstat -xf 135615373\nIf you have multiple jobs running, you do not need to check them individually with the job ID. You can check the status of multiple jobs using your NCI user ID:\nqstat -u &lt;nci-user-id&gt;"
+  },
+  {
+    "objectID": "notebooks/09_job_monitoring.html#job-logs",
+    "href": "notebooks/09_job_monitoring.html#job-logs",
+    "title": "Monitoring your job",
+    "section": "Job logs",
+    "text": "Job logs\nBy default, the PBS job logs will be created in the directory from which the qsub command was entered, and combine the job name and the job ID.\nFor example, a job with #PBS -N convert and job ID 133703660 will have standard output and resource usage written to convert.o133703660 and standard error written to convert.e133703660.\nThis differs slightly to Artemis, which has the same default filepath behaviour except the standard output is sent to the .o and the resource usage is sent to .o_usage.\nThe Gadi .o file has the resource usage at the end of the log making it easy to view a quick summary with the tail command:\n$ tail -n 11 convert.o133703660 \n                  Resource Usage on 2025-02-05 16:16:10:\n   Job Id:             133703660.gadi-pbs\n   Project:            aa00\n   Exit Status:        0\n   Service Units:      23.94\n   NCPUs Requested:    7                      NCPUs Used: 7               \n                                           CPU Time Used: 02:57:33        \n   Memory Requested:   63.0GB                Memory Used: 51.14GB         \n   Walltime requested: 08:00:00            Walltime Used: 02:44:09        \n   JobFS requested:    100.0MB                JobFS used: 0B              \n======================================================================================\nIf desired, you can change the default log filepaths with the -o and -e directives, for example:\n#PBS -o ./logs/convert-fast5.o\n#PBS -e ./logs/convert-fast5.e\nThis omits the job ID from being included in the log file name and sends the logs to a different directory."
+  },
+  {
+    "objectID": "notebooks/12_walltime.html",
+    "href": "notebooks/12_walltime.html",
+    "title": "USyd NCI Gadi User Guide",
+    "section": "",
+    "text": "All materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/00_gadi_access.html",
+    "href": "notebooks/00_gadi_access.html",
+    "title": "Accessing your Gadi project",
+    "section": "",
+    "text": "National Computational Infrastructure (NCI) is a services facility that provides high performance computing (HPC), cloud and data services to Australian researchers.\nGadi is the name of NCI’s HPC facility, located at ANU (Canberra). The system is suitable for:\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/00_gadi_access.html#resources",
+    "href": "notebooks/00_gadi_access.html#resources",
+    "title": "Accessing your Gadi project",
+    "section": "Resources",
+    "text": "Resources\n\nGetting Started at NCI\nGadi User Guide\nGadi FAQs\nPro tips for bioinformatics on HPC: recording and slides"
+  },
+  {
+    "objectID": "notebooks/00_gadi_access.html#set-up-your-nci-account",
+    "href": "notebooks/00_gadi_access.html#set-up-your-nci-account",
+    "title": "Accessing your Gadi project",
+    "section": "Set up your NCI Account",
+    "text": "Set up your NCI Account\nAll new users must create their account through the NCI online self service portal. To create your account you will need the following information:\n\nYour Name\nInstitutional email address (Gmail, Hotmail, etc. are not accepted)\nMobile phone number\nEither:\n\nNCI project code of an existing project you wish to join\nA new project proposal to be assessed by a Scheme Manager to determine if they will grant your project time\n\n\nNote that resources at NCI are allocated to projects and not to individual users.\nComplete all steps below to set up an NCI account:\n\nClick on ‘Sign up’ link on the NCI online self service portal: \nAccept the terms and conditions: \nProvide your personal details: \nProvide details on the project you’ll be working on. Select I need to join one or more existing projects. Ask Marina for your group’s project code to write in the Projects menu: \nSelect University of Sydney as you institution: \n\nYour username will become active when a project Lead CI approves your request to join their project, or when a Scheme Manager approves your new project proposal. You will receive a confirmation email from the Mancini system when your username is activated."
+  },
+  {
+    "objectID": "notebooks/00_gadi_access.html#manage-your-nci-account",
+    "href": "notebooks/00_gadi_access.html#manage-your-nci-account",
+    "title": "Accessing your Gadi project",
+    "section": "Manage your NCI Account",
+    "text": "Manage your NCI Account\nYou can manage your account details and request access to new or existing projects through the NCI online self service portal.\nOnce your access to your group’s Gadi project has been confirmed, you can set up your computer and log in to Gadi. See the setup instructions for how to log in to the HPC system."
+  },
+  {
     "objectID": "notebooks/07_environments.html",
     "href": "notebooks/07_environments.html",
     "title": "Domain-specific environments",
     "section": "",
     "text": "Coming soon! For now, see: https://opus.nci.org.au/spaces/Help/pages/104202352/Specialised+Environments\n\n\n\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/11_software.html",
+    "href": "notebooks/11_software.html",
+    "title": "Installing and managing software",
+    "section": "",
+    "text": "On Gadi, global (shared) apps (a.k.a. modules) are in /apps. You can query availale apps with ls /apps/ or run the module aval &lt;tool&gt; command you are already familiar with from Artemis. Likewise, continue to use module load &lt;tool&gt; or module load &lt;tool&gt;/&lt;version&gt; as you have done on Astemis.\nExample: which python modules are available on Gadi, and how could you load a specific version?\n# Check available versions:\nmodule avail python\n# Load a specific version: \nmodule load python3/3.9.2 \nEach global app has a default version, so if you run without specifying a version, the default version will be loaded. While this is OK in some circumstances, it is typically recommended to specify the version you know works for your code. Default versons of global apps will change over time without warning, so reproducibility and functionality is best maintained by explicitly stating the version when you load a module within your script.\n\n\nUnlike Artemis, request of new apps to be installed are not always agreed to. NCI limits global apps to those with a high user base. This is to ensure good maintenance and curation of global apps.\nUsers are encouraged to either self-install apps from source into their /home or /g/data locations, or use singularity containers.\nNCI may provide support for users through the self-install process.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/11_software.html#global-apps",
+    "href": "notebooks/11_software.html#global-apps",
+    "title": "Installing and managing software",
+    "section": "",
+    "text": "On Gadi, global (shared) apps (a.k.a. modules) are in /apps. You can query availale apps with ls /apps/ or run the module aval &lt;tool&gt; command you are already familiar with from Artemis. Likewise, continue to use module load &lt;tool&gt; or module load &lt;tool&gt;/&lt;version&gt; as you have done on Astemis.\nExample: which python modules are available on Gadi, and how could you load a specific version?\n# Check available versions:\nmodule avail python\n# Load a specific version: \nmodule load python3/3.9.2 \nEach global app has a default version, so if you run without specifying a version, the default version will be loaded. While this is OK in some circumstances, it is typically recommended to specify the version you know works for your code. Default versons of global apps will change over time without warning, so reproducibility and functionality is best maintained by explicitly stating the version when you load a module within your script.\n\n\nUnlike Artemis, request of new apps to be installed are not always agreed to. NCI limits global apps to those with a high user base. This is to ensure good maintenance and curation of global apps.\nUsers are encouraged to either self-install apps from source into their /home or /g/data locations, or use singularity containers.\nNCI may provide support for users through the self-install process."
+  },
+  {
+    "objectID": "notebooks/11_software.html#running-singularity-containers",
+    "href": "notebooks/11_software.html#running-singularity-containers",
+    "title": "Installing and managing software",
+    "section": "Running singularity containers",
+    "text": "Running singularity containers\nsingularity is installed as a global app on Gadi, and can greatly simplify workflow implementation and reproducibility.\n\nfinding a container\nobtaining a container\nobtaining a lot of containers (with copyq)\ntesting a container\nusing a containerised tool within a PBS script\n\nSingularity is used to execute containerised applications on Gadi. Here’s an example using a FoldSeek container from quay.io:\nFirst, you’ll need to get a copy of the container you want to run as Gadi job queues do not have external network access and cannot download anything from the internet.\nRun the following commands to download the container:\nmodule load singularity\nsingularity pull docker://quay.io/biocontainers/foldseek:0.6.2--h779adbc_0\nThis will create a .sif (Singularity Image File) in the current directory, docker://: Pulls the container from Quay.io or DockerHub directly:\nfoldseek_0.6.2--h779adbc_0.sif\nAdd the Singularity commands to your job script. For example:\n\nRedirecting Output in Singularity\nTo capture output:\nsingularity exec \\\n    foldseek_0.6.2--h779adbc_0.sif \\\n    foldseek easy-search input.fasta \\\n    database \\\n    output \\\n    foldseek_result.tsv &gt; output.log 2&gt;&1"
+  },
+  {
+    "objectID": "notebooks/11_software.html#full-script-example",
+    "href": "notebooks/11_software.html#full-script-example",
+    "title": "Installing and managing software",
+    "section": "Full script example",
+    "text": "Full script example\nHere is a very simple example of a full script that runs a Foldseek container on Gadi’s normal CPU queue:\n#!/bin/bash\n\n#PBS -P aa00\n#PBS -q normal\n#PBS -l ncpus=4\n#PBS -l mem=10GB\n#PBS -l jobfs=200GB\n#PBS -l walltime=02:00:00\n#PBS -l storage=scratch/aa00+gdata/aa00\n#PBS -l wd\n\n# Load modules\nmodule load singularity\n\n# Run FoldSeek\nsingularity exec \\\n    /scratch/aa00/foldseek_0.6.2--h779adbc_0.sif \\\n    foldseek easy-search /scratch/aa00/input.fasta \\\n    /scratch/aa00/database \\\n    /scratch/aa00/output \\\n    /scratch/aa00/foldseek_result.tsv &gt; /scratch/aa00/output.log 2&gt;&1"
+  },
+  {
+    "objectID": "notebooks/02_system_setup.html",
+    "href": "notebooks/02_system_setup.html",
+    "title": "How is the system set up?",
+    "section": "",
+    "text": "NCI provides computational and data-storage resources to researchers and postgraduate students at Australian higher education institutions and Australian public sector research organisations.\nThis section will point you to the right sections of the NCI documentation and user guides to get you started on the Gadi HPC system.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/02_system_setup.html#overview-of-nci-gadi-hpc",
+    "href": "notebooks/02_system_setup.html#overview-of-nci-gadi-hpc",
+    "title": "How is the system set up?",
+    "section": "Overview of NCI Gadi HPC",
+    "text": "Overview of NCI Gadi HPC\n\nWhat is Gadi?\n\nNCI Gadi is one of Australia’s most powerful supercomputers, designed to support advanced computational research.\n\n\n\n\n\n\n\nComponent\nDetails\n\n\n\n\nCompute\n- Nodes: 4,962- Processors: Intel Sapphire Rapids, Cascade Lake, Skylake, and Broadwell CPUs- GPUs: NVIDIA V100 and DGX A100 GPUs- Performance: Over 10 petaflops of peak performance :contentReferenceoaicite:0\n\n\nStorage\n- Disk Drives: 7,200 4-Terabyte hard disks in 120 NetApp disk arrays- Capacity: 20 Petabytes total usable capacity- Performance: 980 Gigabytes per second maximum performance :contentReferenceoaicite:1\n\n\nFilesystems\n- Total Capacity: Approximately 90 Petabytes- Global Lustre Filesystems: Five, with an aggregate I/O performance of around 450 GB/second- IO Intensive Platform: Dedicated filesystem using 576 2-Terabyte NVMe drives, achieving around 960 Gigabytes per second cumulative performance :contentReferenceoaicite:2\n\n\nArchival Storage\n- Capacity: Over 70 Petabytes of archival project data stored in state-of-the-art magnetic tape libraries :contentReferenceoaicite:3\n\n\nNetworking\n- Interconnect: 100-gigabit network links connecting high-performance computing with high-performance data :contentReferenceoaicite:4\n\n\nCloud Systems\n- Nirin Cloud: High-availability and high-capacity zone integrated with Gadi and NCI’s multi-Petabyte national research data collections, comprising Intel Broadwell and Sandy Bridge processors and NVIDIA K80 GPUs :contentReferenceoaicite:5"
+  },
+  {
+    "objectID": "notebooks/02_system_setup.html#conditions-of-use",
+    "href": "notebooks/02_system_setup.html#conditions-of-use",
+    "title": "How is the system set up?",
+    "section": "Conditions of use",
+    "text": "Conditions of use\n\nGeneral conditions of use\n\nAll users of NCI agree that they will keep themselves informed of, and comply with, all relevant legislation and The Australian National University policies and rules.\nAll users must acknowledge and understand that a breach of these will result in not only a loss of access to NCI resources but the user may be subject to Federal criminal prosecution resulting in fines and/or gaol legislated under the Acts listed above."
+  },
+  {
+    "objectID": "notebooks/02_system_setup.html#key-components-of-the-gadi-hpc-system",
+    "href": "notebooks/02_system_setup.html#key-components-of-the-gadi-hpc-system",
+    "title": "How is the system set up?",
+    "section": "Key components of the Gadi HPC system",
+    "text": "Key components of the Gadi HPC system\nSee the Gadi Resources Guide for a detailed explanation of the following.\n\nComputing nodes\n\n\n\n\n\n\nNavigating the system\n\n\n\nThis section contains some example commands to run on the Gadi HPC system. To generalise across multiple groups we have used &lt;project&gt; in place of a specific project code. When running these commands, please replace &lt;project&gt; with your project code.\nE.g. if your project code is aa00, you would run:\ncd /scratch/aa00\n\n\n\nLogin nodes\nThese nodes are the gateway for Gadi for users to access the resources of the HPC cluster. It is how you log in to Gadi, move around the filesystem, submit jobs to the scheduler, and do small tasks like view the contents of a file.\n\n\nCompute nodes\nThese nodes are the workhorses of any HPC. They are dedicated for executing computational tasks as delegated by the job scheduler when you submit a job. There are various types of compute nodes with different hardware, built for different purposes on Gadi. Depending on the resource requirements of your job (e.g. high memory, GPUs) and the queue you specify, your job will be sent to a specific type of compute node. You can find a breakdown of their technical specifications here.\n\n\n\n\n\n\n‼️ Pay Attention ‼️\n\n\n\nCompute nodes on Gadi don’t currently have access to external internet. If any tasks within a submitted job on the compute node need to access the internet, they will fail. These jobs should be run separtately on the copyq using the data mover nodes. Or else use an ARE job.\n\n\n\n\nData mover nodes\nThese nodes are designed specifically for fast data movement. You can use these nodes to transfer files to and from Gadi at high-speed. Steps outlined here. A script for moving data between USyd RDS and Gadi is provided in /g/data/scripts and explained in the following section, transferring data.\n\n\n\nFilesystems\n\n$HOME\nWhen you first log in to Gadi, you’ll be placed in your personal $HOME directory (i.e. /home/555/aa1234). You are the only person who can access this directory. No work should be done in here, but you may wish to install things like custom R or Python libraries here. It is backed up but you have a 10Gb storage limit.\nYou can navigate back here at any point if required by running:\ncd ~\n\n\n/scratch\nAll Gadi projects have a dedicated /scratch allocation that is only accessible to members of your project. This is only intended for active work on big files and not for long-term storage. This is not backed up and any files not accessed for 100 days will be purged from the system, so be sure to back up your work to RDS. Your /scratch contains a directory for each user (denoted by their Gadi username), however you can organise things however you wish here.\nYou can navigate to your /scratch space by running:\ncd /scratch/&lt;project&gt;\n\n\n/g/data\nSome Gadi projects, have a dedicated g/data allocation that is only accessible to members of that group. This in intended for long-term large data storage. This is not backed up though, so ensure you transfer all important files back to RDS. If you are unsure if your project has a /g/data allocation, you can check by running:\ncd /gdata/&lt;project&gt;\n\n\n/g/data/if89\n\nif89 guide\n\nYou can also access a communally maintained bioinformatics software project at /g/data/if89. Users currently have to request access to if89, but it is a good place to find bioinformatics software previously installed by others. To request access to if89:\n\nLog into MyNCI\nNavigate to Projects and Groups\nSearch for if89 and request access\nClick join.\n\nAccess needs to be manually approved. If you are experiencing delays of &gt;24 hours, please contact SIH.\n\n\n/apps\nThis directory is accessible to all Gadi users. It is a read-only system containing centrally installed software applications and their module files. You can check what software is installed here:\nls /apps\nYou can use any software that is installed here by first loading the module file, e.g.:\nmodule load samtools\nThen run the tool as per it’s user guide, e.g.:\nsamtools view -H sample.bam\n\n\n\nQueues\nLike on Artemis, the job scheduler is PBSPro, however it is implented in a slightly different way. To run jobs on Gadi, users should submit to a specific queue on a corresponding node. The queue and node you choose to run on will depend on the types of resources your job needs. Pipelines your group use have already been configured to run on specific queues.\nFor custom PBS scripts, you can work out what queue to run your job on by checking the NCI queue documentation and queue limits explainer. Most jobs will be suitable for normal or normalbw queues. The normal queues have more nodes available for your jobs, and will allow users, and jobs that require a specialised queue, to get fair access to those resources. Express queues are designs to support work that needs a faster turnaround, but will be charged accordingly at a higher service unit charge."
+  },
+  {
+    "objectID": "notebooks/13_parralel_jobs.html",
+    "href": "notebooks/13_parralel_jobs.html",
+    "title": "USyd NCI Gadi User Guide",
+    "section": "",
+    "text": "All materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/10_job_efficiency.html",
+    "href": "notebooks/10_job_efficiency.html",
+    "title": "Optimising your job",
+    "section": "",
+    "text": "COMING SOON - NOT COMPLETE!\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/10_job_efficiency.html#simple-example-1",
+    "href": "notebooks/10_job_efficiency.html#simple-example-1",
+    "title": "Optimising your job",
+    "section": "Simple example 1",
+    "text": "Simple example 1\nThe Broadwell nodes have different memory per CPU ratios than the Cascade Lake nodes. This can be particularly helpful in reducing KSU usage for ‘normal’ compute jobs that require more than 4 GB RAM per CPU but less than what justifies a high memory queue. On the Broadwell ‘normalbw’ queue, there are nodes with 9 GB RAM per CPU. With a charge rate of just 1.25 SU per CPU hour (compared to 2 SU per CPU hour on the equivalent Cascade Lake queue), a job requiring 64 GB RAM for 1 hour could use 7 CPUs on the Broadwell nodes for a charge of 7 cpu * 1 h * 1.25 charge rate = 8.75 SU. The same job on the Cascade Lake ‘normal’ queue would require 16 CPU, totalling 16 cpu * 1 h * 2 charge rate = 32 SU. The reduced processor speed on Broadwell vs Cascade Lake may cause the Broadwell job to require slightly more walltime, however this increase in walltime will typically still cost less overall. We will discuss this in more detail in the section on job efficiency and optimisation where we will review tool benchmarking and job efficiency strategies."
+  },
+  {
+    "objectID": "notebooks/10_job_efficiency.html#simple-example-2",
+    "href": "notebooks/10_job_efficiency.html#simple-example-2",
+    "title": "Optimising your job",
+    "section": "Simple example 2",
+    "text": "Simple example 2"
+  },
+  {
+    "objectID": "notebooks/10_job_efficiency.html#resource-benchmarking",
+    "href": "notebooks/10_job_efficiency.html#resource-benchmarking",
+    "title": "Optimising your job",
+    "section": "Resource benchmarking",
+    "text": "Resource benchmarking\n\nwhat is benchmarking\n\nwe are talking about benchmarking compute resources, not technical benchmarking\n\nwhy benchmark\nhow to benchmark"
+  },
+  {
+    "objectID": "notebooks/10_job_efficiency.html#benchmarking-template-scripts",
+    "href": "notebooks/10_job_efficiency.html#benchmarking-template-scripts",
+    "title": "Optimising your job",
+    "section": "Benchmarking template scripts",
+    "text": "Benchmarking template scripts\nGadi tempalte benchmarking scripts - this repository contains a pair of scripts designed to test single runs of a command/tool at various CPU and memory settings on differnet queues. It does requrie some modification (and carefully use and follow the guide!) to set it up, but once you know how to use this tempalte, it can expedite testing chunks of your workflow to obtain the most efficient (ie optimsied) queue and resource requets for the task. Running the gadi_usage_report.pl script from this repository will summarise the resources used by the benchmark jobs into a table that can be viewed or plotted to determine best resoruces.\nIt is not critical to use this template, but it can be a helpful tool if you have not benchmarked before, or if you benchmark multiple tools/code chunks regularly and want a simple and replicable method."
+  },
+  {
+    "objectID": "notebooks/10_job_efficiency.html#tips-for-benchmarking",
+    "href": "notebooks/10_job_efficiency.html#tips-for-benchmarking",
+    "title": "Optimising your job",
+    "section": "Tips for benchmarking",
+    "text": "Tips for benchmarking\n\nTest individual parts of your code where possible - ie one command, one tool, one chunk of code\n\nthis enables you to determine which parts of your workflow have differeing cmpute requirements\nparts with differing compute requirements can be allocated to different queues and resources, saving you KSU\n\nDo initial benchmarking on a small subset of your data - ie subsample, reduce sample numbers, reduce permutations, etc\nFollow up with scalability testing: Once you have refined the candidate best resources, re-run the benchmark on a representative subset (ie whole sample, more iterations) and compare the CPU efficiency\n\nIs it as good as the initial test benchmark in terms of CPU and memory efficiency?\nIf so, then go ahead and apply this setting to your full run\nIf not, re-run full benchmarks with the larger test dataset, or dig deeper into what is causing the loss of effiency at scale\n\nEmbrace the labour of benchmarking!\n\nWhile it may seem like a time-consuming impediment to getting on with analysing your data, it can save you a lot of time and KSU down the track.\nBenchmarking will make your analysis faster and use less USyd-funded resources and energy resources\nbenchmarking can prevent avoidable job failures such as a job runing out of walltime or memory, which will cost more time and resources to resubmit"
+  },
+  {
+    "objectID": "notebooks/10_job_efficiency.html#demo-benchmarking-activity",
+    "href": "notebooks/10_job_efficiency.html#demo-benchmarking-activity",
+    "title": "Optimising your job",
+    "section": "Demo benchmarking activity",
+    "text": "Demo benchmarking activity\n\nuse the template, demo how to edit\nrun on a couple of queues\nrun the usage script\nview the table and identify optimal resources"
+  },
+  {
+    "objectID": "notebooks/10_job_efficiency.html#example-of-a-complete-benchmark-study-including-scalability-testing-plots",
+    "href": "notebooks/10_job_efficiency.html#example-of-a-complete-benchmark-study-including-scalability-testing-plots",
+    "title": "Optimising your job",
+    "section": "Example of a complete benchmark study including scalability testing plots",
+    "text": "Example of a complete benchmark study including scalability testing plots"
+  },
+  {
+    "objectID": "notebooks/03_expectations.html",
+    "href": "notebooks/03_expectations.html",
+    "title": "What does the system expect of its users?",
+    "section": "",
+    "text": "The do’s and don’ts of using Gadi\nSIH Into to Gadi HPC tutorial\nPro tips for bioinformatics on HPC webinar\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/03_expectations.html#what-is-high-performance-computing",
+    "href": "notebooks/03_expectations.html#what-is-high-performance-computing",
+    "title": "What does the system expect of its users?",
+    "section": "What is high performance computing?",
+    "text": "What is high performance computing?\nHigh performance computing refers to the use of parallel processing techniques to solve complex computation problems efficiently. HPC systems, like Gadi, consist of clusters of interconnected computers, each equipped with multiple processors and large amounts of memory. These systems are designed to handle massive datasets and perform computations at speeds far beyond those achievable by your personal computer."
+  },
+  {
+    "objectID": "notebooks/03_expectations.html#why-do-we-need-hpc-for-bioinformatics",
+    "href": "notebooks/03_expectations.html#why-do-we-need-hpc-for-bioinformatics",
+    "title": "What does the system expect of its users?",
+    "section": "Why do we need HPC for bioinformatics?",
+    "text": "Why do we need HPC for bioinformatics?\nIn bioinformatics, researchers deal with massive datasets generated by technologies such as next-generation sequencing (genomics, transcriptomics) and mass spectrometry (proteomics). Analysing these datasets requires computationally intensive tasks such as sequence alignment, genome assembly, and statistical analysis. HPC systems provide the computational power and memory resources necessary to process these datasets efficiently."
+  },
+  {
+    "objectID": "notebooks/03_expectations.html#expectations",
+    "href": "notebooks/03_expectations.html#expectations",
+    "title": "What does the system expect of its users?",
+    "section": "Expectations",
+    "text": "Expectations\nGadi is a shared resource and its efficient use not only ensures fair access for all users but also helps minimise the environmental impact of high-performance computing, as systems like Gadi consume significant energy resources. When you are using a system like Gadi, there are potentially hundreds of other users accessing the system at the same time as you. For Gadi to remain efficient and usable, everyone needs to be courteous and use the system with consideration for others.\nHere are some tips to help you be a good citizen of the HPC community:\n\n1. Use job queues appropriately\n\nGadi job queues\nGadi queue limits\n\nGadi runs a PBSpro job scheduler that manages the allocation of resources to users. When you submit a job, it is placed in a queue and will run when the requested resources become available. Unlike on Artemis where your job is allocated to a suitable queue based on your resource request, Gadi users need to explicitly request their job is sent to a specific queue. It is important for you to pick a job queue that is appropriate for your job.\n\n\n2. Responsibly manage your data\n\nNCI file management policy\nTransferring data between RDS and Gadi\n\n/scratch is not a safe space for long term data storage. If it has not been accessed in 100 days, it will be subjected to NCI’s clean up policy. If you have a /g/data allocation, this is a better place to store your data whilst working on Gadi. Once you have finished your analysis, it is best practice to move your data to a more permanent storage solution, like RDS.\n\n\n3. Don’t request more resources than you need\n\nGadi benchmarking tool\n\nDon’t request resources that you won’t need, it will only result in your job and other users jobs being held up, and you wasting your service unit allocation. The PBS scheduler will find time for 2 cpus faster than 4 cpus, so in the interest of speed, be efficient. Given the bursty nature of some jobs, it can be hard to know what resources a tool needs. We suggest the following:\n\nStep 1: Consult the software documentation\n\nOften, developers will outline the minimum amount of RAM (memory) and whether a tool is multi-threaded (e.g. use &gt;1 CPU or GPU)\n\nStep 2: Run a test job using our Gadi benchmarking tool\n\nThis will give you a good idea of how much resources you need to request for your main job.\n\nStep 3: Ask for help\n\n\n\n4. Keep track of your resource usage\n\nMonitor your jobs\nMonitor your project allocation\nWhat does a job cost?\nWhy are my jobs not running?\n\nRunning jobs on gadi requires users to have sufficient compute hours available. These compute hours are granted to projects rather than directly to the user. It is important to communicate with your project team to ensure you are not using more than your fair share of resources. You can monitor your project’s usage by running:\nnci_project -P &lt;project&gt; -v\nIf you are consistently overusing resources, you may need to look into optimising your workloads and/or requesting more resources from NCI. Get in touch with SIH to discuss your options.\nAt completion, your project is only charged the SU actually consumed by the job (ie based on walltime used, not walltime requested). Like Artemis, Gadi produces PBS logs. The “.o” job log will report the compute used (similar to the Artemis “.o” and “usage” logs combined).\nLike KSU, each project is assigned a finite amount of disk space and iNode (index node - can be likened to the total number of files and folders). You MUST monitor your disk and iNode usage, and this can be done with the command:\nlquota\nwhich shows disk resource availability for every project you are a member of.\nIt is important to have an understanding of how much output your job will create, and ensure that you can remain within quotas/limits. Jobs can fail with “disk quota exceeded” messages."
+  },
+  {
+    "objectID": "notebooks/08_job_script.html",
+    "href": "notebooks/08_job_script.html",
+    "title": "Running jobs on Gadi",
+    "section": "",
+    "text": "In this section, we will compare Artemis job scripts to Gadi job scripts, and provide some guidance on how to adapt your Artemis workflow to NCI Gadi HPC.\nThe main challenges users may face adapting Artemis workflows to Gadi are:\n\nAdjusting PBS directives to suit Gadi requirements and queue structure\nLack of internet access for Gadi compute nodes\nData transfer\nGadi walltime limit of 48 hours\nUnderstanding NCI accounting of KSU, disk and iNode limits\nAutomatic 100-day Gadi /scratch purge policy\nSoftware installation and version upgrades on Gadi\nJob arrays not supported on Gadi\n\nIn this section, we will look at the first two on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/08_job_script.html#introduction",
+    "href": "notebooks/08_job_script.html#introduction",
+    "title": "Running jobs on Gadi",
+    "section": "",
+    "text": "In this section, we will compare Artemis job scripts to Gadi job scripts, and provide some guidance on how to adapt your Artemis workflow to NCI Gadi HPC.\nThe main challenges users may face adapting Artemis workflows to Gadi are:\n\nAdjusting PBS directives to suit Gadi requirements and queue structure\nLack of internet access for Gadi compute nodes\nData transfer\nGadi walltime limit of 48 hours\nUnderstanding NCI accounting of KSU, disk and iNode limits\nAutomatic 100-day Gadi /scratch purge policy\nSoftware installation and version upgrades on Gadi\nJob arrays not supported on Gadi\n\nIn this section, we will look at the first two on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date."
+  },
+  {
+    "objectID": "notebooks/08_job_script.html#job-scheduler",
+    "href": "notebooks/08_job_script.html#job-scheduler",
+    "title": "Running jobs on Gadi",
+    "section": "Job scheduler",
+    "text": "Job scheduler\nLike Artemis, NCI runs the Altair PBS professional workload manager.\nWhile you can run simple commands on the login nodes on Gadi, commands are throttled. This means they execute more slowly than on the compute nodes and are automatically killed if they exceed CPU, memory and time restrictions that are in place. This is to ensure the login nodes are not over-loaded and remain responsive for all users. As such, all complex or resource-intensive tasks must be submitted to the job scheduler for execution on the cluster nodes.\nSubmitting jobs on Gadi is very similar to submitting jobs on Artemis. You will submit a PBS (Portable Batch System) submission script that specifies your job’s compute requirements along with the commands to execute the tasks.\nPBS scripts are text files that contain directives and commands that specify the resources required for a job and the commands to run. Typically they are named &lt;script_name&gt;.pbs however the .pbs suffix is not required, merely helpful to discern the intention of the script.\nOnce submitted to the PBS job scheduler with the qsub command, the scheduler reads the compute requirements from the directives component of the script, and either runs your job right away (if the requested resources are immediately available) or queues the job to run later (if the requested resurces are not currently available)."
+  },
+  {
+    "objectID": "notebooks/08_job_script.html#job-scheduling-priority",
+    "href": "notebooks/08_job_script.html#job-scheduling-priority",
+    "title": "Running jobs on Gadi",
+    "section": "Job scheduling priority",
+    "text": "Job scheduling priority\nOn Artemis, you will have some familiarity with the concept of ‘fair share’ use, where compute jobs you run increase your project’s ‘fair share weight’ which temporarily decreases the priority of your jobs in the queue. This is not the case on Gadi, where all jobs have equal priority. The only factors that limit how quickly your jobs leave the queue and start running are the resources you request combined with current resource availability. In order to have your job be queued (and not ‘held’ after submission), you must have sufficient KSU in your project. This will be described under queue charge rates."
+  },
+  {
+    "objectID": "notebooks/08_job_script.html#pbs-directives",
+    "href": "notebooks/08_job_script.html#pbs-directives",
+    "title": "Running jobs on Gadi",
+    "section": "PBS directives",
+    "text": "PBS directives\nPBS directives outline your job’s resource needs and execution details. Each directive starts with #PBS in order to directly communicate with the job scheduler and not be confused with other code or comments in your script. The directives section should sit at the top of your script, with no blank lines between them, and any commands required to perform your compute task follow below the last directive.\nBelow is a simple example of the PBS directives portion of a Gadi job script. For details on more options, please see the NCI Gadi PBS directives guide.\n#!/bin/bash\n\n#PBS -P aa00\n#PBS -q normal\n#PBS -l ncpus=48\n#PBS -l mem=190GB\n#PBS -l jobfs=200GB\n#PBS -l walltime=02:00:00\n#PBS -l storage=scratch/aa00+gdata/aa00\n#PBS -l wd\n\n-P: Project code for resource accounting. Must be a valid NCI project code of which you are a member\n-q: Queue selection (e.g., normal or hugemem). See Gadi’s queue structure and queue limits pages for more details\n-l ncpus: Number of requested CPUs\n-l mem: amount of requested memory\n-l jobfs: Local-to-the-node disk space on the compute node\n-l walltime: Requested job walltime. Your job will only be charged for the walltime it uses, not the maximum walltime requested\n-l storage: Filesystems your job will access. /scratch/&lt;project&gt; is accessible by default. To access any other scratch or gdata locations, list them here. Note to use no spaces or leading / characters\n-l wd: Set the working directory to the submission directory. This is equivalent to cd $PBS_O_WORKDIR"
+  },
+  {
+    "objectID": "notebooks/08_job_script.html#differences-between-artemis-and-gadi-pbs-scripts",
+    "href": "notebooks/08_job_script.html#differences-between-artemis-and-gadi-pbs-scripts",
+    "title": "Running jobs on Gadi",
+    "section": "Differences between Artemis and Gadi PBS scripts",
+    "text": "Differences between Artemis and Gadi PBS scripts\n\nThe -l storage directive is required on Gadi but not Artemis. Failure to include required storage locations will kill the job, for example with No such file or directory errors\nOn Gadi, users must review their resoure requirements against the queue structure and limits in order to request a specific queue. On Artemis, the scheduler managed this automatically according to requested resources and queue loads\nMaximum walltime for any queue is 48 hours. For large numbers of nodes requested in a single job, the maximum walltime reduces. This is described in the queue limits page. See Working within walltime limit for more details\nThe requested resources are checked against the quantity of remaining KSU in the project specified at -P. If there is insufficient KSU to run the job, the job will be held. This will show as H status when the job is queried with qstat. See queue charge rates for more details\nJob arrays (eg $#PBS J 1-1000) are not permitted on Gadi. See Parallel jobs and nci-parallel for more details\nUnlike Artemis, Gadi compute nodes lack internet access. If you have a job script that relies on an external network call such as reading from a live database, you will need to adapt your method (for example pre-downloading the required information with copyq before running the compute job) or use an alternate platform such as Nirin\n\nBelow is an example Artemis job script:\n#!/bin/bash\n\n#PBS -P &lt;USyd project code&gt;\n#PBS -N myjobname\n#PBS -l walltime=02:00:00\n#PBS -l select=1:ncpus=4:mem=16gb\n#PBS -q defaultQ\n\nmodule load python/3.12.2\n\ncd $PBS_O_WORKDIR\n\npython3 ./myscript.py ./myinput\nThe same job script, adjusted for Gadi:\n#!/bin/bash\n\n#PBS -P &lt;NCI project code&gt;\n#PBS -N myjobname\n#PBS -l walltime=02:00:00\n#PBS -l ncpus=4\n#PBS -l mem=16GB\n#PBS -q normal\n#PBS -l storage=scratch/bb11+gdata/aa00+gdata/bb11\n#PBS -l wd\n\nmodule load python3/3.12.1\n\npython3 ./myscript.py ./myinput\nAs you can see, there is very little difference between these two scripts. They both request 4 CPUs, 16 GB RAM, and 2 hours walltime. They both change the working directory to the submission directory, they both load python (different versions as available on the system) and both run the same job command.\nThe command to submit this script is also the same on Artemis and Gadi:\nqsub run_my_python_script.pbs\nAdapting your existing Artemis job scripts to Gadi should be fairly simple for most users, beginning with adjusting the directives and establishing required software. See Software for more details on Gadi software availability."
+  },
+  {
+    "objectID": "notebooks/08_job_script.html#selecting-the-right-queue",
+    "href": "notebooks/08_job_script.html#selecting-the-right-queue",
+    "title": "Running jobs on Gadi",
+    "section": "Selecting the right queue",
+    "text": "Selecting the right queue\nArtemis defaultQ routed jobs to the appropriate queue based on directives and resource avalability. Gadi requires users to directly specify the appropriate queue.\nTo select the queue, you match up the resources your job needs to the queue limits, also factoring in the charge rate.\nView the available queues on the Gadi queue structure page. Note that there are:\n\ngeneral purpose queues\nlarge memory queues\nexpress queues\nGPU queues\ndata transfer queue (copyq)\n‘Cascade Lake’ and ‘Broadwell (ex-Raijin)’ queues\n\nThe Cascade Lake nodes are newer hardware and thus faster than the Broadwell nodes. Raijin was the previous NCI HPC, decomissioned in 2019\nThey have a lower charge rate than the equivalent Cascade Lake queue, and this can be utilised to help minimise compute cost when the reduced processor speed is not overly detrimental to the job or your research timeline\nThey have different numbers of CPU (48 or 28) and different total memory per node\n\n\nEach queue has different hardware, limits, and charge rates. Before submitting any jobs on Gadi, it is important to review this page along with the queue limits page which describes each queue in more detail.\nYou will note that each queue also has a corresponding queue that ends in -exec. You cannot submit directly to the -exec (execution) queue - your jobs will be placed there via the ‘route queue’ that you submit to. For example, for a job you want to run on the Cascade Lake normal queue, you will include the directive #PBS -q normal (submit to route queue) and the job will run on normal-exec (execution queue).\n\nQueue charge rates\nBy now you should be familiar with the concept of an NCI service unit (SU, or sometimes KSU for 1,000 SU or MSU for 1 million SU).\nEach new NCI project under the Sydney Scheme is granted 1 KSU by default, and requests can be made for more as required.\nA service unit is based on a CPU hour, ie ‘one hour of walltime on one CPU’. Each queue has a different charge rate applied to the CPU hour, so that one CPU hour on a given resource may cost between 1.25 SU and 6 SU, depending on the charge rate for that queue. More specialised and scarce resources are charged at a higher rate to ensure that only users who genuinely need these use them.\nThe charge rates can be found in column 4 of the queue limits table.\nDon’t be alarmed by the charge rates: please submit your job to the most appropriate queue based on required resources. The accounting method combined with stricter walltimes, newer hardware and software, and more vast physcial resources compared to Artemis will likely see your compute jobs complete in a faster turnaround time compared to what you are used to.\nUnderstanding charge rates is important for two main reasons:\n\nJudicious use of resources. KSU is provided to you in-kind by The University of Sydney. It is your responsibility to ensure efficient use of these resources. Selecting the appropriate queue for your job avoids wastage and avoids unecessary impacts on other users of this national resource.\nEnsuring your job can run. Jobs can only leave the route queue and join the execution queue if sufficient SU are available to the project assuming the job runs for its full requested walltime.\n\nFor example, if your project has 1 KSU and you submit a job script with the following directives:\n#PBS -q hugemem\n#PBS -l ncpus=48\n#PBS -l mem=1470GB\n#PBS -l walltime=12:00:00\nYour job will not join the compute queue - it will be held, showing a status of H when qstat is run. The reason for hold status is that the requested job requires more service units than the project has available.\nYou can view your project budget with the following command:\nnci_account -P &lt;nci-project-code&gt;\nThis will show the total allocated for the current quarter, the amount used, the amount reserved (by running or queued jobs), and the amount available. Any new job you submit MUST request less than the amount available.\nThe required SU available to run the job can be calculated by the formula:\nwalltime-hours * CPU * charge-rate\nso for the above example:\n12 h * 48 CPU * 3 charge rate = 1728 SU\nSince 1728 SU is more than the 1 KSU the project has available, the job cannot run. You will need to either:\n\nObtain more KSU\nReconfigure your job to fit under the 1 KSU you have available.\n\nYou might consider reducing walltime, CPUs, change the queue, etc, depending on your job and what you expect are its minimum viable resouce requests. You can do this by killing the job, editing the directives and resubmitting, OR use the qalter PBS command to change the directives of the held job. For the above example, let’s assume the requested walltime of 12 hours was an extremely conservative estimate and realistically you expect the job should complete in less than 2 hours. You could run this command:\nqalter -l walltime=02:00:00 &lt;jobid&gt; \nThis would reduce the SU for the submitted job to 288 SU and the job would then be picked up by the next scheduling cycle and enter the queue.\n\n\nQueue selection examples\n\nExample 1\nYou have a small job that only uses a single CPU and 2 GB RAM, but will run for a whole day. Which of the queues would be appropriate?\n\n\n\n\n\n\nAnswer\n\n\n\n\n\nnormal, normalbw, express, expressbw. While you could use the express queues, the charge rate is higher so the non-express normal queues would be more economical.\n\n\n\n\n\nExample 2\nYou have a job that requires 384 GB memory and 12 CPU. Which queue would you use?\n\n\n\n\n\n\nAnswer\n\n\n\n\n\nhugemem, with 12 CPU and 384 GB memory, or hugemembw, with 14 CPU as CPUs must be requested in multiples of 7 on this queue.\nWhich would be the better choice?\nIf the job ran for 2 hours, charge rate would be: hugemem: 12 CPU * 2 h * 3 charge rate = 72 SU hugemembw: 14 CPU * 2 h * 1.25 charge rate = 35 SU.\nHugemem may execute faster with the newer hardware, yet hugemembw may consume less KSU. hugemembw also has more mem per CPU than hugemem (36 GB vs 32 GB). Benchmarking will demonstrate which of these configurations is more suited to your job.\nSee job efficiency for tips to determine the best compute resources for your job.\n\n\n\n\n\nExample 3\nYou have a job that requires 20,000 CPU. Fill in the below directives for this job, including the maximum permissable walltime:\n#PBS -l ncpus=&lt;value&gt;\n#PBS -l mem=&lt;value&gt;\n#PBS -l walltime=&lt;value&gt;\n\n\n\n\n\n\nAnswer\n\n\n\n\n\n#PBS -l ncpus=20016\n#PBS -l mem=3803040GB\n#PBS -l walltime=05:00:00\nWhy 20,016? When requesting &gt;1 node on Gadi, only whole nodes can be requested. So to reach 20,000 CPU in a single job would require the use of the Cascade Lake normal queue, where the nodes have 48 CPU per node, and this would be 20,000 * 48 = 416.7 nodes, so we need to round up to 417 nodes, which is 417 * 48 = 20,016 CPU.\nWhy 5 hour walltime not 48 hours? As the quantity of CPU requested increases, maximum walltime goes down. This information can be found in the last column on the queue limts table. 5 hours is the maximum amount of walltime allowed for jobs requesting more than 3024 CPUs (63 nodes) in this queue. To request the maximum walltime of 48 hours on this queue, the job must request at most 672 cores (14 nodes).\nIf your job required exactly 20,000 CPU, you would simply provide this hard-coded value to the relevant command. The number of requested KSU to the job can be accessed from the environment variable $PBS_NCPUS.\n\n\n\n\n\nExample 4\nYour job requires GPUs. Which queues could you use?\n\n\n\n\n\n\nAnswer\n\n\n\n\n\ngpuvolta or dgxa100 queue"
+  },
+  {
+    "objectID": "notebooks/08_job_script.html#lack-of-internet-access-on-compute-nodes",
+    "href": "notebooks/08_job_script.html#lack-of-internet-access-on-compute-nodes",
+    "title": "Running jobs on Gadi",
+    "section": "Lack of internet access on compute nodes",
+    "text": "Lack of internet access on compute nodes\nThe only Gadi queue with internet access is copyq. This queue is not suitable for running compute tasks. It allows only single-core jobs and has a maximum walltime of 10 hours. Jobs that require up-to-date information retrieval from external servers have a few options:\n\nSplit the job into two parts: a download or web query task submitted to copyq, ensuring that the retrieved data is saved to persistent disk (ie not the local-to-the-node storage that is deleted upon job completion), followed by a a compute job submitted to one of the appropriate compute queues, reading in the requried inputs saved from job 1.\nRun the job via ARE, which provides a graphical user interface run on Gadi’s compute queues plus internet access capability.\nUse NCI’s Nirin cloud instead of Gadi."
+  },
+  {
+    "objectID": "notebooks/08_job_script.html#submitting-a-pbs-script",
+    "href": "notebooks/08_job_script.html#submitting-a-pbs-script",
+    "title": "Running jobs on Gadi",
+    "section": "Submitting a PBS script",
+    "text": "Submitting a PBS script\nLike on Artemis, the qsub command is used to submit the job to the scheduler. Please visit the NCI Gadi job submisison page if you require more details on this.\nAfter your job is submitted, job monitoring and job logs are very similar to your experience on Artemis. Please see job monitoring for more details."
+  },
+  {
+    "objectID": "notebooks/08_job_script.html#interactive-jobs",
+    "href": "notebooks/08_job_script.html#interactive-jobs",
+    "title": "Running jobs on Gadi",
+    "section": "Interactive jobs",
+    "text": "Interactive jobs\nInteractive jobs are useful for jobs that require user input feedback as an analysis progresses, or can be useful for testing commands/tools prior to submiting a full job via a PBS script.\nRunning an interactive job on Gadi is very similar to an Artemis interactive job: you provide the relevant directives on the command line rather than from within a script, and include -I instead of #PBS -q &lt;queue&gt;.\nFor example, to start an interactive job with 4 CPU for 1 hour, enter the following command on the Gadi login node:\nqsub -I -P &lt;nci-project-code&gt; -l walltime=00:01:00,ncpus=4,mem=16GB,storage=&lt;required-storage-paths&gt;,wd\nAfter you enter the command, you will receive a message qsub: waiting for job &lt;id&gt;.gadi-pbs to start.\nOnce your interactive job has left the queue and started, you will receive a message qsub: job &lt;id&gt;.gadi-pbs ready. Notice that your command prompt has changed, indicating the node ID you are on instead of the login node ID.\nYou can then interactively enter the commands required for your compute task. To terminate the interactive job, enter exit."
+  },
+  {
+    "objectID": "notebooks/08_job_script.html#persistent-sessions",
+    "href": "notebooks/08_job_script.html#persistent-sessions",
+    "title": "Running jobs on Gadi",
+    "section": "Persistent sessions",
+    "text": "Persistent sessions\nTo support the use of long-running, low CPU and low memory demand processes, NCI provides a persistent sessions service on Gadi. This service is primarily designed for the use of workflow management tools (eg nextflow) that automatically submit and monitor PBS jobs to the Gadi compute queues.\nWorkflow management tools are a unique use case where the ‘head job’ requires internet access (provided through the persistent session) and access to the scheduler to submit a series of chained compute jobs to various queues depending on the unique workflow configuration.\nThis service is NOT designed for computational work, large downloads, or other intensive tasks. These jobs should be submitted to the appropriate PBS queues."
   },
   {
     "objectID": "notebooks/05_data_transfer.html",
@@ -42,18 +336,39 @@
     "text": "Confirm the transfer\nTo confirm the transfer was successful, you’ll need to check your joblogs. These are located in the same directory as your script and are named transfer.o&lt;jobid&gt;. Check for Exit status: 0. If you see this, the transfer was successful.\nHowever, this doesn’t guarantee the integrity of the files. You should check the files themselves to ensure they are intact. You can do this using md5checksums. See this SIH tidbits blogpost about how to use these. You’ll need to create md5checksums for the original files if they don’t already exist and compare them after transfer."
   },
   {
-    "objectID": "notebooks/11_software.html",
-    "href": "notebooks/11_software.html",
-    "title": "Installing and managing software",
+    "objectID": "notebooks/06_accounting.html",
+    "href": "notebooks/06_accounting.html",
+    "title": "Accounting",
     "section": "",
-    "text": "All materials copyright Sydney Informatics Hub, University of Sydney"
+    "text": "Coming soon! For now, see: https://opus.nci.org.au/spaces/Help/pages/236881132/Allocations…\n\n\n\nAll materials copyright Sydney Informatics Hub, University of Sydney"
   },
   {
-    "objectID": "notebooks/11_software.html#running-containers",
-    "href": "notebooks/11_software.html#running-containers",
-    "title": "Installing and managing software",
-    "section": "Running containers",
-    "text": "Running containers"
+    "objectID": "notebooks/01_setup.html",
+    "href": "notebooks/01_setup.html",
+    "title": "Set up your computer",
+    "section": "",
+    "text": "To work on NCI Gadi, you will need to either install a terminal application on your computer or work on NCI’s Australian Research Environment (ARE) platform. Before accessing Gadi, you will need to have an NCI account. Ensure you have completed this step by following directions on the Gadi Access instructions on the previous page before proceeding.\nIn order to work on Gadi, you’ll need a terminal application. A terminal is a text-based interface to your computer. It’s a program that takes text commands and passes them to the operating system to execute. We suggest you use one of the following options:\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+  },
+  {
+    "objectID": "notebooks/01_setup.html#option-1-use-ncis-are-platform",
+    "href": "notebooks/01_setup.html#option-1-use-ncis-are-platform",
+    "title": "Set up your computer",
+    "section": "Option 1: Use NCI’s ARE platform",
+    "text": "Option 1: Use NCI’s ARE platform\n\n\n\n\n\n\nARE: fast access with limited customisation\n\n\n\nThis is a very lightweight solution for accessing Gadi, some interactive tools like Jupyter and RStudio. We recommended it for beginners who don’t want to customise their set up.\n\n\nNCI has created a web-based graphical interface for accessing their systems. It is very simple to use and recommended over access methods described below for beginners.\nSee NCI’s User Guide for instructions on how to access and use ARE."
+  },
+  {
+    "objectID": "notebooks/01_setup.html#option-2-install-visual-studio-code-on-your-computer",
+    "href": "notebooks/01_setup.html#option-2-install-visual-studio-code-on-your-computer",
+    "title": "Set up your computer",
+    "section": "Option 2: Install Visual Studio Code on your computer",
+    "text": "Option 2: Install Visual Studio Code on your computer\n\n\n\n\n\n\nVScode: customised configuration with an integrated terminal\n\n\n\nThis is a more advanced solution for accessing Gadi, with more customisation options. We recommended it for users who are comfortable with terminal applications and want to customise their set up.\n\n\nVisual Studio Code (VS Code) is a lightweight and powerful source code editor available for Windows, macOS and Linux computers. As an alternative to a terminal application it offers file additional functionality including file editing.\n\nDownload Visual Studio Code for your system from here and follow the instructions for:\n\nmacOS\nWindows\n\nOpen the VS Code application on your computer\n\n\n\nClick on the extensions button (four blocks) on the left side bar and install the remote SSH extension. Click on the blue install button.\n\n\nConnect to your instance with VS code by adding the host details to your .ssh config file:\nHost Gadi\n  HostName gadi.nci.org.au\n  User &lt;your-nci-username&gt;\n\nType Ctrl+Shift+P and select Remote-SSH: Connect to Host and Gadi\nWhen prompted, select Linux as the platform of the remote host from the dropdown menu\nType in your NCI password and hit enter\n\nHaving successfully logged in, you should see a small blue or green box in the bottom left corner of your screen:\n\nTo set up your VS Code window:\n\nOpen a new folder in the file explorer panel on the left side of the screen by typing Ctrl + K, Ctrl + O if you’re running Windows or Cmd+K+ Cmd + O for MacOS\nSelect /scratch/iz89 to open your workspace. You can change this at any point by opening a new folder. Keep in mind you will be requested to provide your password each time.\nWhen prompted, select the box for Trust the authors of all files in the parent folder ‘home’ then click Yes, I trust the authors\nTo open a terminal, type Ctrl+J if you’re on a Windows machine or Cmd+J on MacOS\n\nTips for using VS Code\n\nVS code cheatsheet for Windows\nVS code cheatsheet for MacOS"
+  },
+  {
+    "objectID": "notebooks/01_setup.html#option-3-install-a-terminal-application-on-your-computer",
+    "href": "notebooks/01_setup.html#option-3-install-a-terminal-application-on-your-computer",
+    "title": "Set up your computer",
+    "section": "Option 3: Install a terminal application on your computer",
+    "text": "Option 3: Install a terminal application on your computer\n\n\n\n\n\n\nTerminal: lightweight solution for advanced users\n\n\n\nThis is a very lightweight solution for accessing Gadi. We recommended it for users who are comfortable with terminal applications and want to customise their set up.\n\n\nThe options for terminal installation will depend on your computer’s operating system. See below for instructions for macOS and Windows.\n\nMacOS\nMac operating systems come with a terminal program, called Terminal. Just look for it in your Applications folder, or hit Command + Space and type ‘terminal’. You may find that other, 3rd party terminal programs are more user-friendly and powerful, like Iterm2.\n\n\nWindows\nWe recommend MobaXterm, which offers a rich experience as a full-featured X-server and terminal emulator for ssh connections, the free version is more than adequate.\nTo install and start using MobaXterm:\n\nGo to https://mobaxterm.mobatek.net/download.html\nUnder ‘Home Edition’ select the Download now button\nSelect the MobaXterm Home Edition (Installer edition)\nOnce the program is downloaded, install it as you would any other windows program\nOnce the program is installed, start the MobaXterm program\nFrom this screen, click on ‘start local terminal’ (and install Cygwin if prompted)\n\n\nTo log in to Gadi, you will use a Secure Shell (SSH) connection. To connect, you need 3 things:\n\nThe address of your NCI Gadi, gadi.nci.org.au.\nYour Gadi username, e.g. ab1234.\nYour password.\n\nTo log in: type the following into your terminal, using your allocated instance’s IP address:\nssh &lt;username&gt;@gadi.nci.org.au\nThen provide your password when prompted.\n\n\n\n\n\n\n‼️ Pay Attention ‼️\n\n\n\nWhen you type a password on the terminal, there will not be any indication the password is being entered. You’ll not see a moving cursor, or even any asterisks, or bullets. That is an intentional security mechanism used by all terminal applications and can trip us up sometimes, so be careful when typing or copying your password in.\n\n\nOnce you’ve logged in successfully, you should see a welcome screen like this:"
   },
   {
     "objectID": "notebooks/04_nagivating_system.html",
@@ -105,41 +420,6 @@
     "text": "/apps\nAll installed software is organised under /apps/software/version."
   },
   {
-    "objectID": "notebooks/09_job_monitoring.html",
-    "href": "notebooks/09_job_monitoring.html",
-    "title": "Monitoring your job",
-    "section": "",
-    "text": "Jobs submitted to Gadi are given a jobID, this is shown to you as soon as it has been accepted and is a string of eight numbers, e.g. 12345678. You should monitor your jobs to keep track of their progress but refrain from checking your jobs too frequently. Repeated queries will be considered attacks, especially in quick succession and you may get a warning from NCI. NCI recommends querying your jobs’ status a maximum of once every 10 minutes.\n\nJob monitoring on Gadi\n\n\n\n\nAll materials copyright Sydney Informatics Hub, University of Sydney"
-  },
-  {
-    "objectID": "notebooks/02_system_setup.html",
-    "href": "notebooks/02_system_setup.html",
-    "title": "How is the system set up?",
-    "section": "",
-    "text": "NCI provides computational and data-storage resources to researchers and postgraduate students at Australian higher education institutions and Australian public sector research organisations.\nThis section will point you to the right sections of the NCI documentation and user guides to get you started on the Gadi HPC system.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
-  },
-  {
-    "objectID": "notebooks/02_system_setup.html#overview-of-nci-gadi-hpc",
-    "href": "notebooks/02_system_setup.html#overview-of-nci-gadi-hpc",
-    "title": "How is the system set up?",
-    "section": "Overview of NCI Gadi HPC",
-    "text": "Overview of NCI Gadi HPC\n\nWhat is Gadi?\n\nNCI Gadi is one of Australia’s most powerful supercomputers, designed to support advanced computational research.\n\n\n\n\n\n\n\nComponent\nDetails\n\n\n\n\nCompute\n- Nodes: 4,962- Processors: Intel Sapphire Rapids, Cascade Lake, Skylake, and Broadwell CPUs- GPUs: NVIDIA V100 and DGX A100 GPUs- Performance: Over 10 petaflops of peak performance :contentReferenceoaicite:0\n\n\nStorage\n- Disk Drives: 7,200 4-Terabyte hard disks in 120 NetApp disk arrays- Capacity: 20 Petabytes total usable capacity- Performance: 980 Gigabytes per second maximum performance :contentReferenceoaicite:1\n\n\nFilesystems\n- Total Capacity: Approximately 90 Petabytes- Global Lustre Filesystems: Five, with an aggregate I/O performance of around 450 GB/second- IO Intensive Platform: Dedicated filesystem using 576 2-Terabyte NVMe drives, achieving around 960 Gigabytes per second cumulative performance :contentReferenceoaicite:2\n\n\nArchival Storage\n- Capacity: Over 70 Petabytes of archival project data stored in state-of-the-art magnetic tape libraries :contentReferenceoaicite:3\n\n\nNetworking\n- Interconnect: 100-gigabit network links connecting high-performance computing with high-performance data :contentReferenceoaicite:4\n\n\nCloud Systems\n- Nirin Cloud: High-availability and high-capacity zone integrated with Gadi and NCI’s multi-Petabyte national research data collections, comprising Intel Broadwell and Sandy Bridge processors and NVIDIA K80 GPUs :contentReferenceoaicite:5"
-  },
-  {
-    "objectID": "notebooks/02_system_setup.html#conditions-of-use",
-    "href": "notebooks/02_system_setup.html#conditions-of-use",
-    "title": "How is the system set up?",
-    "section": "Conditions of use",
-    "text": "Conditions of use\n\nGeneral conditions of use\n\nAll users of NCI agree that they will keep themselves informed of, and comply with, all relevant legislation and The Australian National University policies and rules.\nAll users must acknowledge and understand that a breach of these will result in not only a loss of access to NCI resources but the user may be subject to Federal criminal prosecution resulting in fines and/or gaol legislated under the Acts listed above."
-  },
-  {
-    "objectID": "notebooks/02_system_setup.html#key-components-of-the-gadi-hpc-system",
-    "href": "notebooks/02_system_setup.html#key-components-of-the-gadi-hpc-system",
-    "title": "How is the system set up?",
-    "section": "Key components of the Gadi HPC system",
-    "text": "Key components of the Gadi HPC system\nSee the Gadi Resources Guide for a detailed explanation of the following.\n\nComputing nodes\n\n\n\n\n\n\nNavigating the system\n\n\n\nThis section contains some example commands to run on the Gadi HPC system. To generalise across multiple groups we have used &lt;project&gt; in place of a specific project code. When running these commands, please replace &lt;project&gt; with your project code.\nE.g. if your project code is aa00, you would run:\ncd /scratch/aa00\n\n\n\nLogin nodes\nThese nodes are the gateway for Gadi for users to access the resources of the HPC cluster. It is how you log in to Gadi, move around the filesystem, submit jobs to the scheduler, and do small tasks like view the contents of a file.\n\n\nCompute nodes\nThese nodes are the workhorses of any HPC. They are dedicated for executing computational tasks as delegated by the job scheduler when you submit a job. There are various types of compute nodes with different hardware, built for different purposes on Gadi. Depending on the resource requirements of your job (e.g. high memory, GPUs) and the queue you specify, your job will be sent to a specific type of compute node. You can find a breakdown of their technical specifications here.\n\n\n\n\n\n\n‼️ Pay Attention ‼️\n\n\n\nCompute nodes on Gadi don’t currently have access to external internet. If any tasks within a submitted job on the compute node need to access the internet, they will fail. These jobs should be run separtately on the copyq using the data mover nodes. Or else use an ARE job.\n\n\n\n\nData mover nodes\nThese nodes are designed specifically for fast data movement. You can use these nodes to transfer files to and from Gadi at high-speed. Steps outlined here. A script for moving data between USyd RDS and Gadi is provided in /g/data/scripts and explained in the following section, transferring data.\n\n\n\nFilesystems\n\n$HOME\nWhen you first log in to Gadi, you’ll be placed in your personal $HOME directory (i.e. /home/555/aa1234). You are the only person who can access this directory. No work should be done in here, but you may wish to install things like custom R or Python libraries here. It is backed up but you have a 10Gb storage limit.\nYou can navigate back here at any point if required by running:\ncd ~\n\n\n/scratch\nAll Gadi projects have a dedicated /scratch allocation that is only accessible to members of your project. This is only intended for active work on big files and not for long-term storage. This is not backed up and any files not accessed for 100 days will be purged from the system, so be sure to back up your work to RDS. Your /scratch contains a directory for each user (denoted by their Gadi username), however you can organise things however you wish here.\nYou can navigate to your /scratch space by running:\ncd /scratch/&lt;project&gt;\n\n\n/g/data\nSome Gadi projects, have a dedicated g/data allocation that is only accessible to members of that group. This in intended for long-term large data storage. This is not backed up though, so ensure you transfer all important files back to RDS. If you are unsure if your project has a /g/data allocation, you can check by running:\ncd /gdata/&lt;project&gt;\n\n\n/g/data/if89\n\nif89 guide\n\nYou can also access a communally maintained bioinformatics software project at /g/data/if89. Users currently have to request access to if89, but it is a good place to find bioinformatics software previously installed by others. To request access to if89:\n\nLog into MyNCI\nNavigate to Projects and Groups\nSearch for if89 and request access\nClick join.\n\nAccess needs to be manually approved. If you are experiencing delays of &gt;24 hours, please contact SIH.\n\n\n/apps\nThis directory is accessible to all Gadi users. It is a read-only system containing centrally installed software applications and their module files. You can check what software is installed here:\nls /apps\nYou can use any software that is installed here by first loading the module file, e.g.:\nmodule load samtools\nThen run the tool as per it’s user guide, e.g.:\nsamtools view -H sample.bam\n\n\n\nQueues\nLike on Artemis, the job scheduler is PBSPro, however it is implented in a slightly different way. To run jobs on Gadi, users should submit to a specific queue on a corresponding node. The queue and node you choose to run on will depend on the types of resources your job needs. Pipelines your group use have already been configured to run on specific queues.\nFor custom PBS scripts, you can work out what queue to run your job on by checking the NCI queue documentation and queue limits explainer. Most jobs will be suitable for normal or normalbw queues. The normal queues have more nodes available for your jobs, and will allow users, and jobs that require a specialised queue, to get fair access to those resources. Express queues are designs to support work that needs a faster turnaround, but will be charged accordingly at a higher service unit charge."
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "NCI Gadi Guide for USyd researchers",
@@ -152,152 +432,5 @@
     "title": "NCI Gadi Guide for USyd researchers",
     "section": "Support",
     "text": "Support\nSIH is limited in the support it can provide for NCI Gadi users. If you are new to HPC and Gadi, we expect you will attend SIH’s Intro to HPC and NCI’s Intro to Gadi courses. Additionally, familiarise yourself with Gadi using the NCI Gadi user guide:\n\nSIH training calendar\nNCI training calendar\n\nFor additional support, please contact the following people depending on your needs:\n\n\n\nType of issue\nWho\nHow\nDetails\n\n\n\n\nService unit allocation for running jobs\nSIH\nMake a request\nSIH schemes\n\n\nAn issue with NCI Gadi\nNCI Helpdesk\nLog an NCI ticket\nProvide your error, log file, jobid\n\n\nAny error returned in running a job\nNCI Helpdesk\nLog an NCI ticket\nProvide your error, log file, jobid\n\n\nA bug in an SIH pipeline\nSIH\nSubmit an issue on Github\nProvide details e.g. this issue\n\n\nBioinformatics advice\nSIH\nLog an SIH ticket\nProvide relevant context, errors, tool names, scripts"
-  },
-  {
-    "objectID": "tips_tricks.html",
-    "href": "tips_tricks.html",
-    "title": "Tips and tricks",
-    "section": "",
-    "text": "All materials copyright Sydney Informatics Hub, University of Sydney"
-  },
-  {
-    "objectID": "notebooks/00_gadi_access.html",
-    "href": "notebooks/00_gadi_access.html",
-    "title": "Accessing your Gadi project",
-    "section": "",
-    "text": "National Computational Infrastructure (NCI) is a services facility that provides high performance computing (HPC), cloud and data services to Australian researchers.\nGadi is the name of NCI’s HPC facility, located at ANU (Canberra). The system is suitable for:\nAll materials copyright Sydney Informatics Hub, University of Sydney"
-  },
-  {
-    "objectID": "notebooks/00_gadi_access.html#resources",
-    "href": "notebooks/00_gadi_access.html#resources",
-    "title": "Accessing your Gadi project",
-    "section": "Resources",
-    "text": "Resources\n\nGetting Started at NCI\nGadi User Guide\nGadi FAQs\nPro tips for bioinformatics on HPC: recording and slides"
-  },
-  {
-    "objectID": "notebooks/00_gadi_access.html#set-up-your-nci-account",
-    "href": "notebooks/00_gadi_access.html#set-up-your-nci-account",
-    "title": "Accessing your Gadi project",
-    "section": "Set up your NCI Account",
-    "text": "Set up your NCI Account\nAll new users must create their account through the NCI online self service portal. To create your account you will need the following information:\n\nYour Name\nInstitutional email address (Gmail, Hotmail, etc. are not accepted)\nMobile phone number\nEither:\n\nNCI project code of an existing project you wish to join\nA new project proposal to be assessed by a Scheme Manager to determine if they will grant your project time\n\n\nNote that resources at NCI are allocated to projects and not to individual users.\nComplete all steps below to set up an NCI account:\n\nClick on ‘Sign up’ link on the NCI online self service portal: \nAccept the terms and conditions: \nProvide your personal details: \nProvide details on the project you’ll be working on. Select I need to join one or more existing projects. Ask Marina for your group’s project code to write in the Projects menu: \nSelect University of Sydney as you institution: \n\nYour username will become active when a project Lead CI approves your request to join their project, or when a Scheme Manager approves your new project proposal. You will receive a confirmation email from the Mancini system when your username is activated."
-  },
-  {
-    "objectID": "notebooks/00_gadi_access.html#manage-your-nci-account",
-    "href": "notebooks/00_gadi_access.html#manage-your-nci-account",
-    "title": "Accessing your Gadi project",
-    "section": "Manage your NCI Account",
-    "text": "Manage your NCI Account\nYou can manage your account details and request access to new or existing projects through the NCI online self service portal.\nOnce your access to your group’s Gadi project has been confirmed, you can set up your computer and log in to Gadi. See the setup instructions for how to log in to the HPC system."
-  },
-  {
-    "objectID": "notebooks/06_accounting.html",
-    "href": "notebooks/06_accounting.html",
-    "title": "Accounting",
-    "section": "",
-    "text": "Coming soon! For now, see: https://opus.nci.org.au/spaces/Help/pages/236881132/Allocations…\n\n\n\nAll materials copyright Sydney Informatics Hub, University of Sydney"
-  },
-  {
-    "objectID": "notebooks/08_job_script.html",
-    "href": "notebooks/08_job_script.html",
-    "title": "Writing a job script",
-    "section": "",
-    "text": "PBS directives\nJob submission tutorial\nWhile you can run simple commands on the login nodes on Gadi, there are limits to the resources you can access here. As such, you must run complex or resource-intensive tasks on Gadi’s job queues. To do this, you need to create a PBS (Portable Batch System) submission script that specifies your job’s requirements. NCI runs the Altair PBS professional workload manager.\nPBS scripts are text files that contain directives and commands that specify the resources required for a job and the commands to run, you can name them as &lt;script_name&gt;.pbs. The script can be submitted to the job scheduler, which will allocate the necessary resources and execute the job using:\nBelow we describe the process for writing and submitting a job script on Gadi.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
-  },
-  {
-    "objectID": "notebooks/08_job_script.html#define-job-parameters",
-    "href": "notebooks/08_job_script.html#define-job-parameters",
-    "title": "Writing a job script",
-    "section": "1. Define Job Parameters",
-    "text": "1. Define Job Parameters\nBegin your script with directives that outline your job’s resource needs and execution details. Each directive starts with #PBS in order to directly communicate with the job scheduler and not be confused with other code in your script. This section should sit at the top of your script.\nFor example:\n#!/bin/bash\n\n#PBS -P aa00\n#PBS -q normal\n#PBS -l ncpus=48\n#PBS -l mem=190GB\n#PBS -l jobfs=200GB\n#PBS -l walltime=02:00:00\n#PBS -l storage=scratch/aa00+gdata/aa00\n#PBS -l wd\n\n-P: Project code for resource accounting.\n-q: Queue selection (e.g., normal).\n-l ncpus: Number of CPU cores.\n-l mem: Memory allocation.\n-l jobfs: Local disk space on the compute node.\n-l walltime: Maximum job duration.\n-l storage: Filesystems your job will access.\n-l wd: Set the working directory to the submission directory."
-  },
-  {
-    "objectID": "notebooks/08_job_script.html#load-necessary-modules",
-    "href": "notebooks/08_job_script.html#load-necessary-modules",
-    "title": "Writing a job script",
-    "section": "2. Load Necessary Modules",
-    "text": "2. Load Necessary Modules\nGadi uses the module system to manage software applications that are installed in /apps. If you’re using one or more tools installed in /apps you must load the appropriate modules for your workflow before running your script. Modules ensure you’re using the correct software versions and their dependencies. This should go directly under the PBS directives and before the commands to run your application.\nFor example:\nmodule load python3/3.7.4\nmodule load gcc/9.2.0\nTo find available modules: - Use module avail to list all available software. - Use module spider &lt;software&gt; to search for a specific software package and its versions."
-  },
-  {
-    "objectID": "notebooks/08_job_script.html#execute-your-chosen-application",
-    "href": "notebooks/08_job_script.html#execute-your-chosen-application",
-    "title": "Writing a job script",
-    "section": "3. Execute your chosen application",
-    "text": "3. Execute your chosen application\nSpecify the commands to run your application or script within the job script. Ensure all file paths and environment variables are correctly set. Redirect output and error messages to log files for easier debugging.\nGadi supports running both native software and containerized applications using Singularity. Containers are a convenient way to use pre-built environments. Here are examples for different scenarios:\n\nRunning a custom script\nIf you’re running a Python script:\npython3 your_script.py &gt; output.log 2&gt;&1\n\n&gt; output.log: Redirects standard output to a log file.\n2&gt;&1: Redirects standard error to the same log file.\n\n\n\nRunning a compiled program\nIf you’re running a pre-compiled executable:\nmy_program input_data.txt &gt; results.log 2&gt;&1\n\n\nRunning a Singularity Container\nSingularity is used to execute containerised applications on Gadi. Here’s an example using a FoldSeek container from quay.io:\nFirst, you’ll need to get a copy of the container you want to run as Gadi job queues do not have external network access and cannot download anything from the internet.\nRun the following commands to download the container:\nmodule load singularity\nsingularity pull docker://quay.io/biocontainers/foldseek:0.6.2--h779adbc_0\nThis will create a .sif (Singularity Image File) in the current directory, docker://: Pulls the container from Quay.io or DockerHub directly:\nfoldseek_0.6.2--h779adbc_0.sif\nAdd the Singularity commands to your job script. For example:\n\n\nRedirecting Output in Singularity\nTo capture output:\nsingularity exec \\\n    foldseek_0.6.2--h779adbc_0.sif \\\n    foldseek easy-search input.fasta \\\n    database \\\n    output \\\n    foldseek_result.tsv &gt; output.log 2&gt;&1"
-  },
-  {
-    "objectID": "notebooks/08_job_script.html#submit-your-job",
-    "href": "notebooks/08_job_script.html#submit-your-job",
-    "title": "Writing a job script",
-    "section": "4. Submit your job",
-    "text": "4. Submit your job\nSave your job script with a .sh or .pbs extension and submit it using the qsub command:\nqsub job_script.sh\nAfter submission, PBS assigns a unique job ID, which you can use to monitor your job."
-  },
-  {
-    "objectID": "notebooks/08_job_script.html#full-script-example",
-    "href": "notebooks/08_job_script.html#full-script-example",
-    "title": "Writing a job script",
-    "section": "Full script example",
-    "text": "Full script example\nHere is a very simple example of a full script that runs a Foldseek container on Gadi’s normal CPU queue:\n#!/bin/bash\n\n#PBS -P aa00\n#PBS -q normal\n#PBS -l ncpus=4\n#PBS -l mem=10GB\n#PBS -l jobfs=200GB\n#PBS -l walltime=02:00:00\n#PBS -l storage=scratch/aa00+gdata/aa00\n#PBS -l wd\n\n# Load modules\nmodule load singularity\n\n# Run FoldSeek\nsingularity exec \\\n    /scratch/aa00/foldseek_0.6.2--h779adbc_0.sif \\\n    foldseek easy-search /scratch/aa00/input.fasta \\\n    /scratch/aa00/database \\\n    /scratch/aa00/output \\\n    /scratch/aa00/foldseek_result.tsv &gt; /scratch/aa00/output.log 2&gt;&1"
-  },
-  {
-    "objectID": "notebooks/10_job_efficiency.html",
-    "href": "notebooks/10_job_efficiency.html",
-    "title": "Optimising your job",
-    "section": "",
-    "text": "Coming soon!\n\n\n\nAll materials copyright Sydney Informatics Hub, University of Sydney"
-  },
-  {
-    "objectID": "notebooks/01_setup.html",
-    "href": "notebooks/01_setup.html",
-    "title": "Set up your computer",
-    "section": "",
-    "text": "To work on NCI Gadi, you will need to either install a terminal application on your computer or work on NCI’s Australian Research Environment (ARE) platform. Before accessing Gadi, you will need to have an NCI account. Ensure you have completed this step by following directions on the Gadi Access instructions on the previous page before proceeding.\nIn order to work on Gadi, you’ll need a terminal application. A terminal is a text-based interface to your computer. It’s a program that takes text commands and passes them to the operating system to execute. We suggest you use one of the following options:\nAll materials copyright Sydney Informatics Hub, University of Sydney"
-  },
-  {
-    "objectID": "notebooks/01_setup.html#option-1-use-ncis-are-platform",
-    "href": "notebooks/01_setup.html#option-1-use-ncis-are-platform",
-    "title": "Set up your computer",
-    "section": "Option 1: Use NCI’s ARE platform",
-    "text": "Option 1: Use NCI’s ARE platform\n\n\n\n\n\n\nARE: fast access with limited customisation\n\n\n\nThis is a very lightweight solution for accessing Gadi, some interactive tools like Jupyter and RStudio. We recommended it for beginners who don’t want to customise their set up.\n\n\nNCI has created a web-based graphical interface for accessing their systems. It is very simple to use and recommended over access methods described below for beginners.\nSee NCI’s User Guide for instructions on how to access and use ARE."
-  },
-  {
-    "objectID": "notebooks/01_setup.html#option-2-install-visual-studio-code-on-your-computer",
-    "href": "notebooks/01_setup.html#option-2-install-visual-studio-code-on-your-computer",
-    "title": "Set up your computer",
-    "section": "Option 2: Install Visual Studio Code on your computer",
-    "text": "Option 2: Install Visual Studio Code on your computer\n\n\n\n\n\n\nVScode: customised configuration with an integrated terminal\n\n\n\nThis is a more advanced solution for accessing Gadi, with more customisation options. We recommended it for users who are comfortable with terminal applications and want to customise their set up.\n\n\nVisual Studio Code (VS Code) is a lightweight and powerful source code editor available for Windows, macOS and Linux computers. As an alternative to a terminal application it offers file additional functionality including file editing.\n\nDownload Visual Studio Code for your system from here and follow the instructions for:\n\nmacOS\nWindows\n\nOpen the VS Code application on your computer\n\n\n\nClick on the extensions button (four blocks) on the left side bar and install the remote SSH extension. Click on the blue install button.\n\n\nConnect to your instance with VS code by adding the host details to your .ssh config file:\nHost Gadi\n  HostName gadi.nci.org.au\n  User &lt;your-nci-username&gt;\n\nType Ctrl+Shift+P and select Remote-SSH: Connect to Host and Gadi\nWhen prompted, select Linux as the platform of the remote host from the dropdown menu\nType in your NCI password and hit enter\n\nHaving successfully logged in, you should see a small blue or green box in the bottom left corner of your screen:\n\nTo set up your VS Code window:\n\nOpen a new folder in the file explorer panel on the left side of the screen by typing Ctrl + K, Ctrl + O if you’re running Windows or Cmd+K+ Cmd + O for MacOS\nSelect /scratch/iz89 to open your workspace. You can change this at any point by opening a new folder. Keep in mind you will be requested to provide your password each time.\nWhen prompted, select the box for Trust the authors of all files in the parent folder ‘home’ then click Yes, I trust the authors\nTo open a terminal, type Ctrl+J if you’re on a Windows machine or Cmd+J on MacOS\n\nTips for using VS Code\n\nVS code cheatsheet for Windows\nVS code cheatsheet for MacOS"
-  },
-  {
-    "objectID": "notebooks/01_setup.html#option-3-install-a-terminal-application-on-your-computer",
-    "href": "notebooks/01_setup.html#option-3-install-a-terminal-application-on-your-computer",
-    "title": "Set up your computer",
-    "section": "Option 3: Install a terminal application on your computer",
-    "text": "Option 3: Install a terminal application on your computer\n\n\n\n\n\n\nTerminal: lightweight solution for advanced users\n\n\n\nThis is a very lightweight solution for accessing Gadi. We recommended it for users who are comfortable with terminal applications and want to customise their set up.\n\n\nThe options for terminal installation will depend on your computer’s operating system. See below for instructions for macOS and Windows.\n\nMacOS\nMac operating systems come with a terminal program, called Terminal. Just look for it in your Applications folder, or hit Command + Space and type ‘terminal’. You may find that other, 3rd party terminal programs are more user-friendly and powerful, like Iterm2.\n\n\nWindows\nWe recommend MobaXterm, which offers a rich experience as a full-featured X-server and terminal emulator for ssh connections, the free version is more than adequate.\nTo install and start using MobaXterm:\n\nGo to https://mobaxterm.mobatek.net/download.html\nUnder ‘Home Edition’ select the Download now button\nSelect the MobaXterm Home Edition (Installer edition)\nOnce the program is downloaded, install it as you would any other windows program\nOnce the program is installed, start the MobaXterm program\nFrom this screen, click on ‘start local terminal’ (and install Cygwin if prompted)\n\n\nTo log in to Gadi, you will use a Secure Shell (SSH) connection. To connect, you need 3 things:\n\nThe address of your NCI Gadi, gadi.nci.org.au.\nYour Gadi username, e.g. ab1234.\nYour password.\n\nTo log in: type the following into your terminal, using your allocated instance’s IP address:\nssh &lt;username&gt;@gadi.nci.org.au\nThen provide your password when prompted.\n\n\n\n\n\n\n‼️ Pay Attention ‼️\n\n\n\nWhen you type a password on the terminal, there will not be any indication the password is being entered. You’ll not see a moving cursor, or even any asterisks, or bullets. That is an intentional security mechanism used by all terminal applications and can trip us up sometimes, so be careful when typing or copying your password in.\n\n\nOnce you’ve logged in successfully, you should see a welcome screen like this:"
-  },
-  {
-    "objectID": "notebooks/03_expectations.html",
-    "href": "notebooks/03_expectations.html",
-    "title": "What does the system expect of its users?",
-    "section": "",
-    "text": "The do’s and don’ts of using Gadi\nSIH Into to Gadi HPC tutorial\nPro tips for bioinformatics on HPC webinar\nAll materials copyright Sydney Informatics Hub, University of Sydney"
-  },
-  {
-    "objectID": "notebooks/03_expectations.html#what-is-high-performance-computing",
-    "href": "notebooks/03_expectations.html#what-is-high-performance-computing",
-    "title": "What does the system expect of its users?",
-    "section": "What is high performance computing?",
-    "text": "What is high performance computing?\nHigh performance computing refers to the use of parallel processing techniques to solve complex computation problems efficiently. HPC systems, like Gadi, consist of clusters of interconnected computers, each equipped with multiple processors and large amounts of memory. These systems are designed to handle massive datasets and perform computations at speeds far beyond those achievable by your personal computer."
-  },
-  {
-    "objectID": "notebooks/03_expectations.html#why-do-we-need-hpc-for-bioinformatics",
-    "href": "notebooks/03_expectations.html#why-do-we-need-hpc-for-bioinformatics",
-    "title": "What does the system expect of its users?",
-    "section": "Why do we need HPC for bioinformatics?",
-    "text": "Why do we need HPC for bioinformatics?\nIn bioinformatics, researchers deal with massive datasets generated by technologies such as next-generation sequencing (genomics, transcriptomics) and mass spectrometry (proteomics). Analysing these datasets requires computationally intensive tasks such as sequence alignment, genome assembly, and statistical analysis. HPC systems provide the computational power and memory resources necessary to process these datasets efficiently."
-  },
-  {
-    "objectID": "notebooks/03_expectations.html#expectations",
-    "href": "notebooks/03_expectations.html#expectations",
-    "title": "What does the system expect of its users?",
-    "section": "Expectations",
-    "text": "Expectations\nGadi is a shared resource and its efficient use not only ensures fair access for all users but also helps minimise the environmental impact of high-performance computing, as systems like Gadi consume significant energy resources. When you are using a system like Gadi, there are potentially hundreds of other users accessing the system at the same time as you. For Gadi to remain efficient and usable, everyone needs to be courteous and use the system with consideration for others.\nHere are some tips to help you be a good citizen of the HPC community:\n\n1. Use job queues appropriately\n\nGadi job queues\nGadi queue limits\n\nGadi runs a PBSpro job scheduler that manages the allocation of resources to users. When you submit a job, it is placed in a queue and will run when the requested resources become available. Unlike on Artemis where your job is allocated to a suitable queue based on your resource request, Gadi users need to explicitly request their job is sent to a specific queue. It is important for you to pick a job queue that is appropriate for your job.\n\n\n2. Responsibly manage your data\n\nNCI file management policy\nTransferring data between RDS and Gadi\n\n/scratch is not a safe space for long term data storage. If it has not been accessed in 100 days, it will be subjected to NCI’s clean up policy. If you have a /g/data allocation, this is a better place to store your data whilst working on Gadi. Once you have finished your analysis, it is best practice to move your data to a more permanent storage solution, like RDS.\n\n\n3. Don’t request more resources than you need\n\nGadi benchmarking tool\n\nDon’t request resources that you won’t need, it will only result in your job and other users jobs being held up, and you wasting your service unit allocation. The PBS scheduler will find time for 2 cpus faster than 4 cpus, so in the interest of speed, be efficient. Given the bursty nature of some jobs, it can be hard to know what resources a tool needs. We suggest the following:\n\nStep 1: Consult the software documentation\n\nOften, developers will outline the minimum amount of RAM (memory) and whether a tool is multi-threaded (e.g. use &gt;1 CPU or GPU)\n\nStep 2: Run a test job using our Gadi benchmarking tool\n\nThis will give you a good idea of how much resources you need to request for your main job.\n\nStep 3: Ask for help\n\n\n\n4. Keep track of your resource usage\n\nMonitor your jobs\nMonitor your project allocation\nWhat does a job cost?\nWhy are my jobs not running?\n\nRunning jobs on gadi requires users to have sufficient compute hours available. These compute hours are granted to projects rather than directly to the user. It is important to communicate with your project team to ensure you are not using more than your fair share of resources. You can monitor your project’s usage by running:\nnci_project -P &lt;project&gt; -v\nIf you are consistently overusing resources, you may need to look into optimising your workloads and/or requesting more resources from NCI. Get in touch with SIH to discuss your options.\nAt completion, your project is only charged the SU actually consumed by the job (ie based on walltime used, not walltime requested). Like Artemis, Gadi produces PBS logs. The “.o” job log will report the compute used (similar to the Artemis “.o” and “usage” logs combined).\nLike KSU, each project is assigned a finite amount of disk space and iNode (index node - can be likened to the total number of files and folders). You MUST monitor your disk and iNode usage, and this can be done with the command:\nlquota\nwhich shows disk resource availability for every project you are a member of.\nIt is important to have an understanding of how much output your job will create, and ensure that you can remain within quotas/limits. Jobs can fail with “disk quota exceeded” messages."
   }
 ]

@@ -40,7 +40,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-86daaaaad7353f9cc0c554efc1dd6d94.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-985126d890df3aa845ca8b2334ea7bfa.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-0406495a3463ab4b426f72409cdf1ede.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -203,8 +203,20 @@ cookieconsent.run({
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#simple-example-1" id="toc-simple-example-1" class="nav-link active" data-scroll-target="#simple-example-1">Simple example 1</a></li>
+  <li><a href="#simple-example-2" id="toc-simple-example-2" class="nav-link" data-scroll-target="#simple-example-2">Simple example 2</a></li>
+  <li><a href="#resource-benchmarking" id="toc-resource-benchmarking" class="nav-link" data-scroll-target="#resource-benchmarking">Resource benchmarking</a></li>
+  <li><a href="#benchmarking-template-scripts" id="toc-benchmarking-template-scripts" class="nav-link" data-scroll-target="#benchmarking-template-scripts">Benchmarking template scripts</a></li>
+  <li><a href="#tips-for-benchmarking" id="toc-tips-for-benchmarking" class="nav-link" data-scroll-target="#tips-for-benchmarking">Tips for benchmarking</a></li>
+  <li><a href="#demo-benchmarking-activity" id="toc-demo-benchmarking-activity" class="nav-link" data-scroll-target="#demo-benchmarking-activity">Demo benchmarking activity</a></li>
+  <li><a href="#example-of-a-complete-benchmark-study-including-scalability-testing-plots" id="toc-example-of-a-complete-benchmark-study-including-scalability-testing-plots" class="nav-link" data-scroll-target="#example-of-a-complete-benchmark-study-including-scalability-testing-plots">Example of a complete benchmark study including scalability testing plots</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -228,9 +240,88 @@ cookieconsent.run({
 </header>
 
 
-<p>Coming soon!</p>
+<p><strong>COMING SOON - NOT COMPLETE!</strong></p>
+<ul>
+<li>what does optimise mean
+<ul>
+<li>improve speed</li>
+<li>improve cpu efficiency</li>
+<li>minimise SU charge</li>
+</ul></li>
+<li>why optimise
+<ul>
+<li>efficiency monitoring by NCI</li>
+<li>efficient use of compute hours provide by USyd</li>
+<li>efficient use of energy resource</li>
+</ul></li>
+<li>how to optimise
+<ul>
+<li>appropriate resource and queue requests</li>
+<li>right queue for the job</li>
+<li>checkpointing to enable ease of resume</li>
+<li>do benchmarking</li>
+</ul></li>
+</ul>
+<section id="simple-example-1" class="level2">
+<h2 class="anchored" data-anchor-id="simple-example-1">Simple example 1</h2>
+<p>The Broadwell nodes have different memory per CPU ratios than the Cascade Lake nodes. This can be particularly helpful in reducing KSU usage for ‘normal’ compute jobs that require more than 4 GB RAM per CPU but less than what justifies a high memory queue. On the Broadwell ‘normalbw’ queue, there are nodes with 9 GB RAM per CPU. With a charge rate of just 1.25 SU per CPU hour (compared to 2 SU per CPU hour on the equivalent Cascade Lake queue), a job requiring 64 GB RAM for 1 hour could use 7 CPUs on the Broadwell nodes for a charge of <code>7 cpu * 1 h * 1.25 charge rate = 8.75 SU</code>. The same job on the Cascade Lake ‘normal’ queue would require 16 CPU, totalling <code>16 cpu * 1 h * 2 charge rate = 32 SU</code>. The reduced processor speed on Broadwell vs Cascade Lake may cause the Broadwell job to require slightly more walltime, however this increase in walltime will typically still cost less overall. We will discuss this in more detail in the section on <a href="../notebooks/10_job_efficiency.html">job efficiency and optimisation</a> where we will review tool benchmarking and job efficiency strategies.</p>
+</section>
+<section id="simple-example-2" class="level2">
+<h2 class="anchored" data-anchor-id="simple-example-2">Simple example 2</h2>
+</section>
+<section id="resource-benchmarking" class="level2">
+<h2 class="anchored" data-anchor-id="resource-benchmarking">Resource benchmarking</h2>
+<ul>
+<li>what is benchmarking
+<ul>
+<li>we are talking about benchmarking compute resources, not technical benchmarking</li>
+</ul></li>
+<li>why benchmark</li>
+<li>how to benchmark</li>
+</ul>
+</section>
+<section id="benchmarking-template-scripts" class="level2">
+<h2 class="anchored" data-anchor-id="benchmarking-template-scripts">Benchmarking template scripts</h2>
+<p><a href="https://github.com/Sydney-Informatics-Hub/Gadi-benchmarking">Gadi tempalte benchmarking scripts</a> - this repository contains a pair of scripts designed to test single runs of a command/tool at various CPU and memory settings on differnet queues. It does requrie some modification (and carefully use and follow the guide!) to set it up, but once you know how to use this tempalte, it can expedite testing chunks of your workflow to obtain the most efficient (ie optimsied) queue and resource requets for the task. Running the <code>gadi_usage_report.pl</code> script from <a href="https://github.com/Sydney-Informatics-Hub/HPC_usage_reports">this repository</a> will summarise the resources used by the benchmark jobs into a table that can be viewed or plotted to determine best resoruces.</p>
+<p>It is not critical to use this template, but it can be a helpful tool if you have not benchmarked before, or if you benchmark multiple tools/code chunks regularly and want a simple and replicable method.</p>
+</section>
+<section id="tips-for-benchmarking" class="level2">
+<h2 class="anchored" data-anchor-id="tips-for-benchmarking">Tips for benchmarking</h2>
+<ul>
+<li>Test individual parts of your code where possible - ie one command, one tool, one chunk of code
+<ul>
+<li>this enables you to determine which parts of your workflow have differeing cmpute requirements</li>
+<li>parts with differing compute requirements can be allocated to different queues and resources, saving you KSU</li>
+</ul></li>
+<li>Do initial benchmarking on a small subset of your data - ie subsample, reduce sample numbers, reduce permutations, etc</li>
+<li>Follow up with scalability testing: Once you have refined the candidate best resources, re-run the benchmark on a representative subset (ie whole sample, more iterations) and compare the CPU efficiency
+<ul>
+<li>Is it as good as the initial test benchmark in terms of CPU and memory efficiency?</li>
+<li>If so, then go ahead and apply this setting to your full run</li>
+<li>If not, re-run full benchmarks with the larger test dataset, or dig deeper into what is causing the loss of effiency at scale</li>
+</ul></li>
+<li>Embrace the labour of benchmarking!
+<ul>
+<li>While it may seem like a time-consuming impediment to getting on with analysing your data, it can save you a lot of time and KSU down the track.</li>
+<li>Benchmarking will make your analysis faster and use less USyd-funded resources and energy resources</li>
+<li>benchmarking can prevent avoidable job failures such as a job runing out of walltime or memory, which will cost more time and resources to resubmit</li>
+</ul></li>
+</ul>
+</section>
+<section id="demo-benchmarking-activity" class="level2">
+<h2 class="anchored" data-anchor-id="demo-benchmarking-activity">Demo benchmarking activity</h2>
+<ul>
+<li>use the template, demo how to edit</li>
+<li>run on a couple of queues</li>
+<li>run the usage script</li>
+<li>view the table and identify optimal resources</li>
+</ul>
+</section>
+<section id="example-of-a-complete-benchmark-study-including-scalability-testing-plots" class="level2">
+<h2 class="anchored" data-anchor-id="example-of-a-complete-benchmark-study-including-scalability-testing-plots">Example of a complete benchmark study including scalability testing plots</h2>
 
 
+</section>
 
 <p>All materials copyright Sydney Informatics Hub, University of Sydney</p></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
