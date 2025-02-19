@@ -7,21 +7,75 @@ output:
 from: markdown+emoji
 ---
 
+## Where to put project files on Gadi
+
+On Gadi (like on Artemis) you have access to a number of different storage areas for project files and data. Check the [NCI User Guides](https://opus.nci.org.au/spaces/Help/pages/236880086/Gadi+Resources...) for more detailed information. Here we provide a brief introduction for those falimiar with Artemis.
+
+Each space is intended for use in a specific way:
+
+#### Home
+
+Your home space (`/home/<username>`) is owned by you and has 10 GiB of available space and this cannot be increased. It works similarly to your /home space on Artemis and should only be used to store things like program code, batch scripts or software configuration information. Note that space is extremely limited here and it is unadvisable to use this space for storing project data.
+
+#### g/data
+
+Your `/g/data` space (`/g/data/<project_id>`) is owned by your project and has the available space allocated by the Sydney Scheme Manager. It is equivalent to `/project` on Artemis. The data are not backed up but they persist for the lifetime of your project. `/g/data` is inteded to be used to store longer term files that are reqularly used by your project during its lifetime. Always ensure your data is regularly backed up from here to the Research Data Store. `/g/data` may be accessed directly from PBS job scripts by using the `-lstorage` PBS directive in your PBS script.
+
+#### Scratch
+
+Your scratch space (`/scratch/<project_id>`) is owned by your project and has 1 TiB of available space which can be increased upon request. It is equivalent to `/scratch` on Artemis. Data are not backed up and files not accessed for 100 days will be quarantined for 14 days and then removed. Scratch should be used for temporary files associated with a job that has large data IO and not for longer term storage. Always ensure any data you need from a job that is left in /scratch is promptly backed up to the Research Data Store.
+
+To check the amount of disk space you have available in the data areas listed above you can use:
+
+```bash
+$ lquota
+```
+
 ## Research data store (RDS)
 
-The RDS is NOT being decommisioned along with Artemis HPC. Any RDS projects you currently have will persist on RDS. It is your responsibility to backup any data on Artemis filesystems (`/home`, `/scratch`, `/project`) that you wish to keep prior to the decomission date of August 29 2025. 
+The RDS is NOT being decommisioned along with Artemis HPC. Any RDS projects you currently have will persist on RDS. It is your responsibility to backup any data on Artemis filesystems (`/home`, `/scratch`, `/project`) that you wish to keep prior to the decomission date of August 29 2025. For information on how to go about this see the 
+[SIH Artemis Training Series](https://sydney-informatics-hub.github.io/training.artemis.rds/04-rcos2hpc/index.html).
 
-In this section, we will focus on how to transfer data between Gadi HPC and RDS. 
+In this section, we will mainly focus on how to transfer data between Gadi HPC and RDS. You should be able follow similar methods for copying data between your own laptop/server and Gadi.
 
 ## Data transfer options
 
+All data transfer to and from Gadi should be made using the "Data Mover Node" at `gadi-dm.nci.org.au` rather than the login nodes. This ensures that data transfer will not consume resources on the otherwise limited login nodes.
+
 ### Globus - COMING SOON
 
-In the coming months, [Globus](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+Data+Transfer) will be available for simplified and efficient data transfer. We will provide training and materials on this once available. In the meantime, the below options are available, and examples for each method will be provided in the subsequent sections. 
+In the coming months, [Globus](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+Data+Transfer) will be available for simplified and efficient data transfer. We will provide training and materials on this once available.
+
+In the meantime, the below options are available, and detailed examples for each method are provided in the subsequent sections.
 
 ### Transfer using RDS mapped network drive and data transfer client
 
-For smaller files or datasets, you can map your RDS project as a network drive and transfer the data to Gadi via an intermediate data transfer client GUI such as `filezilla` or `cyberduck`. While simple to use, these are not recommended for large data transfers, as the local computer becomes a bottleneck and they are generally not resumeable after interruption. Faster speeds will be obtained on campus, but still may be prohibitively slow for larger datasets. 
+For smaller files or datasets, you can map your RDS project as a network drive and transfer the data to Gadi via an intermediate data transfer client GUI such as `filezilla` or `cyberduck`.
+
+While simple to use, these are not recommended for large data transfers, as the local computer becomes a bottleneck and they are generally not resumeable after interruption. Faster speeds will be obtained if you are on campus, but still this method may be prohibitively slow for larger datasets.
+
+::: {.callout-tip}
+## Example using `cyberduck`
+
+The following are instructions using the `cyberduck` data transfer client. The process using `filezilla` is similar with the same username the same username and server IP address as shown in this example.
+
+To mount your RDS drive in either Windows or MacOS, please follow the instructions described [here](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/228589620/Research+Data+Store). You should have a File Explorer (Windows) or Finder (MacOS) window open and displaying the files and folders in your RDS project directory.
+
+Next download `cyberduck` from https://cyberduck.io and open it and connect to Gadi:
+
+  1. Click on the `Open Connection` icon at the top of the window.
+  2. Select **SFTP (SSH File Transfer Protocol)** from the drop-down menu at the top of box.
+  3. In the **Server** field, enter `gadi-dm.nci.org.au`.
+  4. In the **Username** field, enter your **NCI Username**.
+  5. In hte **Password** field, enter your **NCI password**.
+  6. Click **Connect**.
+  7. If an **Unknown fingerprint** box appears, click the **Always** check box in the lower-left hand corner, then click **Allow**.
+
+If you have successfully logged in, you will see a directory listing of `/home/<user login>`. You can browse to your project folder either in `/scratch` or `/g/data` by pressing `Ctrl + g` and then typing `/scratch/<project id>` or `/g/data/<project id>`.
+
+You can then transfer data to and from RDS and NCI by dragging and dropping files between your computer’s file explorer and the Cyberduck window.
+
+:::
 
 ### Transfer from ssh connection to RDS
 
@@ -38,6 +92,8 @@ Due to stringent security settings around Artemis and RDS, commands like `rsync`
 ### Transfer using rsync from Artemis dtq - PRIOR TO DECOMISSION ONLY
 
 For transfer of large files directly from Artemis to Gadi, the use of resumable `rsync` is recommended (see script below). As the USyd RDS servers only allow sftp connections, this method is not possible to run on Gadi’s `copyq`. Instead, the transfer can be initiated using Artemis `dtq` and using Gadi’s data mover node: `gadi-dm.nci.org.au`. After the decomisison of Artemis, Globus will provide fast and reliable large data transfers. 
+
+# Examples of the above transfer methods
 
 ## Transfer using RDS mapped network drive and data transfer client
 
