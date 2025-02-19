@@ -13,7 +13,7 @@ In this section, we will look at transferring data between the Research Data Sto
 The main challenges users may face adapting Artemis workflows to Gadi are:
  
 - [Adjusting PBS directives to suit Gadi requirements and queue structure](./08_job_script.qmd)
-- [Lack of internet access for Gadi compute nodes](./08_job_script.qmd)
+- [Lack of internet access for Gadi compute nodes](./08_job_script.qmd#lack-of-internet-access-on-compute-nodes)
 - Data transfer
 - [Gadi walltime limit of 48 hours](./12_walltime.qmd)
 - [Understanding NCI accounting of KSU, disk and iNode limits](./06_accounting.qmd)
