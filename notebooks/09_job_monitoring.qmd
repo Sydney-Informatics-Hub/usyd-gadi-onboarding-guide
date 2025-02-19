@@ -7,6 +7,68 @@ output:
 from: markdown+emoji
 ---
 
-Jobs submitted to Gadi are given a jobID, this is shown to you as soon as it has been accepted and is a string of eight numbers, e.g. 12345678. You should monitor your jobs to keep track of their progress but refrain from checking your jobs too frequently. Repeated queries will be considered attacks, especially in quick succession and you may get a warning from NCI. NCI recommends querying your jobs' status a maximum of once every 10 minutes.
+## Job monitoring
 
-- [Job monitoring on Gadi](https://opus.nci.org.au/spaces/Help/pages/236880322/Job+monitoring...) 
+You should monitor your jobs to keep track of their progress but refrain from checking your jobs too frequently. Repeated queries will be considered attacks, especially in quick succession and you may get a warning from NCI. NCI recommends querying your jobs' status a maximum of once every 10 minutes.
+
+Like Artemis, you can use the `qstat` command to monitor jobs on Gadi. The NCI Gadi [job monitoring page](https://opus.nci.org.au/spaces/Help/pages/236880322/Job+monitoring...) describes some commonly used flags to qstat. 
+
+You can also use the bespoke `nqstat_anu` utility (ANU = The Australian National University, where Gadi is housed) which provides a way of observing how much CPU and memory your job is currently using. 
+
+## Job IDs
+
+Like Artemis jobs, jobs submitted to Gadi are given a jobID. This is shown to you as soon as it has been accepted, for example `135615373.gadi-pbs`. 
+
+When querying the job with `qstat`, you can use the full ID, or just the string of numbers (omit the `.gadi.pbs`). 
+
+For example, the below two commands are equivalent:
+
+```
+qstat -xf 135615373.gadi-pbs
+qstat -xf 135615373
+```
+
+If you have multiple jobs running, you do not need to check them individually with the job ID. You can check the status of multiple jobs using your NCI user ID:
+
+```
+qstat -u <nci-user-id>
+```
+
+
+## Job logs
+
+By default, the PBS job logs will be created in the directory from which the `qsub` command was entered, and combine the `job name` and the `job ID`. 
+
+For example, a job with `#PBS -N convert` and job ID `133703660` will have standard output and resource usage written to `convert.o133703660` and standard error written to `convert.e133703660`. 
+
+This differs slightly to Artemis, which has the same default filepath behaviour except the standard output is sent to the <job-name>.o<job-id> and the resource usage is sent to <job-name>.o<job-id>_usage. 
+
+The Gadi `.o` file has the resource usage at the end of the log making it easy to view a quick summary with the `tail` command:
+
+```
+$ tail -n 11 convert.o133703660 
+                  Resource Usage on 2025-02-05 16:16:10:
+   Job Id:             133703660.gadi-pbs
+   Project:            aa00
+   Exit Status:        0
+   Service Units:      23.94
+   NCPUs Requested:    7                      NCPUs Used: 7               
+                                           CPU Time Used: 02:57:33        
+   Memory Requested:   63.0GB                Memory Used: 51.14GB         
+   Walltime requested: 08:00:00            Walltime Used: 02:44:09        
+   JobFS requested:    100.0MB                JobFS used: 0B              
+======================================================================================
+```
+
+If desired, you can change the default log filepaths with the `-o` and `-e` directives, for example:
+
+```
+#PBS -o ./logs/convert-fast5.o
+#PBS -e ./logs/convert-fast5.e
+```
+This omits the job ID from being included in the log file name and sends the logs to a different directory. 
+
+
+
+
+
