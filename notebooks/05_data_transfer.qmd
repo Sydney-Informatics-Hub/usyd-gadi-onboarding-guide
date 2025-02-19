@@ -12,8 +12,8 @@ In this section, we will look at transferring data between the Research Data Sto
  
 The main challenges users may face adapting Artemis workflows to Gadi are:
  
-- [Adjusting PBS directives to suit Gadi requirements and queue structure](./08_job_script)
-- [Lack of internet access for Gadi compute nodes](./08_job_scripts)
+- [Adjusting PBS directives to suit Gadi requirements and queue structure](./08_job_script.qmd)
+- [Lack of internet access for Gadi compute nodes](./08_job_script.qmd)
 - Data transfer
 - [Gadi walltime limit of 48 hours](./12_walltime.qmd)
 - [Understanding NCI accounting of KSU, disk and iNode limits](./06_accounting.qmd)
@@ -85,7 +85,7 @@ For smaller files or datasets, for example a set of scripts that you are going t
 
 While simple to use, these are not recommended for large data transfers, as the local computer becomes a bottleneck and they are generally not resumable after interruption. Faster speeds will be obtained if you are on campus, but still this method may be prohibitively slow for larger datasets.
 
-::: {.callout-note}
+::: {.callout-tip}
 ## Example using `cyberduck`
 
 The following are instructions using the `cyberduck` data transfer client. The process using `filezilla` is similar with the same username the same username and server IP address as shown in this example.
@@ -228,9 +228,9 @@ Before you use the scripts below with `copyq`, you will need to set up SSH keys 
 
 #### Template copyq scripts for transferring data with `sftp`
 
-The scripts below use sftp to transfer data between RDS and Gadi on the Gadi copyq. `sftp` can transfer whole files and directories but must copy all of your data every time, it cannot only copy modified files like `rsync` can. This makes it considerably slower for copying large datasets where only minor changes have been made during a run. An alternative command `lftp` can behave like `rsync` but is slower to transfer than `sftp`. We also provide a template `lftp` script below. 
+The scripts below use `sftp` to transfer data between RDS and Gadi on the Gadi `copyq`. `sftp` can transfer whole files and directories but must copy all of your data every time, it cannot only copy modified files like `rsync` can. This makes it considerably slower for copying large datasets where only minor changes have been made during a run. An alternative command `lftp` can behave like `rsync` but is slower to transfer than `sftp`. We also provide a template `lftp` script below. 
 
-Copies of these scripts have been placed in `/scratch/qc03/data-transfer-scripts/gadi-scripts`. You can make a copy of these scripts to your /scratch/<nci-project-code> or /home/<nci-user-id> workspace on Gadi and edit (for example using `nano <script>`), by replacing the names described in the header to suit your needs.
+Copies of these scripts have been placed in `/scratch/qc03/data-transfer-scripts/gadi-scripts`. You can make a copy of these scripts to your `/scratch/<nci-project-code>` or `/home/<nci-user-id>` workspace on Gadi and edit (for example using `nano <script>`), by replacing the names described in the header to suit your needs.
 
 There are two scripts: 
 
@@ -323,7 +323,7 @@ sftp -r ${remote_user}@${remote_host}:${remote_path}/${remote_dir} ${dest_path}
 Here is an example showing you how to transfer a folder called `MyData` in the RDS project `MYPROJECT` to
 some scratch space in Gadi owned by project `aa00`.
 
-::: {.callout-note}
+::: {.callout-tip}
 # Example `copyq` transfer from RDS to Gadi
 
 Log into Gadi and change directory to your project space and make a folder for your workspace:
@@ -338,7 +338,7 @@ cd /scratch/aa00
 mkdir /scratch/aa00/workspace
 ```
 
-Copy the required data transfer script template from /scratch/qc03 to your newly made workspace. In this case we ar copying from RDS
+Copy the required data transfer script template from `/scratch/qc03` to your newly made workspace. In this case we ar copying from RDS
 to Gadi so we use the `from_rds_to_gadi.pbs` script. You can also cut and paste the template script into your editor from above and
 then save the edited script to your workspace.
 
@@ -398,7 +398,7 @@ dest_path=/scratch/aa00/MyData
 sftp -r ${remote_user}@${remote_host}:${remote_path}/${remote_dir} ${dest_path}
 ```
 
-When you have finished editing the script save it (using `<ctrl> - x` and answering `Y` at the prompt)
+When you have finished editing the script save it (using `<ctrl> - x` and answering `y` at the prompt if using `nano` as your editor)
 
 **Run the transfer script**
 
