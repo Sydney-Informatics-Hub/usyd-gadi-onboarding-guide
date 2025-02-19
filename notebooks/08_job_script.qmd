@@ -28,20 +28,25 @@ In this section, we will look at the first two on this list. For the remaining c
 
 Like Artemis, NCI runs the [Altair PBS professional workload manager](https://altair.com/pbs-professional). 
 
-While you can run simple commands on the login nodes on Gadi, commands are throttled. This means they execute more slowly than on the compute nodes and are automatically killed if they exceed CPU, memory and time restrictions that are in place. This is to ensure the login nodes are not over-loaded, ensuring that they remain responsive for all users.  
+While you can run simple commands on the login nodes on Gadi, commands are throttled. This means they execute more slowly than on the compute nodes and are automatically killed if they exceed CPU, memory and time restrictions that are in place. This is to ensure the login nodes are not over-loaded and remain responsive for all users. As such, all complex or resource-intensive tasks must be submitted to the job scheduler for execution on the cluster nodes.  
 
-Submitting complex or resource-intensive tasks on Gadi's job queues is very similar to submitting jobs on Artemis. You will submit a PBS (Portable Batch System) submission script that specifies your job's compute requirements along with the commands to execute the tasks. 
+Submitting jobs on Gadi is very similar to submitting jobs on Artemis. You will submit a PBS (Portable Batch System) submission script that specifies your job's compute requirements along with the commands to execute the tasks. 
 
 PBS scripts are text files that contain directives and commands that specify the resources required for a job and the commands to run. Typically they are named `<script_name>.pbs` however the `.pbs` suffix is not required, merely helpful to discern the intention of the script. 
 
-Once submitted to the PBS job scheduler with the `qsub` command, the scheduler reads the compute requirements from the `directives` component of the script, and either runs your job right away (if the requested resources are available) or queues the job to run later (if the requested resurces are not currently available). 
+Once submitted to the PBS job scheduler with the `qsub` command, the scheduler reads the compute requirements from the `directives` component of the script, and either runs your job right away (if the requested resources are immediately available) or queues the job to run later (if the requested resurces are not currently available). 
+
+## Job scheduling priority
+
+On Artemis, you will have some familiarity with the concept of 'fair share' use, where compute jobs you run increase your project's 'fair share weight' which temporarily decreases the priority of your jobs in the queue. This is **not the case on Gadi**, where all jobs have equal priority. The only factors that limit how quickly your jobs leave the queue and start running are the resources you request combined with current resource availability. In order to have your job be queued (and not 'held' after submission), you must have sufficient KSU in your project. This will be described under [queue charge rates](#queue-charge-rates).
+
 
 
 ## PBS directives
 
 PBS directives outline your job's resource needs and execution details. Each directive starts with `#PBS` in order to directly communicate with the job scheduler and not be confused with other code or comments in your script. The directives section should sit at the top of your script, with no blank lines between them, and any commands required to perform your compute task follow below the last directive.  
 
-The  [NCI Gadi PBS directives guide](https://opus.nci.org.au/spaces/Help/pages/236881349/PBS+Directives...) provides a detailed overview of directives. Some simple examples are shown below. 
+Below is a simple example of the PBS directives portion of a Gadi job script. For details on more options, please see the [NCI Gadi PBS directives guide](https://opus.nci.org.au/spaces/Help/pages/236881349/PBS+Directives...). 
 
 
 ```default
@@ -57,31 +62,23 @@ The  [NCI Gadi PBS directives guide](https://opus.nci.org.au/spaces/Help/pages/2
 #PBS -l wd
 ```
 
-- `-P`: Project code for resource accounting
-    - Must be a valid NCI project code of which you are a member
-- `-q`: Queue selection (e.g., normal or hugemem)
-    - See Gadi's [queue structure](https://opus.nci.org.au/spaces/Help/pages/236880996/Queue+Structure+on+Gadi...) and [queue limits](https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...) pages for more details
+- `-P`: Project code for resource accounting. Must be a valid NCI project code of which you are a member
+- `-q`: Queue selection (e.g., `normal` or `hugemem`). See Gadi's [queue structure](https://opus.nci.org.au/spaces/Help/pages/236880996/Queue+Structure+on+Gadi...) and [queue limits](https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...) pages for more details
 - `-l ncpus`: Number of requested CPUs
 - `-l mem`: amount of requested memory
 - `-l jobfs`: Local-to-the-node disk space on the compute node
-- `-l walltime`: Requested job walltime
-    - Your job will only be charged for the walltime it uses, not the maximum walltime requested
-- `-l storage`: Filesystems your job will access
-    - `/scratch/<project>` is accessible by default. To access any other scratch or gdata locations, list them here. Note to use no spaces or leading `/` characters
-- `-l wd`: Set the working directory to the submission directory
-    - This is equivalent to `cd $PBS_O_WORKDIR`
+- `-l walltime`: Requested job walltime. Your job will only be charged for the walltime it uses, not the maximum walltime requested
+- `-l storage`: Filesystems your job will access. `/scratch/<project>` is accessible by default. To access any other scratch or gdata locations, list them here. Note to use no spaces or leading `/` characters
+- `-l wd`: Set the working directory to the submission directory. This is equivalent to `cd $PBS_O_WORKDIR`
 
 
 ## Differences between Artemis and Gadi PBS scripts
 
 - The `-l storage` directive is required on Gadi but not Artemis. Failure to include required storage locations will kill the job, for example with `No such file or directory` errors
-- On Gadi, user must review their resoure requirements against the queue structure and limits in order to request a specific queue. On Artemis, the scheduler managed this automatically according to requested resources and queue loads
-- Maximum walltime for any queue is 48 hours. For large numbers of nodes requested in a single job, the maximum walltime reduces. This is described in the [queue limits](https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...) page. 
-    - See [Working within walltime limit](./NN_walltime_limit.qmd) for more details 
-- The requested resources are checked against the quantity of remaining KSU in the project specified at `-P`. If there is insufficient KSU to run the job, the job will be held. This will show as `H` status when the job is queried with `qstat`. 
-    - See [Accounting](./06_accounting.qmd) for more details 
-- Job arrays (eg `$#PBS J 1-1000`) are not permitted on Gadi 
-    - See [Parallel jobs](./NN_parallel_jobs.qmd) and [nci-parallel](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...) for more details
+- On Gadi, users must review their resoure requirements against the queue structure and limits in order to **request a specific queue**. On Artemis, the scheduler managed this automatically according to requested resources and queue loads
+- Maximum walltime for any queue is 48 hours. For large numbers of nodes requested in a single job, the maximum walltime reduces. This is described in the [queue limits](https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...) page. See [Working within walltime limit](./NN_walltime_limit.qmd) for more details 
+- The requested resources are checked against the quantity of remaining KSU in the project specified at `-P`. If there is insufficient KSU to run the job, the job will be held. This will show as `H` status when the job is queried with `qstat`. See [queue charge rates](#queue-charge-rates) for more details 
+- Job arrays (eg `$#PBS J 1-1000`) are not permitted on Gadi. See [Parallel jobs](./13_parallel_jobs.qmd) and [nci-parallel](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...) for more details
 - Unlike Artemis, Gadi compute nodes lack internet access. If you have a job script that relies on an external network call such as reading from a live database, you will need to adapt your method (for example pre-downloading the required information with `copyq` before running the compute job) or use an alternate platform such as [Nirin](https://opus.nci.org.au/spaces/Help/pages/152207472/Nirin+Cloud+User+Guide)
 
 
@@ -126,11 +123,11 @@ As you can see, there is very little difference between these two scripts. They 
 
 The command to submit this script is also the same on Artemis and Gadi:
 
-```
+```bash
 qsub run_my_python_script.pbs
 ```
 
-Adapting your existing Artemis job scripts to Gadi should be fairly simple for most users, beginning with adjusting the directives and establishing required software. See [Software](./11_software.qmd) for more details on this.
+Adapting your existing Artemis job scripts to Gadi should be fairly simple for most users, beginning with adjusting the directives and establishing required software. See [Software](./11_software.qmd) for more details on Gadi software availability.
 
 ## Selecting the right queue
 
@@ -144,28 +141,101 @@ View the available queues on the [Gadi queue structure page](https://opus.nci.or
 - large memory queues
 - express queues
 - GPU queues
+- data transfer queue (copyq) 
 - 'Cascade Lake' and 'Broadwell (ex-Raijin)' queues
     - The Cascade Lake nodes are newer hardware and thus faster than the Broadwell nodes. Raijin was the previous NCI HPC, decomissioned in 2019 
     - They have a lower charge rate than the equivalent Cascade Lake queue, and this can be utilised to help minimise compute cost when the reduced processor speed is not overly detrimental to the job or your research timeline
-- data transfer queue (copyq) 
+    - They have different numbers of CPU (48 or 28) and different total memory per node
+
 
 
 Each queue has different hardware, limits, and charge rates. Before submitting any jobs on Gadi, it is important to review this page along with the [queue limits page](https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...) which describes each queue in more detail. 
 
-You will note that each queue also has a corresponding queue that ends in `-exec`. You cannot submit directly to the `-exec` (execution) queue - your jobs will be placed there via the 'route queue' that you submit to. ie you will submit to `normal` (route queue) and the job will run on `normal-exec` (execution queue). 
+You will note that each queue also has a corresponding queue that ends in `-exec`. You cannot submit directly to the `-exec` (execution) queue - your jobs will be placed there via the 'route queue' that you submit to. For example, for a job you want to run on the Cascade Lake `normal` queue, you will include the directive `#PBS -q normal` (submit to route queue) and the job will run on `normal-exec` (execution queue). 
+
+### Queue charge rates 
+
+By now you should be familiar with the concept of an NCI `service unit` (SU, or sometimes KSU for 1,000 SU or MSU for 1 million SU).
+
+Each new NCI project under the Sydney Scheme is granted 1 KSU by default, and requests can be made for more as required. 
+
+A `service unit` is based on a CPU hour, ie 'one hour of walltime on one CPU'. Each queue has a different charge rate applied to the CPU hour, so that one CPU hour on a given resource may cost between 1.25 SU and 6 SU, depending on the charge rate for that queue. More specialised and scarce resources are charged at a higher rate to ensure that only users who genuinely need these use them. 
+
+The charge rates can be found in column 4 of the [queue limits table](https://opus.nci.org.au/spaces/Help/pages/90308823/Queue+Limits). 
+
+**Don't be alarmed by the charge rates:** please submit your job to the most appropriate queue based on required resources. The accounting method combined with stricter walltimes, newer hardware and software, and more vast physcial resources compared to Artemis will likely see your compute jobs complete in a faster turnaround time compared to what you are used to. 
+
+Understanding charge rates is important for two main reasons:
+
+1. Judicious use of resources. KSU is provided to you in-kind by The University of Sydney. It is your responsibility to ensure efficient use of these resources. Selecting the appropriate queue for your job avoids wastage and avoids unecessary impacts on other users of this national resource. 
+2. Ensuring your job can run. Jobs can only leave the route queue and join the execution queue if sufficient SU are available to the project assuming the job runs for its full requested walltime. 
+
+For example, if your project has 1 KSU and you submit a job script with the following directives:
+
+```bash
+#PBS -q hugemem
+#PBS -l ncpus=48
+#PBS -l mem=1470GB
+#PBS -l walltime=12:00:00
+```
+
+Your job will not join the compute queue - it will be `held`, showing a status of `H` when `qstat` is run. The reason for hold status is that the requested job requires more service units than the project has available. 
+
+You can view your project budget with the following command:
+
+```bash
+nci_account -P <nci-project-code>
+```
+
+This will show the total allocated for the current quarter, the amount used, the amount reserved (by running or queued jobs), and the amount available. Any new job you submit MUST request less than the amount available. 
+
+The required SU available to run the job can be calculated by the formula:
+
+```default
+walltime-hours * CPU * charge-rate
+```
+
+so for the above example:
+
+```default
+12 h * 48 CPU * 3 charge rate = 1728 SU
+```
+
+Since 1728 SU is more than the 1 KSU the project has available, the job cannot run. You will need to either:
+
+1. [Obtain more KSU](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme#Additional-Service-Unit-Requests)
+2. Reconfigure your job to fit under the 1 KSU you have available. 
+
+You might consider reducing walltime, CPUs, change the queue, etc, depending on your job and what you expect are its minimum viable resouce requests. You can do this by killing the job, editing the directives and resubmitting, **OR** use the `qalter` PBS command to change the directives of the held job. For the above example, let's assume the requested walltime of 12 hours was an extremely conservative estimate and realistically you expect the job should complete in less than 2 hours. You could run this command:
+
+```bash
+qalter -l walltime=02:00:00 <jobid> 
+```
+
+This would reduce the SU for the submitted job to 288 SU and the job would then be picked up by the next scheduling cycle and enter the queue. 
+
+ 
+
+### Queue selection examples
+
+#### Example 1
+
+You have a small job that only uses a single CPU and 2 GB RAM, but will run for a whole day. Which of the queues would be appropriate?
+
+::: {.callout-note collapse="true"}
+## Answer
+normal, normalbw, express, expressbw. While you could use the express queues, the charge rate is higher so the non-express normal queues would be more economical.
+:::
 
 
-### Example 1
 
-You have a small job that only uses a single CPU and 2 GB RAM, but will run for a whole day. Which of the queues would be apropriate?
-
-Answer: normal, normalbw, express, expressbw. While you could use the express queues, the charge rate is higher so the non-express normal queues would be more economical. 
-
-### Example 2 
+#### Example 2 
 
 You have a job that requires 384 GB memory and 12 CPU. Which queue would you use?
 
-Answer: hugemem, with 12 CPU and 384 GB memory, or hugemembw, with 14 CPU as CPUs must be requested in multiples of 7 on this queue. 
+::: {.callout-note collapse="true"}
+## Answer
+hugemem, with 12 CPU and 384 GB memory, or hugemembw, with 14 CPU as CPUs must be requested in multiples of 7 on this queue. 
 
 Which would be the better choice? 
 
@@ -173,51 +243,94 @@ If the job ran for 2 hours, charge rate would be:
 hugemem: 12 CPU * 2 h * 3 charge rate = 72 SU
 hugemembw: 14 CPU * 2 h * 1.25 charge rate = 35 SU. 
 
-Hugemem may execute faster with the newer hardware, yet hugemembw may consume less KSU. hugemembw also has more mem per CPU than hugemem (36 GB vs 32 GB). Benchmarking will demonstrate which of these configurations is more suited to your job. 
+Hugemem may execute faster with the newer hardware, yet hugemembw may consume less KSU. hugemembw also has more mem per CPU than hugemem (36 GB vs 32 GB). Benchmarking will demonstrate which of these configurations is more suited to your job.
+
+See [job efficiency](10_job_efficiency.qmd) for tips to determine the best compute resources for your job.
+:::
 
 
-### Example 3
+#### Example 3
 
 You have a job that requires 20,000 CPU. Fill in the below directives for this job, including the maximum permissable walltime:
 
+```bash
+#PBS -l ncpus=<value>
+#PBS -l mem=<value>
+#PBS -l walltime=<value>
 ```
+
+::: {.callout-note collapse="true"}
+## Answer
+```bash
 #PBS -l ncpus=20016
 #PBS -l mem=3803040GB
 #PBS -l walltime=05:00:00
-
 ```
 
 Why 20,016? When requesting >1 node on Gadi, only whole nodes can be requested. So to reach 20,000 CPU in a single job would require the use of the Cascade Lake normal queue, where the nodes have 48 CPU per node, and this would be 20,000 * 48 = 416.7 nodes, so we need to round up to 417 nodes, which is 417 * 48 = 20,016 CPU. 
-Why 5 hour walltime not 48 hours? As the quantity of CPU requested increases, maximum walltime goes down. This information can be found in the last column on the queue limts table. 
 
-### Example 4
+Why 5 hour walltime not 48 hours? As the quantity of CPU requested increases, maximum walltime goes down. This information can be found in the last column on the queue limts table. 5 hours is the maximum amount of walltime allowed for jobs requesting more than 3024 CPUs (63 nodes) in this queue. To request the maximum walltime of 48 hours on this queue, the job must request at most 672 cores (14 nodes). 
+
+If your job required *exactly* 20,000 CPU, you would simply provide this hard-coded value to the relevant command. The number of requested KSU to the job can be accessed from the environment variable `$PBS_NCPUS`.
+
+:::
+
+
+#### Example 4
 
 Your job requires GPUs. Which queues could you use?
 
-Answer: gpuvolta or dgxa100 queue
+::: {.callout-note collapse="true"}
+## Answer
+gpuvolta or dgxa100 queue
+:::
 
 ## Lack of internet access on compute nodes 
 
-- example single job on Artemis vs a 2-part job (one copyq, one compute) on Gadi 
+The only Gadi queue with internet access is `copyq`. This queue is not suitable for running compute tasks. It allows only single-core jobs and has a maximum walltime of 10 hours. Jobs that require up-to-date information retrieval from external servers have a few options: 
+
+1. Split the job into two parts: a download or web query task submitted to `copyq`, ensuring that the retrieved data is saved to persistent disk (ie not the local-to-the-node storage that is deleted upon job completion), followed by a a compute job submitted to one of the appropriate compute queues, reading in the requried inputs saved from job 1. 
+2. Run the job via [ARE](https://opus.nci.org.au/spaces/Help/pages/162431120/ARE+User+Guide), which provides a graphical user interface run on Gadi's compute queues plus internet access capability. 
+3. Use NCI's [Nirin cloud](https://opus.nci.org.au/display/Help/Nirin+Cloud+User+Guide) instead of Gadi.  
+
 
 ## Submitting a PBS script
 
 Like on Artemis, the `qsub` command is used to submit the job to the scheduler. Please visit the [NCI Gadi job submisison page](https://opus.nci.org.au/spaces/Help/pages/236880320/Job+Submission...) if you require  more details on this. 
 
+After your job is submitted, job monitoring and job logs are very similar to your experience on Artemis. Please see [job monitoring](./09_job_monitoring.qmd) for more details. 
+
 ## Interactive jobs
 
+Interactive jobs are useful for jobs that require user input feedback as an analysis progresses, or can be useful for testing commands/tools prior to submiting a full job via a PBS script. 
 
-## Alternative means of running jobs
+Running an interactive job on Gadi is very similar to an Artemis interactive job: you provide the relevant directives on the command line rather than from within a script, and include `-I` instead of `#PBS -q <queue>`. 
 
-We have looked at running jobs with a PBS script or interactive compute session. If these methods do not suit your needs, below are some other options available to you through your NCI account. 
+For example, to start an interactive job with 4 CPU for 1 hour, enter the following command on the Gadi login node: 
 
-### Persistent sesszions
+```bash
+qsub -I -P <nci-project-code> -l walltime=00:01:00,ncpus=4,mem=16GB,storage=<required-storage-paths>,wd
+```
 
-### I/O intensive
+After you enter the command, you will receive a message `qsub: waiting for job <id>.gadi-pbs to start`. 
 
-### ARE
+Once your interactive job has left the queue and started, you will receive a message `qsub: job <id>.gadi-pbs ready`. Notice that your command prompt has changed, indicating the node ID you are on instead of the login node ID. 
 
-### Cloud 
+You can then interactively enter the commands required for your compute task. To terminate the interactive job, enter `exit`.
+
+
+## Persistent sessions
+
+To support the use of long-running, low CPU and low memory demand processes, NCI provides a [persistent sessions](https://opus.nci.org.au/spaces/Help/pages/241927941/Persistent+Sessions...) service on Gadi. This service is primarily designed for the use of workflow management tools (eg nextflow) that automatically submit and monitor PBS jobs to the Gadi compute queues.
+
+Workflow management tools are a unique use case where the 'head job' requires internet access (provided through the persistent session) and access to the scheduler to submit a series of chained compute jobs to various queues depending on the unique workflow configuration. 
+
+**This service is NOT designed for computational work, large downloads, or other intensive tasks. These jobs should be submitted to the appropriate PBS queues.**
+
+
+
+
+
 
 
 
