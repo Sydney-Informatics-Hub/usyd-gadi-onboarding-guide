@@ -14,7 +14,7 @@ The main challenges users may face adapting Artemis workflows to Gadi are:
  
 - [Adjusting PBS directives to suit Gadi requirements and queue structure](./08_job_script)
 - [Lack of internet access for Gadi compute nodes](./08_job_scripts)
-- [Data transfer](./05_data_transfer.qmd)
+- [Data transfer]
 - [Gadi walltime limit of 48 hours](./12_walltime.qmd)
 - [Understanding NCI accounting of KSU, disk and iNode limits](./06_accounting.qmd)
 - [Automatic 100-day Gadi /scratch purge policy](https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...#RecoverFiles...-RecoverQuarantinedFilesonscratch)
@@ -29,17 +29,27 @@ On Gadi (like on Artemis) you have access to a number of different storage areas
 
 Each space is intended for use in a specific way:
 
-#### Home
+#### /home
 
-Your home space (`/home/<username>`) is owned by you and has 10 GiB of available space and this cannot be increased. It works similarly to your /home space on Artemis and should only be used to store things like program code, batch scripts or software configuration information. Note that space is extremely limited here and it is unadvisable to use this space for storing project data.
+Your home space (`/home/<username>`) is owned by you and has 10 GiB of available space. This cannot be increased.
 
-#### g/data
+It works similarly to your /home space on Artemis and should only be used to store things like program code, batch scripts or software configuration information. Note that as space is extremely limited here it is unadvisable to use this space for storing project data.
 
-Your `/g/data` space (`/g/data/<project_id>`) is owned by your project and has the available space allocated by the Sydney Scheme Manager. It is equivalent to `/project` on Artemis. The data are not backed up but they persist for the lifetime of your project. `/g/data` is inteded to be used to store longer term files that are reqularly used by your project during its lifetime. Always ensure your data is regularly backed up from here to the Research Data Store. `/g/data` may be accessed directly from PBS job scripts by using the `-lstorage` PBS directive in your PBS script.
+#### /g/data
+
+Your /g/data space (`/g/data/<project>`) is owned by your project and has the available space allocated by the Sydney Scheme Manager. It is equivalent of `/project` on Artemis.
+
+The files on /g/data are not backed up but they will persist there for the lifetime of your project.
+
+/g/data is inteded to be used to store longer term files that are reqularly used by your project during its lifetime. Always ensure your data is regularly backed up from here to the Research Data Store.
+
+`/g/data` may be accessed directly from PBS job scripts by using the `-lstorage` PBS directive.
 
 #### Scratch
 
-Your scratch space (`/scratch/<project_id>`) is owned by your project and has 1 TiB of available space which can be increased upon request. It is equivalent to `/scratch` on Artemis. Data are not backed up and files not accessed for 100 days will be quarantined for 14 days and then removed. Scratch should be used for temporary files associated with a job that has large data IO and not for longer term storage. Always ensure any data you need from a job that is left in /scratch is promptly backed up to the Research Data Store.
+Your scratch space (`/scratch/<project_id>`) is owned by your project and has 1 TiB of available space which can be increased upon request to NCI. It is roughly equivalent to `/scratch` on Artemis.
+
+Data are not backed up and files not accessed for 100 days will be quarantined for 14 days and then removed. Scratch should be used for temporary files associated with a job that has large data IO and not for longer term storage. Always ensure any data you need from a job that is left in /scratch is promptly backed up to the Research Data Store.
 
 To check the amount of disk space you have available in the data areas listed above you can use:
 
@@ -55,8 +65,17 @@ The RDS is NOT being decommisioned along with Artemis HPC. Any RDS projects you 
 In this section, we will mainly focus on how to transfer data between Gadi HPC and RDS. You should be able follow similar methods for copying data between your own laptop/server and Gadi.
 
 ## Data transfer options
+Depending on the size and complexity of the data you are transferring you have multiple options available:
 
-All data transfer to and from Gadi should be made using the "Data Mover Node" at `gadi-dm.nci.org.au` rather than the login nodes. This ensures that data transfer will not consume resources on the otherwise limited login nodes.
+  + For small transfers (<1GB) you can use a GUI based data transfer client such as `filezilla` or `cyberduck`.
+
+  + For mid sized transfers up to tens of GB you can use terminal based transfer.
+
+  + For large transfers (>100GB) you sould use the data transfer queue options on either Gadi (`dataq`) or Artemis (`dtq`). 
+
+::: {.callout-warning}
+All data transfer to and from Gadi should be made using the "Data Mover Node" at `gadi-dm.nci.org.au` where possible rather than the login nodes. This ensures that data transfer will not consume resources on the otherwise limited login nodes.
+:::
 
 ### Globus - COMING SOON
 
@@ -94,18 +113,16 @@ You can then transfer data to and from RDS and NCI by dragging and dropping file
 
 ### Transfer from Gadi/Artemis terminal to/from RDS
 
-You can use commands in your Terminal (Mac and linux: Terminal, Windows: Windows Terminal or Powershell equivalent) as an alternative to graphical applications. Since the connection will be terminated if your computer sleeps, terminal crashes, network drops out etc, this method is not particualrly robust for large transfers. For larger transfers rather use the queue based methods (either `copyq` or Gadi or `dt-queue` on Artemis) described below.
-
-Using programs like `tmux` or `screen` can help (see below), however note that the login server has finite capacity, and transfer speeds can be seriously impacted during times of high load. 
-
+You can use commands in your terminal application (Mac and linux: Terminal, Windows: Windows Terminal or Powershell equivalent) as an alternative to graphical applications. However, since the connection will be terminated if your computer sleeps, terminal crashes, network drops out etc, this method is not particualrly robust for large transfers. For these rather use the queue based methods (either `copyq` or Gadi or `dt-queue` on Artemis) described below.
 
 #### Transfers from a terminal on Gadi
 
 Due to stringent security settings around Artemis and RDS, familiar commands like `rsync` or `scp` **cannot** be initiated from NCI Gadi login nodes. Instead you have to use commands like `sftp` to copy the data.
 
+Please note that running these commands on the login nodes are not the recommended way to transfer research data to Gadi! For smaller downloads, this is OK, but for normal purposes the use of Gadi’s copyq and data mover nodes are the appropriate tools.
 
 ::: {.callout-note}
-## How to transfer from RDS to Gadi (and vice-versa) at a Gadi terminal
+## How to transfer data from RDS to Gadi (and vice-versa) from a Gadi login.
 
 To transfer data between RDS and Gadi from the Gadi login shell:
 
@@ -136,7 +153,7 @@ If you want to copy the other way around (ie. from Gadi /scratch to RDS) use
 :::
 
 
-#### Transfers from a terminal on Artemis using rsync - PRIOR TO DECOMISSION ONLY
+#### Transfers from a terminal on Artemis using rsync
 
 ::: {.callout-warning}
 This option is only available prior to the decommission of Artemis on 29 August 2025 - after that date you will have to use either GLOBUS (*preferred*), or copy data when logged into the Gadi terminal (wither at the login shell or using `copyq` scripts).
@@ -149,7 +166,7 @@ Using rsync will allow you to *sync* data between RDS and Gadi, this means that 
 ::: {.callout-tip}
 ## Transfer from direct connection to RDS
 
-You can also initiate the transfer in a terminal by connecting via ssh to `research-data-int.sydney.edu.au` (on campus or USyd VPN) and using the `rsync` method described below for Artemis logins.
+You can also initiate the transfer in a terminal from a connection via ssh to `research-data-int.sydney.edu.au` (on campus or USyd VPN) and using the `rsync` method described here - just replace `hpc.sydney.edu.au` with `research-data-int.sydney.edu.au` in step 1.
 :::
 
 ::: {.callout-note}
