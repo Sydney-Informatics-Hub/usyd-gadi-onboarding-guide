@@ -7,6 +7,101 @@ output:
 from: markdown+emoji
 ---
 
-## Shared modules 
+## Global apps
 
-## Running containers 
+On Gadi, global (shared) apps (a.k.a. modules) are in `/apps`. You can query availale apps with `ls /apps/` or run the `module aval <tool>` command you are already familiar with from Artemis. Likewise, continue to use `module load <tool>` or `module load <tool>/<version>` as you have done on Astemis. 
+
+Example: which python modules are available on Gadi, and how could you load a specific version?
+
+```
+# Check available versions:
+module avail python
+# Load a specific version: 
+module load python3/3.9.2 
+```
+Each global app has a default version, so if you run without specifying a version, the default version will be loaded. While this is OK in some circumstances, it is typically recommended to specify the version you know works for your code. Default versons of global apps will change over time without warning, so reproducibility and functionality is best maintained by explicitly stating the version when you load a module within your script. 
+
+
+
+### Global app installation
+
+Unlike Artemis, request of new apps to be installed are not always agreed to. NCI limits global apps to those with a high user base. This is to ensure good maintenance and curation of global apps.
+
+Users are encouraged to either self-install apps from source into their `/home` or `/g/data` locations, or use singularity containers. 
+
+NCI may provide support for users through  the self-install process. 
+
+
+
+## Running singularity containers 
+
+singularity is installed as a global app on Gadi, and can greatly simplify workflow implementation and reproducibility. 
+
+- finding a container
+- obtaining a container
+- obtaining a lot of containers (with copyq)
+- testing a container
+- using a containerised tool within a PBS script 
+
+
+
+
+Singularity is used to execute containerised applications on Gadi. Here's an example using a **FoldSeek** container from [quay.io](https://quay.io/repository/biocontainers/foldseek):
+
+First, you'll need to get a copy of the container you want to run as Gadi job queues do not have external network access and cannot download anything from the internet. 
+
+Run the following commands to download the container:
+
+```bash
+module load singularity
+singularity pull docker://quay.io/biocontainers/foldseek:0.6.2--h779adbc_0
+```
+
+This will create a `.sif` (Singularity Image File) in the current directory, **`docker://`**: Pulls the container from Quay.io or DockerHub directly:
+
+```bash
+foldseek_0.6.2--h779adbc_0.sif
+```
+
+Add the Singularity commands to your job script. For example:
+
+#### **Redirecting Output in Singularity**
+To capture output:
+```bash
+singularity exec \
+    foldseek_0.6.2--h779adbc_0.sif \
+    foldseek easy-search input.fasta \
+    database \
+    output \
+    foldseek_result.tsv > output.log 2>&1
+```
+
+
+
+## Full script example 
+
+Here is a very simple example of a full script that runs a Foldseek container on Gadi's normal CPU queue: 
+
+```bash
+#!/bin/bash
+
+#PBS -P aa00
+#PBS -q normal
+#PBS -l ncpus=4
+#PBS -l mem=10GB
+#PBS -l jobfs=200GB
+#PBS -l walltime=02:00:00
+#PBS -l storage=scratch/aa00+gdata/aa00
+#PBS -l wd
+
+# Load modules
+module load singularity
+
+# Run FoldSeek
+singularity exec \
+    /scratch/aa00/foldseek_0.6.2--h779adbc_0.sif \
+    foldseek easy-search /scratch/aa00/input.fasta \
+    /scratch/aa00/database \
+    /scratch/aa00/output \
+    /scratch/aa00/foldseek_result.tsv > /scratch/aa00/output.log 2>&1
+````
