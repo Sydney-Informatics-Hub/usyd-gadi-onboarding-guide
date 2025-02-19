@@ -31,25 +31,25 @@ Each space is intended for use in a specific way:
 
 #### /home
 
-Your home space (`/home/<username>`) is owned by you and has 10 GiB of available space. This cannot be increased.
+Your home space (`/home/<nci_user_id>`) is owned by you and has 10 GiB of available space. This cannot be increased.
 
 It works similarly to your /home space on Artemis and should only be used to store things like program code, batch scripts or software configuration information. Note that as space is extremely limited here it is unadvisable to use this space for storing project data.
 
+#### /scratch
+
+Your scratch space (`/scratch/<project>`) is owned by your project and has 1 TiB of available space which can be increased upon request to NCI. It is roughly equivalent to `/scratch` on Artemis.
+
+Data are not backed up and files not accessed for 100 days will be quarantined for 14 days and then removed (See [here](https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...RecoverFiles...-RecoverQuarantinedFilesonscratch) for instructions for removing files from quarantine). Scratch should be used for temporary files associated with a job that has large data IO and not for longer term storage. Always ensure any data you need from a job that is left in /scratch is promptly backed up to the Research Data Store.
+
 #### /g/data
 
-Your /g/data space (`/g/data/<project>`) is owned by your project and has the available space allocated by the Sydney Scheme Manager. It is equivalent of `/project` on Artemis.
+Your /g/data space (`/g/data/<project>`) is owned by your project and has the available space allocated by the Sydney Scheme Manager.
 
 The files on /g/data are not backed up but they will persist there for the lifetime of your project.
 
 /g/data is intended to be used to store longer term files that are regularly used by your project during its lifetime. Always ensure your data is regularly backed up from here to the Research Data Store.
 
 `/g/data` may be accessed directly from PBS job scripts by using the `-lstorage` PBS directive.
-
-#### Scratch
-
-Your scratch space (`/scratch/<project>`) is owned by your project and has 1 TiB of available space which can be increased upon request to NCI. It is roughly equivalent to `/scratch` on Artemis.
-
-Data are not backed up and files not accessed for 100 days will be quarantined for 14 days and then removed. Scratch should be used for temporary files associated with a job that has large data IO and not for longer term storage. Always ensure any data you need from a job that is left in /scratch is promptly backed up to the Research Data Store.
 
 To check the amount of disk space you have available in the data areas listed above you can type the command `lquota` at the Gadi prompt.
 
@@ -67,7 +67,7 @@ Depending on the size and complexity of the data you are transferring you have m
 
   + For mid sized transfers up to tens of GB you can use terminal based transfer.
 
-  + For large transfers (>100GB) you should use the data transfer queue options on either Gadi (`dataq`) or Artemis (`dtq`). 
+  + For large transfers you should use the data transfer queue options on either Gadi (`dataq`) or Artemis (`dtq`). 
 
 ::: {.callout-warning}
 All data transfer to and from Gadi should be made using the "Data Mover Node" at `gadi-dm.nci.org.au` where possible rather than the login nodes. This ensures that data transfer will not consume otherwise limited resources on the login nodes.
@@ -109,7 +109,7 @@ You can then transfer data to and from RDS and NCI by dragging and dropping file
 
 ### Transfer from Gadi/Artemis terminal to/from RDS
 
-You can use commands in your terminal application (Mac and linux: Terminal, Windows: Windows Terminal or Powershell equivalent) as an alternative to graphical applications. However, since the connection will be terminated if your computer sleeps, terminal crashes, network drops out etc, this method is not particularly robust for large transfers. For these rather use the queue based methods (either `copyq` or Gadi or `dt-queue` on Artemis) described below.
+You can use commands in your terminal application (Mac and linux: Terminal, Windows: Windows Terminal or Powershell equivalent) as an alternative to graphical applications. However, since the connection will be terminated if your computer sleeps, terminal crashes, network drops out etc, this method is not particularly robust for large transfers. For these rather use the queue based methods (either `copyq` or Gadi or `dtq` on Artemis) described below.
 
 #### Transfers from a terminal on Gadi
 
@@ -428,7 +428,7 @@ However, this doesn't guarantee the integrity of the files. You should check the
 :::
 
 
-#### Template copyq scripts for sync-ing data with `lftp`
+#### Template copyq scripts for syncing data with `lftp`
 
 If you have a large project with many files and only a few of them are modified at any time you can use the `mirror` command in `lftp` to only sync the modified files when you are backing up data to RDS. The `lftp - mirror` command transfers data at a slower speed than `sftp` but will significantly speed up the backup of data since it generally only needs to copy a small subset of all of the data on Gadi if only a few files have changed since the last sync.
 
