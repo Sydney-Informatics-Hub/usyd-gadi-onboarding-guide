@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.554">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>USyd NCI Gadi User Guide - Monitoring your job</title>
+<title>Monitoring your job – USyd NCI Gadi User Guide</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -37,10 +37,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-86daaaaad7353f9cc0c554efc1dd6d94.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-f4163e54545b01daaae269814d862f3d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -114,7 +114,7 @@ cookieconsent.run({
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -132,7 +132,7 @@ cookieconsent.run({
 <span class="menu-text">Set up your computer</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-introduction-to-gadi" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-introduction-to-gadi" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Introduction to Gadi</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-introduction-to-gadi">    
@@ -147,7 +147,7 @@ cookieconsent.run({
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-on-gadi" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-on-gadi" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Working on Gadi</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-working-on-gadi">    
@@ -174,7 +174,7 @@ cookieconsent.run({
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-running-a-job" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-running-a-job" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Running a job</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-running-a-job">    
@@ -194,7 +194,7 @@ cookieconsent.run({
   </li>
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -204,7 +204,15 @@ cookieconsent.run({
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#job-monitoring" id="toc-job-monitoring" class="nav-link active" data-scroll-target="#job-monitoring">Job monitoring</a></li>
+  <li><a href="#job-ids" id="toc-job-ids" class="nav-link" data-scroll-target="#job-ids">Job IDs</a></li>
+  <li><a href="#job-logs" id="toc-job-logs" class="nav-link" data-scroll-target="#job-logs">Job logs</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -228,12 +236,47 @@ cookieconsent.run({
 </header>
 
 
-<p>Jobs submitted to Gadi are given a jobID, this is shown to you as soon as it has been accepted and is a string of eight numbers, e.g.&nbsp;12345678. You should monitor your jobs to keep track of their progress but refrain from checking your jobs too frequently. Repeated queries will be considered attacks, especially in quick succession and you may get a warning from NCI. NCI recommends querying your jobs’ status a maximum of once every 10 minutes.</p>
-<ul>
-<li><a href="https://opus.nci.org.au/spaces/Help/pages/236880322/Job+monitoring...">Job monitoring on Gadi</a></li>
-</ul>
+<section id="job-monitoring" class="level2">
+<h2 class="anchored" data-anchor-id="job-monitoring">Job monitoring</h2>
+<p>You should monitor your jobs to keep track of their progress but refrain from checking your jobs too frequently. Repeated queries will be considered attacks, especially in quick succession and you may get a warning from NCI. NCI recommends querying your jobs’ status a maximum of once every 10 minutes.</p>
+<p>Like Artemis, you can use the <code>qstat</code> command to monitor jobs on Gadi. The NCI Gadi <a href="https://opus.nci.org.au/spaces/Help/pages/236880322/Job+monitoring...">job monitoring page</a> describes some commonly used flags to qstat.</p>
+<p>You can also use the bespoke <code>nqstat_anu</code> utility (ANU = The Australian National University, where Gadi is housed) which provides a way of observing how much CPU and memory your job is currently using.</p>
+</section>
+<section id="job-ids" class="level2">
+<h2 class="anchored" data-anchor-id="job-ids">Job IDs</h2>
+<p>Like Artemis jobs, jobs submitted to Gadi are given a jobID. This is shown to you as soon as it has been accepted, for example <code>135615373.gadi-pbs</code>.</p>
+<p>When querying the job with <code>qstat</code>, you can use the full ID, or just the string of numbers (omit the <code>.gadi.pbs</code>).</p>
+<p>For example, the below two commands are equivalent:</p>
+<pre><code>qstat -xf 135615373.gadi-pbs
+qstat -xf 135615373</code></pre>
+<p>If you have multiple jobs running, you do not need to check them individually with the job ID. You can check the status of multiple jobs using your NCI user ID:</p>
+<pre><code>qstat -u &lt;nci-user-id&gt;</code></pre>
+</section>
+<section id="job-logs" class="level2">
+<h2 class="anchored" data-anchor-id="job-logs">Job logs</h2>
+<p>By default, the PBS job logs will be created in the directory from which the <code>qsub</code> command was entered, and combine the <code>job name</code> and the <code>job ID</code>.</p>
+<p>For example, a job with <code>#PBS -N convert</code> and job ID <code>133703660</code> will have standard output and resource usage written to <code>convert.o133703660</code> and standard error written to <code>convert.e133703660</code>.</p>
+<p>This differs slightly to Artemis, which has the same default filepath behaviour except the standard output is sent to the <job-name>.o<job-id> and the resource usage is sent to <job-name>.o<job-id>_usage.</job-id></job-name></job-id></job-name></p>
+<p>The Gadi <code>.o</code> file has the resource usage at the end of the log making it easy to view a quick summary with the <code>tail</code> command:</p>
+<pre><code>$ tail -n 11 convert.o133703660 
+                  Resource Usage on 2025-02-05 16:16:10:
+   Job Id:             133703660.gadi-pbs
+   Project:            aa00
+   Exit Status:        0
+   Service Units:      23.94
+   NCPUs Requested:    7                      NCPUs Used: 7               
+                                           CPU Time Used: 02:57:33        
+   Memory Requested:   63.0GB                Memory Used: 51.14GB         
+   Walltime requested: 08:00:00            Walltime Used: 02:44:09        
+   JobFS requested:    100.0MB                JobFS used: 0B              
+======================================================================================</code></pre>
+<p>If desired, you can change the default log filepaths with the <code>-o</code> and <code>-e</code> directives, for example:</p>
+<pre><code>#PBS -o ./logs/convert-fast5.o
+#PBS -e ./logs/convert-fast5.e</code></pre>
+<p>This omits the job ID from being included in the log file name and sends the logs to a different directory.</p>
 
 
+</section>
 
 <p>All materials copyright Sydney Informatics Hub, University of Sydney</p></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -271,18 +314,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -314,7 +346,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -322,7 +374,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
@@ -419,7 +471,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

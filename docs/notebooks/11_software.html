@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.554">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>USyd NCI Gadi User Guide - Installing and managing software</title>
+<title>Installing and managing software – USyd NCI Gadi User Guide</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -37,10 +71,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-86daaaaad7353f9cc0c554efc1dd6d94.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-f4163e54545b01daaae269814d862f3d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -114,7 +148,7 @@ cookieconsent.run({
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -132,7 +166,7 @@ cookieconsent.run({
 <span class="menu-text">Set up your computer</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-introduction-to-gadi" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-introduction-to-gadi" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Introduction to Gadi</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-introduction-to-gadi">    
@@ -147,7 +181,7 @@ cookieconsent.run({
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-on-gadi" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-on-gadi" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Working on Gadi</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-working-on-gadi">    
@@ -174,7 +208,7 @@ cookieconsent.run({
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-running-a-job" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-running-a-job" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Running a job</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-running-a-job">    
@@ -194,7 +228,7 @@ cookieconsent.run({
   </li>
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -208,8 +242,12 @@ cookieconsent.run({
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#shared-modules" id="toc-shared-modules" class="nav-link active" data-scroll-target="#shared-modules">Shared modules</a></li>
-  <li><a href="#running-containers" id="toc-running-containers" class="nav-link" data-scroll-target="#running-containers">Running containers</a></li>
+  <li><a href="#global-apps" id="toc-global-apps" class="nav-link active" data-scroll-target="#global-apps">Global apps</a>
+  <ul class="collapse">
+  <li><a href="#global-app-installation" id="toc-global-app-installation" class="nav-link" data-scroll-target="#global-app-installation">Global app installation</a></li>
+  </ul></li>
+  <li><a href="#running-singularity-containers" id="toc-running-singularity-containers" class="nav-link" data-scroll-target="#running-singularity-containers">Running singularity containers</a></li>
+  <li><a href="#full-script-example" id="toc-full-script-example" class="nav-link" data-scroll-target="#full-script-example">Full script example</a></li>
   </ul>
 </nav>
     </div>
@@ -235,11 +273,75 @@ cookieconsent.run({
 </header>
 
 
-<section id="shared-modules" class="level2">
-<h2 class="anchored" data-anchor-id="shared-modules">Shared modules</h2>
+<section id="global-apps" class="level2">
+<h2 class="anchored" data-anchor-id="global-apps">Global apps</h2>
+<p>On Gadi, global (shared) apps (a.k.a. modules) are in <code>/apps</code>. You can query availale apps with <code>ls /apps/</code> or run the <code>module aval &lt;tool&gt;</code> command you are already familiar with from Artemis. Likewise, continue to use <code>module load &lt;tool&gt;</code> or <code>module load &lt;tool&gt;/&lt;version&gt;</code> as you have done on Astemis.</p>
+<p>Example: which python modules are available on Gadi, and how could you load a specific version?</p>
+<pre><code># Check available versions:
+module avail python
+# Load a specific version: 
+module load python3/3.9.2 </code></pre>
+<p>Each global app has a default version, so if you run without specifying a version, the default version will be loaded. While this is OK in some circumstances, it is typically recommended to specify the version you know works for your code. Default versons of global apps will change over time without warning, so reproducibility and functionality is best maintained by explicitly stating the version when you load a module within your script.</p>
+<section id="global-app-installation" class="level3">
+<h3 class="anchored" data-anchor-id="global-app-installation">Global app installation</h3>
+<p>Unlike Artemis, request of new apps to be installed are not always agreed to. NCI limits global apps to those with a high user base. This is to ensure good maintenance and curation of global apps.</p>
+<p>Users are encouraged to either self-install apps from source into their <code>/home</code> or <code>/g/data</code> locations, or use singularity containers.</p>
+<p>NCI may provide support for users through the self-install process.</p>
 </section>
-<section id="running-containers" class="level2">
-<h2 class="anchored" data-anchor-id="running-containers">Running containers</h2>
+</section>
+<section id="running-singularity-containers" class="level2">
+<h2 class="anchored" data-anchor-id="running-singularity-containers">Running singularity containers</h2>
+<p>singularity is installed as a global app on Gadi, and can greatly simplify workflow implementation and reproducibility.</p>
+<ul>
+<li>finding a container</li>
+<li>obtaining a container</li>
+<li>obtaining a lot of containers (with copyq)</li>
+<li>testing a container</li>
+<li>using a containerised tool within a PBS script</li>
+</ul>
+<p>Singularity is used to execute containerised applications on Gadi. Here’s an example using a <strong>FoldSeek</strong> container from <a href="https://quay.io/repository/biocontainers/foldseek">quay.io</a>:</p>
+<p>First, you’ll need to get a copy of the container you want to run as Gadi job queues do not have external network access and cannot download anything from the internet.</p>
+<p>Run the following commands to download the container:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load singularity</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> pull docker://quay.io/biocontainers/foldseek:0.6.2--h779adbc_0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will create a <code>.sif</code> (Singularity Image File) in the current directory, <strong><code>docker://</code></strong>: Pulls the container from Quay.io or DockerHub directly:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">foldseek_0.6.2--h779adbc_0.sif</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Add the Singularity commands to your job script. For example:</p>
+<section id="redirecting-output-in-singularity" class="level4">
+<h4 class="anchored" data-anchor-id="redirecting-output-in-singularity"><strong>Redirecting Output in Singularity</strong></h4>
+<p>To capture output:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec <span class="dt">\</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    foldseek_0.6.2--h779adbc_0.sif <span class="dt">\</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    foldseek easy-search input.fasta <span class="dt">\</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    database <span class="dt">\</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    output <span class="dt">\</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    foldseek_result.tsv <span class="op">&gt;</span> output.log <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="full-script-example" class="level2">
+<h2 class="anchored" data-anchor-id="full-script-example">Full script example</h2>
+<p>Here is a very simple example of a full script that runs a Foldseek container on Gadi’s normal CPU queue:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P aa00</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q normal</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=4</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=10GB</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l jobfs=200GB</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=02:00:00</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l storage=scratch/aa00+gdata/aa00</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Load modules</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load singularity</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Run FoldSeek</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec <span class="dt">\</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    /scratch/aa00/foldseek_0.6.2--h779adbc_0.sif <span class="dt">\</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    foldseek easy-search /scratch/aa00/input.fasta <span class="dt">\</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    /scratch/aa00/database <span class="dt">\</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    /scratch/aa00/output <span class="dt">\</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    /scratch/aa00/foldseek_result.tsv <span class="op">&gt;</span> /scratch/aa00/output.log <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
@@ -280,18 +382,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -323,7 +414,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -331,7 +442,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
@@ -428,7 +539,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
