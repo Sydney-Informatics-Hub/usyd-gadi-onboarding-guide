@@ -307,7 +307,7 @@ cookieconsent.run({
 </section>
 <section id="job-scheduling-priority" class="level2">
 <h2 class="anchored" data-anchor-id="job-scheduling-priority">Job scheduling priority</h2>
-<p>On Artemis, you will have some familiarity with the concept of ‘fair share’ use, where compute jobs you run increase your project’s ‘fair share weight’ which temporarily decreases the priority of your jobs in the queue. This is <strong>not the case on Gadi</strong>, where all jobs have equal priority. The only factors that limit how quickly your jobs leave the queue and start running are the resources you request combined with current resource availability. In order to have your job be queued (and not ‘held’ after submission), you must have sufficient KSU in your project. This will be described under <a href="#queue-charge-rates">queue charge rates</a>.</p>
+<p>On Artemis, you will have some familiarity with the concept of <strong>fair share</strong> use, where compute jobs you run increase your project’s ‘fair share weight’ which temporarily decreases the priority of your jobs in the queue. This is <strong>not the case on Gadi</strong>, where all jobs have equal priority. The only factors that limit how quickly your jobs leave the queue and start running are the resources you request combined with current resource availability. In order to have your job be queued (and not ‘held’ after submission), you must have sufficient KSU in your project. This will be described under <a href="#queue-charge-rates">queue charge rates</a>.</p>
 </section>
 <section id="pbs-directives" class="level2">
 <h2 class="anchored" data-anchor-id="pbs-directives">PBS directives</h2>
@@ -339,9 +339,9 @@ cookieconsent.run({
 <ul>
 <li>The <code>-l storage</code> directive is required on Gadi but not Artemis. Failure to include required storage locations will kill the job, for example with <code>No such file or directory</code> errors</li>
 <li>On Gadi, users must review their resoure requirements against the queue structure and limits in order to <strong>request a specific queue</strong>. On Artemis, the scheduler managed this automatically according to requested resources and queue loads</li>
-<li>Maximum walltime for any queue is 48 hours. For large numbers of nodes requested in a single job, the maximum walltime reduces. This is described in the <a href="https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...">queue limits</a> page. See <a href="./NN_walltime_limit.qmd">Working within walltime limit</a> for more details</li>
+<li>Maximum walltime for any queue is 48 hours. For large numbers of nodes requested in a single job, the maximum walltime reduces. This is described in the <a href="https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...">queue limits</a> page. See <a href="../notebooks/12_walltime.html">Working within walltime limit</a> for more details</li>
 <li>The requested resources are checked against the quantity of remaining KSU in the project specified at <code>-P</code>. If there is insufficient KSU to run the job, the job will be held. This will show as <code>H</code> status when the job is queried with <code>qstat</code>. See <a href="#queue-charge-rates">queue charge rates</a> for more details</li>
-<li>Job arrays (eg <code>$#PBS J 1-1000</code>) are not permitted on Gadi. See <a href="./13_parallel_jobs.qmd">Parallel jobs</a> and <a href="https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...">nci-parallel</a> for more details</li>
+<li>Job arrays (eg <code>$#PBS J 1-1000</code>) are not permitted on Gadi. See <a href="../notebooks/13_parralel_jobs.html">Parallel jobs</a> and <a href="https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...">nci-parallel</a> for more details</li>
 <li>Unlike Artemis, Gadi compute nodes lack internet access. If you have a job script that relies on an external network call such as reading from a live database, you will need to adapt your method (for example pre-downloading the required information with <code>copyq</code> before running the compute job) or use an alternate platform such as <a href="https://opus.nci.org.au/spaces/Help/pages/152207472/Nirin+Cloud+User+Guide">Nirin</a></li>
 </ul>
 <p>Below is an example Artemis job script:</p>
@@ -397,13 +397,14 @@ cookieconsent.run({
 </ul></li>
 </ul>
 <p>Each queue has different hardware, limits, and charge rates. Before submitting any jobs on Gadi, it is important to review this page along with the <a href="https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...">queue limits page</a> which describes each queue in more detail.</p>
-<p>You will note that each queue also has a corresponding queue that ends in <code>-exec</code>. You cannot submit directly to the <code>-exec</code> (execution) queue - your jobs will be placed there via the ‘route queue’ that you submit to. For example, for a job you want to run on the Cascade Lake <code>normal</code> queue, you will include the directive <code>#PBS -q normal</code> (submit to route queue) and the job will run on <code>normal-exec</code> (execution queue).</p>
+<p>You will note that each queue also has a corresponding queue that ends in <code>-exec</code>. You cannot submit directly to the <code>-exec</code> (execution) queue. Your jobs will be placed on the execution queue via the ‘route queue’ that you submit to. For example, for a job you want to run on the Cascade Lake <code>normal</code> queue, you will include the directive <code>#PBS -q normal</code> (submit to route queue) and the job will run on <code>normal-exec</code> (execution queue).</p>
 <section id="queue-charge-rates" class="level3">
 <h3 class="anchored" data-anchor-id="queue-charge-rates">Queue charge rates</h3>
 <p>By now you should be familiar with the concept of an NCI <code>service unit</code> (SU, or sometimes KSU for 1,000 SU or MSU for 1 million SU).</p>
 <p>Each new NCI project under the Sydney Scheme is granted 1 KSU by default, and requests can be made for more as required.</p>
 <p>A <code>service unit</code> is based on a CPU hour, ie ‘one hour of walltime on one CPU’. Each queue has a different charge rate applied to the CPU hour, so that one CPU hour on a given resource may cost between 1.25 SU and 6 SU, depending on the charge rate for that queue. More specialised and scarce resources are charged at a higher rate to ensure that only users who genuinely need these use them.</p>
 <p>The charge rates can be found in column 4 of the <a href="https://opus.nci.org.au/spaces/Help/pages/90308823/Queue+Limits">queue limits table</a>.</p>
+<p>It’s important to understand that requested memory also impacts the charge rate, not just the requested CPU, walltime and queue. In each queue, a CPU has an allocated amount of memory for accounting purposes. For example, in the Cascade Lake <code>normal</code> queue, there are 48 CPU and 192 GB total RAM. The amount of memory per CPU for accounting purposes is therefore 192 / 48 = 4 GB. If you request 1 CPU and 4 GB RAM, only the CPU affects the charge rate, as you are using only the memory allocation for one CPU. If however you request 1 CPU and 8 GB RAM, your charge rate will be based off 2 CPU of use, since you are using the memory allowance of 2 CPU. Note this is ‘for accounting purposes’ only, ie it is technically feasible for your job to run on 1 CPU and access 8 GB RAM (or more). This accounting is described on the NCI <a href="https://opus.nci.org.au/spaces/Help/pages/236880942/Job+Costs...">job costs</a> page, and will also be sumamrised below.</p>
 <p><strong>Don’t be alarmed by the charge rates:</strong> please submit your job to the most appropriate queue based on required resources. The accounting method combined with stricter walltimes, newer hardware and software, and more vast physcial resources compared to Artemis will likely see your compute jobs complete in a faster turnaround time compared to what you are used to.</p>
 <p>Understanding charge rates is important for two main reasons:</p>
 <ol type="1">
@@ -420,9 +421,11 @@ cookieconsent.run({
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nci_account</span> <span class="at">-P</span> <span class="op">&lt;</span>nci-project-code<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This will show the total allocated for the current quarter, the amount used, the amount reserved (by running or queued jobs), and the amount available. Any new job you submit MUST request less than the amount available.</p>
 <p>The required SU available to run the job can be calculated by the formula:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>walltime-hours * CPU * charge-rate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>walltime-hours * MAX (CPU|MEM) * charge-rate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>where MAX is based on the greater value of CPUs or proportion of node memory requested.</p>
 <p>so for the above example:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>12 h * 48 CPU * 3 charge rate = 1728 SU</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In this case, MAX is based on CPU, since the per-CPU memory request (1470 GB / 48 CPU = 30.625 GB) is less than or equal to the maximum proportion of memory per CPU on the <code>hugemem</code> queue.</p>
 <p>Since 1728 SU is more than the 1 KSU the project has available, the job cannot run. You will need to either:</p>
 <ol type="1">
 <li><a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme#Additional-Service-Unit-Requests">Obtain more KSU</a></li>
@@ -471,7 +474,8 @@ Answer
 <div class="callout-body-container callout-body">
 <p>hugemem, with 12 CPU and 384 GB memory, or hugemembw, with 14 CPU as CPUs must be requested in multiples of 7 on this queue.</p>
 <p>Which would be the better choice?</p>
-<p>If the job ran for 2 hours, charge rate would be: hugemem: 12 CPU * 2 h * 3 charge rate = 72 SU hugemembw: 14 CPU * 2 h * 1.25 charge rate = 35 SU.</p>
+<p>If the job ran for 2 hours, charge rate would be:</p>
+<p>hugemem: 12 CPU * 2 h * 3 charge rate = 72 SU hugemembw: 14 CPU * 2 h * 1.25 charge rate = 35 SU.</p>
 <p>Hugemem may execute faster with the newer hardware, yet hugemembw may consume less KSU. hugemembw also has more mem per CPU than hugemem (36 GB vs 32 GB). Benchmarking will demonstrate which of these configurations is more suited to your job.</p>
 <p>See <a href="../notebooks/10_job_efficiency.html">job efficiency</a> for tips to determine the best compute resources for your job.</p>
 </div>
@@ -532,7 +536,7 @@ Answer
 <h2 class="anchored" data-anchor-id="lack-of-internet-access-on-compute-nodes">Lack of internet access on compute nodes</h2>
 <p>The only Gadi queue with internet access is <code>copyq</code>. This queue is not suitable for running compute tasks. It allows only single-core jobs and has a maximum walltime of 10 hours. Jobs that require up-to-date information retrieval from external servers have a few options:</p>
 <ol type="1">
-<li>Split the job into two parts: a download or web query task submitted to <code>copyq</code>, ensuring that the retrieved data is saved to persistent disk (ie not the local-to-the-node storage that is deleted upon job completion), followed by a a compute job submitted to one of the appropriate compute queues, reading in the requried inputs saved from job 1.</li>
+<li>Split the job into two parts: a download or web query task submitted to <code>copyq</code>, ensuring that the retrieved data is saved to persistent disk (ie not the <a href="https://opus.nci.org.au/spaces/Help/pages/236880086/Gadi+Resources...#GadiResources...-jobfs">local-to-the-node SSD storage</a> that is deleted upon job completion), followed by a a compute job submitted to one of the appropriate compute queues, reading in the requried inputs saved from job 1.</li>
 <li>Run the job via <a href="https://opus.nci.org.au/spaces/Help/pages/162431120/ARE+User+Guide">ARE</a>, which provides a graphical user interface run on Gadi’s compute queues plus internet access capability.</li>
 <li>Use NCI’s <a href="https://opus.nci.org.au/display/Help/Nirin+Cloud+User+Guide">Nirin cloud</a> instead of Gadi.</li>
 </ol>
@@ -548,15 +552,18 @@ Answer
 <p>Running an interactive job on Gadi is very similar to an Artemis interactive job: you provide the relevant directives on the command line rather than from within a script, and include <code>-I</code> instead of <code>#PBS -q &lt;queue&gt;</code>.</p>
 <p>For example, to start an interactive job with 4 CPU for 1 hour, enter the following command on the Gadi login node:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qsub</span> <span class="at">-I</span> <span class="at">-P</span> <span class="op">&lt;</span>nci-project-code<span class="op">&gt;</span> -l walltime=00:01:00,ncpus=4,mem=16GB,storage=<span class="op">&lt;</span>required-storage-paths<span class="op">&gt;</span>,wd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>After you enter the command, you will receive a message <code>qsub: waiting for job &lt;id&gt;.gadi-pbs to start</code>.</p>
-<p>Once your interactive job has left the queue and started, you will receive a message <code>qsub: job &lt;id&gt;.gadi-pbs ready</code>. Notice that your command prompt has changed, indicating the node ID you are on instead of the login node ID.</p>
+<p>After you enter the command, you will receive a message</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qsub:</span> waiting for job <span class="op">&lt;</span>id<span class="op">&gt;</span>.gadi-pbs to start</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Once your interactive job has left the queue and started, you will receive a message</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qsub:</span> job <span class="op">&lt;</span>id<span class="op">&gt;</span>.gadi-pbs ready</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Notice that your command prompt has changed, indicating the node ID you are on instead of the login node ID.</p>
 <p>You can then interactively enter the commands required for your compute task. To terminate the interactive job, enter <code>exit</code>.</p>
 </section>
 <section id="persistent-sessions" class="level2">
 <h2 class="anchored" data-anchor-id="persistent-sessions">Persistent sessions</h2>
 <p>To support the use of long-running, low CPU and low memory demand processes, NCI provides a <a href="https://opus.nci.org.au/spaces/Help/pages/241927941/Persistent+Sessions...">persistent sessions</a> service on Gadi. This service is primarily designed for the use of workflow management tools (eg nextflow) that automatically submit and monitor PBS jobs to the Gadi compute queues.</p>
 <p>Workflow management tools are a unique use case where the ‘head job’ requires internet access (provided through the persistent session) and access to the scheduler to submit a series of chained compute jobs to various queues depending on the unique workflow configuration.</p>
-<p><strong>This service is NOT designed for computational work, large downloads, or other intensive tasks. These jobs should be submitted to the appropriate PBS queues.</strong></p>
+<p>This service is <strong>NOT designed for computational work, large downloads, or other intensive tasks</strong>. These jobs should be submitted to the appropriate PBS queues.</p>
 
 
 </section>
