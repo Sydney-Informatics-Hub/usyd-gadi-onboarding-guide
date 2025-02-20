@@ -1,5 +1,5 @@
 ---
-title: "**Installing and managing software**"
+title: "**Software options on Gadi**"
 output:
   html_document:
     toc: false
@@ -7,101 +7,143 @@ output:
 from: markdown+emoji
 ---
 
+
+- [global apps](#global-apps)
+- [specialised environments](#software-groups-and-specialised-environments)
+- [self-installed tools](#self-installed-tools)
+- [singularity containers](#running-singularity-containers-on-gadi)
+
 ## Global apps
 
-On Gadi, global (shared) apps (a.k.a. modules) are in `/apps`. You can query availale apps with `ls /apps/` or run the `module aval <tool>` command you are already familiar with from Artemis. Likewise, continue to use `module load <tool>` or `module load <tool>/<version>` as you have done on Astemis. 
+On Gadi, there are shared (global) apps that are installed and managed by the system administrators. On Artemis, these were in `/usr/local/` directory, on Gadi they are in `/apps/` directory. 
 
-Example: which python modules are available on Gadi, and how could you load a specific version?
+You can use the same `module` commands that you are familiar with on Artemis to query and load apps on Gadi. 
 
+```bash
+# List all global apps starting with 'p':
+ls  /apps/p*
+# List all modules for python3:
+module avail python3
+# Load a specific version of python3:
+module load python3/3.12.1
 ```
-# Check available versions:
-module avail python
-# Load a specific version: 
-module load python3/3.9.2 
-```
+
 Each global app has a default version, so if you run without specifying a version, the default version will be loaded. While this is OK in some circumstances, it is typically recommended to specify the version you know works for your code. Default versons of global apps will change over time without warning, so reproducibility and functionality is best maintained by explicitly stating the version when you load a module within your script. 
 
+## Software groups and specialised environments
+
+NCI provides a range of software groups and specialised environments for different resarch fields. Before attempting to self-install a tool, you should check if the tool you need is avalable through global apps or one of these environments. 
+
+ Please visit the NCI pages for more details:
+
+- [AI/machine learning](https://opus.nci.org.au/spaces/DAE/pages/137199737/AI+Machine+Learning)
+- [data analysis](https://opus.nci.org.au/spaces/DAE/pages/135660043/Data+Analysis)
+- [bioinformatics and genomics](https://opus.nci.org.au/spaces/DAE/pages/134742194/Bioinformatics+and+Genomics)
+- [climate and weather](https://opus.nci.org.au/spaces/DAE/pages/135660059/Climate+and+Weather?src=contextnavpagetreemode)
+- [earth observation and environment](https://opus.nci.org.au/spaces/DAE/pages/137199743/Earth+Observation+and+Environmental?src=contextnavpagetreemode)
+- [geophysics](https://opus.nci.org.au/spaces/DAE/pages/135660072/Geophysics)
+- [quantum computing](https://opus.nci.org.au/spaces/DAE/pages/146604211/Quantum+Computing)
+- [visualisation](https://opus.nci.org.au/spaces/DAE/pages/165610013/Visualisation?src=contextnavpagetreemode)
 
 
-### Global app installation
+## Self-installed tools
+
 
 Unlike Artemis, request of new apps to be installed are not always agreed to. NCI limits global apps to those with a high user base. This is to ensure good maintenance and curation of global apps.
 
-Users are encouraged to either self-install apps from source into their `/home` or `/g/data` locations, or use singularity containers. 
+Users are encouraged to either self-install apps from source into their `/home` or `/g/data` locations, or (**recommended**) use [singularity containers](#running-singularity-containers-on-gadi). Installing into `/scratch` is not recommended due to the 100-day file purge policy. Install into `/g/data` is ideal when other members of your project need to use the same tool. 
 
-NCI may provide support for users through  the self-install process. 
+NCI may provide support for users through the self-install process; to request assistance, please [email](mailto:help@nci.org.au) your detailed request including what software tool and version you are attempting to install and describe the issues you are having with the installation.  
 
 
+Once a tool has been installed, you can make that tool available to the `module` commands, by following the steps described [here](https://github.com/Sydney-Informatics-Hub/tidbits/blob/main/content/module-loadable-instals-on-gadi.md). This is not essential, but can be helpful when managing tools that multiple group members will use.
 
-## Running singularity containers 
 
-singularity is installed as a global app on Gadi, and can greatly simplify workflow implementation and reproducibility. 
-
-- finding a container
-- obtaining a container
-- obtaining a lot of containers (with copyq)
-- testing a container
-- using a containerised tool within a PBS script 
+To avoid the burden of installing software that is not available through global apps or specialised environments, the use of singularity containers is recommended. 
 
 
 
+## Running singularity containers on Gadi
 
-Singularity is used to execute containerised applications on Gadi. Here's an example using a **FoldSeek** container from [quay.io](https://quay.io/repository/biocontainers/foldseek):
-
-First, you'll need to get a copy of the container you want to run as Gadi job queues do not have external network access and cannot download anything from the internet. 
-
-Run the following commands to download the container:
+`Singularity` can be used to execute containerised applications on Gadi. It is installed as a global app:
 
 ```bash
 module load singularity
-singularity pull docker://quay.io/biocontainers/foldseek:0.6.2--h779adbc_0
+singularity version
+# 3.11.3
 ```
 
-This will create a `.sif` (Singularity Image File) in the current directory, **`docker://`**: Pulls the container from Quay.io or DockerHub directly:
+Note that the `singularity` project was recently migrated to [apptainer](https://apptainer.org/docs/user/1.0/introduction.html). Please continue to run `singularity` commands on Gadi for now. 
+
+Singularity (Apptainer) is a *"container platform. It allows you to create and run containers that package up pieces of software in a way that is portable and reproducible. You can build a container using Apptainer on your laptop, and then run it on many of the largest HPC clusters in the world, local university or company clusters, a single server, in the cloud, or on a workstation down the hall. Your container is a single file, and you don’t have to worry about how to install all the software you need on each different operating system." (from apptainer.org)*
+
+There are numerous container repositories, for example [Docker Hub](https://hub.docker.com/) or [quay.io](https://quay.io/). You can search these repositories, or build your own container if the tool or tool version you need is not yet available. 
+
+[Seqera](https://seqera.io/) have greatly simplifed the process of building custom containers with their [build-your-own container tool](https://seqera.io/containers/)! Simply search for the tool(s) you want in your container, and click `Get Container`. This tool will manage the build for you, and host the created container file.  
+
+### Example
+
+Let's assume you want to use the tool **FoldSeek**. Below are the steps to search for, obtain, test, and use this container in a PBS job script. 
+
+1. Run `module load singularity` in your Gadi terminal (or `copyq` container download script)
+2. Visit [quay.io](https://quay.io/) and search for this tool by typing the tool name into the search bar at the top right of the page. There may be multiple containers available. These may reflect different contributors, different tool versions, etc. Look for containers with recent updates and a high star rating where possible.
+3. Select the `biocontainers` container, and then select the `Tags` page from the icons on the left (options are `Information`, `Tags`, `Tag history`). 
+4. On the far right of the most recent tag, select the `Fetch tag` icon and then change image format to `Docker Pull (by tag)`. 
+5. Copy the command. We need to made some changes to the command before we execute it. 
+6. Paste the command into your terminal (or `copyq` container download script) and change `docker` to `singularity` and add prefix `docker://` to the contaner path, as shown below: 
 
 ```bash
-foldseek_0.6.2--h779adbc_0.sif
+# Default command:
+docker pull quay.io/biocontainers/foldseek:10.941cd33--h5021889_1
+# Change to:
+singularity pull docker://quay.io/biocontainers/foldseek:10.941cd33--h5021889_1
 ```
 
-Add the Singularity commands to your job script. For example:
+7. Run the `pull` command (note: you need to have the singularity module loaded in your terminal or download script). This will download the docker container to a Singularity Image File (`.sif`). Most containers are lightweight enough to pull directly on the login node. If a container is bulky and slow to download (or you need many containers), you may need to submit the download as a `copyq` job. 
+8. Test the container with a basic help or version command. When running a container, typical usage involves the following command structure:
 
-#### **Redirecting Output in Singularity**
-To capture output:
 ```bash
-singularity exec \
-    foldseek_0.6.2--h779adbc_0.sif \
-    foldseek easy-search input.fasta \
-    database \
-    output \
-    foldseek_result.tsv > output.log 2>&1
+singularity  exec <container> <command> [args]
 ```
 
+So everything after the container name is the same as you would run when using a locally installed version of the tool. For `foldseek`, we would use `foldseek version` to view the tool verison or `foldseek help` to view the help menu. To run these commands via the container: 
 
+```bash
+singularity exec foldseek_10.941cd33--h5021889_1.sif foldseek version
+singularity exec foldseek_10.941cd33--h5021889_1.sif foldseek help
+```
 
-## Full script example 
+Note that the version of foldseek corresponds to the tag name: in this case, v. 10.941cd33. 
 
-Here is a very simple example of a full script that runs a Foldseek container on Gadi's normal CPU queue: 
+9. Test run the full tool command that you need to use in your analysis. Where possible, use a small subset of your data to test the command (as you would routinely do for new software). You may need to use the [interactive job queue](./08_job_script.qmd#interactive-jobs) or a compute job script for testing if the test command exceeds resource limits on the login nodes. 
+10. Add the command to your job script. Ensure to include `module load singularity` and call the container using the structure `singularity  exec <container> <command> [args]`. 
+
+Below is an example Gadi job script running the `foldseek` container:
 
 ```bash
 #!/bin/bash
 
 #PBS -P aa00
 #PBS -q normal
-#PBS -l ncpus=4
-#PBS -l mem=10GB
-#PBS -l jobfs=200GB
+#PBS -l ncpus=48
+#PBS -l mem=190GB
 #PBS -l walltime=02:00:00
 #PBS -l storage=scratch/aa00+gdata/aa00
 #PBS -l wd
 
-# Load modules
 module load singularity
 
-# Run FoldSeek
+input=/g/data/aa00/foldseek-inputs/input.fasta
+database=/g/data/aa00/foldseek-inputs/database
+output_dir=./foldseek-run/output
+results=./foldseek-run/foldseek_result.tsv
+log=./foldseek-run/foldseek.log
+
 singularity exec \
-    /scratch/aa00/foldseek_0.6.2--h779adbc_0.sif \
-    foldseek easy-search /scratch/aa00/input.fasta \
-    /scratch/aa00/database \
-    /scratch/aa00/output \
-    /scratch/aa00/foldseek_result.tsv > /scratch/aa00/output.log 2>&1
-````
+    foldseek_10.941cd33--h5021889_1.sif \
+    foldseek easy-search  ${input} \
+    ${database} \
+    ${output_dir} \
+    --threads ${PBS_NCPUS} \
+    ${results} > ${log} 2>&1
+```

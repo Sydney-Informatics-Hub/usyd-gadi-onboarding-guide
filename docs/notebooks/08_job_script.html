@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Writing a job script – USyd NCI Gadi User Guide</title>
+<title>Running jobs on Gadi – USyd NCI Gadi User Guide</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -71,10 +71,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-86daaaaad7353f9cc0c554efc1dd6d94.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-f4163e54545b01daaae269814d862f3d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -242,11 +242,20 @@ cookieconsent.run({
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#define-job-parameters" id="toc-define-job-parameters" class="nav-link active" data-scroll-target="#define-job-parameters"><strong>1. Define Job Parameters</strong></a></li>
-  <li><a href="#load-necessary-modules" id="toc-load-necessary-modules" class="nav-link" data-scroll-target="#load-necessary-modules"><strong>2. Load Necessary Modules</strong></a></li>
-  <li><a href="#execute-your-chosen-application" id="toc-execute-your-chosen-application" class="nav-link" data-scroll-target="#execute-your-chosen-application"><strong>3. Execute your chosen application</strong></a></li>
-  <li><a href="#submit-your-job" id="toc-submit-your-job" class="nav-link" data-scroll-target="#submit-your-job"><strong>4. Submit your job</strong></a></li>
-  <li><a href="#full-script-example" id="toc-full-script-example" class="nav-link" data-scroll-target="#full-script-example">Full script example</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#job-scheduler" id="toc-job-scheduler" class="nav-link" data-scroll-target="#job-scheduler">Job scheduler</a></li>
+  <li><a href="#job-scheduling-priority" id="toc-job-scheduling-priority" class="nav-link" data-scroll-target="#job-scheduling-priority">Job scheduling priority</a></li>
+  <li><a href="#pbs-directives" id="toc-pbs-directives" class="nav-link" data-scroll-target="#pbs-directives">PBS directives</a></li>
+  <li><a href="#differences-between-artemis-and-gadi-pbs-scripts" id="toc-differences-between-artemis-and-gadi-pbs-scripts" class="nav-link" data-scroll-target="#differences-between-artemis-and-gadi-pbs-scripts">Differences between Artemis and Gadi PBS scripts</a></li>
+  <li><a href="#selecting-the-right-queue" id="toc-selecting-the-right-queue" class="nav-link" data-scroll-target="#selecting-the-right-queue">Selecting the right queue</a>
+  <ul class="collapse">
+  <li><a href="#queue-charge-rates" id="toc-queue-charge-rates" class="nav-link" data-scroll-target="#queue-charge-rates">Queue charge rates</a></li>
+  <li><a href="#queue-selection-examples" id="toc-queue-selection-examples" class="nav-link" data-scroll-target="#queue-selection-examples">Queue selection examples</a></li>
+  </ul></li>
+  <li><a href="#lack-of-internet-access-on-compute-nodes" id="toc-lack-of-internet-access-on-compute-nodes" class="nav-link" data-scroll-target="#lack-of-internet-access-on-compute-nodes">Lack of internet access on compute nodes</a></li>
+  <li><a href="#submitting-a-pbs-script" id="toc-submitting-a-pbs-script" class="nav-link" data-scroll-target="#submitting-a-pbs-script">Submitting a PBS script</a></li>
+  <li><a href="#interactive-jobs" id="toc-interactive-jobs" class="nav-link" data-scroll-target="#interactive-jobs">Interactive jobs</a></li>
+  <li><a href="#persistent-sessions" id="toc-persistent-sessions" class="nav-link" data-scroll-target="#persistent-sessions">Persistent sessions</a></li>
   </ul>
 </nav>
     </div>
@@ -255,7 +264,7 @@ cookieconsent.run({
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><strong>Writing a job script</strong></h1>
+<h1 class="title"><strong>Running jobs on Gadi</strong></h1>
 </div>
 
 
@@ -272,117 +281,282 @@ cookieconsent.run({
 </header>
 
 
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>In this section, we will compare Artemis job scripts to Gadi job scripts, and provide some guidance on how to adapt your Artemis workflow to NCI Gadi HPC.</p>
+<p>The main challenges users may face adapting Artemis workflows to Gadi are:</p>
 <ul>
-<li><a href="https://opus.nci.org.au/spaces/Help/pages/236881349/PBS+Directives...">PBS directives</a></li>
-<li><a href="https://opus.nci.org.au/spaces/Help/pages/241927319/Job+Submission+Tutorial...">Job submission tutorial</a></li>
+<li>Adjusting PBS directives to suit Gadi requirements and queue structure</li>
+<li>Lack of internet access for Gadi compute nodes</li>
+<li><a href="../notebooks/05_data_transfer.html">Data transfer</a></li>
+<li><a href="../notebooks/12_walltime.html">Gadi walltime limit of 48 hours</a></li>
+<li><a href="../notebooks/06_accounting.html">Understanding NCI accounting of KSU, disk and iNode limits</a></li>
+<li><a href="https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...#RecoverFiles...-RecoverQuarantinedFilesonscratch">Automatic 100-day Gadi /scratch purge policy</a></li>
+<li><a href="../notebooks/11_software.html">Software installation and version upgrades on Gadi</a></li>
+<li><a href="../notebooks/13_parralel_jobs.html">Job arrays not supported on Gadi</a></li>
 </ul>
-<p>While you can run simple commands on the login nodes on Gadi, there are limits to the resources you can access here. As such, you must run complex or resource-intensive tasks on Gadi’s job queues. To do this, you need to create a PBS (Portable Batch System) submission script that specifies your job’s requirements. NCI runs the <a href="https://altair.com/pbs-professional">Altair PBS professional workload manager</a>.</p>
-<p>PBS scripts are text files that contain directives and commands that specify the resources required for a job and the commands to run, you can name them as <code>&lt;script_name&gt;.pbs</code>. The script can be submitted to the job scheduler, which will allocate the necessary resources and execute the job using:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qsub</span> <span class="op">&lt;</span>script_name<span class="op">&gt;</span>.pbs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Below we describe the process for writing and submitting a job script on Gadi.</p>
-<section id="define-job-parameters" class="level2">
-<h2 class="anchored" data-anchor-id="define-job-parameters"><strong>1. Define Job Parameters</strong></h2>
-<p>Begin your script with directives that outline your job’s resource needs and execution details. Each directive starts with #PBS in order to directly communicate with the job scheduler and not be confused with other code in your script. This section should sit at the top of your script.</p>
-<p>For example:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>#!/bin/bash</span>
+<p>In this section, we will look at the first two on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.</p>
+</section>
+<section id="job-scheduler" class="level2">
+<h2 class="anchored" data-anchor-id="job-scheduler">Job scheduler</h2>
+<p>Like Artemis, NCI runs the <a href="https://altair.com/pbs-professional">Altair PBS professional workload manager</a>.</p>
+<p>While you can run simple commands on the login nodes on Gadi, commands are throttled. This means they execute more slowly than on the compute nodes and are automatically killed if they exceed CPU, memory and time restrictions that are in place. This is to ensure the login nodes are not over-loaded and remain responsive for all users. As such, all complex or resource-intensive tasks must be submitted to the job scheduler for execution on the cluster nodes.</p>
+<p>Submitting jobs on Gadi is very similar to submitting jobs on Artemis. You will submit a PBS (Portable Batch System) submission script that specifies your job’s compute requirements along with the commands to execute the tasks.</p>
+<p>PBS scripts are text files that contain directives and commands that specify the resources required for a job and the commands to run. Typically they are named <code>&lt;script_name&gt;.pbs</code> however the <code>.pbs</code> suffix is not required, merely helpful to discern the intention of the script.</p>
+<p>Once submitted to the PBS job scheduler with the <code>qsub</code> command, the scheduler reads the compute requirements from the <code>directives</code> component of the script, and either runs your job right away (if the requested resources are immediately available) or queues the job to run later (if the requested resurces are not currently available).</p>
+</section>
+<section id="job-scheduling-priority" class="level2">
+<h2 class="anchored" data-anchor-id="job-scheduling-priority">Job scheduling priority</h2>
+<p>On Artemis, you will have some familiarity with the concept of ‘fair share’ use, where compute jobs you run increase your project’s ‘fair share weight’ which temporarily decreases the priority of your jobs in the queue. This is <strong>not the case on Gadi</strong>, where all jobs have equal priority. The only factors that limit how quickly your jobs leave the queue and start running are the resources you request combined with current resource availability. In order to have your job be queued (and not ‘held’ after submission), you must have sufficient KSU in your project. This will be described under <a href="#queue-charge-rates">queue charge rates</a>.</p>
+</section>
+<section id="pbs-directives" class="level2">
+<h2 class="anchored" data-anchor-id="pbs-directives">PBS directives</h2>
+<p>PBS directives outline your job’s resource needs and execution details. Each directive starts with <code>#PBS</code> in order to directly communicate with the job scheduler and not be confused with other code or comments in your script. The directives section should sit at the top of your script, with no blank lines between them, and any commands required to perform your compute task follow below the last directive.</p>
+<p>Below is a simple example of the PBS directives portion of a Gadi job script. For details on more options, please see the <a href="https://opus.nci.org.au/spaces/Help/pages/236881349/PBS+Directives...">NCI Gadi PBS directives guide</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>#!/bin/bash</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>#PBS -P aa00</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>#PBS -q normal</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>#PBS -l ncpus=48</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>#PBS -l mem=190GB</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>#PBS -l jobfs=200GB</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>#PBS -l walltime=02:00:00</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>#PBS -l storage=scratch/aa00+gdata/aa00</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>#PBS -l wd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><code>-P</code>: Project code for resource accounting. Must be a valid NCI project code of which you are a member</li>
+<li><code>-q</code>: Queue selection (e.g., <code>normal</code> or <code>hugemem</code>). See Gadi’s <a href="https://opus.nci.org.au/spaces/Help/pages/236880996/Queue+Structure+on+Gadi...">queue structure</a> and <a href="https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...">queue limits</a> pages for more details</li>
+<li><code>-l ncpus</code>: Number of requested CPUs</li>
+<li><code>-l mem</code>: amount of requested memory</li>
+<li><code>-l jobfs</code>: Local-to-the-node disk space on the compute node</li>
+<li><code>-l walltime</code>: Requested job walltime. Your job will only be charged for the walltime it uses, not the maximum walltime requested</li>
+<li><code>-l storage</code>: Filesystems your job will access. <code>/scratch/&lt;project&gt;</code> is accessible by default. To access any other scratch or gdata locations, list them here. Note to use no spaces or leading <code>/</code> characters</li>
+<li><code>-l wd</code>: Set the working directory to the submission directory. This is equivalent to <code>cd $PBS_O_WORKDIR</code></li>
+</ul>
+</section>
+<section id="differences-between-artemis-and-gadi-pbs-scripts" class="level2">
+<h2 class="anchored" data-anchor-id="differences-between-artemis-and-gadi-pbs-scripts">Differences between Artemis and Gadi PBS scripts</h2>
+<ul>
+<li>The <code>-l storage</code> directive is required on Gadi but not Artemis. Failure to include required storage locations will kill the job, for example with <code>No such file or directory</code> errors</li>
+<li>On Gadi, users must review their resoure requirements against the queue structure and limits in order to <strong>request a specific queue</strong>. On Artemis, the scheduler managed this automatically according to requested resources and queue loads</li>
+<li>Maximum walltime for any queue is 48 hours. For large numbers of nodes requested in a single job, the maximum walltime reduces. This is described in the <a href="https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...">queue limits</a> page. See <a href="./NN_walltime_limit.qmd">Working within walltime limit</a> for more details</li>
+<li>The requested resources are checked against the quantity of remaining KSU in the project specified at <code>-P</code>. If there is insufficient KSU to run the job, the job will be held. This will show as <code>H</code> status when the job is queried with <code>qstat</code>. See <a href="#queue-charge-rates">queue charge rates</a> for more details</li>
+<li>Job arrays (eg <code>$#PBS J 1-1000</code>) are not permitted on Gadi. See <a href="./13_parallel_jobs.qmd">Parallel jobs</a> and <a href="https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...">nci-parallel</a> for more details</li>
+<li>Unlike Artemis, Gadi compute nodes lack internet access. If you have a job script that relies on an external network call such as reading from a live database, you will need to adapt your method (for example pre-downloading the required information with <code>copyq</code> before running the compute job) or use an alternate platform such as <a href="https://opus.nci.org.au/spaces/Help/pages/152207472/Nirin+Cloud+User+Guide">Nirin</a></li>
+</ul>
+<p>Below is an example Artemis job script:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>#PBS -P aa00</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>#PBS -q normal</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>#PBS -l ncpus=48</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>#PBS -l mem=190GB</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>#PBS -l jobfs=200GB</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>#PBS -l walltime=02:00:00</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>#PBS -l storage=scratch/aa00+gdata/aa00</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>#PBS -l wd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P &lt;USyd project code&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N myjobname</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=02:00:00</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l select=1:ncpus=4:mem=16gb</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q defaultQ</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load python/3.12.2</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="va">$PBS_O_WORKDIR</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> ./myscript.py ./myinput</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The same job script, adjusted for Gadi:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P &lt;NCI project code&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N myjobname</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=02:00:00</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=4</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=16GB</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q normal</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l storage=scratch/bb11+gdata/aa00+gdata/bb11</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load python3/3.12.1</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> ./myscript.py ./myinput</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As you can see, there is very little difference between these two scripts. They both request 4 CPUs, 16 GB RAM, and 2 hours walltime. They both change the working directory to the submission directory, they both load python (different versions as available on the system) and both run the same job command.</p>
+<p>The command to submit this script is also the same on Artemis and Gadi:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qsub</span> run_my_python_script.pbs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Adapting your existing Artemis job scripts to Gadi should be fairly simple for most users, beginning with adjusting the directives and establishing required software. See <a href="../notebooks/11_software.html">Software</a> for more details on Gadi software availability.</p>
+</section>
+<section id="selecting-the-right-queue" class="level2">
+<h2 class="anchored" data-anchor-id="selecting-the-right-queue">Selecting the right queue</h2>
+<p>Artemis <code>defaultQ</code> routed jobs to the appropriate queue based on directives and resource avalability. Gadi requires users to directly specify the appropriate queue.</p>
+<p>To select the queue, you match up the resources your job needs to the queue limits, also factoring in the charge rate.</p>
+<p>View the available queues on the <a href="https://opus.nci.org.au/spaces/Help/pages/236880996/Queue+Structure+on+Gadi...">Gadi queue structure page</a>. Note that there are:</p>
 <ul>
-<li><code>-P</code>: Project code for resource accounting.</li>
-<li><code>-q</code>: Queue selection (e.g., normal).</li>
-<li><code>-l ncpus</code>: Number of CPU cores.</li>
-<li><code>-l mem</code>: Memory allocation.</li>
-<li><code>-l jobfs</code>: Local disk space on the compute node.</li>
-<li><code>-l walltime</code>: Maximum job duration.</li>
-<li><code>-l storage</code>: Filesystems your job will access.</li>
-<li><code>-l wd</code>: Set the working directory to the submission directory.</li>
-</ul>
-</section>
-<section id="load-necessary-modules" class="level2">
-<h2 class="anchored" data-anchor-id="load-necessary-modules"><strong>2. Load Necessary Modules</strong></h2>
-<p>Gadi uses the module system to manage software applications that are installed in <code>/apps</code>. If you’re using one or more tools installed in <code>/apps</code> you must load the appropriate modules for your workflow before running your script. Modules ensure you’re using the correct software versions and their dependencies. This should go directly under the PBS directives and before the commands to run your application.</p>
-<p>For example:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load python3/3.7.4</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load gcc/9.2.0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>To find available modules: - Use <code>module avail</code> to list all available software. - Use <code>module spider &lt;software&gt;</code> to search for a specific software package and its versions.</p>
-</section>
-<section id="execute-your-chosen-application" class="level2">
-<h2 class="anchored" data-anchor-id="execute-your-chosen-application"><strong>3. Execute your chosen application</strong></h2>
-<p>Specify the commands to run your application or script within the job script. Ensure all file paths and environment variables are correctly set. Redirect output and error messages to log files for easier debugging.</p>
-<p>Gadi supports running both native software and containerized applications using <strong>Singularity</strong>. Containers are a convenient way to use pre-built environments. Here are examples for different scenarios:</p>
-<section id="running-a-custom-script" class="level4">
-<h4 class="anchored" data-anchor-id="running-a-custom-script"><strong>Running a custom script</strong></h4>
-<p>If you’re running a Python script:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> your_script.py <span class="op">&gt;</span> output.log <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<li>general purpose queues</li>
+<li>large memory queues</li>
+<li>express queues</li>
+<li>GPU queues</li>
+<li>data transfer queue (copyq)</li>
+<li>‘Cascade Lake’ and ‘Broadwell (ex-Raijin)’ queues
 <ul>
-<li><code>&gt; output.log</code>: Redirects standard output to a log file.</li>
-<li><code>2&gt;&amp;1</code>: Redirects standard error to the same log file.</li>
+<li>The Cascade Lake nodes are newer hardware and thus faster than the Broadwell nodes. Raijin was the previous NCI HPC, decomissioned in 2019</li>
+<li>They have a lower charge rate than the equivalent Cascade Lake queue, and this can be utilised to help minimise compute cost when the reduced processor speed is not overly detrimental to the job or your research timeline</li>
+<li>They have different numbers of CPU (48 or 28) and different total memory per node</li>
+</ul></li>
 </ul>
+<p>Each queue has different hardware, limits, and charge rates. Before submitting any jobs on Gadi, it is important to review this page along with the <a href="https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...">queue limits page</a> which describes each queue in more detail.</p>
+<p>You will note that each queue also has a corresponding queue that ends in <code>-exec</code>. You cannot submit directly to the <code>-exec</code> (execution) queue - your jobs will be placed there via the ‘route queue’ that you submit to. For example, for a job you want to run on the Cascade Lake <code>normal</code> queue, you will include the directive <code>#PBS -q normal</code> (submit to route queue) and the job will run on <code>normal-exec</code> (execution queue).</p>
+<section id="queue-charge-rates" class="level3">
+<h3 class="anchored" data-anchor-id="queue-charge-rates">Queue charge rates</h3>
+<p>By now you should be familiar with the concept of an NCI <code>service unit</code> (SU, or sometimes KSU for 1,000 SU or MSU for 1 million SU).</p>
+<p>Each new NCI project under the Sydney Scheme is granted 1 KSU by default, and requests can be made for more as required.</p>
+<p>A <code>service unit</code> is based on a CPU hour, ie ‘one hour of walltime on one CPU’. Each queue has a different charge rate applied to the CPU hour, so that one CPU hour on a given resource may cost between 1.25 SU and 6 SU, depending on the charge rate for that queue. More specialised and scarce resources are charged at a higher rate to ensure that only users who genuinely need these use them.</p>
+<p>The charge rates can be found in column 4 of the <a href="https://opus.nci.org.au/spaces/Help/pages/90308823/Queue+Limits">queue limits table</a>.</p>
+<p><strong>Don’t be alarmed by the charge rates:</strong> please submit your job to the most appropriate queue based on required resources. The accounting method combined with stricter walltimes, newer hardware and software, and more vast physcial resources compared to Artemis will likely see your compute jobs complete in a faster turnaround time compared to what you are used to.</p>
+<p>Understanding charge rates is important for two main reasons:</p>
+<ol type="1">
+<li>Judicious use of resources. KSU is provided to you in-kind by The University of Sydney. It is your responsibility to ensure efficient use of these resources. Selecting the appropriate queue for your job avoids wastage and avoids unecessary impacts on other users of this national resource.</li>
+<li>Ensuring your job can run. Jobs can only leave the route queue and join the execution queue if sufficient SU are available to the project assuming the job runs for its full requested walltime.</li>
+</ol>
+<p>For example, if your project has 1 KSU and you submit a job script with the following directives:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q hugemem</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=48</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=1470GB</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=12:00:00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Your job will not join the compute queue - it will be <code>held</code>, showing a status of <code>H</code> when <code>qstat</code> is run. The reason for hold status is that the requested job requires more service units than the project has available.</p>
+<p>You can view your project budget with the following command:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nci_account</span> <span class="at">-P</span> <span class="op">&lt;</span>nci-project-code<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will show the total allocated for the current quarter, the amount used, the amount reserved (by running or queued jobs), and the amount available. Any new job you submit MUST request less than the amount available.</p>
+<p>The required SU available to run the job can be calculated by the formula:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>walltime-hours * CPU * charge-rate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>so for the above example:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>12 h * 48 CPU * 3 charge rate = 1728 SU</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Since 1728 SU is more than the 1 KSU the project has available, the job cannot run. You will need to either:</p>
+<ol type="1">
+<li><a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme#Additional-Service-Unit-Requests">Obtain more KSU</a></li>
+<li>Reconfigure your job to fit under the 1 KSU you have available.</li>
+</ol>
+<p>You might consider reducing walltime, CPUs, change the queue, etc, depending on your job and what you expect are its minimum viable resouce requests. You can do this by killing the job, editing the directives and resubmitting, <strong>OR</strong> use the <code>qalter</code> PBS command to change the directives of the held job. For the above example, let’s assume the requested walltime of 12 hours was an extremely conservative estimate and realistically you expect the job should complete in less than 2 hours. You could run this command:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qalter</span> <span class="at">-l</span> walltime=02:00:00 <span class="op">&lt;</span>jobid<span class="op">&gt;</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This would reduce the SU for the submitted job to 288 SU and the job would then be picked up by the next scheduling cycle and enter the queue.</p>
 </section>
-<section id="running-a-compiled-program" class="level4">
-<h4 class="anchored" data-anchor-id="running-a-compiled-program"><strong>Running a compiled program</strong></h4>
-<p>If you’re running a pre-compiled executable:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">my_program</span> input_data.txt <span class="op">&gt;</span> results.log <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="queue-selection-examples" class="level3">
+<h3 class="anchored" data-anchor-id="queue-selection-examples">Queue selection examples</h3>
+<section id="example-1" class="level4">
+<h4 class="anchored" data-anchor-id="example-1">Example 1</h4>
+<p>You have a small job that only uses a single CPU and 2 GB RAM, but will run for a whole day. Which of the queues would be appropriate?</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>normal, normalbw, express, expressbw. While you could use the express queues, the charge rate is higher so the non-express normal queues would be more economical.</p>
+</div>
+</div>
+</div>
 </section>
-<section id="running-a-singularity-container" class="level4">
-<h4 class="anchored" data-anchor-id="running-a-singularity-container"><strong>Running a Singularity Container</strong></h4>
-<p>Singularity is used to execute containerised applications on Gadi. Here’s an example using a <strong>FoldSeek</strong> container from <a href="https://quay.io/repository/biocontainers/foldseek">quay.io</a>:</p>
-<p>First, you’ll need to get a copy of the container you want to run as Gadi job queues do not have external network access and cannot download anything from the internet.</p>
-<p>Run the following commands to download the container:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load singularity</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> pull docker://quay.io/biocontainers/foldseek:0.6.2--h779adbc_0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This will create a <code>.sif</code> (Singularity Image File) in the current directory, <strong><code>docker://</code></strong>: Pulls the container from Quay.io or DockerHub directly:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">foldseek_0.6.2--h779adbc_0.sif</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Add the Singularity commands to your job script. For example:</p>
+<section id="example-2" class="level4">
+<h4 class="anchored" data-anchor-id="example-2">Example 2</h4>
+<p>You have a job that requires 384 GB memory and 12 CPU. Which queue would you use?</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>hugemem, with 12 CPU and 384 GB memory, or hugemembw, with 14 CPU as CPUs must be requested in multiples of 7 on this queue.</p>
+<p>Which would be the better choice?</p>
+<p>If the job ran for 2 hours, charge rate would be: hugemem: 12 CPU * 2 h * 3 charge rate = 72 SU hugemembw: 14 CPU * 2 h * 1.25 charge rate = 35 SU.</p>
+<p>Hugemem may execute faster with the newer hardware, yet hugemembw may consume less KSU. hugemembw also has more mem per CPU than hugemem (36 GB vs 32 GB). Benchmarking will demonstrate which of these configurations is more suited to your job.</p>
+<p>See <a href="../notebooks/10_job_efficiency.html">job efficiency</a> for tips to determine the best compute resources for your job.</p>
+</div>
+</div>
+</div>
 </section>
-<section id="redirecting-output-in-singularity" class="level4">
-<h4 class="anchored" data-anchor-id="redirecting-output-in-singularity"><strong>Redirecting Output in Singularity</strong></h4>
-<p>To capture output:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec <span class="dt">\</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    foldseek_0.6.2--h779adbc_0.sif <span class="dt">\</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    foldseek easy-search input.fasta <span class="dt">\</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    database <span class="dt">\</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    output <span class="dt">\</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    foldseek_result.tsv <span class="op">&gt;</span> output.log <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="example-3" class="level4">
+<h4 class="anchored" data-anchor-id="example-3">Example 3</h4>
+<p>You have a job that requires 20,000 CPU. Fill in the below directives for this job, including the maximum permissable walltime:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=&lt;value&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=&lt;value&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=&lt;value&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=20016</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=3803040GB</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=05:00:00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Why 20,016? When requesting &gt;1 node on Gadi, only whole nodes can be requested. So to reach 20,000 CPU in a single job would require the use of the Cascade Lake normal queue, where the nodes have 48 CPU per node, and this would be 20,000 * 48 = 416.7 nodes, so we need to round up to 417 nodes, which is 417 * 48 = 20,016 CPU.</p>
+<p>Why 5 hour walltime not 48 hours? As the quantity of CPU requested increases, maximum walltime goes down. This information can be found in the last column on the queue limts table. 5 hours is the maximum amount of walltime allowed for jobs requesting more than 3024 CPUs (63 nodes) in this queue. To request the maximum walltime of 48 hours on this queue, the job must request at most 672 cores (14 nodes).</p>
+<p>If your job required <em>exactly</em> 20,000 CPU, you would simply provide this hard-coded value to the relevant command. The number of requested KSU to the job can be accessed from the environment variable <code>$PBS_NCPUS</code>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-4" class="level4">
+<h4 class="anchored" data-anchor-id="example-4">Example 4</h4>
+<p>Your job requires GPUs. Which queues could you use?</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>gpuvolta or dgxa100 queue</p>
+</div>
+</div>
+</div>
 </section>
 </section>
-<section id="submit-your-job" class="level2">
-<h2 class="anchored" data-anchor-id="submit-your-job"><strong>4. Submit your job</strong></h2>
-<p>Save your job script with a <code>.sh</code> or <code>.pbs</code> extension and submit it using the qsub command:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qsub</span> job_script.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>After submission, PBS assigns a unique job ID, which you can use to monitor your job.</p>
 </section>
-<section id="full-script-example" class="level2">
-<h2 class="anchored" data-anchor-id="full-script-example">Full script example</h2>
-<p>Here is a very simple example of a full script that runs a Foldseek container on Gadi’s normal CPU queue:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P aa00</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q normal</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=4</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=10GB</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l jobfs=200GB</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=02:00:00</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l storage=scratch/aa00+gdata/aa00</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Load modules</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load singularity</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Run FoldSeek</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec <span class="dt">\</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    /scratch/aa00/foldseek_0.6.2--h779adbc_0.sif <span class="dt">\</span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    foldseek easy-search /scratch/aa00/input.fasta <span class="dt">\</span></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    /scratch/aa00/database <span class="dt">\</span></span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    /scratch/aa00/output <span class="dt">\</span></span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    /scratch/aa00/foldseek_result.tsv <span class="op">&gt;</span> /scratch/aa00/output.log <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="lack-of-internet-access-on-compute-nodes" class="level2">
+<h2 class="anchored" data-anchor-id="lack-of-internet-access-on-compute-nodes">Lack of internet access on compute nodes</h2>
+<p>The only Gadi queue with internet access is <code>copyq</code>. This queue is not suitable for running compute tasks. It allows only single-core jobs and has a maximum walltime of 10 hours. Jobs that require up-to-date information retrieval from external servers have a few options:</p>
+<ol type="1">
+<li>Split the job into two parts: a download or web query task submitted to <code>copyq</code>, ensuring that the retrieved data is saved to persistent disk (ie not the local-to-the-node storage that is deleted upon job completion), followed by a a compute job submitted to one of the appropriate compute queues, reading in the requried inputs saved from job 1.</li>
+<li>Run the job via <a href="https://opus.nci.org.au/spaces/Help/pages/162431120/ARE+User+Guide">ARE</a>, which provides a graphical user interface run on Gadi’s compute queues plus internet access capability.</li>
+<li>Use NCI’s <a href="https://opus.nci.org.au/display/Help/Nirin+Cloud+User+Guide">Nirin cloud</a> instead of Gadi.</li>
+</ol>
+</section>
+<section id="submitting-a-pbs-script" class="level2">
+<h2 class="anchored" data-anchor-id="submitting-a-pbs-script">Submitting a PBS script</h2>
+<p>Like on Artemis, the <code>qsub</code> command is used to submit the job to the scheduler. Please visit the <a href="https://opus.nci.org.au/spaces/Help/pages/236880320/Job+Submission...">NCI Gadi job submisison page</a> if you require more details on this.</p>
+<p>After your job is submitted, job monitoring and job logs are very similar to your experience on Artemis. Please see <a href="../notebooks/09_job_monitoring.html">job monitoring</a> for more details.</p>
+</section>
+<section id="interactive-jobs" class="level2">
+<h2 class="anchored" data-anchor-id="interactive-jobs">Interactive jobs</h2>
+<p>Interactive jobs are useful for jobs that require user input feedback as an analysis progresses, or can be useful for testing commands/tools prior to submiting a full job via a PBS script.</p>
+<p>Running an interactive job on Gadi is very similar to an Artemis interactive job: you provide the relevant directives on the command line rather than from within a script, and include <code>-I</code> instead of <code>#PBS -q &lt;queue&gt;</code>.</p>
+<p>For example, to start an interactive job with 4 CPU for 1 hour, enter the following command on the Gadi login node:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qsub</span> <span class="at">-I</span> <span class="at">-P</span> <span class="op">&lt;</span>nci-project-code<span class="op">&gt;</span> -l walltime=00:01:00,ncpus=4,mem=16GB,storage=<span class="op">&lt;</span>required-storage-paths<span class="op">&gt;</span>,wd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>After you enter the command, you will receive a message <code>qsub: waiting for job &lt;id&gt;.gadi-pbs to start</code>.</p>
+<p>Once your interactive job has left the queue and started, you will receive a message <code>qsub: job &lt;id&gt;.gadi-pbs ready</code>. Notice that your command prompt has changed, indicating the node ID you are on instead of the login node ID.</p>
+<p>You can then interactively enter the commands required for your compute task. To terminate the interactive job, enter <code>exit</code>.</p>
+</section>
+<section id="persistent-sessions" class="level2">
+<h2 class="anchored" data-anchor-id="persistent-sessions">Persistent sessions</h2>
+<p>To support the use of long-running, low CPU and low memory demand processes, NCI provides a <a href="https://opus.nci.org.au/spaces/Help/pages/241927941/Persistent+Sessions...">persistent sessions</a> service on Gadi. This service is primarily designed for the use of workflow management tools (eg nextflow) that automatically submit and monitor PBS jobs to the Gadi compute queues.</p>
+<p>Workflow management tools are a unique use case where the ‘head job’ requires internet access (provided through the persistent session) and access to the scheduler to submit a series of chained compute jobs to various queues depending on the unique workflow configuration.</p>
+<p><strong>This service is NOT designed for computational work, large downloads, or other intensive tasks. These jobs should be submitted to the appropriate PBS queues.</strong></p>
 
 
 </section>
@@ -470,8 +644,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -582,7 +754,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
