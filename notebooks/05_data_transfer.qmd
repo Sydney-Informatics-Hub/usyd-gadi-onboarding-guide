@@ -618,7 +618,7 @@ Note that when using this script to copy a folder you should ensure the target d
 #PBS -W umask=022
 #PBS -q copyq
 #PBS -l wd
-#PBS -lstorage=/scratch/<nci_project>
+#PBS -lstorage=scratch/<nci_project>
 
 remote_user=<unikey>
 remote_host=research-data-ext.sydney.edu.au
@@ -633,7 +633,7 @@ touch $outfile
 lftp -u ${remote_user}, sftp://${remote_host} <<EOF
 set xfer:log true
 set xfer:log-file "${outfile}"
-mirror --verbose -R ${source_path} ${remote_path}
+mirror -p --verbose -R ${source_path} ${remote_path}
 exit
 EOF
 ```
