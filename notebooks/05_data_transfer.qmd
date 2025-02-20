@@ -132,7 +132,7 @@ The following are instructions using the `cyberduck` data transfer client. The p
 
 To mount your RDS drive in either Windows or MacOS, please follow the instructions described [here](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/228589620/Research+Data+Store). You should have a File Explorer (Windows) or Finder (MacOS) window open and displaying the files and folders in your RDS project directory.
 
-Next download `cyberduck` from https://cyberduck.io and open it and connect to Gadi:
+Next download `cyberduck` from [https://cyberduck.io](https://cyberduck.io) and open it and connect to Gadi:
 
   1. Click on the `Open Connection` icon at the top of the window.
   2. Select **SFTP (SSH File Transfer Protocol)** from the drop-down menu at the top of box.
