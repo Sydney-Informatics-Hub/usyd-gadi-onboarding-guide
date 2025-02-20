@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.5.55">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -242,10 +242,33 @@ cookieconsent.run({
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#set-up-ssh-keys" id="toc-set-up-ssh-keys" class="nav-link active" data-scroll-target="#set-up-ssh-keys"><strong>Set up SSH keys</strong></a></li>
-  <li><a href="#customise-the-transfer-script" id="toc-customise-the-transfer-script" class="nav-link" data-scroll-target="#customise-the-transfer-script"><strong>Customise the transfer script</strong></a></li>
-  <li><a href="#run-the-transfer-script" id="toc-run-the-transfer-script" class="nav-link" data-scroll-target="#run-the-transfer-script"><strong>Run the transfer script</strong></a></li>
-  <li><a href="#confirm-the-transfer" id="toc-confirm-the-transfer" class="nav-link" data-scroll-target="#confirm-the-transfer"><strong>Confirm the transfer</strong></a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#where-to-put-project-files-on-gadi" id="toc-where-to-put-project-files-on-gadi" class="nav-link" data-scroll-target="#where-to-put-project-files-on-gadi">Where to put project files on Gadi</a></li>
+  <li><a href="#research-data-store-rds" id="toc-research-data-store-rds" class="nav-link" data-scroll-target="#research-data-store-rds">Research data store (RDS)</a></li>
+  <li><a href="#data-transfer-options" id="toc-data-transfer-options" class="nav-link" data-scroll-target="#data-transfer-options">Data transfer options</a>
+  <ul class="collapse">
+  <li><a href="#globus---coming-soon" id="toc-globus---coming-soon" class="nav-link" data-scroll-target="#globus---coming-soon">Globus - COMING SOON</a></li>
+  <li><a href="#transfer-using-rds-mapped-network-drive-and-data-transfer-client" id="toc-transfer-using-rds-mapped-network-drive-and-data-transfer-client" class="nav-link" data-scroll-target="#transfer-using-rds-mapped-network-drive-and-data-transfer-client">Transfer using RDS mapped network drive and data transfer client</a></li>
+  <li><a href="#transfer-from-ssh-connection-to-rds" id="toc-transfer-from-ssh-connection-to-rds" class="nav-link" data-scroll-target="#transfer-from-ssh-connection-to-rds">Transfer from ssh connection to RDS</a></li>
+  <li><a href="#transfer-using-sftp-from-gadi-copyq" id="toc-transfer-using-sftp-from-gadi-copyq" class="nav-link" data-scroll-target="#transfer-using-sftp-from-gadi-copyq">Transfer using sftp from Gadi copyq</a></li>
+  <li><a href="#transfer-using-rsync-from-artemis-dtq---prior-to-decomission-only" id="toc-transfer-using-rsync-from-artemis-dtq---prior-to-decomission-only" class="nav-link" data-scroll-target="#transfer-using-rsync-from-artemis-dtq---prior-to-decomission-only">Transfer using rsync from Artemis dtq - PRIOR TO DECOMISSION ONLY</a></li>
+  </ul></li>
+  <li><a href="#examples-of-the-above-transfer-methods" id="toc-examples-of-the-above-transfer-methods" class="nav-link" data-scroll-target="#examples-of-the-above-transfer-methods">Examples of the above transfer methods</a>
+  <ul class="collapse">
+  <li><a href="#transfer-using-rds-mapped-network-drive-and-data-transfer-client-1" id="toc-transfer-using-rds-mapped-network-drive-and-data-transfer-client-1" class="nav-link" data-scroll-target="#transfer-using-rds-mapped-network-drive-and-data-transfer-client-1">Transfer using RDS mapped network drive and data transfer client</a></li>
+  <li><a href="#transfer-from-ssh-connection-to-rds-1" id="toc-transfer-from-ssh-connection-to-rds-1" class="nav-link" data-scroll-target="#transfer-from-ssh-connection-to-rds-1">Transfer from ssh connection to RDS</a>
+  <ul class="collapse">
+  <li><a href="#data-transfer-from-artemis-and-rds-to-gadi-at-the-login-shell---prior-to-decommision-only" id="toc-data-transfer-from-artemis-and-rds-to-gadi-at-the-login-shell---prior-to-decommision-only" class="nav-link" data-scroll-target="#data-transfer-from-artemis-and-rds-to-gadi-at-the-login-shell---prior-to-decommision-only">Data transfer from Artemis (and RDS) to Gadi at the login shell - PRIOR TO DECOMMISION ONLY</a></li>
+  <li><a href="#data-transfer-from-rds-to-gadi-at-the-login-shell" id="toc-data-transfer-from-rds-to-gadi-at-the-login-shell" class="nav-link" data-scroll-target="#data-transfer-from-rds-to-gadi-at-the-login-shell">Data transfer from RDS to Gadi at the login shell:</a></li>
+  <li><a href="#use-of-screen-or-tmux" id="toc-use-of-screen-or-tmux" class="nav-link" data-scroll-target="#use-of-screen-or-tmux">Use of screen or tmux</a></li>
+  </ul></li>
+  <li><a href="#set-up-ssh-keys-for-passwordless-data-transfer" id="toc-set-up-ssh-keys-for-passwordless-data-transfer" class="nav-link" data-scroll-target="#set-up-ssh-keys-for-passwordless-data-transfer">Set up SSH keys for passwordless data transfer</a></li>
+  <li><a href="#transfer-using-sftp-from-gadi-copyq-1" id="toc-transfer-using-sftp-from-gadi-copyq-1" class="nav-link" data-scroll-target="#transfer-using-sftp-from-gadi-copyq-1">Transfer using sftp from Gadi copyq</a>
+  <ul class="collapse">
+  <li><a href="#generic-gadi-script-for-data-transfer-to-and-from-rds" id="toc-generic-gadi-script-for-data-transfer-to-and-from-rds" class="nav-link" data-scroll-target="#generic-gadi-script-for-data-transfer-to-and-from-rds">Generic Gadi script for data transfer to and from RDS</a></li>
+  </ul></li>
+  <li><a href="#transfer-using-rsync-from-artemis-dtq---prior-to-decomission-only-1" id="toc-transfer-using-rsync-from-artemis-dtq---prior-to-decomission-only-1" class="nav-link" data-scroll-target="#transfer-using-rsync-from-artemis-dtq---prior-to-decomission-only-1">Transfer using rsync from Artemis dtq - PRIOR TO DECOMISSION ONLY</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -271,83 +294,242 @@ cookieconsent.run({
 </header>
 
 
-<p>The data transfer queue on Gadi is called ‘copyq’. You can easily use this queue to transfer data between Gadi and RDS (or other locations) by first setting up ssh keys for password-less transfers between Gadi and Artemis/RDS.</p>
-<p>For transfer of large files, the use of ‘resumable’ rsync is recommended. As the USyd RDS servers only allow sftp connections, this method is not possible to run on Gadi’s copyq. Instead, the transfer can be initiated using Artemis ‘dtq’ and using Gadi’s ‘data mover’ node: <code>gadi-dm.nci.org.au</code>.</p>
-<section id="resources" class="level4">
-<h4 class="anchored" data-anchor-id="resources"><strong>Resources</strong></h4>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>In this section, we will look at transferring data between the Research Data Store and Gadi.</p>
+<p>The main challenges users may face adapting Artemis workflows to Gadi are:</p>
 <ul>
-<li><a href="https://medium.com/@prateek.malhotra004/streamlining-secure-remote-access-a-guide-to-passwordless-ssh-connections-between-linux-servers-8c26bb008af9">Instructions for SSH key set up</a></li>
+<li><a href="./08_job_script">Adjusting PBS directives to suit Gadi requirements and queue structure</a></li>
+<li><a href="./08_job_scripts">Lack of internet access for Gadi compute nodes</a></li>
+<li><a href="../notebooks/05_data_transfer.html">Data transfer</a></li>
+<li><a href="./12_walltime.qmd">Gadi walltime limit of 48 hours</a></li>
+<li><a href="../notebooks/06_accounting.html">Understanding NCI accounting of KSU, disk and iNode limits</a></li>
+<li><a href="https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...#RecoverFiles...-RecoverQuarantinedFilesonscratch">Automatic 100-day Gadi /scratch purge policy</a></li>
+<li><a href="../notebooks/11_software.html">Software installation and version upgrades on Gadi</a></li>
+<li><a href="./13_parralel_jobs.qmd">Job arrays not supported on Gadi</a></li>
 </ul>
+<p>In this section, we will look at Data Transfer. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.</p>
 </section>
-<section id="set-up-ssh-keys" class="level2">
-<h2 class="anchored" data-anchor-id="set-up-ssh-keys"><strong>Set up SSH keys</strong></h2>
+<section id="where-to-put-project-files-on-gadi" class="level2">
+<h2 class="anchored" data-anchor-id="where-to-put-project-files-on-gadi">Where to put project files on Gadi</h2>
+<p>On Gadi (like on Artemis) you have access to a number of different storage areas for project files and data. Check the <a href="https://opus.nci.org.au/spaces/Help/pages/236880086/Gadi+Resources...">NCI User Guides</a> for more detailed information. Here we provide a brief introduction for those falimiar with Artemis.</p>
+<p>Each space is intended for use in a specific way:</p>
+<section id="home" class="level4">
+<h4 class="anchored" data-anchor-id="home">Home</h4>
+<p>Your home space (<code>/home/&lt;username&gt;</code>) is owned by you and has 10 GiB of available space and this cannot be increased. It works similarly to your /home space on Artemis and should only be used to store things like program code, batch scripts or software configuration information. Note that space is extremely limited here and it is unadvisable to use this space for storing project data.</p>
+</section>
+<section id="gdata" class="level4">
+<h4 class="anchored" data-anchor-id="gdata">g/data</h4>
+<p>Your <code>/g/data</code> space (<code>/g/data/&lt;project_id&gt;</code>) is owned by your project and has the available space allocated by the Sydney Scheme Manager. It is equivalent to <code>/project</code> on Artemis. The data are not backed up but they persist for the lifetime of your project. <code>/g/data</code> is inteded to be used to store longer term files that are reqularly used by your project during its lifetime. Always ensure your data is regularly backed up from here to the Research Data Store. <code>/g/data</code> may be accessed directly from PBS job scripts by using the <code>-lstorage</code> PBS directive in your PBS script.</p>
+</section>
+<section id="scratch" class="level4">
+<h4 class="anchored" data-anchor-id="scratch">Scratch</h4>
+<p>Your scratch space (<code>/scratch/&lt;project_id&gt;</code>) is owned by your project and has 1 TiB of available space which can be increased upon request. It is equivalent to <code>/scratch</code> on Artemis. Data are not backed up and files not accessed for 100 days will be quarantined for 14 days and then removed. Scratch should be used for temporary files associated with a job that has large data IO and not for longer term storage. Always ensure any data you need from a job that is left in /scratch is promptly backed up to the Research Data Store.</p>
+<p>To check the amount of disk space you have available in the data areas listed above you can use:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> lquota</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="research-data-store-rds" class="level2">
+<h2 class="anchored" data-anchor-id="research-data-store-rds">Research data store (RDS)</h2>
+<p>The RDS is NOT being decommisioned along with Artemis HPC. Any RDS projects you currently have will persist on RDS. It is your responsibility to backup any data on Artemis filesystems (<code>/home</code>, <code>/scratch</code>, <code>/project</code>) that you wish to keep prior to the decomission date of August 29 2025. For information on how to go about this see the <a href="https://sydney-informatics-hub.github.io/training.artemis.rds/04-rcos2hpc/index.html">SIH Artemis Training Series</a>.</p>
+<p>In this section, we will mainly focus on how to transfer data between Gadi HPC and RDS. You should be able follow similar methods for copying data between your own laptop/server and Gadi.</p>
+</section>
+<section id="data-transfer-options" class="level2">
+<h2 class="anchored" data-anchor-id="data-transfer-options">Data transfer options</h2>
+<p>All data transfer to and from Gadi should be made using the “Data Mover Node” at <code>gadi-dm.nci.org.au</code> rather than the login nodes. This ensures that data transfer will not consume resources on the otherwise limited login nodes.</p>
+<section id="globus---coming-soon" class="level3">
+<h3 class="anchored" data-anchor-id="globus---coming-soon">Globus - COMING SOON</h3>
+<p>In the coming months, <a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+Data+Transfer">Globus</a> will be available for simplified and efficient data transfer. We will provide training and materials on this once available.</p>
+<p>In the meantime, the below options are available, and detailed examples for each method are provided in the subsequent sections.</p>
+</section>
+<section id="transfer-using-rds-mapped-network-drive-and-data-transfer-client" class="level3">
+<h3 class="anchored" data-anchor-id="transfer-using-rds-mapped-network-drive-and-data-transfer-client">Transfer using RDS mapped network drive and data transfer client</h3>
+<p>For smaller files or datasets, you can map your RDS project as a network drive and transfer the data to Gadi via an intermediate data transfer client GUI such as <code>filezilla</code> or <code>cyberduck</code>.</p>
+<p>While simple to use, these are not recommended for large data transfers, as the local computer becomes a bottleneck and they are generally not resumeable after interruption. Faster speeds will be obtained if you are on campus, but still this method may be prohibitively slow for larger datasets.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Example using <code>cyberduck</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The following are instructions using the <code>cyberduck</code> data transfer client. The process using <code>filezilla</code> is similar with the same username the same username and server IP address as shown in this example.</p>
+<p>To mount your RDS drive in either Windows or MacOS, please follow the instructions described <a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/228589620/Research+Data+Store">here</a>. You should have a File Explorer (Windows) or Finder (MacOS) window open and displaying the files and folders in your RDS project directory.</p>
+<p>Next download <code>cyberduck</code> from https://cyberduck.io and open it and connect to Gadi:</p>
+<ol type="1">
+<li>Click on the <code>Open Connection</code> icon at the top of the window.</li>
+<li>Select <strong>SFTP (SSH File Transfer Protocol)</strong> from the drop-down menu at the top of box.</li>
+<li>In the <strong>Server</strong> field, enter <code>gadi-dm.nci.org.au</code>.</li>
+<li>In the <strong>Username</strong> field, enter your <strong>NCI Username</strong>.</li>
+<li>In hte <strong>Password</strong> field, enter your <strong>NCI password</strong>.</li>
+<li>Click <strong>Connect</strong>.</li>
+<li>If an <strong>Unknown fingerprint</strong> box appears, click the <strong>Always</strong> check box in the lower-left hand corner, then click <strong>Allow</strong>.</li>
+</ol>
+<p>If you have successfully logged in, you will see a directory listing of <code>/home/&lt;user login&gt;</code>. You can browse to your project folder either in <code>/scratch</code> or <code>/g/data</code> by pressing <code>Ctrl + g</code> and then typing <code>/scratch/&lt;project id&gt;</code> or <code>/g/data/&lt;project id&gt;</code>.</p>
+<p>You can then transfer data to and from RDS and NCI by dragging and dropping files between your computer’s file explorer and the Cyberduck window.</p>
+</div>
+</div>
+</section>
+<section id="transfer-from-ssh-connection-to-rds" class="level3">
+<h3 class="anchored" data-anchor-id="transfer-from-ssh-connection-to-rds">Transfer from ssh connection to RDS</h3>
+<p>You can also initiate the transfer on the command line by <code>ssh</code> to either <code>research-data-ext.sydney.edu.au</code> (off-campus) or <code>research-data-int.sydney.edu.au</code> (on campus or USyd VPN) then using typical transfer commands such as <code>rsync</code> or <code>scp</code>. Since the connection will be terminated if your computer sleeps, terminal crashes, network drops out etc, this method is not particualrly robust for large transfers. Using something like <code>tmux</code> or <code>screen</code> can help, however note that the login server has finite capacity, and transfer speeds can be seriously impacted during times of high load.</p>
+</section>
+<section id="transfer-using-sftp-from-gadi-copyq" class="level3">
+<h3 class="anchored" data-anchor-id="transfer-using-sftp-from-gadi-copyq">Transfer using sftp from Gadi copyq</h3>
+<p>The data transfer queue on Gadi is called <code>copyq</code>. This is comparable to the data transfer queue on Artemis <code>dtq</code>. Data transfer methods/scripts that you used to put data onto Artemis for example from the web via <code>wget</code> or from another server should be easily portable to use on Gadi’s <code>copyq</code>.</p>
+<p>Please note that the compute nodes on Gadi <strong>do not have</strong> internet access like the Artemis compute nodes do, so all required data must first be downloaded before submitting a compute job that requries the data.</p>
+<p>Due to stringent security settings around Artemis and RDS, commands like <code>rsync</code> or <code>scp</code> <strong>cannot</strong> be initiated from NCI Gadi login nodes or <code>copyq</code>. To initiate the transfer from Gadi, <code>sftp</code> must be used. One can <code>rsync</code> or <code>scp</code> from Artemis login nodes or using <code>dtq</code> to Gadi, however this option will of course cease when Artemis is decomissioned.</p>
+</section>
+<section id="transfer-using-rsync-from-artemis-dtq---prior-to-decomission-only" class="level3">
+<h3 class="anchored" data-anchor-id="transfer-using-rsync-from-artemis-dtq---prior-to-decomission-only">Transfer using rsync from Artemis dtq - PRIOR TO DECOMISSION ONLY</h3>
+<p>For transfer of large files directly from Artemis to Gadi, the use of resumable <code>rsync</code> is recommended (see script below). As the USyd RDS servers only allow sftp connections, this method is not possible to run on Gadi’s <code>copyq</code>. Instead, the transfer can be initiated using Artemis <code>dtq</code> and using Gadi’s data mover node: <code>gadi-dm.nci.org.au</code>. After the decomisison of Artemis, Globus will provide fast and reliable large data transfers.</p>
+</section>
+</section>
+<section id="examples-of-the-above-transfer-methods" class="level1">
+<h1>Examples of the above transfer methods</h1>
+<section id="transfer-using-rds-mapped-network-drive-and-data-transfer-client-1" class="level2">
+<h2 class="anchored" data-anchor-id="transfer-using-rds-mapped-network-drive-and-data-transfer-client-1">Transfer using RDS mapped network drive and data transfer client</h2>
+<p>Instructions for transferring a small amount of data by mounting RDS as a network drive and copying the data using a the <code>cyberduck</code> data transfer client (The process using <code>filezilla</code> is similar using the same username and server address as shown in the list below).</p>
+<p>To mount your RDS drive in either Windows or MacOS, please follow the instructions described <a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/228589620/Research+Data+Store">here</a>. You should have a File Explorer (Windows) or Finder (MacOS) window open and displaying the files and folders in your RDS project directory.</p>
+<p>Next download <code>cyberduck</code> from https://cyberduck.io and open it and connect to Gadi:</p>
+<ol type="1">
+<li>Click on the <code>Open Connection</code> icon at the top of the window.</li>
+<li>Select <strong>SFTP (SSH File Transfer Protocol)</strong> from the drop-down menu at the top of box.</li>
+<li>In the <strong>Server</strong> field, enter <code>gadi-dm.nci.org.au</code>.</li>
+<li>In the <strong>Username</strong> field, enter your <strong>NCI Username</strong>.</li>
+<li>In hte <strong>Password</strong> field, enter your <strong>NCI password</strong>.</li>
+<li>Click <strong>Connect</strong>.</li>
+<li>If an <strong>Unknown fingerprint</strong> box appears, click the <strong>Always</strong> check box in the lower-left hand corner, then click <strong>Allow</strong>.</li>
+</ol>
+<p>If you have successfully logged in, you will see a directory listing of <code>/home/&lt;user login&gt;</code>. You can browse to your project folder either in <code>/scratch</code> or <code>/g/data</code> by pressing <code>Ctrl + g</code> and then typing <code>/scratch/&lt;project id&gt;</code> or <code>/g/data/&lt;project id&gt;</code>.</p>
+<p>You can then transfer data to and from RDS and NCI by dragging and dropping files between your computer’s file explorer and the Cyberduck window.</p>
+</section>
+<section id="transfer-from-ssh-connection-to-rds-1" class="level2">
+<h2 class="anchored" data-anchor-id="transfer-from-ssh-connection-to-rds-1">Transfer from ssh connection to RDS</h2>
+<section id="data-transfer-from-artemis-and-rds-to-gadi-at-the-login-shell---prior-to-decommision-only" class="level3">
+<h3 class="anchored" data-anchor-id="data-transfer-from-artemis-and-rds-to-gadi-at-the-login-shell---prior-to-decommision-only">Data transfer from Artemis (and RDS) to Gadi at the login shell - PRIOR TO DECOMMISION ONLY</h3>
+<p>Note that this option is only available prior to the commission of Artemis (<em>when</em>) - after that date you will have to use either GLOBUS (<em>preferred?</em>), or copy data when logged into Gadi (wither at the login shell or using <code>copyq</code> scripts)</p>
+<p>To transfer data between Artemis and Gadi from the Artemis login shell:</p>
+<ol type="1">
+<li>Open a terminal (using the ‘Terminal’ app on MacOS or the ‘Command Prompt’ app on Windows and then log into Artemis using ssh:</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>Your UniKey<span class="op">&gt;</span>@hpc.sydney.edu.au</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>Copy the data from either <code>rds</code>, <code>project</code> or <code>scratch</code> to a specific location on Gadi, e.g:</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> <span class="at">-r</span> /rds/PRJ-<span class="op">&lt;</span>Project Short ID<span class="op">&gt;</span>/<span class="op">&lt;</span>Path to File or Folder<span class="op">&gt;</span> <span class="op">&lt;</span>nci login<span class="op">&gt;</span>@gadi-dm.nci.org.au</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>replace <code>/rds</code> in the above with <code>/project</code> or <code>/scratch</code> for your preferred source folder or file.</p>
+<p>If you want to copy the other way around (ie. from Gadi /scratch to RDS) then simply reverse the order of the above command in step 2, e.g:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> <span class="at">-r</span> <span class="op">&lt;</span>nci login<span class="op">&gt;</span>@gadi-dm.nci.org.au /rds/PRJ-<span class="op">&lt;</span>Project Short ID<span class="op">&gt;</span>/<span class="op">&lt;</span>Path to File or Folder<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="data-transfer-from-rds-to-gadi-at-the-login-shell" class="level3">
+<h3 class="anchored" data-anchor-id="data-transfer-from-rds-to-gadi-at-the-login-shell">Data transfer from RDS to Gadi at the login shell:</h3>
+<p>TBC</p>
+<p>e.g:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sftp</span> <span class="at">-r</span> <span class="op">&lt;</span>Your UniKey<span class="op">&gt;</span>@research-data-ext.sydney.edu.au:/rds/PRJ-<span class="op">&lt;</span>Project Short ID<span class="op">&gt;</span>/<span class="op">&lt;</span>Path to File or Folder<span class="op">&gt;</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="use-of-screen-or-tmux" class="level3">
+<h3 class="anchored" data-anchor-id="use-of-screen-or-tmux">Use of screen or tmux</h3>
+<p>ToDo</p>
+<p>include use of screen or tmux</p>
+</section>
+</section>
+<section id="set-up-ssh-keys-for-passwordless-data-transfer" class="level2">
+<h2 class="anchored" data-anchor-id="set-up-ssh-keys-for-passwordless-data-transfer">Set up SSH keys for passwordless data transfer</h2>
+<p>If you are transferring data directly for example <code>scp</code> on the command line or via a transfer client on your local computer, entering a password to initiate the transfer is straightforward. If however you want to transfer via a job submitted to either <code>copyq</code> or <code>dtq</code>, you will need to set up SSH keys first.</p>
 <p>SSH key pairs are used for secure communication between two systems. The pair consists of a <strong>private</strong> key and a <strong>public</strong> key. The <strong>private</strong> key should remain private and only be known by the user. It is stored securely on the user’s computer. The <strong>public</strong> key can be shared with any system the user wants to connect to. It is added to the remote system’s authorized keys. When a connection is attempted, the remote system uses the public key to create a message for the user’s system.</p>
-<p>We will set up SSH keys to allow us to move data between USyd’s HPC and RDS and Gadi. <strong>You only need to do this once</strong>.</p>
+<p>There are many general guides for this online, for example <a href="https://medium.com/@prateek.malhotra004/streamlining-secure-remote-access-a-guide-to-passwordless-ssh-connections-between-linux-servers-8c26bb008af9">this one</a>. For step-by-step instructions on how to set up keys between Gadi and RDS, expand the drop down below.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Click to expand
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Follow the below steps carefully to set up SSH keys between RDS and Gadi. Note, <strong>you only need to do this once</strong>.</p>
 <ol type="1">
 <li>Log into Gadi with your chosen method, e.g:</li>
 </ol>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> ab1234@gadi.nci.org.au</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> ab1234@gadi.nci.org.au</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="2" type="1">
 <li>Move to your home directory:</li>
 </ol>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="3" type="1">
 <li>Make a <code>.ssh</code> directory, if you don’t already have one:</li>
 </ol>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> .ssh </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> .ssh </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="4" type="1">
 <li>Set suitable permissions for the <code>.ssh</code> directory and move into it:</li>
 </ol>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 700 .ssh</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> .ssh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 700 .ssh</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> .ssh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="5" type="1">
 <li>Generate SSH key pair:</li>
 </ol>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh-keygen</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh-keygen</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Hit enter when prompted, saving the key in <code>~/.ssh/id_rsa</code> and enter for NO passphrase. A public key will be located in <code>~/.ssh/id_rsa.pub</code> and a private key in <code>~/.ssh/id_rsa</code>.</p>
 <ol start="6" type="1">
 <li>Set suitable permissions for the keys:</li>
 </ol>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 600 id_rsa</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 644 id_rsa.pub</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 600 id_rsa</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 644 id_rsa.pub</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="7" type="1">
 <li>Make an <code>authorized_keys</code> file if you don’t already have one that can be transferred to USyd’s Artemis/RDS system:</li>
 </ol>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> <span class="at">-p</span> ~/.ssh/authorized_keys</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="8" type="1">
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> ~/.ssh/authorized_keys</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="7" type="1">
 <li>Copy the contents of the public key file (<code>~/.ssh/id_rsa.pub</code>) to the <code>authorized_keys</code> file to be transferred to USyd’s Artemis/RDS system:</li>
 </ol>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> ~/.ssh/id_rsa.pub <span class="op">&gt;&gt;</span> ~/.ssh/authorized_keys</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="9" type="1">
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> ~/.ssh/id_rsa.pub <span class="op">&gt;&gt;</span> ~/.ssh/authorized_keys</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="8" type="1">
 <li>Set permissions for the <code>authorized_keys</code> file to be transferred to USyd’s Artemis/RDS system:</li>
 </ol>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 600 ~/.ssh/authorized_keys</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="10" type="1">
-<li>Connect to USyd’s Artemis/RDS system using sftp and your unikey:</li>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 600 ~/.ssh/authorized_keys</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="9" type="1">
+<li>Connect to USyd’s Artemis/RDS system using <code>lftp</code> and your unikey:</li>
 </ol>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sftp</span> <span class="op">&lt;</span>your-unikey<span class="op">&gt;</span>@research-data-ext.sydney.edu.au</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lftp</span> sftp://<span class="op">&lt;</span>your-unikey<span class="op">&gt;</span>@research-data-ext.sydney.edu.au</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Provide your password when prompted. Then make and move into a <code>.ssh</code> directory if you don’t already have one:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/.ssh</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/.ssh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="11" type="1">
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/.ssh</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/.ssh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="10" type="1">
 <li>Transfer the <code>authorized_keys</code> file from Gadi to USyd’s Artemis/RDS system:</li>
 </ol>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">put</span> authorized_keys</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Doing this will transfer authorized_keys on Gadi to your current directory. With sftp, it will look for the file relative to where you launched sftp. You can check where you are on Gadi using:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="12" type="1">
-<li>Exit your sftp connection to USyd’s Artemis/RDS system <code>ctrl + z</code> and test the passwordless connection:</li>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">put</span> authorized_keys</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Doing this will transfer authorized_keys on Gadi to your current directory. With lftp, it will look for the file relative to where you launched lftp. You can check where you are on Gadi using:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">local</span> <span class="va">pwd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="11" type="1">
+<li>Exit your lftp connection to USyd’s Artemis/RDS system <code>ctrl + d</code> and test the passwordless connection:</li>
 </ol>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sftp</span> <span class="op">&lt;</span>your-unikey<span class="op">&gt;</span>@research-data-ext.sydney.edu.au</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sftp</span> <span class="op">&lt;</span>your-unikey<span class="op">&gt;</span>@research-data-ext.sydney.edu.au</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This time, you shouldn’t be prompted for a password. You can proceed to transfer data between Gadi and USyd’s Artemis/RDS system now on the <code>copyq</code>.</p>
+</div>
+</div>
+</div>
 </section>
-<section id="customise-the-transfer-script" class="level2">
-<h2 class="anchored" data-anchor-id="customise-the-transfer-script"><strong>Customise the transfer script</strong></h2>
-<p>Whenever you need to copy large files between RDS and Gadi, you should use the script below. This script can be submitted to the <code>copyq</code> on Gadi. A copy of it has been provided in your group’s <code>/g/data/&lt;project&gt;/scripts</code> directory. An example of a script has also been provided here.</p>
-<p>Make a copy of this file to your <code>/scratch</code> workspace on Gadi and edit it to suit your needs.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /g/data/<span class="op">&lt;</span>project<span class="op">&gt;</span>/scripts/transfer.pbs /scratch/<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>workspace<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="transfer-using-sftp-from-gadi-copyq-1" class="level2">
+<h2 class="anchored" data-anchor-id="transfer-using-sftp-from-gadi-copyq-1">Transfer using sftp from Gadi copyq</h2>
+<p>The scripts below use <code>sftp</code> to transfer data between RDS and Gadi on the Gadi <code>copyq</code>.</p>
+<p>Copies of these scripts have been placed in <code>/scratch/qc03/data-transfer-scripts/gadi-scripts</code>.</p>
+<p>Make a copy of these scripts to your <code>/scratch/&lt;nci-project-code&gt;</code> or <code>/home/&lt;nci-user-id&gt;</code> workspace on Gadi and edit to suit your needs.</p>
+<p>TBC</p>
+<ul>
+<li>separate below content into indivdual scripts eg “file_from_rds_to_gadi.pbs”, “folder_from_rds_to_gadi.pbs” etc</li>
+<li>make the demo scripts folder (read and write user and group for folder) and change perms for files so read only</li>
+<li>update below content and put example code for each script below under each relevant subheading</li>
+</ul>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /g/data/<span class="op">&lt;</span>project<span class="op">&gt;</span>/scripts/transfer.pbs /scratch/<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>workspace<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Then follow the script and move to that workspace:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /scratch/<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>workspace<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /scratch/<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>workspace<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You need to edit the script and fill in the following details before using it:</p>
 <p>In the <code># PBS</code> variables part of the script:</p>
 <ul>
@@ -361,160 +543,328 @@ cookieconsent.run({
 <li>Provide the <code>remote_host</code> variable by replacing <code>&lt;project&gt;</code> with your USyd Artemis/RDS project code</li>
 <li>Provide the <code>remote_path</code> variable by replacing <code>&lt;path&gt;</code> with the path to the file or directory you want to transfer, excluding the name of the file or directory to be transferred. This will be provided further down in the script.</li>
 </ul>
-<p>Notice that all commands in the script are hashed out. This script can do multiple things, depending on which command is permitted to run (by removing the hash prefix). The header lines above each section describe which command is being run and therefore which direction the data is moving in.</p>
-<p>To copy a file from RDS to Gadi:</p>
+<p><strong>Transfer a file from RDS to Gadi:</strong></p>
 <ol type="1">
-<li>See the section under <code># Download a file from RDS to Gadi</code></li>
-<li>Unhash lines 21-23</li>
+<li>Use <code>file_from_rds_to_gadi.pbs</code> script</li>
+<li>Replace variables in <code>&lt;brackets&gt;</code> as described above</li>
 <li>Provide the RDS file as <code>remote_file</code> variable by replacing <code>&lt;filename&gt;</code> with the name of the file you want to transfer</li>
 </ol>
-<p>To copy a directory from RDS to Gadi:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Transfer a file from RDS to Gadi</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Make the following replacements in this file:</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;unikey&gt;:      Your USyd unikey</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;rds_project&gt;: Your RDS project name</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;path&gt;:        The location on RDS of your data</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;filename&gt;:    The name of the file to copy</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;nci_project&gt;: Your NCI project name</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P &lt;nci_project&gt;</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N transfer</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=04:00:00</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=1</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=8GB</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -W umask=022</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q copyq</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=scratch/&lt;project_nci&gt;</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Artemis:</span></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a><span class="va">remote_user</span><span class="op">=&lt;</span>unikey<span class="op">&gt;</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a><span class="va">remote_host</span><span class="op">=</span>research-data-ext.sydney.edu.au</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a><span class="va">remote_path</span><span class="op">=</span>/rds/PRJ-<span class="op">&lt;</span>rds_project<span class="op">&gt;</span>/<span class="op">&lt;</span>path<span class="op">&gt;</span></span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a><span class="va">remote_file</span><span class="op">=&lt;</span>filename<span class="op">&gt;</span></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Gadi:</span></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a><span class="va">dest_path</span><span class="op">=</span>/scratch/<span class="op">&lt;</span>nci_project<span class="op">&gt;</span>/<span class="op">&lt;</span>path<span class="op">&gt;</span></span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy file with sftp</span></span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a><span class="ex">sftp</span> <span class="va">${remote_user}</span>@<span class="va">${remote_host}</span>:<span class="va">${remote_path}</span>/<span class="va">${remote_file}</span> <span class="va">${dest_path}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Transfer a folder from RDS to Gadi:</strong></p>
 <ol type="1">
-<li>See the section under <code># Download a directory from RDS to Gadi</code></li>
-<li>Unhash lines 26-27</li>
-<li>Provide the RDS directory as <code>remote_dir</code> variable by replacing <code>&lt;dirname&gt;</code> with the name of the file you want to transfer</li>
+<li>Use <code>folder_from_rds_to_gadi.pbs</code> script</li>
+<li>Replace variables in <code>&lt;brackets&gt;</code> as described above</li>
+<li>Provide the RDS directory as <code>remote_dir</code> variable by replacing <code>&lt;folder&gt;</code> with the name of the file you want to transfer</li>
 </ol>
-<p>To copy a file from Gadi to RDS:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Transfer a folder from RDS to Gadi</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># This will recreate your RDS path (/rds/PRJ-&lt;rds_project&gt;)</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># on Gadi in /scratch/&lt;nci_project&gt;</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Make the following replacements in this file:</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;unikey&gt;:      Your USyd unikey</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;rds_project&gt;: Your RDS project name</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;path&gt;:        The location on RDS of your data</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;dirname&gt;:     The name of the folder to copy</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;nci_project&gt;: Your NCI project name</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P &lt;nci_project&gt;</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N transfer</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=04:00:00</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=1</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=8GB</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -W umask=022</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q copyq</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=scratch/&lt;nci_project&gt;</span></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a><span class="co"># RDS:</span></span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a><span class="va">remote_user</span><span class="op">=&lt;</span>unikey<span class="op">&gt;</span></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a><span class="va">remote_host</span><span class="op">=</span>research-data-ext.sydney.edu.au</span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a><span class="va">remote_path</span><span class="op">=</span>/rds/PRJ-<span class="op">&lt;</span>rds_project<span class="op">&gt;</span>/<span class="op">&lt;</span>path<span class="op">&gt;</span></span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a><span class="va">remote_dir</span><span class="op">=&lt;</span>dirname<span class="op">&gt;</span></span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Gadi:</span></span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a><span class="va">dest_path</span><span class="op">=</span>/scratch/<span class="op">&lt;</span>nci_project<span class="op">&gt;</span>/<span class="op">&lt;</span>path<span class="op">&gt;</span></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy folder with sftp</span></span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a><span class="ex">sftp</span> <span class="at">-r</span> <span class="va">${remote_user}</span>@<span class="va">${remote_host}</span>:<span class="va">${remote_path}</span>/<span class="va">${remote_dir}</span> <span class="va">${dest_path}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>To copy a file from Gadi to RDS:</strong></p>
 <ol type="1">
-<li>See the section under <code># Upload a file from Gadi to RDS</code></li>
-<li>Unhash lines 30-31</li>
+<li>Use <code>file_from_gadi_to_rds.pbs</code> script</li>
+<li>Replace variables in <code>&lt;brackets&gt;</code> as described above</li>
 <li>Provide the Gadi file as <code>local_file</code> variable by replacing <code>&lt;filename&gt;</code> with the name of the file you want to transfer</li>
 </ol>
-<p>To copy a directory from Gadi to RDS:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Transfer a file from Gadi to RDS</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Make the following replacements in this file:</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;unikey&gt;:      Your USyd unikey</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;rds_project&gt;: Your RDS project name</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;path&gt;:        The location on RDS to put your data</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;filename&gt;:    The file to copy</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;nci_project&gt;: Your NCI project name</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P &lt;nci_project&gt;</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N transfer</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=04:00:00</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=1</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=8GB</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -W umask=022</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q copyq</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=scratch/&lt;nci_project&gt;</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a><span class="va">remote_user</span><span class="op">=&lt;</span>unikey<span class="op">&gt;</span></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a><span class="va">remote_host</span><span class="op">=</span>research-data-ext.sydney.edu.au</span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="va">remote_path</span><span class="op">=</span>/rds/PRJ-<span class="op">&lt;</span>rds_project<span class="op">&gt;</span>/<span class="op">&lt;</span>path<span class="op">&gt;</span></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a><span class="va">local_file</span><span class="op">=&lt;</span>filename<span class="op">&gt;</span></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a><span class="ex">sftp</span> <span class="va">${remote_user}</span>@<span class="va">${remote_host}</span>:<span class="va">${remote_path}</span> <span class="op">&lt;&lt;&lt;</span> <span class="st">$"put </span><span class="va">${local_file}</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Transfer a folder from Gadi to RDS:</strong></p>
 <ol type="1">
-<li>See the section under <code># Upload a directory from Gadi to RDS</code></li>
+<li>Use <code>file_from_gadi_to_rds.pbs</code> script</li>
+<li>Replace variables in <code>&lt;brackets&gt;</code> as described above</li>
 <li>Log into RDS and make a directory with the same name as the directory you want to transfer from Gadi</li>
-<li>Unhash lines 35-36</li>
-<li>Provide the Gadi directory as <code>local_dir</code> variable by replacing <code>&lt;dirname&gt;</code> with the name of the file you want to transfer</li>
+<li>Provide the Gadi directory as <code>local_dir</code> variable by replacing <code>&lt;folder&gt;</code> with the name of the file you want to transfer</li>
 </ol>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This is a Gadi data transfer script</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P &lt;project&gt;</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N transfer</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=04:00:00</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=1</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=8GB</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -W umask=022</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q copyq</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=scratch/&lt;project&gt;</span></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Remote server details:</span></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="va">remote_user</span><span class="op">=&lt;</span>unikey<span class="op">&gt;</span></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="va">remote_host</span><span class="op">=</span>research-data-ext.sydney.edu.au</span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="va">remote_path</span><span class="op">=</span>/rds/PRJ-<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>path<span class="op">&gt;</span></span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Download a file from RDS to Gadi:</span></span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="co">#dest_path=/scratch/&lt;project&gt;/&lt;path&gt;</span></span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="co">#remote_file=&lt;filename&gt;</span></span>
-<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="co">#sftp ${remote_user}@${remote_host}:${remote_path}/${remote_file} ${dest_path} </span></span>
-<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Download a directory from RDS to Gadi:</span></span>
-<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="co">#dest_path=/scratch/&lt;project&gt;/&lt;path&gt;</span></span>
-<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a><span class="co">#remote_dir=&lt;dirname&gt;</span></span>
-<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a><span class="co">#sftp -r ${remote_user}@${remote_host}:${remote_path}/${remote_dir} ${dest_path} </span></span>
-<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Upload a file from Gadi to RDS:</span></span>
-<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a><span class="co">#local_file=&lt;filename&gt;</span></span>
-<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a><span class="co">#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $"put ${local_file}" </span></span>
-<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Upload a directory from Gadi to RDS:</span></span>
-<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a><span class="co"># CAVEAT: this method will only work if directory of the same name exists at destination! </span></span>
-<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a><span class="co">#local_dir=&lt;dirname&gt;</span></span>
-<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a><span class="co">#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $"put -r ${local_dir}" </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Transfer a folder from Gadi to RDS</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Make the following replacements in this file:</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;unikey&gt;:      Your USyd unikey</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;rds_project&gt;: Your RDS project name</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;path&gt;:        The location on RDS to put your folder (Must exist on RDS)</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;folder&gt;:      The folder to copy</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;nci_project&gt;: Your NCI project name</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P &lt;nci_project&gt;</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N transfer</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=04:00:00</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=1</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=8GB</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -W umask=022</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q copyq</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=scratch/&lt;nci_project&gt;</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="va">remote_user</span><span class="op">=&lt;</span>unikey<span class="op">&gt;</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="va">remote_host</span><span class="op">=</span>research-data-ext.sydney.edu.au</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a><span class="va">remote_path</span><span class="op">=</span>/rds/PRJ-<span class="op">&lt;</span>rds_project<span class="op">&gt;</span>/<span class="op">&lt;</span>path<span class="op">&gt;</span></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a><span class="va">local_dir</span><span class="op">=&lt;</span>folder<span class="op">&gt;</span></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a><span class="co"># CAVEAT: this method will only work if directory of the same name exists at destination!</span></span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a><span class="ex">sftp</span> <span class="va">${remote_user}</span>@<span class="va">${remote_host}</span>:<span class="va">${remote_path}</span> <span class="op">&lt;&lt;&lt;</span> <span class="st">$"put -r </span><span class="va">${folder}</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="generic-gadi-script-for-data-transfer-to-and-from-rds" class="level3">
+<h3 class="anchored" data-anchor-id="generic-gadi-script-for-data-transfer-to-and-from-rds">Generic Gadi script for data transfer to and from RDS</h3>
+<p>Below is a generic script that can handle all cases. Notice that all commands in the script are hashed out. This script can do multiple things, depending on which command is permitted to run (by removing the hash prefix). The header lines above each section describe which command is being run and therefore which direction the data is moving in.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This is a Gadi data transfer script</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P &lt;project&gt;</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N transfer</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=04:00:00</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=1</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=8GB</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -W umask=022</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q copyq</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=scratch/&lt;project&gt;</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Remote server details:</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="va">remote_user</span><span class="op">=&lt;</span>unikey<span class="op">&gt;</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="va">remote_host</span><span class="op">=</span>research-data-ext.sydney.edu.au</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="va">remote_path</span><span class="op">=</span>/rds/PRJ-<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>path<span class="op">&gt;</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Download a file from RDS to Gadi:</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="co">#dest_path=/scratch/&lt;project&gt;/&lt;path&gt;</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a><span class="co">#remote_file=&lt;filename&gt;</span></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="co">#sftp ${remote_user}@${remote_host}:${remote_path}/${remote_file} ${dest_path} </span></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Download a directory from RDS to Gadi:</span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a><span class="co">#dest_path=/scratch/&lt;project&gt;/&lt;path&gt;</span></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a><span class="co">#remote_dir=&lt;dirname&gt;</span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a><span class="co">#sftp -r ${remote_user}@${remote_host}:${remote_path}/${remote_dir} ${dest_path} </span></span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Upload a file from Gadi to RDS:</span></span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a><span class="co">#local_file=&lt;filename&gt;</span></span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a><span class="co">#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $"put ${local_file}" </span></span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Upload a directory from Gadi to RDS:</span></span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a><span class="co"># CAVEAT: this method will only work if directory of the same name exists at destination! </span></span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a><span class="co">#local_dir=&lt;dirname&gt;</span></span>
+<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a><span class="co">#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $"put -r ${local_dir}" </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>For example, to download a bam file from RDS to Gadi, I’d only unhash the <code>Download a file from RDS to Gadi</code> section:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This is a Gadi data transfer script</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P aa00</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N transfer</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=10:00:00</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=1</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=8GB</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -W umask=022</span></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q copyq</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=scratch/aa00</span></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Remote server details:</span></span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="va">remote_user</span><span class="op">=</span>gsam0000</span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="va">remote_host</span><span class="op">=</span>research-data-ext.sydney.edu.au</span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="va">remote_path</span><span class="op">=</span>/rds/PRJ-MYPROJECT/bams</span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Download a file from RDS to Gadi:</span></span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="va">dest_path</span><span class="op">=</span>/scratch/aa00/bams</span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="va">remote_file</span><span class="op">=</span>sample.bam</span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="ex">sftp</span> <span class="va">${remote_user}</span>@<span class="va">${remote_host}</span>:<span class="va">${remote_path}</span>/<span class="va">${remote_file}</span> <span class="va">${dest_path}</span> </span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Download a directory from RDS to Gadi:</span></span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="co">#remote_dir=&lt;dirname&gt;</span></span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="co">#sftp -r ${remote_user}@${remote_host}:${remote_path}/${remote_dir} ${dest_path} </span></span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Upload a file from Gadi to RDS:</span></span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="co">#local_file=&lt;filename&gt;</span></span>
-<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="co">#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $"put ${local_file}" </span></span>
-<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Upload a directory from Gadi to RDS:</span></span>
-<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="co"># CAVEAT: this method will only work if directory of the same name exists at destination! </span></span>
-<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a><span class="co">#local_dir=&lt;dirname&gt;</span></span>
-<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a><span class="co">#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $"put -r ${local_dir}" </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This is a Gadi data transfer script</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P aa00</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N transfer</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=10:00:00</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=1</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=8GB</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -W umask=022</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q copyq</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=scratch/aa00</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Remote server details:</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="va">remote_user</span><span class="op">=</span>gsam0000</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="va">remote_host</span><span class="op">=</span>research-data-ext.sydney.edu.au</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="va">remote_path</span><span class="op">=</span>/rds/PRJ-MYPROJECT/bams</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Download a file from RDS to Gadi:</span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="va">dest_path</span><span class="op">=</span>/scratch/aa00/bams</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="va">remote_file</span><span class="op">=</span>sample.bam</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a><span class="ex">sftp</span> <span class="va">${remote_user}</span>@<span class="va">${remote_host}</span>:<span class="va">${remote_path}</span>/<span class="va">${remote_file}</span> <span class="va">${dest_path}</span> </span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Download a directory from RDS to Gadi:</span></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a><span class="co">#remote_dir=&lt;dirname&gt;</span></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a><span class="co">#sftp -r ${remote_user}@${remote_host}:${remote_path}/${remote_dir} ${dest_path} </span></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Upload a file from Gadi to RDS:</span></span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a><span class="co">#local_file=&lt;filename&gt;</span></span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a><span class="co">#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $"put ${local_file}" </span></span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Upload a directory from Gadi to RDS:</span></span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a><span class="co"># CAVEAT: this method will only work if directory of the same name exists at destination! </span></span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a><span class="co">#local_dir=&lt;dirname&gt;</span></span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a><span class="co">#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $"put -r ${local_dir}" </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>For example, to download a directory containing multiple <code>fastq.gz</code> files from RDS to Gadi, I’d only unhash the <code>Download a directory from RDS to Gadi</code> section:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This is a Gadi data transfer script</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P aa00</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N transfer</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=10:00:00</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=1</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=8GB</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -W umask=022</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q copyq</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=scratch/aa00</span></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Remote server details:</span></span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="va">remote_user</span><span class="op">=&lt;</span>unikey<span class="op">&gt;</span></span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="va">remote_host</span><span class="op">=</span>research-data-ext.sydney.edu.au</span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="va">remote_path</span><span class="op">=</span>/rds/PRJ-<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>path<span class="op">&gt;</span></span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Download a file from RDS to Gadi:</span></span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="co">#dest_path=/scratch/&lt;project&gt;/&lt;path&gt;</span></span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="co">#remote_file=&lt;filename&gt;</span></span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="co">#sftp ${remote_user}@${remote_host}:${remote_path}/${remote_file} ${dest_path} </span></span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Download a directory from RDS to Gadi:</span></span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="va">dest_path</span><span class="op">=</span>/scratch/aa00/fastqs</span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a><span class="va">remote_dir</span><span class="op">=</span>/rds/PRJ-MYPROJECT/fastqs/cmt-fastqs</span>
-<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a><span class="ex">sftp</span> <span class="at">-r</span> <span class="va">${remote_user}</span>@<span class="va">${remote_host}</span>:<span class="va">${remote_path}</span>/<span class="va">${remote_dir}</span> <span class="va">${dest_path}</span> </span>
-<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Upload a file from Gadi to RDS:</span></span>
-<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a><span class="co">#local_file=&lt;filename&gt;</span></span>
-<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a><span class="co">#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $"put ${local_file}" </span></span>
-<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Upload a directory from Gadi to RDS:</span></span>
-<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a><span class="co"># CAVEAT: this method will only work if directory of the same name exists at destination! </span></span>
-<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a><span class="co">#local_dir=&lt;dirname&gt;</span></span>
-<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a><span class="co">#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $"put -r ${local_dir}" </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="run-the-transfer-script" class="level2">
-<h2 class="anchored" data-anchor-id="run-the-transfer-script"><strong>Run the transfer script</strong></h2>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This is a Gadi data transfer script</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P aa00</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N transfer</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=10:00:00</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=1</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=8GB</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -W umask=022</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q copyq</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=scratch/aa00</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Remote server details:</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="va">remote_user</span><span class="op">=&lt;</span>unikey<span class="op">&gt;</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="va">remote_host</span><span class="op">=</span>research-data-ext.sydney.edu.au</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="va">remote_path</span><span class="op">=</span>/rds/PRJ-<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>path<span class="op">&gt;</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Download a file from RDS to Gadi:</span></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a><span class="co">#dest_path=/scratch/&lt;project&gt;/&lt;path&gt;</span></span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="co">#remote_file=&lt;filename&gt;</span></span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a><span class="co">#sftp ${remote_user}@${remote_host}:${remote_path}/${remote_file} ${dest_path} </span></span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Download a directory from RDS to Gadi:</span></span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a><span class="va">dest_path</span><span class="op">=</span>/scratch/aa00/fastqs</span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a><span class="va">remote_dir</span><span class="op">=</span>/rds/PRJ-MYPROJECT/fastqs/cmt-fastqs</span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a><span class="ex">sftp</span> <span class="at">-r</span> <span class="va">${remote_user}</span>@<span class="va">${remote_host}</span>:<span class="va">${remote_path}</span>/<span class="va">${remote_dir}</span> <span class="va">${dest_path}</span> </span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Upload a file from Gadi to RDS:</span></span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a><span class="co">#local_file=&lt;filename&gt;</span></span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a><span class="co">#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $"put ${local_file}" </span></span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Upload a directory from Gadi to RDS:</span></span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a><span class="co"># CAVEAT: this method will only work if directory of the same name exists at destination! </span></span>
+<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a><span class="co">#local_dir=&lt;dirname&gt;</span></span>
+<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a><span class="co">#sftp ${remote_user}@${remote_host}:${remote_path} &lt;&lt;&lt; $"put -r ${local_dir}" </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Run the transfer script</strong></p>
 <p>Once you have customised the script, you can submit it to the <code>copyq</code> on Gadi. Run the script from the directory where you saved it:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qsub</span> transfer.pbs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qsub</span> transfer.pbs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This can be a nerve-wracking process, especially if you are transferring large files. You can check the status of your job on Gadi using:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-Esw</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-Esw</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Once it says R (running), you can confirm it is going to where you want on RDS/Artemis or Gadi by logging into the system and checking for the presence of the file/directory in its expected location using:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="op">&lt;</span>path<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="confirm-the-transfer" class="level2">
-<h2 class="anchored" data-anchor-id="confirm-the-transfer"><strong>Confirm the transfer</strong></h2>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="op">&lt;</span>path<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Confirm the transfer</strong></p>
 <p>To confirm the transfer was successful, you’ll need to check your joblogs. These are located in the same directory as your script and are named <code>transfer.o&lt;jobid&gt;</code>. Check for <strong>Exit status: 0</strong>. If you see this, the transfer was successful.</p>
 <p>However, this doesn’t guarantee the integrity of the files. You should check the files themselves to ensure they are intact. You can do this using md5checksums. See this <a href="https://sydney-informatics-hub.github.io/tidbits/safely-downloading-your-sequence-data-to-rds.html">SIH tidbits blogpost</a> about how to use these. You’ll need to create md5checksums for the original files if they don’t already exist and compare them after transfer.</p>
+</section>
+</section>
+<section id="transfer-using-rsync-from-artemis-dtq---prior-to-decomission-only-1" class="level2">
+<h2 class="anchored" data-anchor-id="transfer-using-rsync-from-artemis-dtq---prior-to-decomission-only-1">Transfer using rsync from Artemis dtq - PRIOR TO DECOMISSION ONLY</h2>
+<p>TBC</p>
+<p>See my favourite script at https://sydney-informatics-hub.github.io/training.gadi.intro/05-Data-transfer/index.html</p>
+<ul>
+<li>provide example for single file transfer (as show at above link) - also put in the qc03 demo transfer scripts folder</li>
+<li>provide example for recursive folder transfer (with comment about inclusion or exclusion of trailing slash on source path)</li>
+<li>provide example for job array based transfer</li>
+<li>provide example for to gadi and from gadi by reversing host/source/dest</li>
+</ul>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This is an Artemis data transfer script</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P &lt;project&gt;</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N transfer</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=04:00:00</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=1</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=8GB</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -W umask=022</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q dtq</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="va">source_path</span><span class="op">=</span>/rds/PRJ-<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>path<span class="op">&gt;</span>/<span class="op">&lt;</span>file<span class="op">&gt;</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="va">destination</span><span class="op">=&lt;</span>user<span class="op">&gt;</span>@gadi-dm.nci.org.au</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a><span class="va">destination_path</span><span class="op">=&lt;</span>path-on-gadi<span class="op">&gt;</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="bu">[</span> 1 <span class="bu">]</span></span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>        <span class="bu">echo</span> Transferring <span class="va">${source_path}</span> to <span class="va">${destination}</span>:<span class="va">${destination_path}</span></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rsync</span> <span class="at">-rtlPvz</span> <span class="at">--append-verify</span> <span class="va">${source_path}</span> <span class="va">${destination}</span>:<span class="va">${destination_path}</span></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">[</span> <span class="st">"</span><span class="va">$?</span><span class="st">"</span> <span class="ot">=</span> <span class="st">"0"</span> <span class="bu">]</span></span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">then</span></span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>                <span class="bu">echo</span> <span class="st">"Rsync completed normally"</span></span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>                <span class="va">dt</span><span class="op">=</span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span></span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>                <span class="bu">echo</span> Finished transferring at <span class="va">$dt</span></span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>        <span class="bu">exit</span></span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span></span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a>                <span class="bu">echo</span> <span class="st">"Rsync failure. Backing off and retrying in 3 minutes"</span></span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a>                <span class="fu">sleep</span> 180</span>
+<span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">fi</span></span>
+<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
+</section>
 </section>
 
 <p>All materials copyright Sydney Informatics Hub, University of Sydney</p></main> <!-- /main -->
@@ -600,6 +950,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
