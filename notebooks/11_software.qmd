@@ -85,7 +85,7 @@ There are numerous container repositories, for example [Docker Hub](https://hub.
 
 Let's assume you want to use the tool **FoldSeek**. Below are the steps to search for, obtain, test, and use this container in a PBS job script. 
 
-1. Run `module load singualrity` in your Gadi temrinal (or `copyq` container download script)
+1. Run `module load singularity` in your Gadi terminal (or `copyq` container download script)
 2. Visit [quay.io](https://quay.io/) and search for this tool by typing the tool name into the search bar at the top right of the page. There may be multiple containers available. These may reflect different contributors, different tool versions, etc. Look for containers with recent updates and a high star rating where possible.
 3. Select the `biocontainers` container, and then select the `Tags` page from the icons on the left (options are `Information`, `Tags`, `Tag history`). 
 4. On the far right of the most recent tag, select the `Fetch tag` icon and then change image format to `Docker Pull (by tag)`. 
