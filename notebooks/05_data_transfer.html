@@ -911,7 +911,7 @@ Sync between Gadi and RDS
 <span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -W umask=022</span></span>
 <span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q copyq</span></span>
 <span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
-<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=/scratch/&lt;nci_project&gt;</span></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=scratch/&lt;nci_project&gt;</span></span>
 <span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a><span class="va">remote_user</span><span class="op">=&lt;</span>unikey<span class="op">&gt;</span></span>
 <span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a><span class="va">remote_host</span><span class="op">=</span>research-data-ext.sydney.edu.au</span>
@@ -926,7 +926,7 @@ Sync between Gadi and RDS
 <span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a><span class="ex">lftp</span> <span class="at">-u</span> <span class="va">${remote_user}</span>, sftp://<span class="va">${remote_host}</span> <span class="op">&lt;&lt;EOF</span></span>
 <span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a><span class="st">set xfer:log true</span></span>
 <span id="cb32-35"><a href="#cb32-35" aria-hidden="true" tabindex="-1"></a><span class="st">set xfer:log-file "</span><span class="va">${outfile}</span><span class="st">"</span></span>
-<span id="cb32-36"><a href="#cb32-36" aria-hidden="true" tabindex="-1"></a><span class="st">mirror --verbose -R </span><span class="va">${source_path}</span><span class="st"> </span><span class="va">${remote_path}</span></span>
+<span id="cb32-36"><a href="#cb32-36" aria-hidden="true" tabindex="-1"></a><span class="st">mirror -p --verbose -R </span><span class="va">${source_path}</span><span class="st"> </span><span class="va">${remote_path}</span></span>
 <span id="cb32-37"><a href="#cb32-37" aria-hidden="true" tabindex="-1"></a><span class="st">exit</span></span>
 <span id="cb32-38"><a href="#cb32-38" aria-hidden="true" tabindex="-1"></a><span class="op">EOF</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
