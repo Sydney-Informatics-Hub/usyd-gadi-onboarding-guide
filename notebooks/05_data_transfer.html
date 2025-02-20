@@ -846,7 +846,7 @@ Example <code>copyq</code> transfer from RDS to Gadi
 <span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy with sftp</span></span>
 <span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a><span class="ex">sftp</span> <span class="at">-r</span> <span class="va">${remote_user}</span>@<span class="va">${remote_host}</span>:<span class="va">${remote_path}</span> <span class="va">${dest_path}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>When you have finished editing the script save it (using <code>&lt;ctrl&gt; - x</code> and answering <code>y</code> at the prompt if using <code>nano</code> as your editor)</p>
+<p>When you have finished editing the script save it (using <code>&lt;ctrl&gt;-x</code> and answering <code>y</code> at the prompt if using <code>nano</code> as your editor)</p>
 <p><strong>Run the transfer script</strong></p>
 <p>Once you have customised the script, you can submit it to the <code>copyq</code> on Gadi. Run the script from the directory where you saved it:</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qsub</span> from_rds_to_gadi.pbs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
