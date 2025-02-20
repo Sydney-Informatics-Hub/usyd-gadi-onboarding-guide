@@ -1,0 +1,71 @@
+---
+title: "**Working within walltime limits**"
+output:
+  html_document:
+    toc: false
+    toc_float: false
+from: markdown+emoji
+---
+
+**TO BE COMPLETED** 
+
+
+## Introduction
+
+In this section, we will discuss ways of adapting your long walltime jobs from Artemis to NCI platforms. 
+
+The main challenges users may face adapting Artemis workflows to Gadi are:
+
+
+- Gadi walltime limit of 48 hours
+- [Adjusting PBS directives to suit Gadi requirements and queue structure](./08_job_script.qmd)
+- [Lack of internet access for Gadi compute nodes](./08_job_script.qmd#lack-of-internet-access-on-compute-nodes)
+- [Data transfer](./05_data_transfer.qmd)
+- [Understanding NCI accounting of KSU, disk and iNode limits](./06_accounting.qmd)
+- [Automatic 100-day Gadi /scratch purge policy](https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...#RecoverFiles...-RecoverQuarantinedFilesonscratch)
+- [Software installation and version upgrades on Gadi](./11_software.qmd) 
+- [Job arrays not supported on Gadi](./13_parralel_jobs.qmd) 
+
+In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.
+
+## Gadi walltime limit
+
+The maximum walltime permitted on any of the Gadi HPC queues is 48 hours. In some cases, the walltime may be less (for example when requesting large numbers of nodes, or on `copyq`). 
+
+Given that Artemis has much longer maximum walltimes, we understand this may generate some apprehension. Staff at both NCI and SIH can support you in adapting your workflows to NCI if you are still having difficulty after reviewing the suggestons below. 
+
+In short, there are 3 options to adapting a long-running Artemis workflow to NCI:
+
+1. Split your single large job Artemis into a series of smaller jobs on Gadi 
+2. Use NCI's Nirin cloud instead of Gadi 
+3. Special exception to the Gadi walltime limit granted on a case-by-case basis 
+
+## 1. Split your job
+
+There are many advantages to splitting your job up into smaller discrete chunks. 
+
+1. Checkpointing: if one of your jobs in a series of fails, you only need to resubmit that discrete job script, rather than either the whole job or some finnicky "hashed out" version of your very long and comlex workflow script. This simplifies debugging and rerunning, saves you hands-on time and walltime, minimises errors, and saves KSU
+2. Ease of code maintenance: changing part of workflow, for example adjusting parameters, input files or software versions, is far simpler to implement for shorter chunks of code than it is for a long and complex code with many steps
+3. Ease of benchmarking: Different stages of a complex workflow typically have different compute requirements, for example some long running single core tasks coupled with some GPU tasks, some high memory, some high CPU tasks etc. [Benchamrking](./10_job_efficiency.qmd) is more straightforward and informative when performed on discrete workflow chunks. 
+4. Greater job efficiency: By benchmarking and optimising the resource configurations for each stage of the workflow, the series of jobs can be placed on an appropriate queue, and will not be reserving (and being charged for) unused resources. This will reduce KSU usage and resource wastage. 
+5. Shorter queue times: Requesting resources for a shorter walltime will result in a shorter queue time. The NCI scheduler is geared towards favouring 'wider and shorter'
+ jobs, ie more CPUs/nodes for less time, over 'taller and slimmer' jobs (ie fewer CPUs/nodes for a longer time). For example a job may queue for less time if it requests 48 CPU for 1 hour, compred to 1 CPU for 48 hours. Of course the queue is highly dynamic and this cannotbe predicted or calculated ahead of time, but in general, shorter walltimes will lead to shorter queue times. 
+
+
+## 2. Use Nirin
+
+Your NCI KSUs can be used on [Nirin](https://opus.nci.org.au/spaces/Help/pages/152207472/Nirin+Cloud+User+Guide?src=contextnavpagetreemode) as well as Gadi. Nirin has the advantage of theoretically infinite walltime, along with internet access which is another limitation of the Gadi compute queues.
+
+As such, Nirin presents an easily accessible solution for users whose jobs are irreconcilably affected by the walltime and lack of internet access aspects of Gadi. 
+
+The [Nirin quickstart guide](https://opus.nci.org.au/spaces/Help/pages/152207474/Nirin+-+Quick+Start+Guide) walks you through the process of setting up your instance, including easy to follow screenshots for each step. 
+
+## 3. Gadi special walltime request
+
+If your job cannot be split/checkpointed into a series of shorter jobs, and the Nirin flavours are not suited to your compute needs, you can make a request to NCI for an increase to the walltime. NCI will ask you to provide details of your job including the relevant code saved on Gadi, as well as a description of why you require a lift to the walltime for this particular job.
+
+From the [Gadi queue limits page](https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...): 
+
+
+*"If a higher limit on core count (PBS_NCPUS) and walltime is needed, please launch a ticket on NCI help desk with a short description of the reasons why the exception is requested. For example, a current scalability study suggests linear speedup at the core count beyond the current PBS_NCPUS limit. We will endeavour to help on a case-by-case basis"*
+
