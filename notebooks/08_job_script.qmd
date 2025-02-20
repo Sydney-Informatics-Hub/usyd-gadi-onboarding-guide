@@ -75,10 +75,10 @@ Below is a simple example of the PBS directives portion of a Gadi job script. Fo
 ## Differences between Artemis and Gadi PBS scripts
 
 - The `-l storage` directive is required on Gadi but not Artemis. Failure to include required storage locations will kill the job, for example with `No such file or directory` errors
-- On Gadi, users must review their resoure requirements against the queue structure and limits in order to **request a specific queue**. On Artemis, the scheduler managed this automatically according to requested resources and queue loads
+- On Gadi, users must review their resource requirements against the queue structure and limits in order to **request a specific queue**. On Artemis, the scheduler managed this automatically according to requested resources and queue loads
 - Maximum walltime for any queue is 48 hours. For large numbers of nodes requested in a single job, the maximum walltime reduces. This is described in the [queue limits](https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...) page. See [Working within walltime limit](./12_walltime.qmd) for more details 
 - The requested resources are checked against the quantity of remaining KSU in the project specified at `-P`. If there is insufficient KSU to run the job, the job will be held. This will show as `H` status when the job is queried with `qstat`. See [queue charge rates](#queue-charge-rates) for more details 
-- Job arrays (eg `$#PBS J 1-1000`) are not permitted on Gadi. See [Parallel jobs](./13_parralel_jobs.qmd) and [nci-parallel](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...) for more details
+- Job arrays (eg `#PBS J 1-1000`) are not permitted on Gadi. See [Parallel jobs](./13_parralel_jobs.qmd) and [nci-parallel](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...) for more details
 - Unlike Artemis, Gadi compute nodes lack internet access. If you have a job script that relies on an external network call such as reading from a live database, you will need to adapt your method (for example pre-downloading the required information with `copyq` before running the compute job) or use an alternate platform such as [Nirin](https://opus.nci.org.au/spaces/Help/pages/152207472/Nirin+Cloud+User+Guide)
 
 
@@ -212,7 +212,11 @@ Since 1728 SU is more than the 1 KSU the project has available, the job cannot r
 1. [Obtain more KSU](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme#Additional-Service-Unit-Requests)
 2. Reconfigure your job to fit under the 1 KSU you have available. 
 
-You might consider reducing walltime, CPUs, change the queue, etc, depending on your job and what you expect are its minimum viable resouce requests. You can do this by killing the job, editing the directives and resubmitting, **OR** use the `qalter` PBS command to change the directives of the held job. For the above example, let's assume the requested walltime of 12 hours was an extremely conservative estimate and realistically you expect the job should complete in less than 2 hours. You could run this command:
+You might consider reducing walltime, CPUs, change the queue, etc, depending on your job and what you expect are its minimum viable resouce requests. You can do this by:
+
+Killing the job (`qdel <jobID>`), editing the directives and resubmitting, **OR** use the `qalter` PBS command to reduce the resource requests of the held job. 
+
+For the above example, let's assume the requested walltime of 12 hours was an extremely conservative estimate and realistically you expect the job should complete in less than 2 hours. You could run this command:
 
 ```bash
 qalter -l walltime=02:00:00 <jobid> 
@@ -247,8 +251,8 @@ Which would be the better choice?
 
 If the job ran for 2 hours, charge rate would be:
 
-hugemem: 12 CPU * 2 h * 3 charge rate = 72 SU
-hugemembw: 14 CPU * 2 h * 1.25 charge rate = 35 SU. 
+- hugemem: 12 CPU * 2 h * 3 charge rate = 72 SU
+- hugemembw: 14 CPU * 2 h * 1.25 charge rate = 35 SU 
 
 Hugemem may execute faster with the newer hardware, yet hugemembw may consume less KSU. hugemembw also has more mem per CPU than hugemem (36 GB vs 32 GB). Benchmarking will demonstrate which of these configurations is more suited to your job.
 
