@@ -127,7 +127,7 @@ To transfer data between RDS and Gadi from the Gadi login shell:
   1. Open a terminal (using the 'Terminal' app on MacOS or the 'Command Prompt' app on Windows and then log into Gadi using ssh:
 
   ```bash
-  ssh <NCI userid>@gadi.nci.org.au
+  ssh <nci_user_id>@gadi.nci.org.au
   ```
 
   You may be prompted to enter your NCI password at this point.
@@ -135,20 +135,20 @@ To transfer data between RDS and Gadi from the Gadi login shell:
   2. Get the data from RDS, to a specific location on Gadi, e.g:
 
   ```bash
-  sftp -r <your_unikey>@research-data-ext:/rds/PRJ-<Project Short ID>/<Path to File or Folder> <location on Gadi>
+  sftp -r <your_unikey>@research-data-ext.sydney.edu.au:/rds/PRJ-<Project Short ID>/<Path to File or Folder> <location on Gadi>
   ```
 
   For example if I wanted to copy data from my `Training` project on RDS in the folder `MyData` to Gadi in the scratch space for my NCI project named `qc03`:
 
   ```bash
-  sftp -r <my_unikey>@research-data-ext:/rds/PRJ-Training/MyData /scratch/qc03/MyData
+  sftp -r <my_unikey>@research-data-ext.sydney.edu.au:/rds/PRJ-Training/MyData /scratch/qc03/MyData
   ```
   replace `/rds` in the above with `/project` or `/scratch` for your preferred source folder or file.
 
 If you want to copy the other way around (ie. from Gadi /scratch to RDS) use
 
   ```bash
-  sftp <your_unikey>@research-data-ext:/rds/PRJ-<Project Short ID>/<Path to File or Folder> <<< $"put -r <location on Gadi>"
+  sftp <your_unikey>@research-data-ext.sydney.edu.au:/rds/PRJ-<Project Short ID>/<Path to File or Folder> <<< $"put -r <location on Gadi>"
   ```
 :::
 
@@ -177,7 +177,7 @@ To transfer data between RDS and Gadi from the Artemis login shell:
   1. Open a terminal (using the 'Terminal' app on MacOS or the 'Command Prompt' app on Windows and then log into Artemis using ssh:
 
   ```bash
-  ssh <Your UniKey>@hpc.sydney.edu.au
+  ssh <your_unikey>@hpc.sydney.edu.au
   ```
 
   You may be prompted to enter your password at this stage.
@@ -185,13 +185,13 @@ To transfer data between RDS and Gadi from the Artemis login shell:
   2. Copy the data from  `rds`, to a specific location on Gadi, e.g:
 
   ```bash
-  rsync -rtlPvz /rds/PRJ-<Project Short ID>/<Path to File or Folder in RDS> <nci login>@gadi-dm.nci.org.au:<Destination on Gadi>
+  rsync -rtlPvz /rds/PRJ-<Project Short ID>/<Path to File or Folder in RDS> <nci_user_id>@gadi-dm.nci.org.au:<Destination on Gadi>
   ```
 
   For example if I wanted to sync data from my `Training` project on RDS in the folder `MyData` to Gadi in the scratch space for my NCI project named `qc03`:
 
   ```bash
-  rsync -rtlPvz /rds/PRJ-Training/MyData <nci login>@gadi-dm.nci.org.au:/scratch/qc03/MyData
+  rsync -rtlPvz /rds/PRJ-Training/MyData <nci_user_id>@gadi-dm.nci.org.au:/scratch/qc03/MyData
   ```
 
   3. You will be prompted for the password associated with your username on Gadi and the transfer will commence.
@@ -200,7 +200,7 @@ To transfer data between RDS and Gadi from the Artemis login shell:
 If you want to copy the other way around (ie. from Gadi /scratch to RDS) then simply reverse the order of the above command in step 2, e.g:
 
   ```bash
-  rsync -rtlPvz <nci login>@gadi-dm.nci.org.au:<Source on Gadi> /rds/PRJ-<Project Short ID>/<Destination on RDS>
+  rsync -rtlPvz <nci_user_id>@gadi-dm.nci.org.au:<Source on Gadi> /rds/PRJ-<Project Short ID>/<Destination on RDS>
   ```
 :::
 
@@ -481,7 +481,6 @@ mirror --verbose -R ${source_path} ${remote_path}
 exit
 EOF
 ```
-
 :::
 
 #### Suggested workflow for copying data between RDS and Gadi and keeping it up-to-date
@@ -503,7 +502,9 @@ For example a simple workflow for large projects that have a lot of data and man
 ### Transfer using rsync from Artemis dtq
 
 ::: {.callout-warning}
+
 This option is only available prior to the decommission of Artemis on 29 August 2025 - after that date you will have to use either GLOBUS (*preferred*), or copy data when logged into the Gadi terminal (either at the login shell or using `copyq` scripts).
+
 :::
 
 For transfer of large files directly from Artemis to Gadi, the use of resumable `rsync` is recommended (see script below). The transfer can be initiated using Artemis `dtq` and using Gadi’s data mover node: `gadi-dm.nci.org.au`. The below template script can be used with Artemis' `dtq` using `rsync`.
@@ -548,6 +549,7 @@ do
         fi
 done
 ```
+
 :::
 
 ## Set up SSH keys for passwordless data transfer
