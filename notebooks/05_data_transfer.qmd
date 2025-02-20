@@ -253,7 +253,7 @@ There are two scripts:
 # <unikey>      : Your USyd unikey
 # <rds_project> : Your RDS project name
 # <local_path>  : The local file or folder you want to copy
-# <path>        : The location on RDS to put your folder
+# <remote_path> : The location on RDS to put your folder
 # <nci_project> : Your NCI project name
 
 #PBS -P <nci_project>
@@ -268,7 +268,7 @@ There are two scripts:
 
 remote_user=<unikey>
 remote_host=research-data-ext.sydney.edu.au
-remote_path=/rds/PRJ-<rds_project>/<path>
+remote_path=/rds/PRJ-<rds_project>/<remote_path>
 
 local_path=<local_path>
 
@@ -292,7 +292,7 @@ sftp ${remote_user}@${remote_host}:${remote_path} <<< $"put -r ${local_path}"
 # Make the following replacements in this file:
 # <unikey>      : Your USyd unikey
 # <rds_project> : Your RDS project name
-# <path>        : The location on RDS of your data
+# <remote_path> : The location on RDS of your file ot directory to copy
 # <local_path>  : The name of the folder to copy to
 # <nci_project> : Your NCI project name
 
@@ -309,8 +309,7 @@ sftp ${remote_user}@${remote_host}:${remote_path} <<< $"put -r ${local_path}"
 # RDS:
 remote_user=<unikey>
 remote_host=research-data-ext.sydney.edu.au
-remote_path=/rds/PRJ-<rds_project>/<path>
-remote_dir=<dirname>
+remote_path=/rds/PRJ-<rds_project>/<remote_path>
 
 # Gadi:
 dest_path=/scratch/<nci_project>/<local_path>
@@ -320,7 +319,7 @@ sftp -r ${remote_user}@${remote_host}:${remote_path}/${remote_dir} ${dest_path}
 ```
 :::
 
-Here is an example showing you how to transfer a folder called `MyData` in the RDS project `MYPROJECT` to
+Here is an example showing you how to transfer a folder called `MyData` in the RDS project `Training` to
 some scratch space in Gadi owned by project `aa00`.
 
 ::: {.callout-tip}
@@ -334,8 +333,8 @@ ssh tm0000@gadi.nci.org.au
 
 cd /scratch/aa00
 
-# Make a folder called workspace in /scratch
-mkdir /scratch/aa00/workspace
+# Make a folder called workspace in /scratch/aa00/tm0000
+mkdir -p /scratch/aa00/tm0000/workspace
 ```
 
 Copy the required data transfer script template from `/scratch/qc03` to your newly made workspace. In this case we ar copying from RDS
@@ -343,13 +342,13 @@ to Gadi so we use the `from_rds_to_gadi.pbs` script. You can also cut and paste 
 then save the edited script to your workspace.
 
 ```bash
-cp /scratch/qc03/data-transfer-scripts/gadi-scripts/from_rds_to_gadi.pbs /scratch/aa00/workspace
+cp /scratch/qc03/data-transfer-scripts/gadi-scripts/from_rds_to_gadi.pbs /scratch/aa00/tm0000/workspace
 ```
 
 Then follow the script and move to that workspace and open the script in an editor (in this example we'll use the `nano` editor): 
 
 ```bash
-cd /scratch/aa00/workspace
+cd /scratch/aa00/tm0000/workspace
 
 nano from_rds_to_gadi.pbs
 ```
@@ -368,7 +367,7 @@ In the body of the script:
 
  + Provide the `remote_user` variable by replacing `<unikey>` with your USyd unikey.
 
- + Provide the `remote_path` variable by replacing `<rds_project>` and `<local_path>` with your RDS project name and path to the file or directory you want to transfer. In this example we use `remote_path=/rds/PRJ-MYPROJECT/MyData`
+ + Provide the `remote_path` variable by replacing `<rds_project>` and `<local_path>` with your RDS project name and path to the file or directory you want to transfer. In this example we use `remote_path=/rds/PRJ-Training/MyData`
 
 Here is what the script will look like when correctly edited for this example:
 
@@ -388,14 +387,14 @@ Here is what the script will look like when correctly edited for this example:
 # RDS:
 remote_user=tm0000     #Example unikey tm0000
 remote_host=research-data-ext.sydney.edu.au
-remote_path=/rds/PRJ-MYPROJECT/MyData
+remote_path=/rds/PRJ-Training/MyData
 
 # Gadi:
 # This will create /scratch/aa00/MyData if transferring a folder and it doesn't already exist.
 dest_path=/scratch/aa00/MyData
 
 # Copy with sftp
-sftp -r ${remote_user}@${remote_host}:${remote_path}/${remote_dir} ${dest_path}
+sftp -r ${remote_user}@${remote_host}:${remote_path} ${dest_path}
 ```
 
 When you have finished editing the script save it (using `<ctrl> - x` and answering `y` at the prompt if using `nano` as your editor)
