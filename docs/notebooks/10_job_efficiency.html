@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -203,8 +203,20 @@ cookieconsent.run({
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#simple-example-1" id="toc-simple-example-1" class="nav-link active" data-scroll-target="#simple-example-1">Simple example 1</a></li>
+  <li><a href="#simple-example-2" id="toc-simple-example-2" class="nav-link" data-scroll-target="#simple-example-2">Simple example 2</a></li>
+  <li><a href="#resource-benchmarking" id="toc-resource-benchmarking" class="nav-link" data-scroll-target="#resource-benchmarking">Resource benchmarking</a></li>
+  <li><a href="#benchmarking-template-scripts" id="toc-benchmarking-template-scripts" class="nav-link" data-scroll-target="#benchmarking-template-scripts">Benchmarking template scripts</a></li>
+  <li><a href="#tips-for-benchmarking" id="toc-tips-for-benchmarking" class="nav-link" data-scroll-target="#tips-for-benchmarking">Tips for benchmarking</a></li>
+  <li><a href="#demo-benchmarking-activity" id="toc-demo-benchmarking-activity" class="nav-link" data-scroll-target="#demo-benchmarking-activity">Demo benchmarking activity</a></li>
+  <li><a href="#example-of-a-complete-benchmark-study-including-scalability-testing-plots" id="toc-example-of-a-complete-benchmark-study-including-scalability-testing-plots" class="nav-link" data-scroll-target="#example-of-a-complete-benchmark-study-including-scalability-testing-plots">Example of a complete benchmark study including scalability testing plots</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -394,8 +406,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
