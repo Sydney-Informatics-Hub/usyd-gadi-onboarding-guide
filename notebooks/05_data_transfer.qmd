@@ -23,6 +23,44 @@ The main challenges users may face adapting Artemis workflows to Gadi are:
  
 In this section, we will look at Data Transfer. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.
 
+##### **The table below summarises the data transfer methods covered in this section:**
+
++-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
+| Method                                    | Suitable data size/type               | [Pros]{style="color: blue;"}/[Cons]{style="color: red;"}       |
++===========================================+=======================================+================================================================+
+| [GUI based data transfer client](#gui)    | Only small files, config scripts etc. | - [Easy to use]{style="color: blue;"}                          |             
+| e.g. `filezilla` or `cyberduck`           |                                       | - [Host computer can limit transfer speed]{style="color: red;"}|
+|                                           |                                       |                                                                |
++-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
+| [sftp transfer from Gadi terminal](#sftp) | Files up to a few GB.                 | - [Convenient for quickly copying data]{style="color: blue;"}  |
+|                                           |                                       | - [Uses login node for computation]{style="color: red;"}       |
+|                                           |                                       | - [Cannot restart after interruption]{style="color: red;"}     |
++-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
+| [rsync transfer from                      | Files up to a few GB.                 | - [Convenient for quickly copying data]{style="color: blue;"}  |
+|  Artemis terminal](#rs)                   |                                       | - [Restarts after interruption]{style="color: blue;"}          |
+|                                           |                                       | - [Uses login node for computation]{style="color: red;"}       |
+|                                           |                                       | - [Artemis only around until August]{style="color: red;"}      |
++-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
+| [sftp copy using dataq](#sdataq)          | Large files and datasets              | - [Robust, runs in background]{style="color: blue;"}           |
+|                                           | to copy all in one go.                | - [Faster speed than `lftp`]{style="color: blue;"}             |
+|                                           |                                       | - [Always copies all files]{style="color: red;"}               |
++-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
+| [lftp sync using dataq](#ldataq)          | Large datasets with many files and    | - [Robust, runs in background]{style="color: blue;"}           |
+|                                           | only a few updated with each transfer.| - [Only copies whats changed]{style="color: blue;"}            |
+|                                           |                                       | - [Slower speed than `sftp`]{style="color: red;"}              |
++-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
+| [Artemis rsync using dtq](#dtq)           | Any large dataset.                    | - [Robust, runs in background]{style="color: blue;"}           |
+|                                           |                                       | - [Only copies whats changed]{style="color: blue;"}            |
+|                                           |                                       | - [Artemis only around until August]{style="color: red;"}      |
++-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
+| [Globus](#globus)                         | Any file/dataset size.                | - [Should do everything]{style="color: blue;"}                 |
+|                                           |                                       |   + [GUI]{style="color: blue;"}                                |
+|                                           |                                       |   + [Terminal copy and sync]{style="color: blue;"}             |
+|                                           |                                       |   + [`dataq` copy and sync]{style="color: blue;"}              |
+|                                           |                                       | - [Unknown time-frame for availability]{style="color: red;"}   |
++-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
+
+
 ## Where to put project files on Gadi
 
 On Gadi (like on Artemis) you have access to a number of different storage areas for project files and data. Check the [NCI User Guides](https://opus.nci.org.au/spaces/Help/pages/236880086/Gadi+Resources...) for more detailed information. Here we provide a brief introduction for those familiar with Artemis.
@@ -39,7 +77,9 @@ It works similarly to your /home space on Artemis and should only be used to sto
 
 Your scratch space (`/scratch/<project>`) is owned by your project and has 1 TiB of available space which can be increased upon request to NCI. It is roughly equivalent to `/scratch` on Artemis.
 
-Data are not backed up and files not accessed for 100 days will be quarantined for 14 days and then removed (See [here](https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...RecoverFiles...-RecoverQuarantinedFilesonscratch) for instructions for removing files from quarantine). Scratch should be used for temporary files associated with a job that has large data IO and not for longer term storage. Always ensure any data you need from a job that is left in /scratch is promptly backed up to the Research Data Store.
+Data are not backed up and files not accessed for 100 days will be quarantined for 14 days and then removed (See [here](https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...RecoverFiles...-RecoverQuarantinedFilesonscratch) for instructions for removing files from quarantine).
+
+Scratch should be used for temporary files associated with a job that has large data IO and not for longer term storage. Always ensure any data you need from a job that is left in /scratch is promptly backed up to the Research Data Store.
 
 #### /g/data
 
@@ -73,13 +113,13 @@ Depending on the size and complexity of the data you are transferring you have m
 All data transfer to and from Gadi should be made using the "Data Mover Node" at `gadi-dm.nci.org.au` where possible rather than the login nodes. This ensures that data transfer will not consume otherwise limited resources on the login nodes.
 :::
 
-### Globus - COMING SOON
+### Globus - COMING SOON {#globus}
 
 In the coming months, [Globus](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+Data+Transfer) will be available for simplified and efficient data transfer. We will provide training and materials on this once available.
 
 In the meantime, the below options are available, and detailed examples for each method are provided in the subsequent sections.
 
-### Transfer using RDS mapped network drive and data transfer client
+### Transfer using RDS mapped network drive and data transfer client{#gui}
 
 For smaller files or datasets, for example a set of scripts that you are going to run, you can map your RDS project as a network drive and transfer the data to Gadi via an intermediate data transfer client GUI such as `filezilla` or `cyberduck`.
 
@@ -109,7 +149,9 @@ You can then transfer data to and from RDS and NCI by dragging and dropping file
 
 ### Transfer from Gadi/Artemis terminal to/from RDS
 
-You can use commands in your terminal application (Mac and linux: Terminal, Windows: Windows Terminal or Powershell equivalent) as an alternative to graphical applications. However, since the connection will be terminated if your computer sleeps, terminal crashes, network drops out etc, this method is not particularly robust for large transfers. For these rather use the queue based methods (either `copyq` or Gadi or `dtq` on Artemis) described below.
+You can use commands in your terminal application (Mac and linux: Terminal, Windows: Windows Terminal or Powershell equivalent) as an alternative to graphical applications.
+
+Since the connection will be terminated if your computer sleeps, terminal crashes, network drops out etc, this method is not particularly robust for large transfers. For these rather use the queue based methods (either `copyq` or Gadi or `dtq` on Artemis) described below.
 
 #### Transfers from a terminal on Gadi
 
@@ -120,7 +162,7 @@ Please note that running these commands on the login nodes is not the recommende
 :::
 
 ::: {.callout-note}
-## How to transfer data from RDS to Gadi (and vice-versa) from a Gadi login.
+## How to transfer data from RDS to Gadi (and vice-versa) from a Gadi login.{#sftp}
 
 To transfer data between RDS and Gadi from the Gadi login shell:
 
@@ -170,7 +212,7 @@ You can also initiate the transfer in a terminal from a connection via ssh to `r
 :::
 
 ::: {.callout-note}
-## How to transfer from RDS to Gadi (and vice-versa) at an Artemis terminal using rsync
+## How to transfer from RDS to Gadi (and vice-versa) at an Artemis terminal using rsync{#rs}
 
 To transfer data between RDS and Gadi from the Artemis login shell:
 
@@ -222,11 +264,115 @@ Please note that the compute nodes on Gadi **do not have** internet access like 
 
 Due to stringent security settings around Artemis and RDS, commands like `rsync` or `scp` **cannot** be initiated from NCI Gadi login nodes or `copyq`. To initiate the transfer from Gadi, `sftp` or `lftp` must be used. In the not too distant future Globus will become available for data transfer and then that will be the preferred method for transferring data to and from Gadi.
 
-::: {.callout-warning}
-Before you use the scripts below with `copyq`, you will need to set up SSH keys first to enable passwordless login. See the section **Set up SSH keys for passwordless data transfer** for detailed step-by-step instructions in how to do this. You only need to set this up once.
+#### How to set up SSH keys for passwordless data transfer
+
+If you are transferring data directly for example `scp` on the command line or via a transfer client on your local computer, entering a password to initiate the transfer is straightforward. If however you want to transfer via a job submitted to either `copyq` or `dtq`, you will need to set up SSH keys first, or else your script will halt while it waits fro a password to be entered.
+
+You only need to set this up once.
+
+SSH key pairs are used for secure communication between two systems. The pair consists of a **private** key and a **public** key. The **private** key should remain private and only be known by the user. It is stored securely on the user's computer. The **public** key can be shared with any system the user wants to connect to. It is added to the remote system's authorized keys. When a connection is attempted, the remote system uses the public key to create a message for the user's system.
+
+There are many general guides for this online, for example [this one](https://medium.com/@prateek.malhotra004/streamlining-secure-remote-access-a-guide-to-passwordless-ssh-connections-between-linux-servers-8c26bb008af9). For step-by-step instructions on how to set up keys between Gadi and RDS, expand the drop down below. 
+
+::: {.callout-note collapse="true"}
+### Click to expand
+
+Follow the below steps carefully to set up SSH keys between RDS and Gadi. Note, **you only need to do this once**.
+
+1. Log into Gadi with your chosen method, e.g: 
+
+```bash
+ssh ab1234@gadi.nci.org.au
+```
+
+2. Move to your home directory: 
+
+```bash
+cd ~
+```
+
+3. Make a `.ssh` directory, if you don't already have one: 
+
+```bash
+mkdir -p .ssh 
+```
+
+4. Set suitable permissions for the `.ssh` directory and move into it:
+
+```bash
+chmod 700 .ssh
+cd .ssh
+```
+
+5. Generate SSH key pair: 
+
+```bash
+ssh-keygen
+```
+Hit enter when prompted, saving the key in `~/.ssh/id_rsa` and enter for NO passphrase. A public key will be located in `~/.ssh/id_rsa.pub` and a private key in `~/.ssh/id_rsa`.
+
+6. Set suitable permissions for the keys:
+
+```bash
+chmod 600 id_rsa
+chmod 644 id_rsa.pub
+```
+
+7. Make an `authorized_keys` file if you don't already have one that can be transferred to USyd's Artemis/RDS system: 
+
+```bash
+touch ~/.ssh/authorized_keys
+```
+
+7. Copy the contents of the public key file (`~/.ssh/id_rsa.pub`) to the `authorized_keys` file to be transferred to USyd's Artemis/RDS system: 
+
+```bash
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+```
+
+8. Set permissions for the `authorized_keys` file to be transferred to USyd's Artemis/RDS system: 
+
+```bash
+chmod 600 ~/.ssh/authorized_keys
+```
+
+9. Connect to USyd's Artemis/RDS system using `lftp` and your unikey:
+
+```bash
+lftp sftp://<your-unikey>@research-data-ext.sydney.edu.au
+```
+
+Provide your password when prompted. Then make and move into a `.ssh` directory if you don't already have one: 
+
+```bash
+mkdir -p ~/.ssh
+cd ~/.ssh
+```
+
+10. Transfer the `authorized_keys` file from Gadi to USyd's Artemis/RDS system: 
+
+```bash 
+put authorized_keys
+```
+
+Doing this will transfer authorized_keys on Gadi to your current directory. With lftp, it will look for the file relative to where you launched lftp. You can check where you are on Gadi using:
+
+```bash
+local pwd
+```
+
+11. Exit your lftp connection to USyd's Artemis/RDS system `ctrl + d` and test the passwordless connection: 
+
+```bash
+sftp <your-unikey>@research-data-ext.sydney.edu.au
+```
+
+This time, you shouldn't be prompted for a password. You can proceed to transfer data between Gadi and USyd's Artemis/RDS system now on the `copyq`. 
+
 :::
 
-#### Template copyq scripts for transferring data with `sftp`
+
+#### Template copyq scripts for transferring data with `sftp`{#scopyq}
 
 The scripts below use `sftp` to transfer data between RDS and Gadi on the Gadi `copyq`. `sftp` can transfer whole files and directories but must copy all of your data every time, it cannot only copy modified files like `rsync` can. This makes it considerably slower for copying large datasets where only minor changes have been made during a run. An alternative command `lftp` can behave like `rsync` but is slower to transfer than `sftp`. We also provide a template `lftp` script below. 
 
@@ -418,16 +564,17 @@ Once it says R (running), you can confirm it is going to where you want on RDS/A
 ```bash
 ls MyData
 ```
+:::
 
- **Confirm the transfer**
+#### Confirm transfers after competion
 
 To confirm the transfer was successful, you'll need to check your job logs. These are located in the same directory as your script and are named `transfer.o<jobid>`. Check for **Exit status: 0**. If you see this, the transfer was successful. 
 
 However, this doesn't guarantee the integrity of the files. You should check the files themselves to ensure they are intact. You can do this using md5checksums. See this [SIH tidbits blogpost](https://sydney-informatics-hub.github.io/tidbits/safely-downloading-your-sequence-data-to-rds.html) about how to use these. You'll need to create md5checksums for the original files if they don't already exist and compare them after transfer.
-:::
 
 
-#### Template copyq scripts for syncing data with `lftp`
+
+#### Template copyq scripts for syncing data with `lftp`{#lcopyq}
 
 If you have a large project with many files and only a few of them are modified at any time you can use the `mirror` command in `lftp` to only sync the modified files when you are backing up data to RDS. The `lftp - mirror` command transfers data at a slower speed than `sftp` but will significantly speed up the backup of data since it generally only needs to copy a small subset of all of the data on Gadi if only a few files have changed since the last sync.
 
@@ -498,7 +645,7 @@ For example a simple workflow for large projects that have a lot of data and man
 
   2. Subsequently use the `lftp` based `sync_gadi_to_rds.pbs` to sync smaller files (e.g. output logs and data) back to RDS, without having to re-copy the bulk of the data back to RDS.
 
-### Transfer using rsync from Artemis dtq
+### Transfer using rsync from Artemis dtq {#dtq}
 
 ::: {.callout-warning}
 
@@ -548,110 +695,4 @@ do
         fi
 done
 ```
-
-:::
-
-## Set up SSH keys for passwordless data transfer
-
-If you are transferring data directly for example `scp` on the command line or via a transfer client on your local computer, entering a password to initiate the transfer is straightforward. If however you want to transfer via a job submitted to either `copyq` or `dtq`, you will need to set up SSH keys first.
-
-SSH key pairs are used for secure communication between two systems. The pair consists of a **private** key and a **public** key. The **private** key should remain private and only be known by the user. It is stored securely on the user's computer. The **public** key can be shared with any system the user wants to connect to. It is added to the remote system's authorized keys. When a connection is attempted, the remote system uses the public key to create a message for the user's system.
-
-There are many general guides for this online, for example [this one](https://medium.com/@prateek.malhotra004/streamlining-secure-remote-access-a-guide-to-passwordless-ssh-connections-between-linux-servers-8c26bb008af9). For step-by-step instructions on how to set up keys between Gadi and RDS, expand the drop down below. 
-
-::: {.callout-note collapse="true"}
-### Click to expand
-
-Follow the below steps carefully to set up SSH keys between RDS and Gadi. Note, **you only need to do this once**.
-
-1. Log into Gadi with your chosen method, e.g: 
-
-```bash
-ssh ab1234@gadi.nci.org.au
-```
-
-2. Move to your home directory: 
-
-```bash
-cd ~
-```
-
-3. Make a `.ssh` directory, if you don't already have one: 
-
-```bash
-mkdir -p .ssh 
-```
-
-4. Set suitable permissions for the `.ssh` directory and move into it:
-
-```bash
-chmod 700 .ssh
-cd .ssh
-```
-
-5. Generate SSH key pair: 
-
-```bash
-ssh-keygen
-```
-Hit enter when prompted, saving the key in `~/.ssh/id_rsa` and enter for NO passphrase. A public key will be located in `~/.ssh/id_rsa.pub` and a private key in `~/.ssh/id_rsa`.
-
-6. Set suitable permissions for the keys:
-
-```bash
-chmod 600 id_rsa
-chmod 644 id_rsa.pub
-```
-
-7. Make an `authorized_keys` file if you don't already have one that can be transferred to USyd's Artemis/RDS system: 
-
-```bash
-touch ~/.ssh/authorized_keys
-```
-
-7. Copy the contents of the public key file (`~/.ssh/id_rsa.pub`) to the `authorized_keys` file to be transferred to USyd's Artemis/RDS system: 
-
-```bash
-cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
-```
-
-8. Set permissions for the `authorized_keys` file to be transferred to USyd's Artemis/RDS system: 
-
-```bash
-chmod 600 ~/.ssh/authorized_keys
-```
-
-9. Connect to USyd's Artemis/RDS system using `lftp` and your unikey:
-
-```bash
-lftp sftp://<your-unikey>@research-data-ext.sydney.edu.au
-```
-
-Provide your password when prompted. Then make and move into a `.ssh` directory if you don't already have one: 
-
-```bash
-mkdir -p ~/.ssh
-cd ~/.ssh
-```
-
-10. Transfer the `authorized_keys` file from Gadi to USyd's Artemis/RDS system: 
-
-```bash 
-put authorized_keys
-```
-
-Doing this will transfer authorized_keys on Gadi to your current directory. With lftp, it will look for the file relative to where you launched lftp. You can check where you are on Gadi using:
-
-```bash
-local pwd
-```
-
-11. Exit your lftp connection to USyd's Artemis/RDS system `ctrl + d` and test the passwordless connection: 
-
-```bash
-sftp <your-unikey>@research-data-ext.sydney.edu.au
-```
-
-This time, you shouldn't be prompted for a password. You can proceed to transfer data between Gadi and USyd's Artemis/RDS system now on the `copyq`. 
-
 :::
