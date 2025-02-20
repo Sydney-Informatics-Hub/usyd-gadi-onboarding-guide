@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>walltime – USyd NCI Gadi User Guide</title>
+<title>Working within walltime limits – USyd NCI Gadi User Guide</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -203,17 +203,94 @@ cookieconsent.run({
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#gadi-walltime-limit" id="toc-gadi-walltime-limit" class="nav-link" data-scroll-target="#gadi-walltime-limit">Gadi walltime limit</a></li>
+  <li><a href="#split-your-job" id="toc-split-your-job" class="nav-link" data-scroll-target="#split-your-job">1. Split your job</a></li>
+  <li><a href="#use-nirin" id="toc-use-nirin" class="nav-link" data-scroll-target="#use-nirin">2. Use Nirin</a></li>
+  <li><a href="#gadi-special-walltime-request" id="toc-gadi-special-walltime-request" class="nav-link" data-scroll-target="#gadi-special-walltime-request">3. Gadi special walltime request</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><strong>Working within walltime limits</strong></h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
 
 
+</header>
 
+
+<p><strong>TO BE COMPLETED</strong></p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>In this section, we will discuss ways of adapting your long walltime jobs from Artemis to NCI platforms.</p>
+<p>The main challenges users may face adapting Artemis workflows to Gadi are:</p>
+<ul>
+<li>Gadi walltime limit of 48 hours</li>
+<li><a href="../notebooks/08_job_script.html">Adjusting PBS directives to suit Gadi requirements and queue structure</a></li>
+<li><a href="../notebooks/08_job_script.html#lack-of-internet-access-on-compute-nodes">Lack of internet access for Gadi compute nodes</a></li>
+<li><a href="../notebooks/05_data_transfer.html">Data transfer</a></li>
+<li><a href="../notebooks/06_accounting.html">Understanding NCI accounting of KSU, disk and iNode limits</a></li>
+<li><a href="https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...#RecoverFiles...-RecoverQuarantinedFilesonscratch">Automatic 100-day Gadi /scratch purge policy</a></li>
+<li><a href="../notebooks/11_software.html">Software installation and version upgrades on Gadi</a></li>
+<li><a href="../notebooks/13_parralel_jobs.html">Job arrays not supported on Gadi</a></li>
+</ul>
+<p>In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.</p>
+</section>
+<section id="gadi-walltime-limit" class="level2">
+<h2 class="anchored" data-anchor-id="gadi-walltime-limit">Gadi walltime limit</h2>
+<p>The maximum walltime permitted on any of the Gadi HPC queues is 48 hours. In some cases, the walltime may be less (for example when requesting large numbers of nodes, or on <code>copyq</code>).</p>
+<p>Given that Artemis has much longer maximum walltimes, we understand this may generate some apprehension. Staff at both NCI and SIH can support you in adapting your workflows to NCI if you are still having difficulty after reviewing the suggestons below.</p>
+<p>In short, there are 3 options to adapting a long-running Artemis workflow to NCI:</p>
+<ol type="1">
+<li>Split your single large job Artemis into a series of smaller jobs on Gadi</li>
+<li>Use NCI’s Nirin cloud instead of Gadi</li>
+<li>Special exception to the Gadi walltime limit granted on a case-by-case basis</li>
+</ol>
+</section>
+<section id="split-your-job" class="level2">
+<h2 class="anchored" data-anchor-id="split-your-job">1. Split your job</h2>
+<p>There are many advantages to splitting your job up into smaller discrete chunks.</p>
+<ol type="1">
+<li>Checkpointing: if one of your jobs in a series of fails, you only need to resubmit that discrete job script, rather than either the whole job or some finnicky “hashed out” version of your very long and comlex workflow script. This simplifies debugging and rerunning, saves you hands-on time and walltime, minimises errors, and saves KSU</li>
+<li>Ease of code maintenance: changing part of workflow, for example adjusting parameters, input files or software versions, is far simpler to implement for shorter chunks of code than it is for a long and complex code with many steps</li>
+<li>Ease of benchmarking: Different stages of a complex workflow typically have different compute requirements, for example some long running single core tasks coupled with some GPU tasks, some high memory, some high CPU tasks etc. <a href="../notebooks/10_job_efficiency.html">Benchamrking</a> is more straightforward and informative when performed on discrete workflow chunks.</li>
+<li>Greater job efficiency: By benchmarking and optimising the resource configurations for each stage of the workflow, the series of jobs can be placed on an appropriate queue, and will not be reserving (and being charged for) unused resources. This will reduce KSU usage and resource wastage.</li>
+<li>Shorter queue times: Requesting resources for a shorter walltime will result in a shorter queue time. The NCI scheduler is geared towards favouring ‘wider and shorter’ jobs, ie more CPUs/nodes for less time, over ‘taller and slimmer’ jobs (ie fewer CPUs/nodes for a longer time). For example a job may queue for less time if it requests 48 CPU for 1 hour, compred to 1 CPU for 48 hours. Of course the queue is highly dynamic and this cannotbe predicted or calculated ahead of time, but in general, shorter walltimes will lead to shorter queue times.</li>
+</ol>
+</section>
+<section id="use-nirin" class="level2">
+<h2 class="anchored" data-anchor-id="use-nirin">2. Use Nirin</h2>
+<p>Your NCI KSUs can be used on <a href="https://opus.nci.org.au/spaces/Help/pages/152207472/Nirin+Cloud+User+Guide?src=contextnavpagetreemode">Nirin</a> as well as Gadi. Nirin has the advantage of theoretically infinite walltime, along with internet access which is another limitation of the Gadi compute queues.</p>
+<p>As such, Nirin presents an easily accessible solution for users whose jobs are irreconcilably affected by the walltime and lack of internet access aspects of Gadi.</p>
+<p>The <a href="https://opus.nci.org.au/spaces/Help/pages/152207474/Nirin+-+Quick+Start+Guide">Nirin quickstart guide</a> walks you through the process of setting up your instance, including easy to follow screenshots for each step.</p>
+</section>
+<section id="gadi-special-walltime-request" class="level2">
+<h2 class="anchored" data-anchor-id="gadi-special-walltime-request">3. Gadi special walltime request</h2>
+<p>If your job cannot be split/checkpointed into a series of shorter jobs, and the Nirin flavours are not suited to your compute needs, you can make a request to NCI for an increase to the walltime. NCI will ask you to provide details of your job including the relevant code saved on Gadi, as well as a description of why you require a lift to the walltime for this particular job.</p>
+<p>From the <a href="https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...">Gadi queue limits page</a>:</p>
+<p><em>“If a higher limit on core count (PBS_NCPUS) and walltime is needed, please launch a ticket on NCI help desk with a short description of the reasons why the exception is requested. For example, a current scalability study suggests linear speedup at the core count beyond the current PBS_NCPUS limit. We will endeavour to help on a case-by-case basis”</em></p>
+
+
+</section>
 
 <p>All materials copyright Sydney Informatics Hub, University of Sydney</p></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
