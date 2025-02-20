@@ -338,10 +338,10 @@ cookieconsent.run({
 <h2 class="anchored" data-anchor-id="differences-between-artemis-and-gadi-pbs-scripts">Differences between Artemis and Gadi PBS scripts</h2>
 <ul>
 <li>The <code>-l storage</code> directive is required on Gadi but not Artemis. Failure to include required storage locations will kill the job, for example with <code>No such file or directory</code> errors</li>
-<li>On Gadi, users must review their resoure requirements against the queue structure and limits in order to <strong>request a specific queue</strong>. On Artemis, the scheduler managed this automatically according to requested resources and queue loads</li>
+<li>On Gadi, users must review their resource requirements against the queue structure and limits in order to <strong>request a specific queue</strong>. On Artemis, the scheduler managed this automatically according to requested resources and queue loads</li>
 <li>Maximum walltime for any queue is 48 hours. For large numbers of nodes requested in a single job, the maximum walltime reduces. This is described in the <a href="https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...">queue limits</a> page. See <a href="../notebooks/12_walltime.html">Working within walltime limit</a> for more details</li>
 <li>The requested resources are checked against the quantity of remaining KSU in the project specified at <code>-P</code>. If there is insufficient KSU to run the job, the job will be held. This will show as <code>H</code> status when the job is queried with <code>qstat</code>. See <a href="#queue-charge-rates">queue charge rates</a> for more details</li>
-<li>Job arrays (eg <code>$#PBS J 1-1000</code>) are not permitted on Gadi. See <a href="../notebooks/13_parralel_jobs.html">Parallel jobs</a> and <a href="https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...">nci-parallel</a> for more details</li>
+<li>Job arrays (eg <code>#PBS J 1-1000</code>) are not permitted on Gadi. See <a href="../notebooks/13_parralel_jobs.html">Parallel jobs</a> and <a href="https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...">nci-parallel</a> for more details</li>
 <li>Unlike Artemis, Gadi compute nodes lack internet access. If you have a job script that relies on an external network call such as reading from a live database, you will need to adapt your method (for example pre-downloading the required information with <code>copyq</code> before running the compute job) or use an alternate platform such as <a href="https://opus.nci.org.au/spaces/Help/pages/152207472/Nirin+Cloud+User+Guide">Nirin</a></li>
 </ul>
 <p>Below is an example Artemis job script:</p>
@@ -431,7 +431,9 @@ cookieconsent.run({
 <li><a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme#Additional-Service-Unit-Requests">Obtain more KSU</a></li>
 <li>Reconfigure your job to fit under the 1 KSU you have available.</li>
 </ol>
-<p>You might consider reducing walltime, CPUs, change the queue, etc, depending on your job and what you expect are its minimum viable resouce requests. You can do this by killing the job, editing the directives and resubmitting, <strong>OR</strong> use the <code>qalter</code> PBS command to change the directives of the held job. For the above example, let’s assume the requested walltime of 12 hours was an extremely conservative estimate and realistically you expect the job should complete in less than 2 hours. You could run this command:</p>
+<p>You might consider reducing walltime, CPUs, change the queue, etc, depending on your job and what you expect are its minimum viable resouce requests. You can do this by:</p>
+<p>Killing the job (<code>qdel &lt;jobID&gt;</code>), editing the directives and resubmitting, <strong>OR</strong> use the <code>qalter</code> PBS command to reduce the resource requests of the held job.</p>
+<p>For the above example, let’s assume the requested walltime of 12 hours was an extremely conservative estimate and realistically you expect the job should complete in less than 2 hours. You could run this command:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qalter</span> <span class="at">-l</span> walltime=02:00:00 <span class="op">&lt;</span>jobid<span class="op">&gt;</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This would reduce the SU for the submitted job to 288 SU and the job would then be picked up by the next scheduling cycle and enter the queue.</p>
 </section>
@@ -475,7 +477,10 @@ Answer
 <p>hugemem, with 12 CPU and 384 GB memory, or hugemembw, with 14 CPU as CPUs must be requested in multiples of 7 on this queue.</p>
 <p>Which would be the better choice?</p>
 <p>If the job ran for 2 hours, charge rate would be:</p>
-<p>hugemem: 12 CPU * 2 h * 3 charge rate = 72 SU hugemembw: 14 CPU * 2 h * 1.25 charge rate = 35 SU.</p>
+<ul>
+<li>hugemem: 12 CPU * 2 h * 3 charge rate = 72 SU</li>
+<li>hugemembw: 14 CPU * 2 h * 1.25 charge rate = 35 SU</li>
+</ul>
 <p>Hugemem may execute faster with the newer hardware, yet hugemembw may consume less KSU. hugemembw also has more mem per CPU than hugemem (36 GB vs 32 GB). Benchmarking will demonstrate which of these configurations is more suited to your job.</p>
 <p>See <a href="../notebooks/10_job_efficiency.html">job efficiency</a> for tips to determine the best compute resources for your job.</p>
 </div>
