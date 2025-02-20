@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -247,10 +281,10 @@ cookieconsent.run({
 <p>Like Artemis jobs, jobs submitted to Gadi are given a jobID. This is shown to you as soon as it has been accepted, for example <code>135615373.gadi-pbs</code>.</p>
 <p>When querying the job with <code>qstat</code>, you can use the full ID, or just the string of numbers (omit the <code>.gadi.pbs</code>).</p>
 <p>For example, the below two commands are equivalent:</p>
-<pre><code>qstat -xf 135615373.gadi-pbs
-qstat -xf 135615373</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-xf</span> 135615373.gadi-pbs</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-xf</span> 135615373</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If you have multiple jobs running, you do not need to check them individually with the job ID. You can check the status of multiple jobs using your NCI user ID:</p>
-<pre><code>qstat -u &lt;nci-user-id&gt;</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-u</span> <span class="op">&lt;</span>nci-user-id<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="job-logs" class="level2">
 <h2 class="anchored" data-anchor-id="job-logs">Job logs</h2>
@@ -258,21 +292,21 @@ qstat -xf 135615373</code></pre>
 <p>For example, a job with <code>#PBS -N convert</code> and job ID <code>133703660</code> will have standard output and resource usage written to <code>convert.o133703660</code> and standard error written to <code>convert.e133703660</code>.</p>
 <p>This differs slightly to Artemis, which has the same default filepath behaviour except the standard output is sent to the <job-name>.o<job-id> and the resource usage is sent to <job-name>.o<job-id>_usage.</job-id></job-name></job-id></job-name></p>
 <p>The Gadi <code>.o</code> file has the resource usage at the end of the log making it easy to view a quick summary with the <code>tail</code> command:</p>
-<pre><code>$ tail -n 11 convert.o133703660 
-                  Resource Usage on 2025-02-05 16:16:10:
-   Job Id:             133703660.gadi-pbs
-   Project:            aa00
-   Exit Status:        0
-   Service Units:      23.94
-   NCPUs Requested:    7                      NCPUs Used: 7               
-                                           CPU Time Used: 02:57:33        
-   Memory Requested:   63.0GB                Memory Used: 51.14GB         
-   Walltime requested: 08:00:00            Walltime Used: 02:44:09        
-   JobFS requested:    100.0MB                JobFS used: 0B              
-======================================================================================</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> tail <span class="at">-n</span> 11 convert.o133703660 </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                  <span class="ex">Resource</span> Usage on 2025-02-05 16:16:10:</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>   <span class="ex">Job</span> Id:             133703660.gadi-pbs</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>   <span class="ex">Project:</span>            aa00</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>   <span class="ex">Exit</span> Status:        0</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>   <span class="ex">Service</span> Units:      23.94</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>   <span class="ex">NCPUs</span> Requested:    7                      NCPUs Used: 7               </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                                           <span class="ex">CPU</span> Time Used: 02:57:33        </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>   <span class="ex">Memory</span> Requested:   63.0GB                Memory Used: 51.14GB         </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>   <span class="ex">Walltime</span> requested: 08:00:00            Walltime Used: 02:44:09        </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>   <span class="ex">JobFS</span> requested:    100.0MB                JobFS used: 0B              </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="ex">======================================================================================</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If desired, you can change the default log filepaths with the <code>-o</code> and <code>-e</code> directives, for example:</p>
-<pre><code>#PBS -o ./logs/convert-fast5.o
-#PBS -e ./logs/convert-fast5.e</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -o ./logs/convert-fast5.o</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -e ./logs/convert-fast5.e</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This omits the job ID from being included in the log file name and sends the logs to a different directory.</p>
 
 
