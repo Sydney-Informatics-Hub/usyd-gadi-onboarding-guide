@@ -23,14 +23,14 @@ When querying the job with `qstat`, you can use the full ID, or just the string 
 
 For example, the below two commands are equivalent:
 
-```
+```bash
 qstat -xf 135615373.gadi-pbs
 qstat -xf 135615373
 ```
 
 If you have multiple jobs running, you do not need to check them individually with the job ID. You can check the status of multiple jobs using your NCI user ID:
 
-```
+```bash
 qstat -u <nci-user-id>
 ```
 
@@ -45,7 +45,7 @@ This differs slightly to Artemis, which has the same default filepath behaviour 
 
 The Gadi `.o` file has the resource usage at the end of the log making it easy to view a quick summary with the `tail` command:
 
-```
+```bash
 $ tail -n 11 convert.o133703660 
                   Resource Usage on 2025-02-05 16:16:10:
    Job Id:             133703660.gadi-pbs
@@ -62,7 +62,7 @@ $ tail -n 11 convert.o133703660
 
 If desired, you can change the default log filepaths with the `-o` and `-e` directives, for example:
 
-```
+```bash
 #PBS -o ./logs/convert-fast5.o
 #PBS -e ./logs/convert-fast5.e
 ```
