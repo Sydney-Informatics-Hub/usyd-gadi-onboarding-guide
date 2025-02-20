@@ -1,5 +1,5 @@
 ---
-title: "NCI Gadi Guide for USyd researchers"
+title: "NCI Gadi for USyd researchers"
 output:
   html_document:
     toc: false
@@ -24,8 +24,7 @@ For additional support, please contact the following people depending on your ne
 
 | Type of issue | Who | How | Details |
 |:---------|:----|:----|:---------|
-| Service unit allocation for running jobs | SIH | [Make a request](https://nci.sydney.edu.au/) | [SIH schemes](https://www.sydney.edu.au/research/facilities/sydney-informatics-hub/schemes.html) |
-| An issue with NCI Gadi | NCI Helpdesk | [Log an NCI ticket](https://nci.org.au/users/nci-helpdesk) | Provide your error, log file, jobid |
-| Any error returned in running a job | NCI Helpdesk | [Log an NCI ticket](https://nci.org.au/users/nci-helpdesk) | Provide your error, log file, jobid |
+| Service unit allocation for running jobs. Request for g/data storage. | SIH | [Make a request](https://nci.sydney.edu.au/) | [Sydney Documentation](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme) |
+| A techincal issue with NCI. An error in your running job. New software installtion. | NCI Helpdesk | [Log an NCI ticket](https://nci.org.au/users/nci-helpdesk) | Provide your error, log file, jobid. Versions or links for installs. |
 | A bug in an SIH pipeline | SIH | Submit an issue on Github | Provide details e.g. [this issue](https://github.com/Sydney-Informatics-Hub/Germline-StructuralV-nf/issues/65) |
-| Bioinformatics advice | SIH| [Log an SIH ticket](https://www.sydney.edu.au/research/facilities/sydney-informatics-hub.html) | Provide relevant context, errors, tool names, scripts |
+| General research computing or bioinformatics advice | SIH| [Log an SIH ticket](https://www.sydney.edu.au/research/facilities/sydney-informatics-hub.html) | Provide relevant context, errors, tool names, scripts |
