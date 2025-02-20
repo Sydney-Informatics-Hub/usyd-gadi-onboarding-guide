@@ -553,7 +553,7 @@ dest_path=/scratch/aa00/MyData
 sftp -r ${remote_user}@${remote_host}:${remote_path} ${dest_path}
 ```
 
-When you have finished editing the script save it (using `<ctrl> - x` and answering `y` at the prompt if using `nano` as your editor)
+When you have finished editing the script save it (using `<ctrl>-x` and answering `y` at the prompt if using `nano` as your editor)
 
 **Run the transfer script**
 
