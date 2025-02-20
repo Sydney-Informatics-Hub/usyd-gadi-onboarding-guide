@@ -12,8 +12,8 @@ In this section, we will look at transferring data between the Research Data Sto
  
 The main challenges users may face adapting Artemis workflows to Gadi are:
  
-- [Adjusting PBS directives to suit Gadi requirements and queue structure](./08_job_script)
-- [Lack of internet access for Gadi compute nodes](./08_job_scripts)
+- [Adjusting PBS directives to suit Gadi requirements and queue structure](./08_job_script.qmd)
+- [Lack of internet access for Gadi compute nodes](./08_job_script.qmd#lack-of-internet-access-on-compute-nodes)
 - Data transfer
 - [Gadi walltime limit of 48 hours](./12_walltime.qmd)
 - [Understanding NCI accounting of KSU, disk and iNode limits](./06_accounting.qmd)
@@ -23,6 +23,44 @@ The main challenges users may face adapting Artemis workflows to Gadi are:
  
 In this section, we will look at Data Transfer. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.
 
+##### **The table below summarises the data transfer methods covered in this section:**
+
++-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
+| Method                                    | Suitable data size/type               | [Pros]{style="color: blue;"}/[Cons]{style="color: red;"}       |
++===========================================+=======================================+================================================================+
+| [GUI based data transfer client](#gui)    | Only small files, config scripts etc. | - [Easy to use]{style="color: blue;"}                          |             
+| e.g. `filezilla` or `cyberduck`           |                                       | - [Host computer can limit transfer speed]{style="color: red;"}|
+|                                           |                                       |                                                                |
++-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
+| [sftp transfer from Gadi terminal](#sftp) | Files up to a few GB.                 | - [Convenient for quickly copying data]{style="color: blue;"}  |
+|                                           |                                       | - [Uses login node for computation]{style="color: red;"}       |
+|                                           |                                       | - [Cannot restart after interruption]{style="color: red;"}     |
++-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
+| [rsync transfer from                      | Files up to a few GB.                 | - [Convenient for quickly copying data]{style="color: blue;"}  |
+|  Artemis terminal](#rs)                   |                                       | - [Restarts after interruption]{style="color: blue;"}          |
+|                                           |                                       | - [Uses login node for computation]{style="color: red;"}       |
+|                                           |                                       | - [Artemis only around until August]{style="color: red;"}      |
++-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
+| [sftp copy using dataq](#sdataq)          | Large files and datasets              | - [Robust, runs in background]{style="color: blue;"}           |
+|                                           | to copy all in one go.                | - [Faster speed than `lftp`]{style="color: blue;"}             |
+|                                           |                                       | - [Always copies all files]{style="color: red;"}               |
++-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
+| [lftp sync using dataq](#ldataq)          | Large datasets with many files and    | - [Robust, runs in background]{style="color: blue;"}           |
+|                                           | only a few updated with each transfer.| - [Only copies whats changed]{style="color: blue;"}            |
+|                                           |                                       | - [Slower speed than `sftp`]{style="color: red;"}              |
++-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
+| [Artemis rsync using dtq](#dtq)           | Any large dataset.                    | - [Robust, runs in background]{style="color: blue;"}           |
+|                                           |                                       | - [Only copies whats changed]{style="color: blue;"}            |
+|                                           |                                       | - [Artemis only around until August]{style="color: red;"}      |
++-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
+| [Globus](#globus)                         | Any file/dataset size.                | - [Should do everything]{style="color: blue;"}                 |
+|                                           |                                       |   + [GUI]{style="color: blue;"}                                |
+|                                           |                                       |   + [Terminal copy and sync]{style="color: blue;"}             |
+|                                           |                                       |   + [`dataq` copy and sync]{style="color: blue;"}              |
+|                                           |                                       | - [Unknown time-frame for availability]{style="color: red;"}   |
++-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
+
+
 ## Where to put project files on Gadi
 
 On Gadi (like on Artemis) you have access to a number of different storage areas for project files and data. Check the [NCI User Guides](https://opus.nci.org.au/spaces/Help/pages/236880086/Gadi+Resources...) for more detailed information. Here we provide a brief introduction for those familiar with Artemis.
@@ -31,25 +69,27 @@ Each space is intended for use in a specific way:
 
 #### /home
 
-Your home space (`/home/<username>`) is owned by you and has 10 GiB of available space. This cannot be increased.
+Your home space (`/home/<nci_user_id>`) is owned by you and has 10 GiB of available space. This cannot be increased.
 
 It works similarly to your /home space on Artemis and should only be used to store things like program code, batch scripts or software configuration information. Note that as space is extremely limited here it is unadvisable to use this space for storing project data.
 
+#### /scratch
+
+Your scratch space (`/scratch/<project>`) is owned by your project and has 1 TiB of available space which can be increased upon request to NCI. It is roughly equivalent to `/scratch` on Artemis.
+
+Data are not backed up and files not accessed for 100 days will be quarantined for 14 days and then removed (See [here](https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...RecoverFiles...-RecoverQuarantinedFilesonscratch) for instructions for removing files from quarantine).
+
+Scratch should be used for temporary files associated with a job that has large data IO and not for longer term storage. Always ensure any data you need from a job that is left in /scratch is promptly backed up to the Research Data Store.
+
 #### /g/data
 
-Your /g/data space (`/g/data/<project>`) is owned by your project and has the available space allocated by the Sydney Scheme Manager. It is equivalent of `/project` on Artemis.
+Your /g/data space (`/g/data/<project>`) is owned by your project and has the available space allocated by the Sydney Scheme Manager.
 
 The files on /g/data are not backed up but they will persist there for the lifetime of your project.
 
 /g/data is intended to be used to store longer term files that are regularly used by your project during its lifetime. Always ensure your data is regularly backed up from here to the Research Data Store.
 
 `/g/data` may be accessed directly from PBS job scripts by using the `-lstorage` PBS directive.
-
-#### Scratch
-
-Your scratch space (`/scratch/<project>`) is owned by your project and has 1 TiB of available space which can be increased upon request to NCI. It is roughly equivalent to `/scratch` on Artemis.
-
-Data are not backed up and files not accessed for 100 days will be quarantined for 14 days and then removed. Scratch should be used for temporary files associated with a job that has large data IO and not for longer term storage. Always ensure any data you need from a job that is left in /scratch is promptly backed up to the Research Data Store.
 
 To check the amount of disk space you have available in the data areas listed above you can type the command `lquota` at the Gadi prompt.
 
@@ -67,25 +107,25 @@ Depending on the size and complexity of the data you are transferring you have m
 
   + For mid sized transfers up to tens of GB you can use terminal based transfer.
 
-  + For large transfers (>100GB) you should use the data transfer queue options on either Gadi (`dataq`) or Artemis (`dtq`). 
+  + For large transfers you should use the data transfer queue options on either Gadi (`dataq`) or Artemis (`dtq`). 
 
 ::: {.callout-warning}
 All data transfer to and from Gadi should be made using the "Data Mover Node" at `gadi-dm.nci.org.au` where possible rather than the login nodes. This ensures that data transfer will not consume otherwise limited resources on the login nodes.
 :::
 
-### Globus - COMING SOON
+### Globus - COMING SOON {#globus}
 
 In the coming months, [Globus](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+Data+Transfer) will be available for simplified and efficient data transfer. We will provide training and materials on this once available.
 
 In the meantime, the below options are available, and detailed examples for each method are provided in the subsequent sections.
 
-### Transfer using RDS mapped network drive and data transfer client
+### Transfer using RDS mapped network drive and data transfer client{#gui}
 
 For smaller files or datasets, for example a set of scripts that you are going to run, you can map your RDS project as a network drive and transfer the data to Gadi via an intermediate data transfer client GUI such as `filezilla` or `cyberduck`.
 
 While simple to use, these are not recommended for large data transfers, as the local computer becomes a bottleneck and they are generally not resumable after interruption. Faster speeds will be obtained if you are on campus, but still this method may be prohibitively slow for larger datasets.
 
-::: {.callout-note}
+::: {.callout-tip}
 ## Example using `cyberduck`
 
 The following are instructions using the `cyberduck` data transfer client. The process using `filezilla` is similar with the same username the same username and server IP address as shown in this example.
@@ -109,7 +149,9 @@ You can then transfer data to and from RDS and NCI by dragging and dropping file
 
 ### Transfer from Gadi/Artemis terminal to/from RDS
 
-You can use commands in your terminal application (Mac and linux: Terminal, Windows: Windows Terminal or Powershell equivalent) as an alternative to graphical applications. However, since the connection will be terminated if your computer sleeps, terminal crashes, network drops out etc, this method is not particularly robust for large transfers. For these rather use the queue based methods (either `copyq` or Gadi or `dt-queue` on Artemis) described below.
+You can use commands in your terminal application (Mac and linux: Terminal, Windows: Windows Terminal or Powershell equivalent) as an alternative to graphical applications.
+
+Since the connection will be terminated if your computer sleeps, terminal crashes, network drops out etc, this method is not particularly robust for large transfers. For these rather use the queue based methods (either `copyq` or Gadi or `dtq` on Artemis) described below.
 
 #### Transfers from a terminal on Gadi
 
@@ -120,14 +162,14 @@ Please note that running these commands on the login nodes is not the recommende
 :::
 
 ::: {.callout-note}
-## How to transfer data from RDS to Gadi (and vice-versa) from a Gadi login.
+## How to transfer data from RDS to Gadi (and vice-versa) from a Gadi login.{#sftp}
 
 To transfer data between RDS and Gadi from the Gadi login shell:
 
   1. Open a terminal (using the 'Terminal' app on MacOS or the 'Command Prompt' app on Windows and then log into Gadi using ssh:
 
   ```bash
-  ssh <NCI userid>@gadi.nci.org.au
+  ssh <nci_user_id>@gadi.nci.org.au
   ```
 
   You may be prompted to enter your NCI password at this point.
@@ -135,20 +177,20 @@ To transfer data between RDS and Gadi from the Gadi login shell:
   2. Get the data from RDS, to a specific location on Gadi, e.g:
 
   ```bash
-  sftp -r <your_unikey>@research-data-ext:/rds/PRJ-<Project Short ID>/<Path to File or Folder> <location on Gadi>
+  sftp -r <your_unikey>@research-data-ext.sydney.edu.au:/rds/PRJ-<Project Short ID>/<Path to File or Folder> <location on Gadi>
   ```
 
   For example if I wanted to copy data from my `Training` project on RDS in the folder `MyData` to Gadi in the scratch space for my NCI project named `qc03`:
 
   ```bash
-  sftp -r <my_unikey>@research-data-ext:/rds/PRJ-Training/MyData /scratch/qc03/MyData
+  sftp -r <my_unikey>@research-data-ext.sydney.edu.au:/rds/PRJ-Training/MyData /scratch/qc03/MyData
   ```
   replace `/rds` in the above with `/project` or `/scratch` for your preferred source folder or file.
 
 If you want to copy the other way around (ie. from Gadi /scratch to RDS) use
 
   ```bash
-  sftp <your_unikey>@research-data-ext:/rds/PRJ-<Project Short ID>/<Path to File or Folder> <<< $"put -r <location on Gadi>"
+  sftp <your_unikey>@research-data-ext.sydney.edu.au:/rds/PRJ-<Project Short ID>/<Path to File or Folder> <<< $"put -r <location on Gadi>"
   ```
 :::
 
@@ -170,14 +212,14 @@ You can also initiate the transfer in a terminal from a connection via ssh to `r
 :::
 
 ::: {.callout-note}
-## How to transfer from RDS to Gadi (and vice-versa) at an Artemis terminal using rsync
+## How to transfer from RDS to Gadi (and vice-versa) at an Artemis terminal using rsync{#rs}
 
 To transfer data between RDS and Gadi from the Artemis login shell:
 
   1. Open a terminal (using the 'Terminal' app on MacOS or the 'Command Prompt' app on Windows and then log into Artemis using ssh:
 
   ```bash
-  ssh <Your UniKey>@hpc.sydney.edu.au
+  ssh <your_unikey>@hpc.sydney.edu.au
   ```
 
   You may be prompted to enter your password at this stage.
@@ -185,13 +227,13 @@ To transfer data between RDS and Gadi from the Artemis login shell:
   2. Copy the data from  `rds`, to a specific location on Gadi, e.g:
 
   ```bash
-  rsync -rtlPvz /rds/PRJ-<Project Short ID>/<Path to File or Folder in RDS> <nci login>@gadi-dm.nci.org.au:<Destination on Gadi>
+  rsync -rtlPvz /rds/PRJ-<Project Short ID>/<Path to File or Folder in RDS> <nci_user_id>@gadi-dm.nci.org.au:<Destination on Gadi>
   ```
 
   For example if I wanted to sync data from my `Training` project on RDS in the folder `MyData` to Gadi in the scratch space for my NCI project named `qc03`:
 
   ```bash
-  rsync -rtlPvz /rds/PRJ-Training/MyData <nci login>@gadi-dm.nci.org.au:/scratch/qc03/MyData
+  rsync -rtlPvz /rds/PRJ-Training/MyData <nci_user_id>@gadi-dm.nci.org.au:/scratch/qc03/MyData
   ```
 
   3. You will be prompted for the password associated with your username on Gadi and the transfer will commence.
@@ -200,7 +242,7 @@ To transfer data between RDS and Gadi from the Artemis login shell:
 If you want to copy the other way around (ie. from Gadi /scratch to RDS) then simply reverse the order of the above command in step 2, e.g:
 
   ```bash
-  rsync -rtlPvz <nci login>@gadi-dm.nci.org.au:<Source on Gadi> /rds/PRJ-<Project Short ID>/<Destination on RDS>
+  rsync -rtlPvz <nci_user_id>@gadi-dm.nci.org.au:<Source on Gadi> /rds/PRJ-<Project Short ID>/<Destination on RDS>
   ```
 :::
 
@@ -222,337 +264,11 @@ Please note that the compute nodes on Gadi **do not have** internet access like 
 
 Due to stringent security settings around Artemis and RDS, commands like `rsync` or `scp` **cannot** be initiated from NCI Gadi login nodes or `copyq`. To initiate the transfer from Gadi, `sftp` or `lftp` must be used. In the not too distant future Globus will become available for data transfer and then that will be the preferred method for transferring data to and from Gadi.
 
-::: {.callout-warning}
-Before you use the scripts below with `copyq`, you will need to set up SSH keys first to enable passwordless login. See the section **Set up SSH keys for passwordless data transfer** for detailed step-by-step instructions in how to do this. You only need to set this up once.
-:::
+#### How to set up SSH keys for passwordless data transfer
 
-#### Template copyq scripts for transferring data with `sftp`
+If you are transferring data directly for example `scp` on the command line or via a transfer client on your local computer, entering a password to initiate the transfer is straightforward. If however you want to transfer via a job submitted to either `copyq` or `dtq`, you will need to set up SSH keys first, or else your script will halt while it waits fro a password to be entered.
 
-The scripts below use sftp to transfer data between RDS and Gadi on the Gadi copyq. `sftp` can transfer whole files and directories but must copy all of your data every time, it cannot only copy modified files like `rsync` can. This makes it considerably slower for copying large datasets where only minor changes have been made during a run. An alternative command `lftp` can behave like `rsync` but is slower to transfer than `sftp`. We also provide a template `lftp` script below. 
-
-Copies of these scripts have been placed in `/scratch/qc03/data-transfer-scripts/gadi-scripts`. You can make a copy of these scripts to your /scratch/<nci-project-code> or /home/<nci-user-id> workspace on Gadi and edit (for example using `nano <script>`), by replacing the names described in the header to suit your needs.
-
-There are two scripts: 
-
-  + `from_gadi_to_rds.pbs` is used to transfer a file or folder from Gadi to RDS
-
-  + `from_rds_to_gadi.pbs` is used to transfer a file or folder from RDS to Gadi
-
-::: {.callout-note collapse="true"}
-## Transfer from Gadi to RDS
-
-`from_gadi_to_rds.pbs` script, replace variables in `<brackets>` as described:
-
-```bash
-#!/bin/bash
-
-# Transfer from Gadi to RDS
-#
-
-# Make the following replacements in this file:
-# <unikey>      : Your USyd unikey
-# <rds_project> : Your RDS project name
-# <local_path>  : The local file or folder you want to copy
-# <path>        : The location on RDS to put your folder
-# <nci_project> : Your NCI project name
-
-#PBS -P <nci_project>
-#PBS -N transfer
-#PBS -l walltime=04:00:00
-#PBS -l ncpus=1
-#PBS -l mem=8GB
-#PBS -W umask=022
-#PBS -q copyq
-#PBS -l wd
-#PBS -lstorage=scratch/<nci_project>
-
-remote_user=<unikey>
-remote_host=research-data-ext.sydney.edu.au
-remote_path=/rds/PRJ-<rds_project>/<path>
-
-local_path=<local_path>
-
-sftp ${remote_user}@${remote_host}:${remote_path} <<< $"put -r ${local_path}"
-```
-:::
-
-:::{.callout-note collapse="true"}
-## Transfer from RDS to Gadi
-
-`from_rds_to_gadi.pbs` script, replace variables in `<brackets>` as described:
-
-
-```bash
-#!/bin/bash
-
-# Transfer a folder from RDS to Gadi
-# This will recreate your RDS path (/rds/PRJ-<rds_project>)
-# on Gadi in /scratch/<nci_project>
-
-# Make the following replacements in this file:
-# <unikey>      : Your USyd unikey
-# <rds_project> : Your RDS project name
-# <path>        : The location on RDS of your data
-# <local_path>  : The name of the folder to copy to
-# <nci_project> : Your NCI project name
-
-#PBS -P <nci_project>
-#PBS -N transfer
-#PBS -l walltime=04:00:00
-#PBS -l ncpus=1
-#PBS -l mem=8GB
-#PBS -W umask=022
-#PBS -q copyq
-#PBS -l wd
-#PBS -lstorage=scratch/<nci_project>
-
-# RDS:
-remote_user=<unikey>
-remote_host=research-data-ext.sydney.edu.au
-remote_path=/rds/PRJ-<rds_project>/<path>
-remote_dir=<dirname>
-
-# Gadi:
-dest_path=/scratch/<nci_project>/<local_path>
-
-# Copy folder with sftp
-sftp -r ${remote_user}@${remote_host}:${remote_path}/${remote_dir} ${dest_path}
-```
-:::
-
-Here is an example showing you how to transfer a folder called `MyData` in the RDS project `MYPROJECT` to
-some scratch space in Gadi owned by project `aa00`.
-
-::: {.callout-note}
-# Example `copyq` transfer from RDS to Gadi
-
-Log into Gadi and change directory to your project space and make a folder for your workspace:
-
-```bash
-# Using an example username tm0000
-ssh tm0000@gadi.nci.org.au
-
-cd /scratch/aa00
-
-# Make a folder called workspace in /scratch
-mkdir /scratch/aa00/workspace
-```
-
-Copy the required data transfer script template from /scratch/qc03 to your newly made workspace. In this case we ar copying from RDS
-to Gadi so we use the `from_rds_to_gadi.pbs` script. You can also cut and paste the template script into your editor from above and
-then save the edited script to your workspace.
-
-```bash
-cp /scratch/qc03/data-transfer-scripts/gadi-scripts/from_rds_to_gadi.pbs /scratch/aa00/workspace
-```
-
-Then follow the script and move to that workspace and open the script in an editor (in this example we'll use the `nano` editor): 
-
-```bash
-cd /scratch/aa00/workspace
-
-nano from_rds_to_gadi.pbs
-```
-
-You need to edit the script by replacing all the variables marked with `<>` described in the script header and fill in the following details before using it:
-
-In the `# PBS` variables part of the script: 
-
- + Provide the -P variable by replacing `<nci_project>` with your NCI project code. In this example `aa00`.
-
- + Increase the walltime if you are transferring large files, the limit on this queue is 10 hours.
-
- + Alter `-lstorage=scratch/<project>` as required. If you also need to access g/data, you can change this to `scratch/<project>+/gdata/<project>`. In this example we'll just use `/scratch/aa00`
-
-In the body of the script: 
-
- + Provide the `remote_user` variable by replacing `<unikey>` with your USyd unikey.
-
- + Provide the `remote_path` variable by replacing `<rds_project>` and `<local_path>` with your RDS project name and path to the file or directory you want to transfer. In this example we use `remote_path=/rds/PRJ-MYPROJECT/MyData`
-
-Here is what the script will look like when correctly edited for this example:
-
-```bash
-#!/bin/bash
-
-#PBS -P aa00
-#PBS -N transfer
-#PBS -l walltime=04:00:00
-#PBS -l ncpus=1
-#PBS -l mem=8GB
-#PBS -W umask=022
-#PBS -q copyq
-#PBS -l wd
-#PBS -lstorage=scratch/aa00
-
-# RDS:
-remote_user=tm0000     #Example unikey tm0000
-remote_host=research-data-ext.sydney.edu.au
-remote_path=/rds/PRJ-MYPROJECT/MyData
-
-# Gadi:
-# This will create /scratch/aa00/MyData if transferring a folder and it doesn't already exist.
-dest_path=/scratch/aa00/MyData
-
-# Copy with sftp
-sftp -r ${remote_user}@${remote_host}:${remote_path}/${remote_dir} ${dest_path}
-```
-
-When you have finished editing the script save it (using `<ctrl> - x` and answering `Y` at the prompt)
-
-**Run the transfer script**
-
-Once you have customised the script, you can submit it to the `copyq` on Gadi. Run the script from the directory where you saved it: 
-
-```bash
-qsub from_rds_to_gadi.pbs
-```
-
-This can be a nerve-wracking process, especially if you are transferring large files. You can check the status of your job on Gadi using: 
-
-```bash
-qstat -Esw
-```
-
-Once it says R (running), you can confirm it is going to where you want on RDS/Artemis or Gadi by logging into the system and checking for the presence of the file/directory in its expected location using: 
-
-```bash
-ls MyData
-```
-
- **Confirm the transfer**
-
-To confirm the transfer was successful, you'll need to check your job logs. These are located in the same directory as your script and are named `transfer.o<jobid>`. Check for **Exit status: 0**. If you see this, the transfer was successful. 
-
-However, this doesn't guarantee the integrity of the files. You should check the files themselves to ensure they are intact. You can do this using md5checksums. See this [SIH tidbits blogpost](https://sydney-informatics-hub.github.io/tidbits/safely-downloading-your-sequence-data-to-rds.html) about how to use these. You'll need to create md5checksums for the original files if they don't already exist and compare them after transfer.
-:::
-
-
-#### Template copyq scripts for sync-ing data with `lftp`
-
-If you have a large project with many files and only a few of them are modified at any time you can use the `mirror` command in `lftp` to only sync the modified files when you are backing up data to RDS. The `lftp - mirror` command transfers data at a slower speed than `sftp` but will significantly speed up the backup of data since it generally only needs to copy a small subset of all of the data on Gadi if only a few files have changed since the last sync.
-
-Below is a template `.pbs` script that can be used to sync files between Gadi and RDS, you can copy it to your workspace and modify it as needed similarly to the example above. You can also find this script on Gadi in `/scratch/qc03/data-transfer-scripts/gadi-scripts/sync_gadi_to_rds.pbs`.
-
-:::{.callout-warning}
-Note that when using this script to copy a folder you should ensure the target directory exists on RDS first, otherwise the parent directory will not be synced with the data.
-:::
-
-:::{.callout-note collapse="true"}
-## Sync between Gadi and RDS
-
-```bash
-#!/bin/bash
-
-# Mirror directory from Gadi to RDS
-#
-
-# Make the following replacements in this file:
-# <unikey>:       Your USyd unikey
-# <rds_project>:  Your RDS project name
-# <path-on-rds>:  The location on RDS to put your directory
-# <path-on-gadi>: The directory on Gadi to mirror to rds
-# <nci_project>:  Your NCI project name
-
-#PBS -P <nci_project>
-#PBS -N transfer
-#PBS -l walltime=04:00:00
-#PBS -l ncpus=1
-#PBS -l mem=8GB
-#PBS -W umask=022
-#PBS -q copyq
-#PBS -l wd
-#PBS -lstorage=/scratch/<nci_project>
-
-remote_user=<unikey>
-remote_host=research-data-ext.sydney.edu.au
-remote_path=/rds/PRJ-<rds-project>/<path-on-rds>
-
-source_path=<path-on-gadi>
-
-outfile="${PBS_O_WORKDIR}/${PBS_JOBNAME}_${PBS_JOBID}.log"
-echo "Writing log to: ${outfile}"
-touch $outfile
-
-lftp -u ${remote_user}, sftp://${remote_host} <<EOF
-set xfer:log true
-set xfer:log-file "${outfile}"
-mirror --verbose -R ${source_path} ${remote_path}
-exit
-EOF
-```
-
-:::
-
-#### Suggested workflow for copying data between RDS and Gadi and keeping it up-to-date
-
-The `sftp` copy method and `lftp` sync methods described above both have their pros and cons:
-
- + `sftp` has a faster transfer speed but can only copy all your files in bulk when it is run.
-
- + `lftp` has a slower transfer speed but it can sync only the subset of files that have changed.
-
-Because of this we suggest users be selective about which method they use based on their needs.
-
-For example a simple workflow for large projects that have a lot of data and many files in a folder, only a few of which are changed between backups to RDS would be:
-
-  1. Initially use the `sftp` based `from_rds_to_gadi.pbs` script to bulk copy your data from RDS to your project space on Gadi, since this is faster for bulk transfers.
-
-  2. Subsequently use the `lftp` based `sync_gadi_to_rds.pbs` to sync smaller files (e.g. output logs and data) back to RDS, without having to re-copy the bulk of the data back to RDS.
-
-### Transfer using rsync from Artemis dtq
-
-::: {.callout-warning}
-This option is only available prior to the decommission of Artemis on 29 August 2025 - after that date you will have to use either GLOBUS (*preferred*), or copy data when logged into the Gadi terminal (either at the login shell or using `copyq` scripts).
-:::
-
-For transfer of large files directly from Artemis to Gadi, the use of resumable `rsync` is recommended (see script below). The transfer can be initiated using Artemis `dtq` and using Gadi’s data mover node: `gadi-dm.nci.org.au`. The below template script can be used with Artemis' `dtq` using `rsync`.
-
-For further info about copying data from Artemis `dtq` can be found in the [SIH Artemis Training Series](https://sydney-informatics-hub.github.io/training.artemis.rds/04-rcos2hpc/index.html).
-
-:::{.callout-note collapse="true"}
-## Template Artemis data transfer script using `rsync`
-
-```bash
-#!/bin/bash
-
-# This is an Artemis data transfer script
-
-#PBS -P <project>
-#PBS -N transfer
-#PBS -l walltime=04:00:00
-#PBS -l ncpus=1
-#PBS -l mem=8GB
-#PBS -W umask=022
-#PBS -q dtq
-
-source_path=/rds/PRJ-<project>/<path>/<file>
-
-destination=<user>@gadi-dm.nci.org.au
-destination_path=<path-on-gadi>
-
-while [ 1 ]
-do
-        echo Transferring ${source_path} to ${destination}:${destination_path}
-        rsync -rtlPvz --append-verify ${source_path} ${destination}:${destination_path}
-
-        if [ "$?" = "0" ]
-        then
-                echo "Rsync completed normally"
-                dt=$(date)
-                echo Finished transferring at $dt
-        exit
-        else
-                echo "Rsync failure. Backing off and retrying in 3 minutes"
-                sleep 180
-        fi
-done
-```
-:::
-
-## Set up SSH keys for passwordless data transfer
-
-If you are transferring data directly for example `scp` on the command line or via a transfer client on your local computer, entering a password to initiate the transfer is straightforward. If however you want to transfer via a job submitted to either `copyq` or `dtq`, you will need to set up SSH keys first.
+You only need to set this up once.
 
 SSH key pairs are used for secure communication between two systems. The pair consists of a **private** key and a **public** key. The **private** key should remain private and only be known by the user. It is stored securely on the user's computer. The **public** key can be shared with any system the user wants to connect to. It is added to the remote system's authorized keys. When a connection is attempted, the remote system uses the public key to create a message for the user's system.
 
@@ -653,4 +369,330 @@ sftp <your-unikey>@research-data-ext.sydney.edu.au
 
 This time, you shouldn't be prompted for a password. You can proceed to transfer data between Gadi and USyd's Artemis/RDS system now on the `copyq`. 
 
+:::
+
+
+#### Template copyq scripts for transferring data with `sftp`{#scopyq}
+
+The scripts below use `sftp` to transfer data between RDS and Gadi on the Gadi `copyq`. `sftp` can transfer whole files and directories but must copy all of your data every time, it cannot only copy modified files like `rsync` can. This makes it considerably slower for copying large datasets where only minor changes have been made during a run. An alternative command `lftp` can behave like `rsync` but is slower to transfer than `sftp`. We also provide a template `lftp` script below. 
+
+Copies of these scripts have been placed in `/scratch/qc03/data-transfer-scripts/gadi-scripts`. You can make a copy of these scripts to your `/scratch/<nci-project-code>` or `/home/<nci-user-id>` workspace on Gadi and edit (for example using `nano <script>`), by replacing the names described in the header to suit your needs.
+
+There are two scripts: 
+
+  + `from_gadi_to_rds.pbs` is used to transfer a file or folder from Gadi to RDS
+
+  + `from_rds_to_gadi.pbs` is used to transfer a file or folder from RDS to Gadi
+
+::: {.callout-note collapse="true"}
+## Transfer from Gadi to RDS
+
+`from_gadi_to_rds.pbs` script, replace variables in `<brackets>` as described:
+
+```bash
+#!/bin/bash
+
+# Transfer from Gadi to RDS
+#
+
+# Make the following replacements in this file:
+# <unikey>      : Your USyd unikey
+# <rds_project> : Your RDS project name
+# <local_path>  : The local file or folder you want to copy
+# <remote_path> : The location on RDS to put your folder
+# <nci_project> : Your NCI project name
+
+#PBS -P <nci_project>
+#PBS -N transfer
+#PBS -l walltime=04:00:00
+#PBS -l ncpus=1
+#PBS -l mem=8GB
+#PBS -W umask=022
+#PBS -q copyq
+#PBS -l wd
+#PBS -lstorage=scratch/<nci_project>
+
+remote_user=<unikey>
+remote_host=research-data-ext.sydney.edu.au
+remote_path=/rds/PRJ-<rds_project>/<remote_path>
+
+local_path=<local_path>
+
+sftp ${remote_user}@${remote_host}:${remote_path} <<< $"put -r ${local_path}"
+```
+:::
+
+:::{.callout-note collapse="true"}
+## Transfer from RDS to Gadi
+
+`from_rds_to_gadi.pbs` script, replace variables in `<brackets>` as described:
+
+
+```bash
+#!/bin/bash
+
+# Transfer a folder from RDS to Gadi
+# This will recreate your RDS path (/rds/PRJ-<rds_project>)
+# on Gadi in /scratch/<nci_project>
+
+# Make the following replacements in this file:
+# <unikey>      : Your USyd unikey
+# <rds_project> : Your RDS project name
+# <remote_path> : The location on RDS of your file ot directory to copy
+# <local_path>  : The name of the folder to copy to
+# <nci_project> : Your NCI project name
+
+#PBS -P <nci_project>
+#PBS -N transfer
+#PBS -l walltime=04:00:00
+#PBS -l ncpus=1
+#PBS -l mem=8GB
+#PBS -W umask=022
+#PBS -q copyq
+#PBS -l wd
+#PBS -lstorage=scratch/<nci_project>
+
+# RDS:
+remote_user=<unikey>
+remote_host=research-data-ext.sydney.edu.au
+remote_path=/rds/PRJ-<rds_project>/<remote_path>
+
+# Gadi:
+dest_path=/scratch/<nci_project>/<local_path>
+
+# Copy folder with sftp
+sftp -r ${remote_user}@${remote_host}:${remote_path}/${remote_dir} ${dest_path}
+```
+:::
+
+Here is an example showing you how to transfer a folder called `MyData` in the RDS project `Training` to
+some scratch space in Gadi owned by project `aa00`.
+
+::: {.callout-tip}
+# Example `copyq` transfer from RDS to Gadi
+
+Log into Gadi and change directory to your project space and make a folder for your workspace:
+
+```bash
+# Using an example username tm0000
+ssh tm0000@gadi.nci.org.au
+
+cd /scratch/aa00
+
+# Make a folder called workspace in /scratch/aa00/tm0000
+mkdir -p /scratch/aa00/tm0000/workspace
+```
+
+Copy the required data transfer script template from `/scratch/qc03` to your newly made workspace. In this case we ar copying from RDS
+to Gadi so we use the `from_rds_to_gadi.pbs` script. You can also cut and paste the template script into your editor from above and
+then save the edited script to your workspace.
+
+```bash
+cp /scratch/qc03/data-transfer-scripts/gadi-scripts/from_rds_to_gadi.pbs /scratch/aa00/tm0000/workspace
+```
+
+Then follow the script and move to that workspace and open the script in an editor (in this example we'll use the `nano` editor): 
+
+```bash
+cd /scratch/aa00/tm0000/workspace
+
+nano from_rds_to_gadi.pbs
+```
+
+You need to edit the script by replacing all the variables marked with `<>` described in the script header and fill in the following details before using it:
+
+In the `# PBS` variables part of the script: 
+
+ + Provide the -P variable by replacing `<nci_project>` with your NCI project code. In this example `aa00`.
+
+ + Increase the walltime if you are transferring large files, the limit on this queue is 10 hours.
+
+ + Alter `-lstorage=scratch/<project>` as required. If you also need to access g/data, you can change this to `scratch/<project>+/gdata/<project>`. In this example we'll just use `/scratch/aa00`
+
+In the body of the script: 
+
+ + Provide the `remote_user` variable by replacing `<unikey>` with your USyd unikey.
+
+ + Provide the `remote_path` variable by replacing `<rds_project>` and `<local_path>` with your RDS project name and path to the file or directory you want to transfer. In this example we use `remote_path=/rds/PRJ-Training/MyData`
+
+Here is what the script will look like when correctly edited for this example:
+
+```bash
+#!/bin/bash
+
+#PBS -P aa00
+#PBS -N transfer
+#PBS -l walltime=04:00:00
+#PBS -l ncpus=1
+#PBS -l mem=8GB
+#PBS -W umask=022
+#PBS -q copyq
+#PBS -l wd
+#PBS -lstorage=scratch/aa00
+
+# RDS:
+remote_user=tm0000     #Example unikey tm0000
+remote_host=research-data-ext.sydney.edu.au
+remote_path=/rds/PRJ-Training/MyData
+
+# Gadi:
+# This will create /scratch/aa00/MyData if transferring a folder and it doesn't already exist.
+dest_path=/scratch/aa00/MyData
+
+# Copy with sftp
+sftp -r ${remote_user}@${remote_host}:${remote_path} ${dest_path}
+```
+
+When you have finished editing the script save it (using `<ctrl> - x` and answering `y` at the prompt if using `nano` as your editor)
+
+**Run the transfer script**
+
+Once you have customised the script, you can submit it to the `copyq` on Gadi. Run the script from the directory where you saved it: 
+
+```bash
+qsub from_rds_to_gadi.pbs
+```
+
+This can be a nerve-wracking process, especially if you are transferring large files. You can check the status of your job on Gadi using: 
+
+```bash
+qstat -Esw
+```
+
+Once it says R (running), you can confirm it is going to where you want on RDS/Artemis or Gadi by logging into the system and checking for the presence of the file/directory in its expected location using: 
+
+```bash
+ls MyData
+```
+:::
+
+#### Confirm transfers after competion
+
+To confirm the transfer was successful, you'll need to check your job logs. These are located in the same directory as your script and are named `transfer.o<jobid>`. Check for **Exit status: 0**. If you see this, the transfer was successful. 
+
+However, this doesn't guarantee the integrity of the files. You should check the files themselves to ensure they are intact. You can do this using md5checksums. See this [SIH tidbits blogpost](https://sydney-informatics-hub.github.io/tidbits/safely-downloading-your-sequence-data-to-rds.html) about how to use these. You'll need to create md5checksums for the original files if they don't already exist and compare them after transfer.
+
+
+
+#### Template copyq scripts for syncing data with `lftp`{#lcopyq}
+
+If you have a large project with many files and only a few of them are modified at any time you can use the `mirror` command in `lftp` to only sync the modified files when you are backing up data to RDS. The `lftp - mirror` command transfers data at a slower speed than `sftp` but will significantly speed up the backup of data since it generally only needs to copy a small subset of all of the data on Gadi if only a few files have changed since the last sync.
+
+Below is a template `.pbs` script that can be used to sync files between Gadi and RDS, you can copy it to your workspace and modify it as needed similarly to the example above. You can also find this script on Gadi in `/scratch/qc03/data-transfer-scripts/gadi-scripts/sync_gadi_to_rds.pbs`.
+
+:::{.callout-warning}
+Note that when using this script to copy a folder you should ensure the target directory exists on RDS first, otherwise the parent directory will not be synced with the data.
+:::
+
+:::{.callout-note collapse="true"}
+## Sync between Gadi and RDS
+
+```bash
+#!/bin/bash
+
+# Mirror directory from Gadi to RDS
+#
+
+# Make the following replacements in this file:
+# <unikey>:       Your USyd unikey
+# <rds_project>:  Your RDS project name
+# <path-on-rds>:  The location on RDS to put your directory
+# <path-on-gadi>: The directory on Gadi to mirror to rds
+# <nci_project>:  Your NCI project name
+
+#PBS -P <nci_project>
+#PBS -N transfer
+#PBS -l walltime=04:00:00
+#PBS -l ncpus=1
+#PBS -l mem=8GB
+#PBS -W umask=022
+#PBS -q copyq
+#PBS -l wd
+#PBS -lstorage=/scratch/<nci_project>
+
+remote_user=<unikey>
+remote_host=research-data-ext.sydney.edu.au
+remote_path=/rds/PRJ-<rds-project>/<path-on-rds>
+
+source_path=<path-on-gadi>
+
+outfile="${PBS_O_WORKDIR}/${PBS_JOBNAME}_${PBS_JOBID}.log"
+echo "Writing log to: ${outfile}"
+touch $outfile
+
+lftp -u ${remote_user}, sftp://${remote_host} <<EOF
+set xfer:log true
+set xfer:log-file "${outfile}"
+mirror --verbose -R ${source_path} ${remote_path}
+exit
+EOF
+```
+:::
+
+#### Suggested workflow for copying data between RDS and Gadi and keeping it up-to-date
+
+The `sftp` copy method and `lftp` sync methods described above both have their pros and cons:
+
+ + `sftp` has a faster transfer speed but can only copy all your files in bulk when it is run.
+
+ + `lftp` has a slower transfer speed but it can sync only the subset of files that have changed.
+
+Because of this we suggest users be selective about which method they use based on their needs.
+
+For example a simple workflow for large projects that have a lot of data and many files in a folder, only a few of which are changed between backups to RDS would be:
+
+  1. Initially use the `sftp` based `from_rds_to_gadi.pbs` script to bulk copy your data from RDS to your project space on Gadi, since this is faster for bulk transfers.
+
+  2. Subsequently use the `lftp` based `sync_gadi_to_rds.pbs` to sync smaller files (e.g. output logs and data) back to RDS, without having to re-copy the bulk of the data back to RDS.
+
+### Transfer using rsync from Artemis dtq {#dtq}
+
+::: {.callout-warning}
+
+This option is only available prior to the decommission of Artemis on 29 August 2025 - after that date you will have to use either GLOBUS (*preferred*), or copy data when logged into the Gadi terminal (either at the login shell or using `copyq` scripts).
+
+:::
+
+For transfer of large files directly from Artemis to Gadi, the use of resumable `rsync` is recommended (see script below). The transfer can be initiated using Artemis `dtq` and using Gadi’s data mover node: `gadi-dm.nci.org.au`. The below template script can be used with Artemis' `dtq` using `rsync`.
+
+For further info about copying data from Artemis `dtq` can be found in the [SIH Artemis Training Series](https://sydney-informatics-hub.github.io/training.artemis.rds/04-rcos2hpc/index.html).
+
+:::{.callout-note collapse="true"}
+## Template Artemis data transfer script using `rsync`
+
+```bash
+#!/bin/bash
+
+# This is an Artemis data transfer script
+
+#PBS -P <project>
+#PBS -N transfer
+#PBS -l walltime=04:00:00
+#PBS -l ncpus=1
+#PBS -l mem=8GB
+#PBS -W umask=022
+#PBS -q dtq
+
+source_path=/rds/PRJ-<project>/<path>/<file>
+
+destination=<user>@gadi-dm.nci.org.au
+destination_path=<path-on-gadi>
+
+while [ 1 ]
+do
+        echo Transferring ${source_path} to ${destination}:${destination_path}
+        rsync -rtlPvz --append-verify ${source_path} ${destination}:${destination_path}
+
+        if [ "$?" = "0" ]
+        then
+                echo "Rsync completed normally"
+                dt=$(date)
+                echo Finished transferring at $dt
+        exit
+        else
+                echo "Rsync failure. Backing off and retrying in 3 minutes"
+                sleep 180
+        fi
+done
+```
 :::
