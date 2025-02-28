@@ -1,0 +1,24 @@
+---
+title: "**Command line environment**"
+output:
+  html_document:
+    toc: false
+    toc_float: false
+from: markdown+emoji
+---
+
+Working on Gadi will require you to have reasonable confidence on the Linux/Unix command line. 
+
+## Linux command line training
+
+NCI host a number of training sessons, including introductory Linux. Please visit their [training calendar](https://opus.nci.org.au/spaces/Help/pages/48497461/NCI+Training+and+Educational+Events). 
+
+There are numerous self-directed training tutorials online, such as [this one from Sandbox.bio](https://sandbox.bio/tutorials/carpentries-shell-novice/).
+
+A bash cheatsheet such as [this one from NCI](https://opus.nci.org.au/spaces/Help/pages/90308858/Linux+Command+Quick+Reference) or [this one](https://devhints.io/bash) can also be helpful in increasing your familiarity with the command line. 
+
+Due to the plethora of high-quality introductory command line materials available online, we will not reproduce those here. 
+
+
+
+
