@@ -35,7 +35,9 @@ website:
           href: notebooks/08_job_script.html
         - text: "Job monitoring"
           href: notebooks/09_job_monitoring.html
-        - text: "Resource efficiency"
+        - text: "Parallel jobs"
+          href: notebooks/13_parallel_jobs.html          
+        - text: "Benchmarking and efficiency"
           href: notebooks/10_job_efficiency.html
 
   cookie-consent: 
