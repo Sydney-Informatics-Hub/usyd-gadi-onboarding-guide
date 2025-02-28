@@ -11,7 +11,7 @@ Before accessing Gadi, you will need to have an NCI account. Ensure you have com
 
 To work on NCI Gadi, you will need to use a **terminal application** on your local computer *or* work on [NCI's Australian Research Environment (ARE)](https://are.nci.org.au/) platform, which includes a web-based terminal interface to Gadi. If you already have a terminal application that you have used to access Artemis, for example `putty` or Mac `term`, you can continue to use that. 
 
-Beliow we will describe 3 options for accessing Gadi:
+Below we will describe 3 options for accessing Gadi:
 
 1. Use the web-based terminal provided by NCI's ARE platform
 2. Install Visual Studio Code, an integrated development environment with terminal and many other features
