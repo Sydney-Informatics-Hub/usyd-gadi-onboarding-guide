@@ -21,14 +21,14 @@ website:
           href: notebooks/03_expectations.html
       - text: "Working on Gadi"
         menu: 
-        - text: "Navigating the system"
-          href: notebooks/04_nagivating_system.html
-        - text: "Transferring data"
+        - text: "Command line"
+          href: notebooks/04_command_line.html
+        - text: "Data transfer"
           href: notebooks/05_data_transfer.html
+        - text: "Software"
+          href: notebooks/11_software.html
         - text: "Accounting"
           href: notebooks/06_accounting.html
-        - text: "Managing software"
-          href: notebooks/11_software.html
       - text: "Running a job"
         menu:
         - text: "Job scripts and submission"

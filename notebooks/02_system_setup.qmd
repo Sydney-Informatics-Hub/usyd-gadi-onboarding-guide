@@ -16,6 +16,11 @@ This section will point you to the right sections of the NCI documentation and u
 - [Gadi User Guide](https://opus.nci.org.au/display/Help/Gadi+User+Guide)
 - [Gadi FAQs](https://opus.nci.org.au/pages/viewpage.action?pageId=236881318)
 
+And for a Linux/Unix refresher:
+
+- [Sandbox.bio terminal basics tutorial](https://sandbox.bio/tutorials/carpentries-shell-novice/)
+- [Bash cheatsheet](https://devhints.io/bash)
+
 ## Gadi technical summary
 
 **NCI Gadi** is one of Australia's most powerful supercomputers, designed to support advanced computational research.
