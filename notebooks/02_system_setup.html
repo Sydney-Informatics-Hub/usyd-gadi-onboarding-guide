@@ -172,7 +172,7 @@ cookieconsent.run({
     <ul class="dropdown-menu" aria-labelledby="nav-menu-introduction-to-gadi">    
         <li>
     <a class="dropdown-item" href="../notebooks/02_system_setup.html">
- <span class="dropdown-text">System offerings</span></a>
+ <span class="dropdown-text">Gadi overview</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notebooks/03_expectations.html">
@@ -186,24 +186,20 @@ cookieconsent.run({
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-working-on-gadi">    
         <li>
-    <a class="dropdown-item" href="../notebooks/04_nagivating_system.html">
- <span class="dropdown-text">Navigating the system</span></a>
+    <a class="dropdown-item" href="../notebooks/04_command_line.html">
+ <span class="dropdown-text">Command line</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notebooks/05_data_transfer.html">
- <span class="dropdown-text">Transferring data</span></a>
+ <span class="dropdown-text">Data transfer</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/11_software.html">
+ <span class="dropdown-text">Software</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notebooks/06_accounting.html">
  <span class="dropdown-text">Accounting</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/07_environments.html">
- <span class="dropdown-text">Specialised environments</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/11_software.html">
- <span class="dropdown-text">Managing software</span></a>
   </li>  
     </ul>
   </li>
@@ -221,8 +217,12 @@ cookieconsent.run({
  <span class="dropdown-text">Job monitoring</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../notebooks/13_parallel_jobs.html">
+ <span class="dropdown-text">Parallel jobs</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../notebooks/10_job_efficiency.html">
- <span class="dropdown-text">Resource efficiency</span></a>
+ <span class="dropdown-text">Benchmarking and efficiency</span></a>
   </li>  
     </ul>
   </li>
@@ -242,13 +242,18 @@ cookieconsent.run({
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview-of-nci-gadi-hpc" id="toc-overview-of-nci-gadi-hpc" class="nav-link active" data-scroll-target="#overview-of-nci-gadi-hpc">Overview of NCI Gadi HPC</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link active" data-scroll-target="#resources">Resources</a></li>
+  <li><a href="#gadi-technical-summary" id="toc-gadi-technical-summary" class="nav-link" data-scroll-target="#gadi-technical-summary">Gadi technical summary</a></li>
   <li><a href="#conditions-of-use" id="toc-conditions-of-use" class="nav-link" data-scroll-target="#conditions-of-use">Conditions of use</a></li>
-  <li><a href="#key-components-of-the-gadi-hpc-system" id="toc-key-components-of-the-gadi-hpc-system" class="nav-link" data-scroll-target="#key-components-of-the-gadi-hpc-system"><strong>Key components of the Gadi HPC system</strong></a>
+  <li><a href="#login-nodes" id="toc-login-nodes" class="nav-link" data-scroll-target="#login-nodes">Login nodes</a></li>
+  <li><a href="#compute-nodes" id="toc-compute-nodes" class="nav-link" data-scroll-target="#compute-nodes">Compute nodes</a></li>
+  <li><a href="#data-mover-nodes" id="toc-data-mover-nodes" class="nav-link" data-scroll-target="#data-mover-nodes">Data mover nodes</a></li>
+  <li><a href="#filesystems" id="toc-filesystems" class="nav-link" data-scroll-target="#filesystems">Filesystems</a>
   <ul class="collapse">
-  <li><a href="#computing-nodes" id="toc-computing-nodes" class="nav-link" data-scroll-target="#computing-nodes"><strong><em>Computing nodes</em></strong></a></li>
-  <li><a href="#filesystems" id="toc-filesystems" class="nav-link" data-scroll-target="#filesystems"><strong><em>Filesystems</em></strong></a></li>
-  <li><a href="#queues" id="toc-queues" class="nav-link" data-scroll-target="#queues"><strong><em>Queues</em></strong></a></li>
+  <li><a href="#home" id="toc-home" class="nav-link" data-scroll-target="#home"><code>$HOME</code></a></li>
+  <li><a href="#scratch" id="toc-scratch" class="nav-link" data-scroll-target="#scratch"><code>/scratch</code></a></li>
+  <li><a href="#gdata" id="toc-gdata" class="nav-link" data-scroll-target="#gdata"><code>/g/data</code></a></li>
+  <li><a href="#apps" id="toc-apps" class="nav-link" data-scroll-target="#apps"><code>/apps</code></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -275,13 +280,23 @@ cookieconsent.run({
 </header>
 
 
-<p>NCI provides computational and data-storage resources to researchers and postgraduate students at Australian higher education institutions and Australian public sector research organisations.</p>
 <p>This section will point you to the right sections of the NCI documentation and user guides to get you started on the Gadi HPC system.</p>
-<section id="overview-of-nci-gadi-hpc" class="level2">
-<h2 class="anchored" data-anchor-id="overview-of-nci-gadi-hpc">Overview of NCI Gadi HPC</h2>
+<section id="resources" class="level2">
+<h2 class="anchored" data-anchor-id="resources">Resources</h2>
 <ul>
 <li><a href="https://opus.nci.org.au/spaces/Help/pages/236881323/What+is+Gadi+...">What is Gadi?</a></li>
+<li><a href="https://opus.nci.org.au/">Getting Started at NCI</a></li>
+<li><a href="https://opus.nci.org.au/display/Help/Gadi+User+Guide">Gadi User Guide</a></li>
+<li><a href="https://opus.nci.org.au/pages/viewpage.action?pageId=236881318">Gadi FAQs</a></li>
 </ul>
+<p>And for a Linux/Unix refresher:</p>
+<ul>
+<li><a href="https://sandbox.bio/tutorials/carpentries-shell-novice/">Sandbox.bio terminal basics tutorial</a></li>
+<li><a href="https://devhints.io/bash">Bash cheatsheet</a></li>
+</ul>
+</section>
+<section id="gadi-technical-summary" class="level2">
+<h2 class="anchored" data-anchor-id="gadi-technical-summary">Gadi technical summary</h2>
 <p><strong>NCI Gadi</strong> is one of Australia’s most powerful supercomputers, designed to support advanced computational research.</p>
 <table class="caption-top table">
 <colgroup>
@@ -325,104 +340,56 @@ cookieconsent.run({
 <section id="conditions-of-use" class="level2">
 <h2 class="anchored" data-anchor-id="conditions-of-use">Conditions of use</h2>
 <ul>
-<li><a href="https://opus.nci.org.au/spaces/Help/pages/230490621/Conditions+of+Use+and+Policies...">General conditions of use</a></li>
+<li><a href="https://opus.nci.org.au/spaces/Help/pages/230490621/Conditions+of+Use+and+Policies...">Conditions of use and policies</a></li>
 </ul>
 <p>All users of NCI agree that they will keep themselves informed of, and comply with, all relevant legislation and The Australian National University policies and rules.</p>
-<p>All users must acknowledge and understand that a breach of these will result in not only a loss of access to NCI resources but the user may be subject to Federal criminal prosecution resulting in fines and/or gaol legislated under the Acts listed above.</p>
+<p>All users must acknowledge and understand that a breach of these will result in not only a loss of access to NCI resources but the user may be subject to Federal criminal prosecution resulting in fines and/or gaol legislated under the Acts listed on the conditions of use and policies page.</p>
 </section>
-<section id="key-components-of-the-gadi-hpc-system" class="level2">
-<h2 class="anchored" data-anchor-id="key-components-of-the-gadi-hpc-system"><strong>Key components of the Gadi HPC system</strong></h2>
-<p>See the <a href="https://opus.nci.org.au/pages/viewpage.action?pageId=236880086">Gadi Resources Guide</a> for a detailed explanation of the following.</p>
-<section id="computing-nodes" class="level3">
-<h3 class="anchored" data-anchor-id="computing-nodes"><strong><em>Computing nodes</em></strong></h3>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Navigating the system
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This section contains some example commands to run on the Gadi HPC system. To generalise across multiple groups we have used <code>&lt;project&gt;</code> in place of a specific project code. When running these commands, please replace <code>&lt;project&gt;</code> with your project code.</p>
-<p>E.g. if your project code is <code>aa00</code>, you would run:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /scratch/aa00</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-<section id="login-nodes" class="level4">
-<h4 class="anchored" data-anchor-id="login-nodes">Login nodes</h4>
+<section id="login-nodes" class="level2">
+<h2 class="anchored" data-anchor-id="login-nodes">Login nodes</h2>
 <p>These nodes are the gateway for Gadi for users to access the resources of the HPC cluster. It is how you log in to Gadi, move around the filesystem, submit jobs to the scheduler, and do small tasks like view the contents of a file.</p>
+<p>When you first <code>ssh</code> into Gadi, you are working on a login node. These are distinct from the compute nodes and are <em>not</em> designed for running compute tasks or transferring data.</p>
+<p>While you can run simple commands on the login nodes on Gadi, commands are throttled. This means they execute more slowly than on the compute nodes and are automatically killed if they exceed CPU, memory and time restrictions that are in place. This is to ensure the login nodes are not over-loaded and remain responsive for all users. As such, all complex or resource-intensive tasks must be submitted to the job scheduler for execution on the cluster nodes.</p>
 </section>
-<section id="compute-nodes" class="level4">
-<h4 class="anchored" data-anchor-id="compute-nodes">Compute nodes</h4>
-<p>These nodes are the workhorses of any HPC. They are dedicated for executing computational tasks as delegated by the job scheduler when you submit a job. There are various types of compute nodes with different hardware, built for different purposes on Gadi. Depending on the resource requirements of your job (e.g.&nbsp;high memory, GPUs) and the queue you specify, your job will be sent to a specific type of compute node. You can find a breakdown of their technical specifications <a href="https://nci.org.au/our-systems/hpc-systems">here</a>.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="emoji" data-emoji="bangbang">‼️</span> Pay Attention <span class="emoji" data-emoji="bangbang">‼️</span>
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Compute nodes on Gadi don’t currently have access to external internet. If any tasks within a submitted job on the compute node need to access the internet, they will fail. These jobs should be run separtately on the <code>copyq</code> using the data mover nodes. Or else use an ARE job.</p>
-</div>
-</div>
+<section id="compute-nodes" class="level2">
+<h2 class="anchored" data-anchor-id="compute-nodes">Compute nodes</h2>
+<p>These nodes are the workhorses of any HPC. They are dedicated for executing computational tasks as delegated by the job scheduler when you submit a job. There are various types of compute nodes with different hardware, built for different purposes on Gadi. Depending on the resource requirements of your job (e.g.&nbsp;high memory, GPUs) and the queue you specify, your job will be sent to a specific type of compute node.</p>
+<p>Please see the <a href="https://opus.nci.org.au/spaces/Help/pages/236880996/Queue+Structure+on+Gadi...">queue structure on Gadi</a> and the <a href="https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...">queue limits</a> pages for detailed information on the compute node specifications.</p>
+<p>For details of how to choose and request a specific queue for your job, please visit the section on <a href="../notebooks/08_job_script.html">PBS scripts and job submission</a>.</p>
 </section>
-<section id="data-mover-nodes" class="level4">
-<h4 class="anchored" data-anchor-id="data-mover-nodes">Data mover nodes</h4>
-<p>These nodes are designed specifically for fast data movement. You can use these nodes to transfer files to and from Gadi at high-speed. Steps outlined <a href="https://opus.nci.org.au/pages/viewpage.action?pageId=236880317">here</a>. A script for moving data between USyd RDS and Gadi is provided in <code>/g/data/scripts</code> and explained in the following section, <a href="./data_transfer.qmd">transferring data</a>.</p>
+<section id="data-mover-nodes" class="level2">
+<h2 class="anchored" data-anchor-id="data-mover-nodes">Data mover nodes</h2>
+<p>These nodes are designed specifically for fast data movement. You can use these nodes to transfer files to and from Gadi at high-speed.</p>
+<p>Please visit the <a href="https://opus.nci.org.au/pages/viewpage.action?pageId=236880317">Gadi file transfer page</a> for more details.</p>
+<p>A comprehensive guide to data transfer between Gadi and University of Sydney RDS, including example commands, tempalte scripts and recommendations, can be found in the section on <a href="../notebooks/05_data_transfer.html">transferring data</a>.</p>
 </section>
-</section>
-<section id="filesystems" class="level3">
-<h3 class="anchored" data-anchor-id="filesystems"><strong><em>Filesystems</em></strong></h3>
-<section id="home" class="level4">
-<h4 class="anchored" data-anchor-id="home"><code>$HOME</code></h4>
-<p>When you first log in to Gadi, you’ll be placed in your personal $HOME directory (i.e.&nbsp;<code>/home/555/aa1234</code>). You are the only person who can access this directory. <strong>No work</strong> should be done in here, but you may wish to install things like custom R or Python libraries here. It is backed up but you have a 10Gb storage limit.</p>
+<section id="filesystems" class="level2">
+<h2 class="anchored" data-anchor-id="filesystems">Filesystems</h2>
+<section id="home" class="level3">
+<h3 class="anchored" data-anchor-id="home"><code>$HOME</code></h3>
+<p>When you first log in to Gadi, you’ll be placed in your personal $HOME directory (i.e.&nbsp;<code>/home/555/aa1234</code>). You are the only person who can access this directory. <strong>No work</strong> should be done in here due to the strict 10 GB storage limit, but you may wish to install things like custom R or Python libraries here. It is backed up.</p>
 <p>You can navigate back here at any point if required by running:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="scratch" class="level4">
-<h4 class="anchored" data-anchor-id="scratch"><code>/scratch</code></h4>
-<p>All Gadi projects have a dedicated <code>/scratch</code> allocation that is only accessible to members of your project. This is only intended for active work on big files and not for long-term storage. This is not backed up and any files not accessed for 100 days will be purged from the system, so be sure to back up your work to RDS. Your <code>/scratch</code> contains a directory for each user (denoted by their Gadi username), however you can organise things however you wish here.</p>
+<section id="scratch" class="level3">
+<h3 class="anchored" data-anchor-id="scratch"><code>/scratch</code></h3>
+<p>All Gadi projects have a dedicated <code>/scratch</code> allocation that is only accessible to members of your project. This is only intended for active work and not for long-term storage. This is <strong>not backed up</strong> and any files not accessed for 100 days will be purged from the system, so be sure to back up your work to RDS following our <a href="../notebooks/05_data_transfer.html">data transfer guide</a>.</p>
+<p>Visit the <a href="https://opus.nci.org.au/spaces/Help/pages/156434436/Gadi+scratch+File+Management">NCI scratch file management page</a> for details on the purge policy and how to recover files from ‘quarantine’.</p>
+<p>Scratch will be <code>/scratch/&lt;nci-project-id&gt;</code>. Each member of a project will have read/write permissions for this parent directory, as well as their <code>/scratch/&lt;nci-project-id&gt;/&lt;nci-user-id&gt;</code> directory.</p>
 <p>You can navigate to your <code>/scratch</code> space by running:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /scratch/<span class="op">&lt;</span>project<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /scratch/<span class="op">&lt;</span>project<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="gdata" class="level4">
-<h4 class="anchored" data-anchor-id="gdata"><code>/g/data</code></h4>
-<p>Some Gadi projects, have a dedicated <code>g/data</code> allocation that is only accessible to members of that group. This in intended for long-term large data storage. This is not backed up though, so ensure you transfer all important files back to RDS. If you are unsure if your project has a <code>/g/data</code> allocation, you can check by running:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /gdata/<span class="op">&lt;</span>project<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="gdata" class="level3">
+<h3 class="anchored" data-anchor-id="gdata"><code>/g/data</code></h3>
+<p>Some Gadi projects have a dedicated <code>/g/data</code> allocation that is only accessible to members of that group. This in intended for long-term large data storage, for example large reference files or databases that are regularly required for your compute jobs. Compute node jobs can read <code>/g/data</code> so this is an ideal place to store those files so that they are not subject to <code>/scratch</code> purge. Files that are on <code>/g/data</code> for this kind of use should also have a copy on RDS, since <code>/g/data/</code> is <strong>not backed up</strong>.</p>
+<p>If you are unsure if your project has a <code>/g/data</code> allocation, you can check by running:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /g/data/<span class="op">&lt;</span>project<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Scratch is provided at no additional cost to users, however <code>g/data</code> has a cost per TB involved. This cost is covered by the <a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme">NCI-Sydney Scheme</a> for projects that have a justified need of it. To request <code>/g/data</code> storage space, please request this via an email to <code>nci-sydney.scheme@sydney.edu.au</code> with a brief justification.</p>
 </section>
-<section id="gdataif89" class="level4">
-<h4 class="anchored" data-anchor-id="gdataif89"><code>/g/data/if89</code></h4>
-<ul>
-<li><a href="https://australianbiocommons.github.io/ables/if89/">if89 guide</a></li>
-</ul>
-<p>You can also access a communally maintained bioinformatics software project at <code>/g/data/if89</code>. Users currently have to request access to if89, but it is a good place to find bioinformatics software previously installed by others. To request access to <strong>if89</strong>:</p>
-<ol type="1">
-<li>Log into <a href="https://my.nci.org.au/mancini/login?next=/mancini/">MyNCI</a></li>
-<li>Navigate to <strong>Projects and Groups</strong></li>
-<li>Search for <strong>if89</strong> and request access</li>
-<li>Click join.</li>
-</ol>
-<p>Access needs to be manually approved. If you are experiencing delays of &gt;24 hours, please contact SIH.</p>
-</section>
-<section id="apps" class="level4">
-<h4 class="anchored" data-anchor-id="apps"><code>/apps</code></h4>
-<p>This directory is accessible to all Gadi users. It is a read-only system containing centrally installed software applications and their module files. You can check what software is installed here:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> /apps</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>You can use any software that is installed here by first loading the module file, e.g.:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load samtools</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Then run the tool as per it’s user guide, e.g.:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-H</span> sample.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-</section>
-<section id="queues" class="level3">
-<h3 class="anchored" data-anchor-id="queues"><strong><em>Queues</em></strong></h3>
-<p>Like on Artemis, the job scheduler is PBSPro, however it is implented in a slightly different way. To run jobs on Gadi, users should submit to a specific queue on a corresponding node. The queue and node you choose to run on will depend on the types of resources your job needs. Pipelines your group use have already been configured to run on specific queues.</p>
-<p>For custom PBS scripts, you can work out what queue to run your job on by checking the <a href="https://opus.nci.org.au/pages/viewpage.action?pageId=236880996">NCI queue documentation</a> and <a href="https://opus.nci.org.au/pages/viewpage.action?pageId=236881198">queue limits explainer</a>. Most jobs will be suitable for normal or normalbw queues. The normal queues have more nodes available for your jobs, and will allow users, and jobs that require a specialised queue, to get fair access to those resources. Express queues are designs to support work that needs a faster turnaround, but will be charged accordingly at a higher service unit charge.</p>
+<section id="apps" class="level3">
+<h3 class="anchored" data-anchor-id="apps"><code>/apps</code></h3>
+<p>This directory is accessible to all Gadi users. It is a read-only system containing centrally installed software applications and their module files.</p>
+<p>Please visit the <a href="./11_software">software</a> section for more information on global apps and alternatives.</p>
 
 
 </section>

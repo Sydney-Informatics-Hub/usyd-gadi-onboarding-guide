@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Accessing your Gadi project – USyd NCI Gadi User Guide</title>
+<title>Accessing NCI – USyd NCI Gadi User Guide</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -138,7 +138,7 @@ cookieconsent.run({
     <ul class="dropdown-menu" aria-labelledby="nav-menu-introduction-to-gadi">    
         <li>
     <a class="dropdown-item" href="../notebooks/02_system_setup.html">
- <span class="dropdown-text">System offerings</span></a>
+ <span class="dropdown-text">Gadi overview</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notebooks/03_expectations.html">
@@ -152,24 +152,20 @@ cookieconsent.run({
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-working-on-gadi">    
         <li>
-    <a class="dropdown-item" href="../notebooks/04_nagivating_system.html">
- <span class="dropdown-text">Navigating the system</span></a>
+    <a class="dropdown-item" href="../notebooks/04_command_line.html">
+ <span class="dropdown-text">Command line</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notebooks/05_data_transfer.html">
- <span class="dropdown-text">Transferring data</span></a>
+ <span class="dropdown-text">Data transfer</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/11_software.html">
+ <span class="dropdown-text">Software</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notebooks/06_accounting.html">
  <span class="dropdown-text">Accounting</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/07_environments.html">
- <span class="dropdown-text">Specialised environments</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/11_software.html">
- <span class="dropdown-text">Managing software</span></a>
   </li>  
     </ul>
   </li>
@@ -187,8 +183,12 @@ cookieconsent.run({
  <span class="dropdown-text">Job monitoring</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../notebooks/13_parallel_jobs.html">
+ <span class="dropdown-text">Parallel jobs</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../notebooks/10_job_efficiency.html">
- <span class="dropdown-text">Resource efficiency</span></a>
+ <span class="dropdown-text">Benchmarking and efficiency</span></a>
   </li>  
     </ul>
   </li>
@@ -208,9 +208,9 @@ cookieconsent.run({
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#resources" id="toc-resources" class="nav-link active" data-scroll-target="#resources"><strong>Resources</strong></a></li>
-  <li><a href="#set-up-your-nci-account" id="toc-set-up-your-nci-account" class="nav-link" data-scroll-target="#set-up-your-nci-account"><strong>Set up your NCI Account</strong></a></li>
-  <li><a href="#manage-your-nci-account" id="toc-manage-your-nci-account" class="nav-link" data-scroll-target="#manage-your-nci-account"><strong>Manage your NCI Account</strong></a></li>
+  <li><a href="#create-an-account-and-join-an-existing-project" id="toc-create-an-account-and-join-an-existing-project" class="nav-link active" data-scroll-target="#create-an-account-and-join-an-existing-project">Create an account and join an existing project</a></li>
+  <li><a href="#create-an-account-and-propose-a-new-project" id="toc-create-an-account-and-propose-a-new-project" class="nav-link" data-scroll-target="#create-an-account-and-propose-a-new-project">Create an account and propose a new project</a></li>
+  <li><a href="#i-already-have-an-nci-account-how-can-i-join-an-existing-project" id="toc-i-already-have-an-nci-account-how-can-i-join-an-existing-project" class="nav-link" data-scroll-target="#i-already-have-an-nci-account-how-can-i-join-an-existing-project">I already have an NCI account, how can I join an existing project?</a></li>
   </ul>
 </nav>
     </div>
@@ -219,7 +219,7 @@ cookieconsent.run({
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><strong>Accessing your Gadi project</strong></h1>
+<h1 class="title"><strong>Accessing NCI</strong></h1>
 </div>
 
 
@@ -236,25 +236,7 @@ cookieconsent.run({
 </header>
 
 
-<p>National Computational Infrastructure (NCI) is a services facility that provides high performance computing (HPC), cloud and data services to Australian researchers.</p>
-<p>Gadi is the name of NCI’s HPC facility, located at ANU (Canberra). The system is suitable for:</p>
-<ul>
-<li>Software that can utilise multiple nodes</li>
-<li>Highly CPU efficient workflows</li>
-<li>Scalable workflows</li>
-<li>Users with moderate HPC experience</li>
-</ul>
-<section id="resources" class="level2">
-<h2 class="anchored" data-anchor-id="resources"><strong>Resources</strong></h2>
-<ul>
-<li><a href="https://opus.nci.org.au/">Getting Started at NCI</a></li>
-<li><a href="https://opus.nci.org.au/display/Help/Gadi+User+Guide">Gadi User Guide</a></li>
-<li><a href="https://opus.nci.org.au/pages/viewpage.action?pageId=236881318">Gadi FAQs</a></li>
-<li><a href="https://www.biocommons.org.au/events/workflows-hpc">Pro tips for bioinformatics on HPC</a>: <a href="https://youtu.be/YKJDRXCmGMo">recording</a> and <a href="https://zenodo.org/record/8008227">slides</a></li>
-</ul>
-</section>
-<section id="set-up-your-nci-account" class="level2">
-<h2 class="anchored" data-anchor-id="set-up-your-nci-account"><strong>Set up your NCI Account</strong></h2>
+<p>To access any of NCI’s computing platforms including Gadi HPC, you first need to create an NCI account. You will also need to either create a new project or request to join an existing one. You can be a member of multiple projects.</p>
 <p>All new users must create their account through the <a href="https://my.nci.org.au/mancini/login?next=/mancini/">NCI online self service portal</a>. To create your account you will need the following information:</p>
 <ul>
 <li>Your Name</li>
@@ -267,20 +249,46 @@ cookieconsent.run({
 </ul></li>
 </ul>
 <p>Note that resources at NCI are allocated to <strong>projects</strong> and not to individual users.</p>
-<p>Complete all steps below to set up an NCI account:</p>
+<section id="create-an-account-and-join-an-existing-project" class="level2">
+<h2 class="anchored" data-anchor-id="create-an-account-and-join-an-existing-project">Create an account and join an existing project</h2>
 <ol type="1">
 <li><p>Click on ‘Sign up’ link on the <a href="https://my.nci.org.au/mancini/login?next=/mancini/">NCI online self service portal</a>: <img src="../fig/gadi_login.png" class="img-fluid"></p></li>
 <li><p>Accept the terms and conditions: <img src="../fig/gadi_step1.png" class="img-fluid"></p></li>
 <li><p>Provide your personal details: <img src="../fig/gadi_step2.png" class="img-fluid"></p></li>
-<li><p>Provide details on the project you’ll be working on. Select <code>I need to join one or more existing projects</code>. Ask Marina for your group’s project code to write in the <code>Projects</code> menu: <img src="../fig/gadi_step3.png" class="img-fluid"></p></li>
-<li><p>Select University of Sydney as you institution: <img src="../fig/gadi_step4.png" class="img-fluid"></p></li>
+<li><p>Provide details on the project you’ll be working on. Select <code>I need to join one or more existing projects</code>. Enter the NCI project code (eg <code>qc03</code> for the SIH training project) in the <code>Projects</code> menu: <img src="../fig/gadi_step3.png" class="img-fluid"></p></li>
+<li><p>Select University of Sydney as your institution: <img src="../fig/gadi_step4.png" class="img-fluid"></p></li>
 </ol>
-<p>Your username will become active when a project Lead CI approves your request to join their project, or when a Scheme Manager approves your new project proposal. You will receive a confirmation email from the Mancini system when your username is activated.</p>
+<p>Your username will become active when a project Lead CI approves your request to join their project. You will receive a confirmation email from the Mancini system when your username is activated.</p>
 </section>
-<section id="manage-your-nci-account" class="level2">
-<h2 class="anchored" data-anchor-id="manage-your-nci-account"><strong>Manage your NCI Account</strong></h2>
-<p>You can manage your account details and request access to new or existing projects through the <a href="https://my.nci.org.au/mancini/login?next=/mancini/">NCI online self service portal</a>.</p>
-<p>Once your access to your group’s Gadi project has been confirmed, you can set up your computer and log in to Gadi. See the <a href="../setup.qmd">setup</a> instructions for how to log in to the HPC system.</p>
+<section id="create-an-account-and-propose-a-new-project" class="level2">
+<h2 class="anchored" data-anchor-id="create-an-account-and-propose-a-new-project">Create an account and propose a new project</h2>
+<ol type="1">
+<li><p>To create your account, follow the first three steps from the above section</p></li>
+<li><p>On the NCI page <code>Step 3 of 5 - Project</code>, select <code>I intend to propose a new project</code></p></li>
+<li><p>Complete the account creation form and verify your account by following the account verification email</p></li>
+<li><p>Once activated, you can login to <a href="https://my.nci.org.au/mancini/">MyNCI</a> and propose a new project by selecting this from the menu bar on the left:</p></li>
+</ol>
+<p><img src="../fig/propose_new_project.png" class="img-fluid"></p>
+<ol start="5" type="1">
+<li><p>Follow the prompts to fill the form for your proposed project</p></li>
+<li><p>At <code>Propose a project: step 5 of 10</code>, select <code>University of Sydney</code></p></li>
+<li><p>At <code>Propose a project: step 6 of 10</code>, select <code>Gadt (at NCI)</code> under <code>HPC Compute</code>. Most projects will not require <code>massdata</code>. Some may require <code>gdata</code>, and this can be added later if necessary. All new projects are allocated some scratch space and this comes at no charge, however the other two file systems have an attached cost.</p></li>
+<li><p>At <code>Propose a project: step 7 of 10</code>, you are asked to fill in your initial resource requirements in <code>KSU</code>. One KSU is 1,000 service units, which is roughly equivalent to 500 CPU hours depending on the type of resource used. We expect 1 KSU to be a sufficient starting amount for most projects coming from Artemis. If you have a good understanding that you will require more than this, please enter those values here. They can easily and quickly be increased at a later date if needed.</p></li>
+<li><p>Complete the rest of the form, ensuring that you carefully review the terms and conditions of use and declare the status of your project in relation to the Defence Trade Controls Act.</p></li>
+</ol>
+<p>Your new project will become active when a USyd Scheme Manager approves your new project proposal.</p>
+</section>
+<section id="i-already-have-an-nci-account-how-can-i-join-an-existing-project" class="level2">
+<h2 class="anchored" data-anchor-id="i-already-have-an-nci-account-how-can-i-join-an-existing-project">I already have an NCI account, how can I join an existing project?</h2>
+<ol type="1">
+<li><p>Login to <a href="https://my.nci.org.au/mancini/">MyNCI</a> and select <code>Projects and groups</code> from the menu bar on the left</p></li>
+<li><p>Switch the tab to <code>Find project or group</code> and search for the project you wish to join</p></li>
+</ol>
+<p><img src="../fig/search-for-project.png" class="img-fluid"></p>
+<ol start="3" type="1">
+<li><p>Select the project from the search results, confirm the project by checking the overview, then switch the tab to <code>Join</code></p></li>
+<li><p>After agreeing to the terms and conditions, select <code>Request membership</code>. You membership needs to be approved by the Lead Chief Investigator</p></li>
+</ol>
 
 
 </section>
