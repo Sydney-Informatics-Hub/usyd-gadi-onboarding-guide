@@ -221,7 +221,7 @@
     "href": "notebooks/02_system_setup.html#resources",
     "title": "How is the system set up?",
     "section": "Resources",
-    "text": "Resources\n\nWhat is Gadi?\nGetting Started at NCI\nGadi User Guide\nGadi FAQs\n\nAnd for a Linux/Unix refresher:\n\nSandbox.bio terminal basics tutorial\nBash cheatsheet"
+    "text": "Resources\n\nWhat is Gadi?\nGetting Started at NCI\nGadi User Guide\nGadi FAQs"
   },
   {
     "objectID": "notebooks/02_system_setup.html#gadi-technical-summary",
@@ -284,7 +284,7 @@
     "href": "notebooks/00_gadi_access.html#create-an-account-and-propose-a-new-project",
     "title": "Accessing NCI",
     "section": "Create an account and propose a new project",
-    "text": "Create an account and propose a new project\n\nTo create your account, follow the first three steps from the above section\nOn the NCI page Step 3 of 5 - Project, select I intend to propose a new project\nComplete the account creation form and verify your account by following the account verification email\nOnce activated, you can login to MyNCI and propose a new project by selecting this from the menu bar on the left:\n\n\n\nFollow the prompts to fill the form for your proposed project\nAt Propose a project: step 5 of 10, select University of Sydney\nAt Propose a project: step 6 of 10, select Gadt (at NCI) under HPC Compute. Most projects will not require massdata. Some may require gdata, and this can be added later if necessary. All new projects are allocated some scratch space and this comes at no charge, however the other two file systems have an attached cost.\nAt Propose a project: step 7 of 10, you are asked to fill in your initial resource requirements in KSU. One KSU is 1,000 service units, which is roughly equivalent to 500 CPU hours depending on the type of resource used. We expect 1 KSU to be a sufficient starting amount for most projects coming from Artemis. If you have a good understanding that you will require more than this, please enter those values here. They can easily and quickly be increased at a later date if needed.\nComplete the rest of the form, ensuring that you carefully review the terms and conditions of use and declare the status of your project in relation to the Defence Trade Controls Act.\n\nYour new project will become active when a USyd Scheme Manager approves your new project proposal."
+    "text": "Create an account and propose a new project\n\nTo create your account, follow the first three steps from the above section\nOn the NCI page Step 3 of 5 - Project, select I intend to propose a new project\nComplete the account creation form and verify your account by following the account verification email\nOnce activated, you can login to MyNCI and propose a new project by selecting this from the menu bar on the left:\n\n\n\nFollow the prompts to fill the form for your proposed project\nAt Propose a project: step 5 of 10, select University of Sydney\nAt Propose a project: step 6 of 10, select Gadi (at NCI) under HPC Compute. Most projects will not require massdata. Some may require gdata, and this can be added later if necessary. All new projects are allocated some scratch space and this comes at no charge, however the other two file systems have an attached cost.\nAt Propose a project: step 7 of 10, you are asked to fill in your initial resource requirements in KSU. One KSU is 1,000 service units, which is roughly equivalent to 500 CPU hours depending on the type of resource used. We expect 1 KSU to be a sufficient starting amount for most projects coming from Artemis. If you have a good understanding that you will require more than this, please enter those values here. They can easily and quickly be increased at a later date if needed.\nComplete the rest of the form, ensuring that you carefully review the terms and conditions of use and declare the status of your project in relation to the Defence Trade Controls Act.\n\nYour new project will become active when a USyd Scheme Manager approves your new project proposal."
   },
   {
     "objectID": "notebooks/00_gadi_access.html#i-already-have-an-nci-account-how-can-i-join-an-existing-project",
@@ -399,22 +399,22 @@
     "text": "Job logs\nBy default, the PBS job logs will be created in the directory from which the qsub command was entered, and combine the job name and the job ID.\nFor example, a job with #PBS -N convert and job ID 133703660 will have standard output and resource usage written to convert.o133703660 and standard error written to convert.e133703660.\nThis differs slightly to Artemis, which has the same default filepath behaviour except the standard output is sent to the .o and the resource usage is sent to .o_usage.\nThe Gadi .o file has the resource usage at the end of the log making it easy to view a quick summary with the tail command:\n$ tail -n 11 convert.o133703660 \n                  Resource Usage on 2025-02-05 16:16:10:\n   Job Id:             133703660.gadi-pbs\n   Project:            aa00\n   Exit Status:        0\n   Service Units:      23.94\n   NCPUs Requested:    7                      NCPUs Used: 7               \n                                           CPU Time Used: 02:57:33        \n   Memory Requested:   63.0GB                Memory Used: 51.14GB         \n   Walltime requested: 08:00:00            Walltime Used: 02:44:09        \n   JobFS requested:    100.0MB                JobFS used: 0B              \n======================================================================================\nIf desired, you can change the default log filepaths with the -o and -e directives, for example:\n#PBS -o ./logs/convert-fast5.o\n#PBS -e ./logs/convert-fast5.e\nThis omits the job ID from being included in the log file name and sends the logs to a different directory."
   },
   {
-    "objectID": "notebooks/13_parralel_jobs.html",
-    "href": "notebooks/13_parralel_jobs.html",
+    "objectID": "notebooks/13_parallel_jobs.html",
+    "href": "notebooks/13_parallel_jobs.html",
     "title": "Running parallel jobs on Gadi",
     "section": "",
     "text": "TO BE COMPLETED\nAll materials copyright Sydney Informatics Hub, University of Sydney"
   },
   {
-    "objectID": "notebooks/13_parralel_jobs.html#introduction",
-    "href": "notebooks/13_parralel_jobs.html#introduction",
+    "objectID": "notebooks/13_parallel_jobs.html#introduction",
+    "href": "notebooks/13_parallel_jobs.html#introduction",
     "title": "Running parallel jobs on Gadi",
     "section": "Introduction",
     "text": "Introduction\nIn this section, we will discuss how you can run parallel jobs on Gadi using the nci-parralel utility in place of the Artemis job array method.\nThe main challenges users may face adapting Artemis workflows to Gadi are:\n\nJob arrays not supported on Gadi\nGadi walltime limit of 48 hours\nAdjusting PBS directives to suit Gadi requirements and queue structure\nLack of internet access for Gadi compute nodes\nData transfer\nUnderstanding NCI accounting of KSU, disk and iNode limits\nAutomatic 100-day Gadi /scratch purge policy\nSoftware installation and version upgrades on Gadi\n\nIn this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date."
   },
   {
-    "objectID": "notebooks/13_parralel_jobs.html#section",
-    "href": "notebooks/13_parralel_jobs.html#section",
+    "objectID": "notebooks/13_parallel_jobs.html#section",
+    "href": "notebooks/13_parallel_jobs.html#section",
     "title": "Running parallel jobs on Gadi",
     "section": "",
     "text": "https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel…\nhttps://sydney-informatics-hub.github.io/training.gadi.intro/08-Example-parallel-job/index.html"
@@ -424,7 +424,7 @@
     "href": "notebooks/01_setup.html",
     "title": "Set up your computer",
     "section": "",
-    "text": "Before accessing Gadi, you will need to have an NCI account. Ensure you have completed this step by following directions on the Gadi Access instructions on the previous page before proceeding.\nTo work on NCI Gadi, you will need to use a terminal application on your local computer or work on NCI’s Australian Research Environment (ARE) platform, which includes a web-based terminal interface to Gadi. If you already have a terminal application that you have used to access Artemis, for example putty or Mac term, you can continue to use that.\nBeliow we will describe 3 options for accessing Gadi:\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+    "text": "Before accessing Gadi, you will need to have an NCI account. Ensure you have completed this step by following directions on the Gadi Access instructions on the previous page before proceeding.\nTo work on NCI Gadi, you will need to use a terminal application on your local computer or work on NCI’s Australian Research Environment (ARE) platform, which includes a web-based terminal interface to Gadi. If you already have a terminal application that you have used to access Artemis, for example putty or Mac term, you can continue to use that.\nBelow we will describe 3 options for accessing Gadi:\nAll materials copyright Sydney Informatics Hub, University of Sydney"
   },
   {
     "objectID": "notebooks/01_setup.html#use-ncis-are-platform",
