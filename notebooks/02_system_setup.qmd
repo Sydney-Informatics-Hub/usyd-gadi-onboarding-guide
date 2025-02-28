@@ -11,6 +11,12 @@ NCI provides computational and data-storage resources to researchers and postgra
 
 This section will point you to the right sections of the NCI documentation and user guides to get you started on the Gadi HPC system.
 
+## **Resources**
+
+- [Getting Started at NCI](https://opus.nci.org.au/)
+- [Gadi User Guide](https://opus.nci.org.au/display/Help/Gadi+User+Guide)
+- [Gadi FAQs](https://opus.nci.org.au/pages/viewpage.action?pageId=236881318)
+
 ## Overview of NCI Gadi HPC
 
 - [What is Gadi?](https://opus.nci.org.au/spaces/Help/pages/236881323/What+is+Gadi+...)
