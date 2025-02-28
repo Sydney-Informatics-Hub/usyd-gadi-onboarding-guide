@@ -27,8 +27,6 @@ website:
           href: notebooks/05_data_transfer.html
         - text: "Accounting"
           href: notebooks/06_accounting.html
-        - text: "Specialised environments"
-          href: notebooks/07_environments.html
         - text: "Managing software"
           href: notebooks/11_software.html
       - text: "Running a job"
