@@ -15,7 +15,7 @@ website:
         text: "Set up your computer"
       - text: "Introduction to Gadi"
         menu: 
-        - text: "System offerings"
+        - text: "Gadi overview"
           href: notebooks/02_system_setup.html
         - text: "Infrastructure expectations"
           href: notebooks/03_expectations.html
