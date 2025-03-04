@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.5.55">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -37,10 +37,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-86daaaaad7353f9cc0c554efc1dd6d94.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f4163e54545b01daaae269814d862f3d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -210,7 +210,13 @@ cookieconsent.run({
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#gadi-walltime-limit" id="toc-gadi-walltime-limit" class="nav-link" data-scroll-target="#gadi-walltime-limit">Gadi walltime limit</a></li>
-  <li><a href="#split-your-job" id="toc-split-your-job" class="nav-link" data-scroll-target="#split-your-job">1. Split your job</a></li>
+  <li><a href="#split-your-job" id="toc-split-your-job" class="nav-link" data-scroll-target="#split-your-job">1. Split your job</a>
+  <ul class="collapse">
+  <li><a href="#examples-of-job-splitting" id="toc-examples-of-job-splitting" class="nav-link" data-scroll-target="#examples-of-job-splitting">Examples of job splitting</a></li>
+  <li><a href="#multiple-discrete-commands" id="toc-multiple-discrete-commands" class="nav-link" data-scroll-target="#multiple-discrete-commands">1. Multiple discrete commands</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section">2.</a></li>
+  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1">3.</a></li>
+  </ul></li>
   <li><a href="#use-nirin" id="toc-use-nirin" class="nav-link" data-scroll-target="#use-nirin">2. Use Nirin</a></li>
   <li><a href="#gadi-special-walltime-request" id="toc-gadi-special-walltime-request" class="nav-link" data-scroll-target="#gadi-special-walltime-request">3. Gadi special walltime request</a></li>
   </ul>
@@ -276,6 +282,21 @@ cookieconsent.run({
 <li>Greater job efficiency: By benchmarking and optimising the resource configurations for each stage of the workflow, the series of jobs can be placed on an appropriate queue, and will not be reserving (and being charged for) unused resources. This will reduce KSU usage and resource wastage.</li>
 <li>Shorter queue times: Requesting resources for a shorter walltime will result in a shorter queue time. The NCI scheduler is geared towards favouring ‘wider and shorter’ jobs, ie more CPUs/nodes for less time, over ‘taller and slimmer’ jobs (ie fewer CPUs/nodes for a longer time). For example a job may queue for less time if it requests 48 CPU for 1 hour, compred to 1 CPU for 48 hours. Of course the queue is highly dynamic and this cannotbe predicted or calculated ahead of time, but in general, shorter walltimes will lead to shorter queue times.</li>
 </ol>
+<section id="examples-of-job-splitting" class="level3">
+<h3 class="anchored" data-anchor-id="examples-of-job-splitting">Examples of job splitting</h3>
+</section>
+<section id="multiple-discrete-commands" class="level3">
+<h3 class="anchored" data-anchor-id="multiple-discrete-commands">1. Multiple discrete commands</h3>
+<p>Your workflow has multiple discrete commands that are executed in series. Each has a read-in and write-out step, so that they can be easily separated into separate shorter-running jobs that are executed one after the other (in series).</p>
+</section>
+<section id="section" class="level3">
+<h3 class="anchored" data-anchor-id="section">2.</h3>
+<p>Your workflow is mainly one longer-running command, yet the tool has some innate checkpointing ability (writes states to disk, supports resume).</p>
+</section>
+<section id="section-1" class="level3">
+<h3 class="anchored" data-anchor-id="section-1">3.</h3>
+<p>Your workflow is mainly one longer-running workflow command, and the tool does not have innate checkpointing.</p>
+</section>
 </section>
 <section id="use-nirin" class="level2">
 <h2 class="anchored" data-anchor-id="use-nirin">2. Use Nirin</h2>
@@ -375,6 +396,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -485,6 +508,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
