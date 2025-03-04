@@ -33,6 +33,8 @@ website:
         menu:
         - text: "Job scripts and submission"
           href: notebooks/08_job_script.html
+        - text: "Working within walltime"
+          href: notebooks/12_walltime.html          
         - text: "Job monitoring"
           href: notebooks/09_job_monitoring.html
         - text: "Parallel jobs"
