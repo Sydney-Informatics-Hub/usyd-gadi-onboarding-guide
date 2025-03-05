@@ -169,8 +169,45 @@ As you can see, our workflow which was one long-running single job with very poo
 
 ### Example 2: Use checkpointing
 
-Many commonly used tools have built in option for only running an iterative process a given number of times and then saving the state of the process to a local file which can be reloaded from disk and then starting the process from where it previously left off. Its a good idea to check the documentation of the tool you are using to see if it has some kind of checkpointing functionality built in.
+Many commonly used tools have built in option for only running an iterative process a given number of times and then saving the state of the process to a local file which can be reloaded from disk and then starting the process from where it previously left off, a process that is commonly known as 'checkpointing'. Its a good idea to check the documentation of the tool you are using to see if it has some kind of checkpointing functionality built in since this greatly simplifies the process of splitting up long running tasks into smaller chunks.
 
+It is usually anyway recommended to use some kind of checkpointing in long running tasks because that way you can have a look at the output of them mid-way through to ensure that things are progressing as expected. Jobs can then be stopped mid way in case of unwanted results and restarted with different parameters, thus saving SU.
+
+A simple of example of a script that uses checkpointing comes from the SIH developed `aigis`**LINK** package, that fine-tunes a detectron2 image segmentation model to detect trees and buildings in aerial imagery datasets. Such datasets can be quite large and the runtime for fine-tuning can take a long time, so the script has a flag that will save the current fine-tuned model to disk after a given number of iterations. Many machine-learning workflows provide this kind of functionality, and you can read details of how to implement it in your own ML pipelines using TensorFlow (here)**LINK** or PyTorch (here)**LINK**.
+
+Script from aigis is called `fine_tune_detectron2.py` and we can usually run it on gadi from a PBS script like so:
+
+```bash
+gadi serial PBS script goes here.
+```
+
+We can add an extra flag to this script to set the number of iterations we would like and the name of the checkpointed model we ould like to save by changing the script parameters in the above script to:
+
+```bash
+updated python command goes here
+```
+
+Then we can create a second pbs script that will pick up the output of the above and continue running for more iterations:
+```bash
+continuation pbs script goes here
+```
+
+We can split this into as many shorter chunks as we would like, each starting from the output of the previous iteration. These can then be run sequentially with `qsub` at the gadi command prompt like so: 
+
+```bash
+sequential script submission 
+
+qsub script
+
+# an extra command added to tell the later iterations of the script to only start when the previous one has completed. To do this we use the flag `-W #depend=afterok:<jobid>` when running qsub, which will tell qsub to put the job on the queue but to hold it until the task in <jobid> has completed.
+# You will need to get the jobid of the first script to pass to the command in the second qsub command.
+
+qsub -W depend=afterok:$JOB1 iteration2.pbs
+```
+
+You will see the second script will have flag `H` saying it has been held until script 1 has completed.
+
+If you find the task of entering all these qsub commands tediou you can also make a bash script like so:
 
 ```bash
 #!\bin\bash
@@ -180,10 +217,10 @@ JOB1=$(qsub iteration1.pbs)
 
 # Submit second pbs script and tell it to run only after the first has COMPLETED.
 # Save the second run id to JOB2
-JOB2=$(qsub -W depend=afterok:$JOB2 iteration2.pbs)
+JOB2=$(qsub -W depend=afterok:$JOB1 iteration2.pbs)
 ```
 
-You can chain as many iterations as necessary by continuing the above script.
+You can of course chain as many iterations as necessary by continuing the above script.
 
 ### Example 3: Add your own checkpointing to existing code
 
