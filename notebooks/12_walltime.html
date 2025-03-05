@@ -422,7 +422,7 @@ cookieconsent.run({
 <li>Run step 4 over each interval for each sample as a separate job, using the merged output of step 3, another 32 * 10 = 320 single-CPU jobs launched in parallel by <code>nci-parallel</code></li>
 <li>Merge the 32 outputs per sample into one final output file per sample with the tool’s merge function, using <code>nci-parallel</code> to launch the 10 sample * 1 CPU jobs</li>
 </ol>
-<p>As you can see, our workflow which was one long-running single job with very poor overall CPU utilisation has now been split into 7 jobs. This may sound tedious, yet the massively improve walltime and CPU utilisation will pay off, and you will get to your results in a much faster turnaround time with fewer KSU expended. In this example, <strong>walltime of 240 hours has been reduced to 10 hours!</strong>.</p>
+<p>As you can see, our workflow which was one long-running single job with very poor overall CPU utilisation has now been split into 7 jobs. This may sound tedious, yet the massively improved walltime and CPU utilisation will pay off, and you will get to your results in a much faster turnaround time with fewer KSU expended. In this example, <strong>walltime of 240 hours has been reduced to 10 hours!</strong></p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 6%">
@@ -486,7 +486,7 @@ cookieconsent.run({
 <tr class="even">
 <td>6</td>
 <td>Apply recalibration over intervals</td>
-<td>Output of step 2 + 5</td>
+<td>Output of steps 2 + 5</td>
 <td>&lt;1</td>
 <td>1</td>
 <td>320</td>
