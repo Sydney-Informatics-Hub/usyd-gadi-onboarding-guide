@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -214,12 +248,13 @@ cookieconsent.run({
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#gadi-walltime-limit" id="toc-gadi-walltime-limit" class="nav-link" data-scroll-target="#gadi-walltime-limit">Gadi walltime limit</a></li>
-  <li><a href="#split-your-job" id="toc-split-your-job" class="nav-link" data-scroll-target="#split-your-job">1. Split your job</a></li>
-  <li><a href="#use-nirin" id="toc-use-nirin" class="nav-link" data-scroll-target="#use-nirin">2. Use Nirin</a></li>
-  <li><a href="#gadi-special-walltime-request" id="toc-gadi-special-walltime-request" class="nav-link" data-scroll-target="#gadi-special-walltime-request">3. Gadi special walltime request</a></li>
+  <li><a href="#option-1.-split-or-checkpoint-your-job" id="toc-option-1.-split-or-checkpoint-your-job" class="nav-link" data-scroll-target="#option-1.-split-or-checkpoint-your-job">Option 1. Split or checkpoint your job</a></li>
+  <li><a href="#option-2.-use-nirin" id="toc-option-2.-use-nirin" class="nav-link" data-scroll-target="#option-2.-use-nirin">Option 2. Use Nirin</a></li>
+  <li><a href="#option-3.-gadi-special-walltime-request" id="toc-option-3.-gadi-special-walltime-request" class="nav-link" data-scroll-target="#option-3.-gadi-special-walltime-request">Option 3. Gadi special walltime request</a></li>
   <li><a href="#examples-of-splitcheckpointed-jobs" id="toc-examples-of-splitcheckpointed-jobs" class="nav-link" data-scroll-target="#examples-of-splitcheckpointed-jobs">Examples of split/checkpointed jobs</a>
   <ul class="collapse">
   <li><a href="#example-1-a-workflow-with-multiple-discrete-commands" id="toc-example-1-a-workflow-with-multiple-discrete-commands" class="nav-link" data-scroll-target="#example-1-a-workflow-with-multiple-discrete-commands">Example 1: A workflow with multiple discrete commands</a></li>
+  <li><a href="#example-2-tom-tbc" id="toc-example-2-tom-tbc" class="nav-link" data-scroll-target="#example-2-tom-tbc">Example 2: TOM TBC</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -265,7 +300,7 @@ cookieconsent.run({
 </section>
 <section id="gadi-walltime-limit" class="level2">
 <h2 class="anchored" data-anchor-id="gadi-walltime-limit">Gadi walltime limit</h2>
-<p>The maximum walltime permitted on any of the Gadi HPC queues is 48 hours. In some cases, the walltime may be less (for example when requesting large numbers of nodes, or on <code>copyq</code>).</p>
+<p>The maximum walltime permitted on any of the Gadi HPC queues is 48 hours. In some cases, the walltime may be less (for example when requesting large numbers of nodes, or on <code>copyq</code>). See the <code>Default walltime limit</code> column of the <a href="https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...">queue limits</a> tables to discover the maximum walltime that applies according to your resources requested.</p>
 <p>Given that Artemis has much longer maximum walltimes, we understand this may generate some apprehension. Staff at both NCI and SIH can support you in adapting your workflows to NCI if you are still having difficulty after reviewing the suggestons below.</p>
 <p>In short, there are 3 options to adapting a long-running Artemis workflow to NCI:</p>
 <ol type="1">
@@ -274,26 +309,26 @@ cookieconsent.run({
 <li>Special exception to the Gadi walltime limit granted on a case-by-case basis</li>
 </ol>
 </section>
-<section id="split-your-job" class="level2">
-<h2 class="anchored" data-anchor-id="split-your-job">1. Split your job</h2>
+<section id="option-1.-split-or-checkpoint-your-job" class="level2">
+<h2 class="anchored" data-anchor-id="option-1.-split-or-checkpoint-your-job">Option 1. Split or checkpoint your job</h2>
 <p>There are many advantages to splitting your job up into smaller discrete chunks.</p>
 <ol type="1">
 <li>Checkpointing: if one of your jobs in a series of fails, you only need to resubmit that discrete job script, rather than either the whole job or some finnicky “hashed out” version of your very long and comlex workflow script. This simplifies debugging and rerunning, saves you hands-on time and walltime, minimises errors, and saves KSU</li>
 <li>Ease of code maintenance: changing part of workflow, for example adjusting parameters, input files or software versions, is far simpler to implement for shorter chunks of code than it is for a long and complex code with many steps</li>
-<li>Ease of benchmarking: Different stages of a complex workflow typically have different compute requirements, for example some long running single core tasks coupled with some GPU tasks, some high memory, some high CPU tasks etc. <a href="../notebooks/10_job_efficiency.html">Benchamrking</a> is more straightforward and informative when performed on discrete workflow chunks.</li>
+<li>Ease of benchmarking: Different stages of a complex workflow typically have different compute requirements, for example some long running single core tasks coupled with some GPU tasks, some high memory, some high CPU tasks etc. <a href="../notebooks/10_job_efficiency.html">Benchmarking</a> is more straightforward and informative when performed on discrete workflow chunks.</li>
 <li>Greater job efficiency: By benchmarking and optimising the resource configurations for each stage of the workflow, the series of jobs can be placed on an appropriate queue, and will not be reserving (and being charged for) unused resources. This will reduce KSU usage and resource wastage.</li>
-<li>Shorter queue times: Requesting resources for a shorter walltime will result in a shorter queue time. The NCI scheduler is geared towards favouring ‘wider and shorter’ jobs, ie more CPUs/nodes for less time, over ‘taller and slimmer’ jobs (ie fewer CPUs/nodes for a longer time). For example a job may queue for less time if it requests 48 CPU for 1 hour, compred to 1 CPU for 48 hours. Of course the queue is highly dynamic and this cannot be predicted or calculated ahead of time, but in general, shorter walltimes will lead to shorter queue times.</li>
+<li>Shorter queue times: Requesting resources for a shorter walltime will result in a shorter queue time. The NCI scheduler is geared towards favouring ‘wider and shorter’ jobs, ie more CPUs/nodes for less time, over ‘taller and slimmer’ jobs (ie fewer CPUs/nodes for a longer time). For example a job may queue for less time if it requests 48 CPU for 1 hour, compared to 1 CPU for 48 hours. Of course the queue is highly dynamic and this cannot be predicted or calculated ahead of time, but in general, shorter walltimes will lead to shorter queue times.</li>
 </ol>
-<p>At the end of this section we will demonstrate a handful of <a href="#example-splitcheckpointed-jobs">examples</a> of real long-running Artemis workflows that have been adapted to fit within Gadi’s shorter maximum walltime.</p>
+<p>At the end of this section we will demonstrate a handful of <a href="#examples-of-splitcheckpointed-jobs">examples</a> of real long-running Artemis workflows that have been adapted to fit within Gadi’s shorter maximum walltime.</p>
 </section>
-<section id="use-nirin" class="level2">
-<h2 class="anchored" data-anchor-id="use-nirin">2. Use Nirin</h2>
+<section id="option-2.-use-nirin" class="level2">
+<h2 class="anchored" data-anchor-id="option-2.-use-nirin">Option 2. Use Nirin</h2>
 <p>Your NCI KSUs can be used on <a href="https://opus.nci.org.au/spaces/Help/pages/152207472/Nirin+Cloud+User+Guide?src=contextnavpagetreemode">Nirin</a> as well as Gadi. Nirin has the advantage of theoretically infinite walltime, along with internet access which is another limitation of the Gadi compute queues.</p>
 <p>As such, Nirin presents an easily accessible solution for users whose jobs are irreconcilably affected by the walltime and lack of internet access aspects of Gadi.</p>
 <p>The <a href="https://opus.nci.org.au/spaces/Help/pages/152207474/Nirin+-+Quick+Start+Guide">Nirin quickstart guide</a> walks you through the process of setting up your instance, including easy to follow screenshots for each step.</p>
 </section>
-<section id="gadi-special-walltime-request" class="level2">
-<h2 class="anchored" data-anchor-id="gadi-special-walltime-request">3. Gadi special walltime request</h2>
+<section id="option-3.-gadi-special-walltime-request" class="level2">
+<h2 class="anchored" data-anchor-id="option-3.-gadi-special-walltime-request">Option 3. Gadi special walltime request</h2>
 <p>If your job cannot be split/checkpointed into a series of shorter jobs, and the Nirin flavours are not suited to your compute needs, you can make a request to NCI for an increase to the walltime. NCI will ask you to provide details of your job including the relevant code saved on Gadi, as well as a description of why you require a lift to the walltime for this particular job.</p>
 <p>From the <a href="https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...">Gadi queue limits page</a>:</p>
 <p><em>“If a higher limit on core count (PBS_NCPUS) and walltime is needed, please launch a ticket on NCI help desk with a short description of the reasons why the exception is requested. For example, a current scalability study suggests linear speedup at the core count beyond the current PBS_NCPUS limit. We will endeavour to help on a case-by-case basis”</em></p>
@@ -303,11 +338,172 @@ cookieconsent.run({
 <section id="example-1-a-workflow-with-multiple-discrete-commands" class="level3">
 <h3 class="anchored" data-anchor-id="example-1-a-workflow-with-multiple-discrete-commands">Example 1: A workflow with multiple discrete commands</h3>
 <p>In the field of genomics, the raw data is processed through a series of steps before the final output files are produced. Many groups perform all of these steps within a single, multi-command job, in order to only have to run one job to perform all the work.</p>
-<p>By splitting apart each of these steps so that each is its own job, we have a much easier way of resuming from part way through the workflow if a job fails along the processing pathway, and we can also increase overall processing efficiency by assigning discrete chunks to the job queues that best meet those specific resource needs.</p>
+<p>By splitting apart each of these steps so that each is its own job, we can improve code manageability, reduce walltime, and increase overall processing efficiency.</p>
 <p>While this does require some extra effort in terms of submitting multiple processing jobs rather than just one, the benefits described above far outweigh this. The burden of multiple job submission can be ameliorated by parallel processing per sample, and even further by a workflow manager such as Nextflow. For an exammple Nextflow genomics processing workflow, view <a href="https://github.com/Sydney-Informatics-Hub/Parabricks-Genomics-nf">this repository</a>, and for parallel jobs on Gadi, see <a href="./13_parralel_jobs.qmd">this section</a>.</p>
-<p>In the below Artemis script example, the raw input data (<code>fastq</code> format) from each sequenced sample in an inputs list is quality checked, mapped to the reference sequence, and data recalibration performed. There are multiple inefficiencies within this method, giving rise to a walltime requirement of ~ 1 day per samnple plus a very low overall CPU utilisation of the job.</p>
+<p>In the below Artemis script example, a samplesheet is read in containing metadata about 10 samples to be analysed. Each sample has one pair of raw ‘fastq’ input files that are processed through an analysis loop containing 4 steps:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 28%">
+<col style="width: 28%">
+<col style="width: 20%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th>Task</th>
+<th>Input</th>
+<th>Walltime (hrs)</th>
+<th>CPUs used</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Quality check</td>
+<td>Raw data</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Map to reference</td>
+<td>Raw data</td>
+<td>7</td>
+<td>24</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Recalibration metrics</td>
+<td>Output of step 2</td>
+<td>5.5</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Apply recalibration</td>
+<td>Output of steps 2 + 3</td>
+<td>8.5</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>The total walltime is 23 hours per sample, so the requested walltime in the below script is 240 hours (10 samples x 24 hours per sample)</p>
+<p><strong>There are multiple inefficiencies within this method</strong>, giving rise to an inflated walltime requirement of ~ 1 day per samnple plus a very low overall CPU utilisation of the job.</p>
 <p><img src="../fig/dummy-artemis-genomics-script.png" class="img-fluid"></p>
-<p>Now compare the above to a Gadi workflow, where each of these 4 steps are separated into their own job, with appropriate resource requests per job:</p>
+<p>Now compare the above to a Gadi workflow, where each of these 4 steps are separated into their own job, with appropriate resource requests per job.</p>
+<p><strong>Job 1: Quality check</strong></p>
+<p>The <code>fastQC</code> tool can only run one thread per file. If you provide multiple files through <code>globbing</code>, and provide multiple CPUs to the <code>-t</code> flag, it will process as many files at a time as the value you have provided to <code>-t</code>.</p>
+<p>So for the current example with 10 samples each with a pair of files, we have 20 files and can run this section of the analysis workflow with 20 CPU. In this way, 100% of the 20 CPU requested are utilised, unlike the Artemis script above, where only one sample’s fastq files at a time could be analysed and thus used only 8.3% (2 CPU used of 24 requested).</p>
+<p><img src="../fig/dummy-gadi-fastqc-script.png" class="img-fluid"></p>
+<p><strong>Job 2: Map to reference</strong></p>
+<p>The <code>bwa</code> tool can multi-thread, and tool benchmarking in peer-reviewed literature shows almost perfect scalability up to a thread count of 36. Gadi <code>normal</code> queue has 48 CPU per node, so you could run this job with 48 CPU, assigning 36 CPU to the mapping and 12 CPU to the piped <code>sort</code> command.</p>
+<p>The key detail is to map each sample’s raw data as it’s own distinct job, instead of looping over each sample in series like the demo Artemis script. On Artemis, we can do this with <strong>job arrays</strong> but these are <em>not available on Gadi</em>. NCI and SIH recommend the use of <code>nci-parallel</code> (a custom wrapper utility for OpenMPI) for repeated runs of the same job script - see <a href="./13_parralel_jobs.qmd">parallel jobs on Gadi</a> for more details.</p>
+<p>To avoid complicating this walltime section, we will provide an example of using a simple <code>for loop</code> for job submission. <strong>NOTE: loops should ONLY be used for a VERY SMALL NUMBER OF JOBS, and always include a sleep in the loop!</strong> NCI does monitor the login nodes and serial offending with long <code>for loops</code> will be targeted!</p>
+<p>Note that the directive for job name is provided on the command line as an argument to <code>qsub</code>, the sample metadata is provided with the <code>qsub -v varname="varvalue"</code> syntax, and a 3-second <code>sleep</code> is used to avoid over-loading the job scheduler.</p>
+<p><strong><em>Script:</em></strong></p>
+<p><img src="../fig/dummy-gadi-bwa-script.png" class="img-fluid"></p>
+<p><strong><em>To submit 10 samples as separate jobs:</em></strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="bu">read</span> <span class="va">SAMPLE</span> <span class="va">FC</span> <span class="va">LN</span> <span class="va">LIB</span> <span class="va">PL</span> <span class="va">CN</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">qsub</span> <span class="at">-N</span> map-<span class="va">${SAMPLE}</span> <span class="at">-v</span> SAMPLE=<span class="st">"</span><span class="va">${SAMPLE}</span><span class="st">"</span>,FC=<span class="st">"</span><span class="va">${FC}</span><span class="st">"</span>,LN=<span class="st">"</span><span class="va">${LN}</span><span class="st">"</span>,LIB=<span class="st">"</span><span class="va">${LIB}</span><span class="st">"</span>,PL=<span class="st">"</span><span class="va">${PL}</span><span class="st">"</span>,CN=<span class="st">"</span><span class="va">${CN}</span><span class="st">"</span> step2_map.pbs </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sleep</span> 3</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span> <span class="op">&lt;</span> my_samples_metedata.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Job 3 and 4: Recalibration metrics and apply recalibration</strong></p>
+<p>Note from the table above that these two steps do not multi-thread, and both have long walltimes. If you require a task like this in your workflow, it’s critical to <strong>interrogate the tool documentation</strong> for ways to increase throughput and efficiency.</p>
+<p>Within this tool’s guide, we find there is a <code>-L</code> interval flag, which allows the tool to operate over discrete intervals of the reference file, rather than scanning the sample data over the whole reference file in one long running single-CPU task. The smaller the interval, the faster the run time, and the resultant output files are merged.</p>
+<p>Since this section is not a specialised bioinformatics training, we will not go into details for this tool here, but instead provide the main overview of steps and how with a bit of extra work, massive walltime savings can be made.</p>
+<p>Steps 3 and 4 from the Artemis workflow are now executed as 5 jobs:</p>
+<ol type="1">
+<li>Split the reference file into intervals using the tools’s split intervals function</li>
+<li>Run step 3 over each interval for each sample as a separate job. For 32 intervals and 10 samples, that is 32 * 10 = 320 single-CPU jobs. To do this, we would use <code>Open MPI</code> via <a href="https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...">nci-parallel</a></li>
+<li>Merge the 32 outputs per sample into a single per-sample file with the tool’s merge function, using <code>nci-parallel</code> to launch the 10 sample * 1 CPU jobs</li>
+<li>Run step 4 over each interval for each sample as a separate job, using the merged output of step 3, another 32 * 10 = 320 single-CPU jobs launched in parallel by <code>nci-parallel</code></li>
+<li>Merge the 32 outputs per sample into one final output file per sample with the tool’s merge function, using <code>nci-parallel</code> to launch the 10 sample * 1 CPU jobs</li>
+</ol>
+<p>As you can see, our workflow which was one long-running single job with very poor overall CPU utilisation has now been split into 7 jobs. This may sound tedious, yet the massively improve walltime and CPU utilisation will pay off, and you will get to your results in a much faster turnaround time with fewer KSU expended. In this example, <strong>walltime of 240 hours has been reduced to 10 hours!</strong>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 31%">
+<col style="width: 20%">
+<col style="width: 14%">
+<col style="width: 16%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th>Task</th>
+<th>Input</th>
+<th>Walltime (hrs)</th>
+<th>CPUs used per job</th>
+<th>CPUs total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Quality check</td>
+<td>Raw data</td>
+<td>2</td>
+<td>20</td>
+<td>20</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Map to reference</td>
+<td>Raw data</td>
+<td>7</td>
+<td>48</td>
+<td>480</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Split intervals</td>
+<td>Reference file</td>
+<td>&lt;1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Recalibration over intervals</td>
+<td>Output of steps 2 + 3</td>
+<td>&lt;1</td>
+<td>1</td>
+<td>320</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Merge recalibration tables</td>
+<td>Output of step 4</td>
+<td>&lt;1</td>
+<td>1</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Apply recalibration over intervals</td>
+<td>Output of step 2 + 5</td>
+<td>&lt;1</td>
+<td>1</td>
+<td>320</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Merge recalibrated final output</td>
+<td>Output of step 6</td>
+<td>&lt;1</td>
+<td>1</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="example-2-tom-tbc" class="level3">
+<h3 class="anchored" data-anchor-id="example-2-tom-tbc">Example 2: TOM TBC</h3>
 
 
 </section>
