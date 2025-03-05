@@ -1,24 +1,17 @@
 [
   {
-    "objectID": "tips_tricks.html",
-    "href": "tips_tricks.html",
-    "title": "Tips and tricks",
-    "section": "",
-    "text": "All materials copyright Sydney Informatics Hub, University of Sydney"
-  },
-  {
     "objectID": "notebooks/05_data_transfer.html",
     "href": "notebooks/05_data_transfer.html",
     "title": "Transferring data to and from Gadi",
     "section": "",
-    "text": "In this section, we will look at transferring data between the Research Data Store and Gadi.\nThe main challenges users may face adapting Artemis workflows to Gadi are:\n\nAdjusting PBS directives to suit Gadi requirements and queue structure\nLack of internet access for Gadi compute nodes\nData transfer\nGadi walltime limit of 48 hours\nUnderstanding NCI accounting of KSU, disk and iNode limits\nAutomatic 100-day Gadi /scratch purge policy\nSoftware installation and version upgrades on Gadi\nJob arrays not supported on Gadi\n\nIn this section, we will look at Data Transfer. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.\n\n\n\n\n\nMethod\nSuitable data size/type\nPros/Cons\n\n\n\n\nGUI based data transfer client e.g. filezilla or cyberduck\nOnly small files, config scripts etc.\n\nEasy to use\nHost computer can limit transfer speed\n\n\n\nsftp transfer from Gadi terminal\nFiles up to a few GB.\n\nConvenient for quickly copying data\nUses login node for computation\nCannot restart after interruption\n\n\n\nrsync transfer from Artemis terminal\nFiles up to a few GB.\n\nConvenient for quickly copying data\nCan restart after interruption\nUses login node for computation\nArtemis only around until August\n\n\n\nsftp copy using copyq\nLarge files and datasets to copy all in one go.\n\nRobust, runs in background\nFaster speed than lftp\nAlways copies all files\n\n\n\nlftp sync using copyq\nLarge datasets with many files and only a few updated with each transfer.\n\nRobust, runs in background\nOnly copies whats changed\nSlower speed than sftp\n\n\n\nArtemis rsync using dtq\nAny large dataset.\n\nRobust, runs in background\nOnly copies whats changed\nArtemis only around until August\n\n\n\nGlobus\nAny file/dataset size.\n\nShould do everything\n\nGUI\nTerminal copy and sync\ncopyq copy and sync\n\nUnknown time-frame for availability\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+    "text": "In this section, we will look at transferring data between the Research Data Store and Gadi.\nWatch the pre-recorded session\nThe main challenges users may face adapting Artemis workflows to Gadi are:\n\nAdjusting PBS directives to suit Gadi requirements and queue structure\nLack of internet access for Gadi compute nodes\nData transfer\nGadi walltime limit of 48 hours\nUnderstanding NCI accounting of KSU, disk and iNode limits\nAutomatic 100-day Gadi /scratch purge policy\nSoftware installation and version upgrades on Gadi\nJob arrays not supported on Gadi\n\nIn this section, we will look at Data Transfer. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.\n\n\n\n\n\nMethod\nSuitable data size/type\nPros/Cons\n\n\n\n\nGUI based data transfer client e.g. filezilla or cyberduck\nOnly small files, config scripts etc.\n\nEasy to use\nHost computer can limit transfer speed\n\n\n\nsftp transfer from Gadi terminal\nFiles up to a few GB.\n\nConvenient for quickly copying data\nUses login node for computation\nCannot restart after interruption\n\n\n\nrsync transfer from Artemis terminal\nFiles up to a few GB.\n\nConvenient for quickly copying data\nCan restart after interruption\nUses login node for computation\nArtemis only around until August\n\n\n\nsftp copy using copyq\nLarge files and datasets to copy all in one go.\n\nRobust, runs in background\nFaster speed than lftp\nAlways copies all files\n\n\n\nlftp sync using copyq\nLarge datasets with many files and only a few updated with each transfer.\n\nRobust, runs in background\nOnly copies whats changed\nSlower speed than sftp\n\n\n\nArtemis rsync using dtq\nAny large dataset.\n\nRobust, runs in background\nOnly copies whats changed\nArtemis only around until August\n\n\n\nGlobus\nAny file/dataset size.\n\nShould do everything\n\nGUI\nTerminal copy and sync\ncopyq copy and sync\n\nUnknown time-frame for availability"
   },
   {
     "objectID": "notebooks/05_data_transfer.html#introduction",
     "href": "notebooks/05_data_transfer.html#introduction",
     "title": "Transferring data to and from Gadi",
     "section": "",
-    "text": "In this section, we will look at transferring data between the Research Data Store and Gadi.\nThe main challenges users may face adapting Artemis workflows to Gadi are:\n\nAdjusting PBS directives to suit Gadi requirements and queue structure\nLack of internet access for Gadi compute nodes\nData transfer\nGadi walltime limit of 48 hours\nUnderstanding NCI accounting of KSU, disk and iNode limits\nAutomatic 100-day Gadi /scratch purge policy\nSoftware installation and version upgrades on Gadi\nJob arrays not supported on Gadi\n\nIn this section, we will look at Data Transfer. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.\n\n\n\n\n\nMethod\nSuitable data size/type\nPros/Cons\n\n\n\n\nGUI based data transfer client e.g. filezilla or cyberduck\nOnly small files, config scripts etc.\n\nEasy to use\nHost computer can limit transfer speed\n\n\n\nsftp transfer from Gadi terminal\nFiles up to a few GB.\n\nConvenient for quickly copying data\nUses login node for computation\nCannot restart after interruption\n\n\n\nrsync transfer from Artemis terminal\nFiles up to a few GB.\n\nConvenient for quickly copying data\nCan restart after interruption\nUses login node for computation\nArtemis only around until August\n\n\n\nsftp copy using copyq\nLarge files and datasets to copy all in one go.\n\nRobust, runs in background\nFaster speed than lftp\nAlways copies all files\n\n\n\nlftp sync using copyq\nLarge datasets with many files and only a few updated with each transfer.\n\nRobust, runs in background\nOnly copies whats changed\nSlower speed than sftp\n\n\n\nArtemis rsync using dtq\nAny large dataset.\n\nRobust, runs in background\nOnly copies whats changed\nArtemis only around until August\n\n\n\nGlobus\nAny file/dataset size.\n\nShould do everything\n\nGUI\nTerminal copy and sync\ncopyq copy and sync\n\nUnknown time-frame for availability"
+    "text": "In this section, we will look at transferring data between the Research Data Store and Gadi.\nWatch the pre-recorded session\nThe main challenges users may face adapting Artemis workflows to Gadi are:\n\nAdjusting PBS directives to suit Gadi requirements and queue structure\nLack of internet access for Gadi compute nodes\nData transfer\nGadi walltime limit of 48 hours\nUnderstanding NCI accounting of KSU, disk and iNode limits\nAutomatic 100-day Gadi /scratch purge policy\nSoftware installation and version upgrades on Gadi\nJob arrays not supported on Gadi\n\nIn this section, we will look at Data Transfer. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.\n\n\n\n\n\nMethod\nSuitable data size/type\nPros/Cons\n\n\n\n\nGUI based data transfer client e.g. filezilla or cyberduck\nOnly small files, config scripts etc.\n\nEasy to use\nHost computer can limit transfer speed\n\n\n\nsftp transfer from Gadi terminal\nFiles up to a few GB.\n\nConvenient for quickly copying data\nUses login node for computation\nCannot restart after interruption\n\n\n\nrsync transfer from Artemis terminal\nFiles up to a few GB.\n\nConvenient for quickly copying data\nCan restart after interruption\nUses login node for computation\nArtemis only around until August\n\n\n\nsftp copy using copyq\nLarge files and datasets to copy all in one go.\n\nRobust, runs in background\nFaster speed than lftp\nAlways copies all files\n\n\n\nlftp sync using copyq\nLarge datasets with many files and only a few updated with each transfer.\n\nRobust, runs in background\nOnly copies whats changed\nSlower speed than sftp\n\n\n\nArtemis rsync using dtq\nAny large dataset.\n\nRobust, runs in background\nOnly copies whats changed\nArtemis only around until August\n\n\n\nGlobus\nAny file/dataset size.\n\nShould do everything\n\nGUI\nTerminal copy and sync\ncopyq copy and sync\n\nUnknown time-frame for availability"
   },
   {
     "objectID": "notebooks/05_data_transfer.html#where-to-put-project-files-on-gadi",
@@ -46,7 +39,7 @@
     "href": "notebooks/10_job_efficiency.html",
     "title": "Optimising your job",
     "section": "",
-    "text": "COMING SOON - NOT COMPLETE!\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+    "text": "COMING SOON - NOT COMPLETE!"
   },
   {
     "objectID": "notebooks/10_job_efficiency.html#simple-example-1",
@@ -102,14 +95,14 @@
     "href": "notebooks/06_accounting.html",
     "title": "Accounting",
     "section": "",
-    "text": "Coming soon! For now, see: https://opus.nci.org.au/spaces/Help/pages/236881132/Allocations…\n\n\n\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+    "text": "Coming soon! For now, see: https://opus.nci.org.au/spaces/Help/pages/236881132/Allocations…"
   },
   {
     "objectID": "notebooks/03_expectations.html",
     "href": "notebooks/03_expectations.html",
     "title": "What does the system expect of its users?",
     "section": "",
-    "text": "The do’s and don’ts of using Gadi\nSIH Into to Gadi HPC tutorial\nPro tips for bioinformatics on HPC webinar\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+    "text": "The do’s and don’ts of using Gadi\nSIH Into to Gadi HPC tutorial\nPro tips for bioinformatics on HPC webinar"
   },
   {
     "objectID": "notebooks/03_expectations.html#what-is-high-performance-computing",
@@ -137,7 +130,7 @@
     "href": "notebooks/11_software.html",
     "title": "Software options on Gadi",
     "section": "",
-    "text": "global apps\nspecialised environments\nself-installed tools\nsingularity containers\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+    "text": "global apps\nspecialised environments\nself-installed tools\nsingularity containers"
   },
   {
     "objectID": "notebooks/11_software.html#global-apps",
@@ -172,7 +165,7 @@
     "href": "notebooks/12_walltime.html",
     "title": "Working within walltime limits",
     "section": "",
-    "text": "TO BE COMPLETED\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+    "text": "TO BE COMPLETED"
   },
   {
     "objectID": "notebooks/12_walltime.html#introduction",
@@ -221,7 +214,7 @@
     "href": "notebooks/02_system_setup.html",
     "title": "How is the system set up?",
     "section": "",
-    "text": "This section will point you to the right sections of the NCI documentation and user guides to get you started on the Gadi HPC system.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+    "text": "This section will point you to the right sections of the NCI documentation and user guides to get you started on the Gadi HPC system."
   },
   {
     "objectID": "notebooks/02_system_setup.html#resources",
@@ -277,7 +270,7 @@
     "href": "notebooks/00_gadi_access.html",
     "title": "Accessing NCI",
     "section": "",
-    "text": "To access any of NCI’s computing platforms including Gadi HPC, you first need to create an NCI account. You will also need to either create a new project or request to join an existing one. You can be a member of multiple projects.\nAll new users must create their account through the NCI online self service portal. To create your account you will need the following information:\nNote that resources at NCI are allocated to projects and not to individual users.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+    "text": "To access any of NCI’s computing platforms including Gadi HPC, you first need to create an NCI account. You will also need to either create a new project or request to join an existing one. You can be a member of multiple projects.\nAll new users must create their account through the NCI online self service portal. To create your account you will need the following information:\nNote that resources at NCI are allocated to projects and not to individual users."
   },
   {
     "objectID": "notebooks/00_gadi_access.html#create-an-account-and-join-an-existing-project",
@@ -305,14 +298,14 @@
     "href": "notebooks/08_job_script.html",
     "title": "Running jobs on Gadi",
     "section": "",
-    "text": "In this section, we will compare Artemis job scripts to Gadi job scripts, and provide some guidance on how to adapt your Artemis workflow to NCI Gadi HPC.\nThe main challenges users may face adapting Artemis workflows to Gadi are:\n\nAdjusting PBS directives to suit Gadi requirements and queue structure\nLack of internet access for Gadi compute nodes\nData transfer\nGadi walltime limit of 48 hours\nUnderstanding NCI accounting of KSU, disk and iNode limits\nAutomatic 100-day Gadi /scratch purge policy\nSoftware installation and version upgrades on Gadi\nJob arrays not supported on Gadi\n\nIn this section, we will look at the first two on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+    "text": "In this section, we will compare Artemis job scripts to Gadi job scripts, and provide some guidance on how to adapt your Artemis workflow to NCI Gadi HPC.\nWatch the pre-recorded session\nThe main challenges users may face adapting Artemis workflows to Gadi are:\n\nAdjusting PBS directives to suit Gadi requirements and queue structure\nLack of internet access for Gadi compute nodes\nData transfer\nGadi walltime limit of 48 hours\nUnderstanding NCI accounting of KSU, disk and iNode limits\nAutomatic 100-day Gadi /scratch purge policy\nSoftware installation and version upgrades on Gadi\nJob arrays not supported on Gadi\n\nIn this section, we will look at the first two on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date."
   },
   {
     "objectID": "notebooks/08_job_script.html#introduction",
     "href": "notebooks/08_job_script.html#introduction",
     "title": "Running jobs on Gadi",
     "section": "",
-    "text": "In this section, we will compare Artemis job scripts to Gadi job scripts, and provide some guidance on how to adapt your Artemis workflow to NCI Gadi HPC.\nThe main challenges users may face adapting Artemis workflows to Gadi are:\n\nAdjusting PBS directives to suit Gadi requirements and queue structure\nLack of internet access for Gadi compute nodes\nData transfer\nGadi walltime limit of 48 hours\nUnderstanding NCI accounting of KSU, disk and iNode limits\nAutomatic 100-day Gadi /scratch purge policy\nSoftware installation and version upgrades on Gadi\nJob arrays not supported on Gadi\n\nIn this section, we will look at the first two on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date."
+    "text": "In this section, we will compare Artemis job scripts to Gadi job scripts, and provide some guidance on how to adapt your Artemis workflow to NCI Gadi HPC.\nWatch the pre-recorded session\nThe main challenges users may face adapting Artemis workflows to Gadi are:\n\nAdjusting PBS directives to suit Gadi requirements and queue structure\nLack of internet access for Gadi compute nodes\nData transfer\nGadi walltime limit of 48 hours\nUnderstanding NCI accounting of KSU, disk and iNode limits\nAutomatic 100-day Gadi /scratch purge policy\nSoftware installation and version upgrades on Gadi\nJob arrays not supported on Gadi\n\nIn this section, we will look at the first two on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date."
   },
   {
     "objectID": "notebooks/08_job_script.html#job-scheduler",
@@ -382,7 +375,7 @@
     "href": "notebooks/09_job_monitoring.html",
     "title": "Monitoring your job",
     "section": "",
-    "text": "You should monitor your jobs to keep track of their progress but refrain from checking your jobs too frequently. Repeated queries will be considered attacks, especially in quick succession and you may get a warning from NCI. NCI recommends querying your jobs’ status a maximum of once every 10 minutes.\nLike Artemis, you can use the qstat command to monitor jobs on Gadi. The NCI Gadi job monitoring page describes some commonly used flags to qstat.\nYou can also use the bespoke nqstat_anu utility (ANU = The Australian National University, where Gadi is housed) which provides a way of observing how much CPU and memory your job is currently using.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+    "text": "You should monitor your jobs to keep track of their progress but refrain from checking your jobs too frequently. Repeated queries will be considered attacks, especially in quick succession and you may get a warning from NCI. NCI recommends querying your jobs’ status a maximum of once every 10 minutes.\nLike Artemis, you can use the qstat command to monitor jobs on Gadi. The NCI Gadi job monitoring page describes some commonly used flags to qstat.\nYou can also use the bespoke nqstat_anu utility (ANU = The Australian National University, where Gadi is housed) which provides a way of observing how much CPU and memory your job is currently using."
   },
   {
     "objectID": "notebooks/09_job_monitoring.html#job-monitoring",
@@ -410,7 +403,7 @@
     "href": "notebooks/13_parallel_jobs.html",
     "title": "Running parallel jobs on Gadi",
     "section": "",
-    "text": "TO BE COMPLETED\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+    "text": "TO BE COMPLETED"
   },
   {
     "objectID": "notebooks/13_parallel_jobs.html#introduction",
@@ -431,7 +424,7 @@
     "href": "notebooks/01_setup.html",
     "title": "Set up your computer",
     "section": "",
-    "text": "Before accessing Gadi, you will need to have an NCI account. Ensure you have completed this step by following directions on the Gadi Access instructions on the previous page before proceeding.\nTo work on NCI Gadi, you will need to use a terminal application on your local computer or work on NCI’s Australian Research Environment (ARE) platform, which includes a web-based terminal interface to Gadi. If you already have a terminal application that you have used to access Artemis, for example putty or Mac term, you can continue to use that.\nBelow we will describe 3 options for accessing Gadi:\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+    "text": "Before accessing Gadi, you will need to have an NCI account. Ensure you have completed this step by following directions on the Gadi Access instructions on the previous page before proceeding.\nTo work on NCI Gadi, you will need to use a terminal application on your local computer or work on NCI’s Australian Research Environment (ARE) platform, which includes a web-based terminal interface to Gadi. If you already have a terminal application that you have used to access Artemis, for example putty or Mac term, you can continue to use that.\nBelow we will describe 3 options for accessing Gadi:"
   },
   {
     "objectID": "notebooks/01_setup.html#use-ncis-are-platform",
@@ -466,7 +459,7 @@
     "href": "notebooks/04_command_line.html",
     "title": "Command line environment",
     "section": "",
-    "text": "Working on Gadi will require you to have reasonable confidence on the Linux/Unix command line.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+    "text": "Working on Gadi will require you to have reasonable confidence on the Linux/Unix command line."
   },
   {
     "objectID": "notebooks/04_command_line.html#linux-command-line-training",
@@ -480,7 +473,7 @@
     "href": "index.html",
     "title": "NCI for USyd researchers",
     "section": "",
-    "text": "National Computational Infrastructure (NCI) is a services facility that provides high performance computing (HPC), cloud computing, and data services to Australian researchers.\nOur insitutional HPC ‘Artemis’ will be de-comissioned in August 2025. NCI has been chosen as the replacement computing platform. All staff and students with a valid University of Sydney unikey can access NCI computing time under the NCI-Sydney Scheme.\nIf HPC is not suitable for your workload, please consider NCI cloud or virtual research desktops. We are confident that your research computing will be well-supported by these platforms.\nThis site is focused on the use of NCI’s Gadi HPC, in the context of University of Sydney researchers.\nPlease be mindful this is not an exhaustive resource for using Gadi. It is only intended to orient you to the system and navigate the comprehensive NCI user documentation.\nAll materials copyright Sydney Informatics Hub, University of Sydney"
+    "text": "National Computational Infrastructure (NCI) is a services facility that provides high performance computing (HPC), cloud computing, and data services to Australian researchers.\nOur insitutional HPC ‘Artemis’ will be de-comissioned in August 2025. NCI has been chosen as the replacement computing platform. All staff and students with a valid University of Sydney unikey can access NCI computing time under the NCI-Sydney Scheme.\nIf HPC is not suitable for your workload, please consider NCI cloud or virtual research desktops. We are confident that your research computing will be well-supported by these platforms.\nThis site is focused on the use of NCI’s Gadi HPC, in the context of University of Sydney researchers.\nPlease be mindful this is not an exhaustive resource for using Gadi. It is only intended to orient you to the system and navigate the comprehensive NCI user documentation."
   },
   {
     "objectID": "index.html#support",
