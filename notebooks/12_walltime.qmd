@@ -153,7 +153,7 @@ Steps 3 and 4 from the Artemis workflow are now executed as 5 jobs:
 4. Run step 4 over each interval for each sample as a separate job, using the merged output of step 3, another 32 * 10 = 320 single-CPU jobs launched in parallel by `nci-parallel`
 5. Merge the 32 outputs per sample into one final output file per sample with the tool's merge function, using `nci-parallel` to launch the 10 sample * 1 CPU jobs
 
-As you can see, our workflow which was one long-running single job with very poor overall CPU utilisation has now been split into 7 jobs. This may sound tedious, yet the massively improve walltime and CPU utilisation will pay off, and you will get to your results in a much faster turnaround time with fewer KSU expended. In this example, **walltime of 240 hours has been reduced to 10 hours!**. 
+As you can see, our workflow which was one long-running single job with very poor overall CPU utilisation has now been split into 7 jobs. This may sound tedious, yet the massively improved walltime and CPU utilisation will pay off, and you will get to your results in a much faster turnaround time with fewer KSU expended. In this example, **walltime of 240 hours has been reduced to 10 hours!** 
 
  Step  | Task                               | Input                 | Walltime (hrs) | CPUs used per job | CPUs total |
 |-------|------------------------------------|-----------------------|----------------|-------------------|------------|
@@ -162,7 +162,7 @@ As you can see, our workflow which was one long-running single job with very poo
 | 3     | Split intervals                    | Reference file        | <1             | 1                 | 1          |
 | 4     | Recalibration over intervals       | Output of steps 2 + 3 | <1             | 1                 | 320        |
 | 5     | Merge recalibration tables         | Output of step 4      | <1             | 1                 | 10         |
-| 6     | Apply recalibration over intervals | Output of step 2 + 5  | <1             | 1                 | 320        |
+| 6     | Apply recalibration over intervals | Output of steps 2 + 5 | <1             | 1                 | 320        |
 | 7     | Merge recalibrated final output    | Output of step 6      | <1             | 1                 | 10         |
 
 
