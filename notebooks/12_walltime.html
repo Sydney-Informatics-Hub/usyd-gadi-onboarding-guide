@@ -217,6 +217,10 @@ cookieconsent.run({
   <li><a href="#split-your-job" id="toc-split-your-job" class="nav-link" data-scroll-target="#split-your-job">1. Split your job</a></li>
   <li><a href="#use-nirin" id="toc-use-nirin" class="nav-link" data-scroll-target="#use-nirin">2. Use Nirin</a></li>
   <li><a href="#gadi-special-walltime-request" id="toc-gadi-special-walltime-request" class="nav-link" data-scroll-target="#gadi-special-walltime-request">3. Gadi special walltime request</a></li>
+  <li><a href="#examples-of-splitcheckpointed-jobs" id="toc-examples-of-splitcheckpointed-jobs" class="nav-link" data-scroll-target="#examples-of-splitcheckpointed-jobs">Examples of split/checkpointed jobs</a>
+  <ul class="collapse">
+  <li><a href="#example-1-a-workflow-with-multiple-discrete-commands" id="toc-example-1-a-workflow-with-multiple-discrete-commands" class="nav-link" data-scroll-target="#example-1-a-workflow-with-multiple-discrete-commands">Example 1: A workflow with multiple discrete commands</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -278,8 +282,9 @@ cookieconsent.run({
 <li>Ease of code maintenance: changing part of workflow, for example adjusting parameters, input files or software versions, is far simpler to implement for shorter chunks of code than it is for a long and complex code with many steps</li>
 <li>Ease of benchmarking: Different stages of a complex workflow typically have different compute requirements, for example some long running single core tasks coupled with some GPU tasks, some high memory, some high CPU tasks etc. <a href="../notebooks/10_job_efficiency.html">Benchamrking</a> is more straightforward and informative when performed on discrete workflow chunks.</li>
 <li>Greater job efficiency: By benchmarking and optimising the resource configurations for each stage of the workflow, the series of jobs can be placed on an appropriate queue, and will not be reserving (and being charged for) unused resources. This will reduce KSU usage and resource wastage.</li>
-<li>Shorter queue times: Requesting resources for a shorter walltime will result in a shorter queue time. The NCI scheduler is geared towards favouring ‘wider and shorter’ jobs, ie more CPUs/nodes for less time, over ‘taller and slimmer’ jobs (ie fewer CPUs/nodes for a longer time). For example a job may queue for less time if it requests 48 CPU for 1 hour, compred to 1 CPU for 48 hours. Of course the queue is highly dynamic and this cannotbe predicted or calculated ahead of time, but in general, shorter walltimes will lead to shorter queue times.</li>
+<li>Shorter queue times: Requesting resources for a shorter walltime will result in a shorter queue time. The NCI scheduler is geared towards favouring ‘wider and shorter’ jobs, ie more CPUs/nodes for less time, over ‘taller and slimmer’ jobs (ie fewer CPUs/nodes for a longer time). For example a job may queue for less time if it requests 48 CPU for 1 hour, compred to 1 CPU for 48 hours. Of course the queue is highly dynamic and this cannot be predicted or calculated ahead of time, but in general, shorter walltimes will lead to shorter queue times.</li>
 </ol>
+<p>At the end of this section we will demonstrate a handful of <a href="#example-splitcheckpointed-jobs">examples</a> of real long-running Artemis workflows that have been adapted to fit within Gadi’s shorter maximum walltime.</p>
 </section>
 <section id="use-nirin" class="level2">
 <h2 class="anchored" data-anchor-id="use-nirin">2. Use Nirin</h2>
@@ -292,8 +297,20 @@ cookieconsent.run({
 <p>If your job cannot be split/checkpointed into a series of shorter jobs, and the Nirin flavours are not suited to your compute needs, you can make a request to NCI for an increase to the walltime. NCI will ask you to provide details of your job including the relevant code saved on Gadi, as well as a description of why you require a lift to the walltime for this particular job.</p>
 <p>From the <a href="https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...">Gadi queue limits page</a>:</p>
 <p><em>“If a higher limit on core count (PBS_NCPUS) and walltime is needed, please launch a ticket on NCI help desk with a short description of the reasons why the exception is requested. For example, a current scalability study suggests linear speedup at the core count beyond the current PBS_NCPUS limit. We will endeavour to help on a case-by-case basis”</em></p>
+</section>
+<section id="examples-of-splitcheckpointed-jobs" class="level2">
+<h2 class="anchored" data-anchor-id="examples-of-splitcheckpointed-jobs">Examples of split/checkpointed jobs</h2>
+<section id="example-1-a-workflow-with-multiple-discrete-commands" class="level3">
+<h3 class="anchored" data-anchor-id="example-1-a-workflow-with-multiple-discrete-commands">Example 1: A workflow with multiple discrete commands</h3>
+<p>In the field of genomics, the raw data is processed through a series of steps before the final output files are produced. Many groups perform all of these steps within a single, multi-command job, in order to only have to run one job to perform all the work.</p>
+<p>By splitting apart each of these steps so that each is its own job, we have a much easier way of resuming from part way through the workflow if a job fails along the processing pathway, and we can also increase overall processing efficiency by assigning discrete chunks to the job queues that best meet those specific resource needs.</p>
+<p>While this does require some extra effort in terms of submitting multiple processing jobs rather than just one, the benefits described above far outweigh this. The burden of multiple job submission can be ameliorated by parallel processing per sample, and even further by a workflow manager such as Nextflow. For an exammple Nextflow genomics processing workflow, view <a href="https://github.com/Sydney-Informatics-Hub/Parabricks-Genomics-nf">this repository</a>, and for parallel jobs on Gadi, see <a href="./13_parralel_jobs.qmd">this section</a>.</p>
+<p>In the below Artemis script example, the raw input data (<code>fastq</code> format) from each sequenced sample in an inputs list is quality checked, mapped to the reference sequence, and data recalibration performed. There are multiple inefficiencies within this method, giving rise to a walltime requirement of ~ 1 day per samnple plus a very low overall CPU utilisation of the job.</p>
+<p><img src="../fig/dummy-artemis-genomics-script.png" class="img-fluid"></p>
+<p>Now compare the above to a Gadi workflow, where each of these 4 steps are separated into their own job, with appropriate resource requests per job:</p>
 
 
+</section>
 </section>
 
 <p>All materials copyright Sydney Informatics Hub, University of Sydney</p></main> <!-- /main -->
