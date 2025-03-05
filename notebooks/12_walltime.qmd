@@ -49,8 +49,9 @@ There are many advantages to splitting your job up into smaller discrete chunks.
 3. Ease of benchmarking: Different stages of a complex workflow typically have different compute requirements, for example some long running single core tasks coupled with some GPU tasks, some high memory, some high CPU tasks etc. [Benchamrking](./10_job_efficiency.qmd) is more straightforward and informative when performed on discrete workflow chunks. 
 4. Greater job efficiency: By benchmarking and optimising the resource configurations for each stage of the workflow, the series of jobs can be placed on an appropriate queue, and will not be reserving (and being charged for) unused resources. This will reduce KSU usage and resource wastage. 
 5. Shorter queue times: Requesting resources for a shorter walltime will result in a shorter queue time. The NCI scheduler is geared towards favouring 'wider and shorter'
- jobs, ie more CPUs/nodes for less time, over 'taller and slimmer' jobs (ie fewer CPUs/nodes for a longer time). For example a job may queue for less time if it requests 48 CPU for 1 hour, compred to 1 CPU for 48 hours. Of course the queue is highly dynamic and this cannotbe predicted or calculated ahead of time, but in general, shorter walltimes will lead to shorter queue times. 
+ jobs, ie more CPUs/nodes for less time, over 'taller and slimmer' jobs (ie fewer CPUs/nodes for a longer time). For example a job may queue for less time if it requests 48 CPU for 1 hour, compred to 1 CPU for 48 hours. Of course the queue is highly dynamic and this cannot be predicted or calculated ahead of time, but in general, shorter walltimes will lead to shorter queue times. 
 
+At the end of this section we will demonstrate a handful of [examples](#example-splitcheckpointed-jobs) of real long-running Artemis workflows that have been adapted to fit within Gadi's shorter maximum walltime. 
 
 ## 2. Use Nirin
 
@@ -68,4 +69,25 @@ From the [Gadi queue limits page](https://opus.nci.org.au/spaces/Help/pages/2368
 
 
 *"If a higher limit on core count (PBS_NCPUS) and walltime is needed, please launch a ticket on NCI help desk with a short description of the reasons why the exception is requested. For example, a current scalability study suggests linear speedup at the core count beyond the current PBS_NCPUS limit. We will endeavour to help on a case-by-case basis"*
+
+## Examples of split/checkpointed jobs
+
+### Example 1: A workflow with multiple discrete commands
+
+In the field of genomics, the raw data is processed through a series of steps before the final output files are produced. Many groups perform all of these steps within a single, multi-command job, in order to only have to run one job to perform all the work. 
+
+By splitting apart each of these steps so that each is its own job, we have a much easier way of resuming from part way through the workflow if a job fails along the processing pathway, and we can also increase overall processing efficiency by assigning discrete chunks to the job queues that best meet those specific resource needs. 
+
+While this does require some extra effort in terms of submitting multiple processing jobs rather than just one, the benefits described above far outweigh this. The burden of multiple job submission can be ameliorated by parallel processing per sample, and even further by a workflow manager such as Nextflow. For an exammple Nextflow genomics processing workflow, view [this repository](https://github.com/Sydney-Informatics-Hub/Parabricks-Genomics-nf), and for parallel jobs on Gadi, see [this section](./13_parralel_jobs.qmd). 
+
+
+In the below Artemis script example, the raw input data (`fastq` format) from each sequenced sample in an inputs list is quality checked, mapped to the reference sequence, and data recalibration performed. There are multiple inefficiencies within this method, giving rise to a walltime requirement of ~ 1 day per samnple plus a very low overall CPU utilisation of the job.   
+
+
+![](../fig/dummy-artemis-genomics-script.png)
+
+
+Now compare the above to a Gadi workflow, where each of these 4 steps are separated into their own job, with appropriate resource requests per job:
+
+
 
