@@ -9,6 +9,8 @@ from: markdown+emoji
 ## Introduction
  
 In this section, we will look at transferring data between the Research Data Store and Gadi.
+
+[Watch the pre-recorded session](https://youtu.be/ZBOycXymok4)
  
 The main challenges users may face adapting Artemis workflows to Gadi are:
  
