@@ -1,5 +1,5 @@
 ---
-title: "**Accessing your Gadi project**"
+title: "**Accessing NCI**"
 output:
   html_document:
     toc: false
@@ -7,23 +7,7 @@ output:
 from: markdown+emoji
 ---
 
-National Computational Infrastructure (NCI) is a services facility that provides high performance computing (HPC), cloud and data services to Australian researchers.
-
-Gadi is the name of NCI’s HPC facility, located at ANU (Canberra). The system is suitable for:
-
-* Software that can utilise multiple nodes
-* Highly CPU efficient workflows
-* Scalable workflows
-* Users with moderate HPC experience
-
-## **Resources**
-
-- [Getting Started at NCI](https://opus.nci.org.au/)
-- [Gadi User Guide](https://opus.nci.org.au/display/Help/Gadi+User+Guide)
-- [Gadi FAQs](https://opus.nci.org.au/pages/viewpage.action?pageId=236881318)
-- [Pro tips for bioinformatics on HPC](https://www.biocommons.org.au/events/workflows-hpc): [recording](https://youtu.be/YKJDRXCmGMo) and [slides](https://zenodo.org/record/8008227)
-
-## **Set up your NCI Account**
+To access any of NCI's computing platforms including Gadi HPC, you first need to create an NCI account. You will also need to either create a new project or request to join an existing one. You can be a member of multiple projects. 
 
 All new users must create their account through the [NCI online self service portal](https://my.nci.org.au/mancini/login?next=/mancini/). To create your account you will need the following information:
 
@@ -36,7 +20,9 @@ All new users must create their account through the [NCI online self service por
 
 Note that resources at NCI are allocated to **projects** and not to individual users.
 
-Complete all steps below to set up an NCI account:
+
+
+## Create an account and join an existing project 
 
 1. Click on 'Sign up' link on the [NCI online self service portal](https://my.nci.org.au/mancini/login?next=/mancini/): 
 ![](../fig/gadi_login.png)
@@ -47,16 +33,48 @@ Complete all steps below to set up an NCI account:
 3. Provide your personal details: 
 ![](../fig/gadi_step2.png)
 
-4. Provide details on the project you'll be working on. Select `I need to join one or more existing projects`. Ask Marina for your group's project code to write in the `Projects` menu: 
+4. Provide details on the project you'll be working on. Select `I need to join one or more existing projects`. Enter the NCI project code (eg `qc03` for the SIH training project) in the `Projects` menu: 
 ![](../fig/gadi_step3.png)
 
-5. Select University of Sydney as you institution: 
+5. Select University of Sydney as your institution: 
 ![](../fig/gadi_step4.png)
 
-Your username will become active when a project Lead CI approves your request to join their project, or when a Scheme Manager approves your new project proposal. You will receive a confirmation email from the Mancini system when your username is activated.
+Your username will become active when a project Lead CI approves your request to join their project. You will receive a confirmation email from the Mancini system when your username is activated.
 
-## **Manage your NCI Account**
 
-You can manage your account details and request access to new or existing projects through the [NCI online self service portal](https://my.nci.org.au/mancini/login?next=/mancini/). 
+## Create an account and propose a new project 
 
-Once your access to your group's Gadi project has been confirmed, you can set up your computer and log in to Gadi. See the [setup](../setup.qmd) instructions for how to log in to the HPC system. 
+1. To create your account, follow the first three steps from the above section 
+
+2. On the NCI page `Step 3 of 5 - Project`, select `I intend to propose a new project` 
+
+3. Complete the account creation form and verify your account by following the account verification email
+
+4. Once activated, you can login to [MyNCI](https://my.nci.org.au/mancini/) and propose a new project by selecting this from the menu bar on the left:
+
+![](../fig/propose_new_project.png)
+
+5. Follow the prompts to fill the form for your proposed project 
+
+6. At `Propose a project: step 5 of 10`, select `University of Sydney`
+
+7. At `Propose a project: step 6 of 10`, select `Gadi (at NCI)` under `HPC Compute`. Most projects will not require `massdata`. Some may require `gdata`, and this can be added later if necessary. All new projects are allocated some scratch space and this comes at no charge, however the other two file systems have an attached cost. 
+
+6. At `Propose a project: step 7 of 10`, you are asked to fill in your initial resource requirements in `KSU`. One KSU is 1,000 service units, which is roughly equivalent to 500 CPU hours depending on the type of resource used. We expect 1 KSU to be a sufficient starting amount for most projects coming from Artemis. If you have a good understanding that you will require more than this, please enter those values here. They can easily and quickly be increased at a later date if needed. 
+
+7. Complete the rest of the form, ensuring that you carefully review the terms and conditions of use and declare the status of your project in relation to the Defence Trade Controls Act.
+
+Your new project will become active when a USyd Scheme Manager approves your new project proposal. 
+
+
+## I already have an NCI account, how can I join an existing project?
+
+1. Login to [MyNCI](https://my.nci.org.au/mancini/) and select `Projects and groups` from the menu bar on the left
+
+2. Switch the tab to `Find project or group` and search for the project you wish to join
+
+![](../fig/search-for-project.png)
+
+3. Select the project from the search results, confirm the project by checking the overview, then switch the tab to `Join`
+
+4. After agreeing to the terms and conditions, select `Request membership`. You membership needs to be approved by the Lead Chief Investigator

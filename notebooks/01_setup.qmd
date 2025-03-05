@@ -7,11 +7,18 @@ output:
 from: markdown+emoji
 ---
 
-To work on NCI Gadi, you will need to either install a terminal application on your computer or work on [NCI's Australian Research Environment (ARE)](https://are.nci.org.au/) platform. Before accessing Gadi, you will need to have an NCI account. Ensure you have completed this step by following directions on the [Gadi Access instructions](./notebooks/gadi_access.qmd) on the previous page before proceeding. 
+Before accessing Gadi, you will need to have an NCI account. Ensure you have completed this step by following directions on the [Gadi Access instructions](./notebooks/gadi_access.qmd) on the previous page before proceeding. 
 
-In order to work on Gadi, you'll need a terminal application. A terminal is a text-based interface to your computer. It's a program that takes text commands and passes them to the operating system to execute. We suggest you use one of the following options: 
+To work on NCI Gadi, you will need to use a **terminal application** on your local computer *or* work on [NCI's Australian Research Environment (ARE)](https://are.nci.org.au/) platform, which includes a web-based terminal interface to Gadi. If you already have a terminal application that you have used to access Artemis, for example `putty` or Mac `term`, you can continue to use that. 
 
-## **Option 1: Use NCI's ARE platform**
+Below we will describe 3 options for accessing Gadi:
+
+1. Use the web-based terminal provided by NCI's ARE platform
+2. Install Visual Studio Code, an integrated development environment with terminal and many other features
+3. Use a terminal application installed on your local computer
+
+
+## Use NCI's ARE platform
 
 ::: {.callout-note}
 
@@ -22,12 +29,11 @@ This is a very lightweight solution for accessing Gadi, some interactive tools l
 NCI has created a web-based graphical interface for accessing their systems. It is very simple to use and recommended over access methods described below for beginners. 
 
 
-
 See NCI's User Guide for instructions on how to access and use [ARE](https://opus.nci.org.au/display/Help/ARE+User+Guide). 
 
 
 
-## **Option 2: Install Visual Studio Code on your computer**
+## Install Visual Studio Code
 
 ::: {.callout-note}
 
@@ -35,7 +41,7 @@ See NCI's User Guide for instructions on how to access and use [ARE](https://opu
 This is a more advanced solution for accessing Gadi, with more customisation options. We recommended it for users who are comfortable with terminal applications and want to customise their set up. 
 :::
 
-Visual Studio Code (VS Code) is a lightweight and powerful source code editor available for Windows, macOS and Linux computers. As an alternative to a terminal application it offers file additional functionality including file editing. 
+Visual Studio Code (VS Code) is a lightweight and powerful source code editor available for Windows, macOS and Linux computers. As an alternative to a terminal application it offers additional functionality including file editing. 
 
 1. Download Visual Studio Code for your system from [here](https://code.visualstudio.com/download) and follow the instructions for:
     * [macOS](https://code.visualstudio.com/docs/setup/mac)
@@ -74,26 +80,23 @@ To set up your VS Code window:
 
 **Tips for using VS Code**
 
+* Periodically delete your ` ~/.vscode-server/` directory on Gadi! VSCode will fill this directory with numerous files and cause your home quota to be exceeded
 * [VS code cheatsheet for Windows](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf)
 * [VS code cheatsheet for MacOS](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)
 
-## **Option 3: Install a terminal application on your computer** 
 
-::: {.callout-note}
-
-## Terminal: lightweight solution for advanced users
-This is a very lightweight solution for accessing Gadi. We recommended it for users who are comfortable with terminal applications and want to customise their set up.
-:::
-
-The options for terminal installation will depend on your computer's operating system. See below for instructions for macOS and Windows. 
-
-### ***MacOS***
+## Use MacOS native terminal
 
 Mac operating systems come with a terminal program, called Terminal. Just look for it in your Applications folder, or hit `Command` + `Space` and type 'terminal'. You may find that other, 3rd party terminal programs are more user-friendly and powerful, like [Iterm2](https://iterm2.com/).
 
-### ***Windows*** 
+## Install a terminal client on your windows machine 
 
-We recommend [MobaXterm](https://mobaxterm.mobatek.net/download.html), which offers a rich experience as a full-featured X-server and terminal emulator for ssh connections, the free version is more than adequate.
+Windows OS now comes with Windows Subsystem for Linux (WSL) so if you are familiar with using that, you can `ssh` to Gadi from a WSL terminal. 
+
+If not, you will need to install a terminal client. There are many options, including **putty**, **Xwin-32** (which the University of Sydney has a license for), and **MobaXterm**.
+
+Below we will describe the process to install the free version of [MobaXterm](https://mobaxterm.mobatek.net/download.html), which offers a rich experience as a full-featured X-server and terminal emulator for ssh connections. 
+
 
 To install and start using MobaXterm:
 
