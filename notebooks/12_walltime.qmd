@@ -78,7 +78,7 @@ In the field of genomics, the raw data is processed through a series of steps be
 
 By splitting apart each of these steps so that each is its own job, we can improve code manageability, reduce walltime, and increase overall processing efficiency.
 
-While this does require some extra effort in terms of submitting multiple processing jobs rather than just one, the benefits described above far outweigh this. The burden of multiple job submission can be ameliorated by parallel processing per sample, and even further by a workflow manager such as Nextflow. For an exammple Nextflow genomics processing workflow, view [this repository](https://github.com/Sydney-Informatics-Hub/Parabricks-Genomics-nf), and for parallel jobs on Gadi, see [this section](./13_parralel_jobs.qmd). 
+While this does require some extra effort in terms of submitting multiple processing jobs rather than just one, the benefits described above far outweigh this. The burden of multiple job submission can be ameliorated by parallel processing per sample, and even further by a workflow manager such as Nextflow. For an exammple Nextflow genomics processing workflow, view [this repository](https://github.com/Sydney-Informatics-Hub/Parabricks-Genomics-nf), and for parallel jobs on Gadi, see [this section](./13_parallel_jobs.qmd). 
 
 
 In the below Artemis script example, a samplesheet is read in containing metadata about 10 samples to be analysed. Each sample has one pair of raw 'fastq' input files that are processed through an analysis loop containing 4 steps:
@@ -114,7 +114,7 @@ So for the current example with 10 samples each with a pair of files, we have 20
 
 The `bwa` tool can multi-thread, and tool benchmarking in peer-reviewed literature shows almost perfect scalability up to a thread count of 36. Gadi `normal` queue has 48 CPU per node, so you could run this job with 48 CPU, assigning 36 CPU to the mapping and 12 CPU to the piped `sort` command.
 
-The key detail is to map each sample's raw data as it's own distinct job, instead of looping over each sample in series like the demo Artemis script. On Artemis, we can do this with **job arrays** but these are *not available on Gadi*. NCI and SIH recommend the use of `nci-parallel` (a custom wrapper utility for OpenMPI) for repeated runs of the same job script - see [parallel jobs on Gadi](./13_parralel_jobs.qmd) for more details. 
+The key detail is to map each sample's raw data as it's own distinct job, instead of looping over each sample in series like the demo Artemis script. On Artemis, we can do this with **job arrays** but these are *not available on Gadi*. NCI and SIH recommend the use of `nci-parallel` (a custom wrapper utility for OpenMPI) for repeated runs of the same job script - see [parallel jobs on Gadi](./13_parallel_jobs.qmd) for more details. 
 
 To avoid complicating this walltime section, we will provide an example of using a simple `for loop` for job submission. **NOTE: loops should ONLY be used for a VERY SMALL NUMBER OF JOBS, and always include a sleep in the loop!** NCI does monitor the login nodes and serial offending with long `for loops` will be targeted! 
 
