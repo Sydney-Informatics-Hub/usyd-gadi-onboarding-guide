@@ -44,7 +44,7 @@ In short, there are 3 options to adapting a long-running Artemis workflow to NCI
 
 There are many advantages to splitting your job up into smaller discrete chunks. 
 
-1. Checkpointing: if one of your jobs in a series of fails, you only need to resubmit that discrete job script, rather than either the whole job or some finnicky "hashed out" version of your very long and comlex workflow script. This simplifies debugging and rerunning, saves you hands-on time and walltime, minimises errors, and saves KSU
+1. Checkpointing: if one of your jobs in a series fails, you only need to resubmit that discrete job script, rather than either the whole job or some finnicky "hashed out" version of your very long and complex workflow script. This simplifies debugging and rerunning, saves you hands-on time and walltime, minimises errors, and saves KSU
 2. Ease of code maintenance: changing part of workflow, for example adjusting parameters, input files or software versions, is far simpler to implement for shorter chunks of code than it is for a long and complex code with many steps
 3. Ease of benchmarking: Different stages of a complex workflow typically have different compute requirements, for example some long running single core tasks coupled with some GPU tasks, some high memory, some high CPU tasks etc. [Benchmarking](./10_job_efficiency.qmd) is more straightforward and informative when performed on discrete workflow chunks. 
 4. Greater job efficiency: By benchmarking and optimising the resource configurations for each stage of the workflow, the series of jobs can be placed on an appropriate queue, and will not be reserving (and being charged for) unused resources. This will reduce KSU usage and resource wastage. 
@@ -81,7 +81,7 @@ By splitting apart each of these steps so that each is its own job, we can impro
 While this does require some extra effort in terms of submitting multiple processing jobs rather than just one, the benefits described above far outweigh this. The burden of multiple job submission can be ameliorated by parallel processing per sample, and even further by a workflow manager such as Nextflow. For an exammple Nextflow genomics processing workflow, view [this repository](https://github.com/Sydney-Informatics-Hub/Parabricks-Genomics-nf), and for parallel jobs on Gadi, see [this section](./13_parralel_jobs.qmd). 
 
 
-In the below Artemis script example, a samplesheet is read in containing metadata about 10 samples to be analysed. Each sample has one pair of raw 'fastq' input files that are processed through an analysis loop containing 4 steps:
+In the below Artemis script example, a samplesheet is read in containing metadata from about 10 samples to be analysed. Each sample has one pair of raw 'fastq' input files that are processed through an analysis loop containing 4 steps:
 
 | Step  | Task                  | Input                 | Walltime (hrs) | CPUs used |
 |-------|-----------------------|-----------------------|----------------|-----------|
@@ -166,10 +166,9 @@ As you can see, our workflow which was one long-running single job with very poo
 | 7     | Merge recalibrated final output    | Output of step 6      | <1             | 1                 | 10         |
 
 
-
 ### Example 2: A long running command with innate checkpointing
 
-Many commonly used tools have a built in option for saving the state of the process to a local file after a specified number of iterations in a repetitive task. This local file can be reloaded from disk and then the process can restart from where it previously left off. This is often called 'checkpointing'. It's a good idea to check the documentation of the tool you are using to see if it has some kind of checkpointing functionality built in since this greatly simplifies the splitting up long running tasks into smaller chunks.
+Many commonly used tools have a built in option for saving the state of the process to a local file after a specified number of iterations in a repetitive task. This local file can be reloaded from disk and then the process can restart from where it previously left off. This is often called 'checkpointing'. It's a good idea to check the documentation of the tool you are using to see if it has some kind of checkpointing functionality built in since this greatly simplifies splitting up long running tasks into smaller chunks.
 
 It is also recommended practice to use some kind of checkpointing because that way you can have a look at the output of jobs mid-way through to ensure that things are progressing as expected. Jobs can then be restarted with different parameters in case of unwanted results, thus saving resource allocations on your project.
 
