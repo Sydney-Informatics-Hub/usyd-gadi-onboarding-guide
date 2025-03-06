@@ -7,9 +7,6 @@ output:
 from: markdown+emoji
 ---
 
-**TO BE COMPLETED** 
-
-
 ## Introduction
 
 In this section, we will discuss ways of adapting your long walltime jobs from Artemis to NCI platforms. 
