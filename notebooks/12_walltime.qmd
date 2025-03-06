@@ -175,12 +175,13 @@ It is anyway recommended practice to use some kind of checkpointing in long runn
 
 Checkpointing can often be used in iterative minimisation jobs such as machine learning pipelines when training or fine-tuning a model. As such most machine learning packages will have options for checkpointing built-in. If you are building your own machine learning pipeline, simple instructions can be found for how to implement checkpointing in either TensorFlow [here](https://www.tensorflow.org/guide/checkpoint) or PyTorch [here](https://pytorch.org/torchft/checkpointing.html).
 
-In this example we'll demonstrate a script that uses checkpointing that comes from the SIH developed [`aigis`](https://github.com/Sydney-Informatics-Hub/aigis) package. `aigis` is a tool that fine-tunes a [`detectron2`](https://github.com/facebookresearch/detectron2) image segmentation machine learning model to detect trees and buildings in aerial imagery datasets.
+In this example we'll demonstrate a script with checkpointing that comes from the SIH developed [`aigis`](https://github.com/Sydney-Informatics-Hub/aigis) package. `aigis` is a tool that fine-tunes a [`detectron2`](https://github.com/facebookresearch/detectron2) image segmentation machine learning model to detect trees and buildings in aerial imagery datasets.
 
 Aerial imagery datasets can be quite large and fine-tuning `detectron2` models using them can take a long time. Because of this the fine-tuning script has a flag that will only let it run for a given number of iterations and save the fine-tuned model to disk. The script can then be restarted with the previous output given as input.
 
-Below shows an example that runs the `aigis` script called `fine_tune_detectron2.py` on artemis from a PBS script that looks like:
+Below shows an example that runs the `aigis` script called `fine_tune_detectron2.py` on artemis. The PBS script looks like:
 
+**aigis_script.pbs**
 ```bash
 #! /bin/bash
 
@@ -198,7 +199,7 @@ fine_tune_detectron2.py --dataset-name MyDataSet --train-json MyDataSet_Train.js
 
 The full run of this script with 20000 iterations (`--max-iter 20000`) takes 60hrs, which is longer than the maximum walltime allowed on gadi, however we can change the number of iterations to 10000 and run the script twice with checkpointing.
 
-To do this we would change the above PBS script above to (setting the walltime to 31 hours and max-iter to 10000):
+To do this we would convert the above PBS script above to run on gadi and set the walltime to 31 hours and max-iter to 10000:
 
 **iteration1.pbs**
 ```bash
@@ -229,7 +230,7 @@ Then we can create a second pbs script that will pick up the output of the above
 #! /bin/bash
 
 #PBS -P qc03
-#PBS -N fine_tune_example_s1
+#PBS -N fine_tune_example_s2
 #PBS -l walltime=31:00:00
 #PBS -l ncpus=1
 #PBS -l ngpus=1
