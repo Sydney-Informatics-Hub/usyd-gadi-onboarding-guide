@@ -252,8 +252,8 @@ cookieconsent.run({
   <ul class="collapse">
   <li><a href="#calculate-the-amount-of-su-the-job-will-require" id="toc-calculate-the-amount-of-su-the-job-will-require" class="nav-link" data-scroll-target="#calculate-the-amount-of-su-the-job-will-require">Calculate the amount of SU the job will require</a></li>
   <li><a href="#check-your-available-su" id="toc-check-your-available-su" class="nav-link" data-scroll-target="#check-your-available-su">Check your available SU</a></li>
+  <li><a href="#completed-job-su-charged" id="toc-completed-job-su-charged" class="nav-link" data-scroll-target="#completed-job-su-charged">Completed job SU charged</a></li>
   </ul></li>
-  <li><a href="#final-su-charged" id="toc-final-su-charged" class="nav-link" data-scroll-target="#final-su-charged">Final SU charged</a></li>
   <li><a href="#disk" id="toc-disk" class="nav-link" data-scroll-target="#disk">Disk</a></li>
   <li><a href="#inodes" id="toc-inodes" class="nav-link" data-scroll-target="#inodes">iNodes</a></li>
   <li><a href="#disk-and-inode-usage-on-home" id="toc-disk-and-inode-usage-on-home" class="nav-link" data-scroll-target="#disk-and-inode-usage-on-home">Disk and inode usage on /home</a></li>
@@ -411,15 +411,15 @@ Answer
 <p>If the amount by which your job exceeds your current SU budget is small, you may consider reducing the requested resources to fit under the current budget. You can do this by either killing the job (<code>qdel &lt;jobID&gt;</code>), adjusting the resource requests then resubmitting, <em>or</em> use the <code>qalter</code> PBS command to reduce the resource requests of the held job via the command line. For example, to reduce CPU, mem and walltime:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qalter</span> <span class="at">-l</span> walltime=02:00:00 <span class="at">-l</span> ncpus=48 <span class="at">-l</span> mem=190GB <span class="op">&lt;</span>jobid<span class="op">&gt;</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-</section>
-<section id="final-su-charged" class="level2">
-<h2 class="anchored" data-anchor-id="final-su-charged">Final SU charged</h2>
+<section id="completed-job-su-charged" class="level3">
+<h3 class="anchored" data-anchor-id="completed-job-su-charged">Completed job SU charged</h3>
 <p>After your job completes, the SU consumed by the job is reported in the PBS <code>.o</code> job log (<code>&lt;jobname&gt;.o&lt;jobID&gt;</code> unless otherwise changed with the <code>#PBS -o &lt;logname&gt;</code> directive).</p>
 <p>The charged is based off the <strong>walltime used</strong>, not the walltime requested.</p>
 <p><img src="../fig/gadi-pbs-olog.png" class="img-fluid"></p>
 <p>In the above example, the job cost 23.94 SU. The job queue is not reported in the log, however this information is of course included in the directives of the job script. This job was run on <code>normalbw</code> which has a charge rate of 1.25 SU, and CPU:mem ratio of 1:9.14. Since the job requested 7 CPU and 63 GB RAM, this is below the mem:CPU ratio so the charge is based off CPU not memory:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>SU = 1.25 charge rate X 7 CPU X 2.74 hours</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>SU = 23.94</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
 </section>
 <section id="disk" class="level2">
 <h2 class="anchored" data-anchor-id="disk">Disk</h2>
