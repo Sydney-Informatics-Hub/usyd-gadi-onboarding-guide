@@ -157,7 +157,7 @@ If the amount by which your job exceeds your current SU budget is small, you may
 qalter -l walltime=02:00:00 -l ncpus=48 -l mem=190GB <jobid> 
 ```
 
-## Final SU charged
+### Completed job SU charged
 
 After your job completes, the SU consumed by the job is reported in the PBS `.o` job log (`<jobname>.o<jobID>` unless otherwise changed with the `#PBS -o <logname>` directive).
 
