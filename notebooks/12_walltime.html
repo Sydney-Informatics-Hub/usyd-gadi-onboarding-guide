@@ -282,7 +282,6 @@ cookieconsent.run({
 </header>
 
 
-<p><strong>TO BE COMPLETED</strong></p>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>In this section, we will discuss ways of adapting your long walltime jobs from Artemis to NCI platforms.</p>
@@ -314,7 +313,7 @@ cookieconsent.run({
 <h2 class="anchored" data-anchor-id="option-1.-split-or-checkpoint-your-job">Option 1. Split or checkpoint your job</h2>
 <p>There are many advantages to splitting your job up into smaller discrete chunks.</p>
 <ol type="1">
-<li>Checkpointing: if one of your jobs in a series of fails, you only need to resubmit that discrete job script, rather than either the whole job or some finnicky “hashed out” version of your very long and comlex workflow script. This simplifies debugging and rerunning, saves you hands-on time and walltime, minimises errors, and saves KSU</li>
+<li>Checkpointing: if one of your jobs in a series fails, you only need to resubmit that discrete job script, rather than either the whole job or some finnicky “hashed out” version of your very long and complex workflow script. This simplifies debugging and rerunning, saves you hands-on time and walltime, minimises errors, and saves KSU</li>
 <li>Ease of code maintenance: changing part of workflow, for example adjusting parameters, input files or software versions, is far simpler to implement for shorter chunks of code than it is for a long and complex code with many steps</li>
 <li>Ease of benchmarking: Different stages of a complex workflow typically have different compute requirements, for example some long running single core tasks coupled with some GPU tasks, some high memory, some high CPU tasks etc. <a href="../notebooks/10_job_efficiency.html">Benchmarking</a> is more straightforward and informative when performed on discrete workflow chunks.</li>
 <li>Greater job efficiency: By benchmarking and optimising the resource configurations for each stage of the workflow, the series of jobs can be placed on an appropriate queue, and will not be reserving (and being charged for) unused resources. This will reduce KSU usage and resource wastage.</li>
@@ -341,7 +340,7 @@ cookieconsent.run({
 <p>In the field of genomics, the raw data is processed through a series of steps before the final output files are produced. Many groups perform all of these steps within a single, multi-command job, in order to only have to run one job to perform all the work.</p>
 <p>By splitting apart each of these steps so that each is its own job, we can improve code manageability, reduce walltime, and increase overall processing efficiency.</p>
 <p>While this does require some extra effort in terms of submitting multiple processing jobs rather than just one, the benefits described above far outweigh this. The burden of multiple job submission can be ameliorated by parallel processing per sample, and even further by a workflow manager such as Nextflow. For an exammple Nextflow genomics processing workflow, view <a href="https://github.com/Sydney-Informatics-Hub/Parabricks-Genomics-nf">this repository</a>, and for parallel jobs on Gadi, see <a href="../notebooks/13_parallel_jobs.html">this section</a>.</p>
-<p>In the below Artemis script example, a samplesheet is read in containing metadata about 10 samples to be analysed. Each sample has one pair of raw ‘fastq’ input files that are processed through an analysis loop containing 4 steps:</p>
+<p>In the below Artemis script example, a samplesheet is read in containing metadata from about 10 samples to be analysed. Each sample has one pair of raw ‘fastq’ input files that are processed through an analysis loop containing 4 steps:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 8%">
@@ -505,7 +504,7 @@ cookieconsent.run({
 </section>
 <section id="example-2-a-long-running-command-with-innate-checkpointing" class="level3">
 <h3 class="anchored" data-anchor-id="example-2-a-long-running-command-with-innate-checkpointing">Example 2: A long running command with innate checkpointing</h3>
-<p>Many commonly used tools have a built in option for saving the state of the process to a local file after a specified number of iterations in a repetitive task. This local file can be reloaded from disk and then the process can restart from where it previously left off. This is often called ‘checkpointing’. It’s a good idea to check the documentation of the tool you are using to see if it has some kind of checkpointing functionality built in since this greatly simplifies the splitting up long running tasks into smaller chunks.</p>
+<p>Many commonly used tools have a built in option for saving the state of the process to a local file after a specified number of iterations in a repetitive task. This local file can be reloaded from disk and then the process can restart from where it previously left off. This is often called ‘checkpointing’. It’s a good idea to check the documentation of the tool you are using to see if it has some kind of checkpointing functionality built in since this greatly simplifies splitting up long running tasks into smaller chunks.</p>
 <p>It is also recommended practice to use some kind of checkpointing because that way you can have a look at the output of jobs mid-way through to ensure that things are progressing as expected. Jobs can then be restarted with different parameters in case of unwanted results, thus saving resource allocations on your project.</p>
 <p>Checkpointing is often very simple to implement in iterative parameter minimisation tasks such as machine learning pipelines that train or fine-tune a model. As such most machine learning packages will have options for checkpointing built-in. If you are building your own machine learning pipeline, simple instructions can be found for how to implement checkpointing in either TensorFlow <a href="https://www.tensorflow.org/guide/checkpoint">here</a> or PyTorch <a href="https://pytorch.org/torchft/checkpointing.html">here</a>.</p>
 <p>In this example we’ll demonstrate a script with checkpointing that comes from the SIH developed <a href="https://github.com/Sydney-Informatics-Hub/aigis"><code>aigis</code></a> package. <code>aigis</code> is a tool that fine-tunes a <a href="https://github.com/facebookresearch/detectron2"><code>detectron2</code></a> image segmentation machine learning model to detect trees and buildings in aerial imagery datasets.</p>
