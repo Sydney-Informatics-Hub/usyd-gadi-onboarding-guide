@@ -279,15 +279,7 @@ perl gadi_usage_report_v1.1.pl
 
 This provides comprehensive job reporting metrics which can be copied to Excel for plotting or review. Extracting a few key columns from the table, and extrapolating walltime and SU to the full-sized sample: 
 
-| #JobName                             | CPUs_requested | Mem_requested | Mem_used | CPUtime_mins | Walltime_mins | Efficiency | Service_units | Extrapolated_walltime | Extrapolated_SU |
-|--------------------------------------|----------------|---------------|----------|--------------|---------------|------------|---------------|-----------------------|-----------------|
-| normal_6NCPUS_24MEM_subset_10M.o     | 6              | 24.0GB        | 16.5GB   | 53.6         | 9.73          | 0.92       | 1.95          | 421.70                | 84.51           |
-| normalbw_7NCPUS_63MEM_subset_10M.o   | 7              | 63.0GB        | 16.05GB  | 57.98        | 8.52          | 0.97       | 1.24          | 369.26                | 53.74           |
-| normal_12NCPUS_48MEM_subset_10M.o    | 12             | 48.0GB        | 19.17GB  | 53.27        | 5.05          | 0.88       | 2.02          | 218.87                | 87.55           |
-| normalbw_14NCPUS_126MEM_subset_10M.o | 14             | 126.0GB       | 16.24GB  | 59.28        | 4.58          | 0.92       | 1.34          | 198.50                | 58.08           |
-| normal_24NCPUS_96MEM_subset_10M.o    | 24             | 96.0GB        | 22.58GB  | 56.83        | 3.27          | 0.72       | 2.61          | 141.72                | 113.12          |
-| normalbw_28NCPUS_250MEM_subset_10M.o | 28             | 250.0GB       | 23.15GB  | 72.68        | 3.45          | 0.75       | 2.01          | 149.52                | 87.11           |
-| normal_48NCPUS_190MEM_subset_10M.o   | 48             | 190.0GB       | 25.45GB  | 64.35        | 2.28          | 0.59       | 3.65          | 98.82                 | 158.19          |
+![](../fig/benchmark-table.png)
 
 **Which resources would you choose when porting this Artemis job to Gadi?**
 
@@ -295,7 +287,9 @@ This provides comprehensive job reporting metrics which can be copied to Excel f
 2. Least service units? 7 CPU on normal broadwell queue, this also has the best CPU efficiency of 97% but the second slowest walltime
 3. Trade-off between efficiency, walltime, and SU? That could be 14 CPU on the normalbw queue, which nicely fits 2 samples per node enabling a good fit for a multi-node parallel job when all samples are analysed  
 
-Oddly, these benchmarks show a much lower memory usage than the Artemis job log. Artemis takes a snapshot of memory usage to report in the log, and it may be that a surge in memory usage was recorded, and that the method in which NCI captures memory use for log reporting differs. This even further highlights the need to benchmark on Gadi, as a job that may appear to require high memory or walltime on Artemis may be sufficiently run with far less on Gadi.  
+Of note, these benchmarks show a **much lower memory usage than the Artemis job**. Artemis takes a snapshot of memory usage to report in the log, and it may be that a surge in memory usage was recorded, and that the method in which NCI captures memory use for log reporting differs. This even further highlights the need to benchmark on Gadi, as a job that may appear to require high memory or walltime on Artemis may be sufficiently run with far less on Gadi.  
+
+Likewise, the **extrapolated walltime for a full-size sample is also much lower than Artemis**. We expect faster execution on Gadi, however this difference (2-7 hours vs 18 hours!) is greater than expected. There may have been some other inefficiencies within the tool versions or perhaps scratch disk contention at the time the job was run on Artemis. This clearly underpins the need to ***benchmark on the platform you plan to use*** and also, that the ***small-scale benchmarks should be followed up with a full-size run where possible***. 
 
 
 
