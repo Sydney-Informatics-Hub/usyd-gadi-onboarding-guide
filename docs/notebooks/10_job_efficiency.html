@@ -138,7 +138,7 @@ cookieconsent.run({
     <ul class="dropdown-menu" aria-labelledby="nav-menu-introduction-to-gadi">    
         <li>
     <a class="dropdown-item" href="../notebooks/02_system_setup.html">
- <span class="dropdown-text">System offerings</span></a>
+ <span class="dropdown-text">Gadi overview</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notebooks/03_expectations.html">
@@ -152,24 +152,20 @@ cookieconsent.run({
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-working-on-gadi">    
         <li>
-    <a class="dropdown-item" href="../notebooks/04_nagivating_system.html">
- <span class="dropdown-text">Navigating the system</span></a>
+    <a class="dropdown-item" href="../notebooks/04_command_line.html">
+ <span class="dropdown-text">Command line</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notebooks/05_data_transfer.html">
- <span class="dropdown-text">Transferring data</span></a>
+ <span class="dropdown-text">Data transfer</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/11_software.html">
+ <span class="dropdown-text">Software</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notebooks/06_accounting.html">
  <span class="dropdown-text">Accounting</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/07_environments.html">
- <span class="dropdown-text">Specialised environments</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/11_software.html">
- <span class="dropdown-text">Managing software</span></a>
   </li>  
     </ul>
   </li>
@@ -183,12 +179,20 @@ cookieconsent.run({
  <span class="dropdown-text">Job scripts and submission</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../notebooks/12_walltime.html">
+ <span class="dropdown-text">Working within walltime</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../notebooks/09_job_monitoring.html">
  <span class="dropdown-text">Job monitoring</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../notebooks/13_parallel_jobs.html">
+ <span class="dropdown-text">Parallel jobs</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../notebooks/10_job_efficiency.html">
- <span class="dropdown-text">Resource efficiency</span></a>
+ <span class="dropdown-text">Benchmarking and efficiency</span></a>
   </li>  
     </ul>
   </li>
@@ -208,7 +212,8 @@ cookieconsent.run({
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#simple-example-1" id="toc-simple-example-1" class="nav-link active" data-scroll-target="#simple-example-1">Simple example 1</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#simple-example-1" id="toc-simple-example-1" class="nav-link" data-scroll-target="#simple-example-1">Simple example 1</a></li>
   <li><a href="#simple-example-2" id="toc-simple-example-2" class="nav-link" data-scroll-target="#simple-example-2">Simple example 2</a></li>
   <li><a href="#resource-benchmarking" id="toc-resource-benchmarking" class="nav-link" data-scroll-target="#resource-benchmarking">Resource benchmarking</a></li>
   <li><a href="#benchmarking-template-scripts" id="toc-benchmarking-template-scripts" class="nav-link" data-scroll-target="#benchmarking-template-scripts">Benchmarking template scripts</a></li>
@@ -240,6 +245,22 @@ cookieconsent.run({
 </header>
 
 
+<p><strong>TO BE COMPLETED</strong></p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>In this section, we will discuss ways of estimating</p>
+<p>The main challenges users may face adapting Artemis workflows to Gadi are:</p>
+<ul>
+<li>Gadi walltime limit of 48 hours</li>
+<li><a href="../notebooks/08_job_script.html">Adjusting PBS directives to suit Gadi requirements and queue structure</a></li>
+<li><a href="../notebooks/08_job_script.html#lack-of-internet-access-on-compute-nodes">Lack of internet access for Gadi compute nodes</a></li>
+<li><a href="../notebooks/05_data_transfer.html">Data transfer</a></li>
+<li><a href="../notebooks/06_accounting.html">Understanding NCI accounting of KSU, disk and iNode limits</a></li>
+<li><a href="https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...#RecoverFiles...-RecoverQuarantinedFilesonscratch">Automatic 100-day Gadi /scratch purge policy</a></li>
+<li><a href="../notebooks/11_software.html">Software installation and version upgrades on Gadi</a></li>
+<li><a href="./13_parralel_jobs.qmd">Job arrays not supported on Gadi</a></li>
+</ul>
+<p>In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.</p>
 <p><strong>COMING SOON - NOT COMPLETE!</strong></p>
 <ul>
 <li>what does optimise mean
@@ -262,6 +283,7 @@ cookieconsent.run({
 <li>do benchmarking</li>
 </ul></li>
 </ul>
+</section>
 <section id="simple-example-1" class="level2">
 <h2 class="anchored" data-anchor-id="simple-example-1">Simple example 1</h2>
 <p>The Broadwell nodes have different memory per CPU ratios than the Cascade Lake nodes. This can be particularly helpful in reducing KSU usage for ‘normal’ compute jobs that require more than 4 GB RAM per CPU but less than what justifies a high memory queue. On the Broadwell ‘normalbw’ queue, there are nodes with 9 GB RAM per CPU. With a charge rate of just 1.25 SU per CPU hour (compared to 2 SU per CPU hour on the equivalent Cascade Lake queue), a job requiring 64 GB RAM for 1 hour could use 7 CPUs on the Broadwell nodes for a charge of <code>7 cpu * 1 h * 1.25 charge rate = 8.75 SU</code>. The same job on the Cascade Lake ‘normal’ queue would require 16 CPU, totalling <code>16 cpu * 1 h * 2 charge rate = 32 SU</code>. The reduced processor speed on Broadwell vs Cascade Lake may cause the Broadwell job to require slightly more walltime, however this increase in walltime will typically still cost less overall. We will discuss this in more detail in the section on <a href="../notebooks/10_job_efficiency.html">job efficiency and optimisation</a> where we will review tool benchmarking and job efficiency strategies.</p>
@@ -323,7 +345,7 @@ cookieconsent.run({
 
 </section>
 
-<p>All materials copyright Sydney Informatics Hub, University of Sydney</p></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -748,7 +770,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-
+<p>All materials copyright Sydney Informatics Hub, University of Sydney</p>
 <div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
     <div class="nav-footer-right">
       &nbsp;
