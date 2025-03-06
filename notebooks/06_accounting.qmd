@@ -157,7 +157,7 @@ If the amount by which your job exceeds your current SU budget is small, you may
 qalter -l walltime=02:00:00 -l ncpus=48 -l mem=190GB <jobid> 
 ```
 
-## Final SU charged
+### Completed job SU charged
 
 After your job completes, the SU consumed by the job is reported in the PBS `.o` job log (`<jobname>.o<jobID>` unless otherwise changed with the `#PBS -o <logname>` directive).
 
@@ -198,7 +198,7 @@ An inode (index node) is a data structure used by Unix-like file systems to stor
 
 Most users will not need to worry about inode limit. For each TB of scratch or gdata disk assigned to a project, an amount if inode that is suitable for most users is also provided. If however you run **tools or jobs which generate large numbers of tiny files**, you may need to implement close inode monitoring and management, such as periodically deleting or archiving tiny temp files as they are no longer needed. 
 
-From the [Gadi resources page]():
+From the [Gadi resources page](https://opus.nci.org.au/spaces/Help/pages/236880086/Gadi+Resources...#GadiResources...):
 
 *"Please try to keep the number of files as low as possible as this can affect the I/O performance in your job. Gadi is efficient at handling large scale parallel I/O but performance becomes significantly worse when doing frequent small operations.
 A main culprit for creating a large amount of files is the Python packaging system conda. Please use pip and the available modules that are already tuned for Gadi to keep file and folder count as low as possible."*
@@ -219,9 +219,9 @@ for d in `find -maxdepth 1 -type d |cut -d\/ -f2 |sort`; do c=$(find $d |wc -l) 
 
 ## Disk and inode usage on /home
 
-Each use has a quota of 10 GB of storage in their home directory, which is private and backed up. They also have an inode allocation of 10,240 M. 
+Each user has a quota of 10 GB of storage in their home directory, which is private and backed up. They also have an inode allocation of 10,240 M. 
 
-Importantly, home directories **do not have a grace limit** like scratch and gdata do! It is critical to actively monitor and manage your home directory usage to avoid preventable job failures. Please note the NCI message above and avoid `conda`, but if this is unavoidable, use `conda` installations in scratch or gdata rather than your home directory. 
+Importantly, home directories **do not have a grace limit** like scratch and gdata do! It is critical to actively monitor and manage your home directory usage to avoid preventable job failures. 
 
 The `nci_account` and `lquota` commands do not report usage on home. To view disk and inode quota and usage, use the command `quota -s`:
 
