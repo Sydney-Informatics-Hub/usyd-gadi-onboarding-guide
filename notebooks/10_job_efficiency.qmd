@@ -1,5 +1,5 @@
 ---
-title: "**Optimising your job**"
+title: "**Optimising and benchmarking your job**"
 output:
   html_document:
     toc: false
@@ -7,17 +7,11 @@ output:
 from: markdown+emoji
 ---
 
-
-
-**TO BE COMPLETED** 
-
-
 ## Introduction
 
 The main challenges users may face adapting Artemis workflows to Gadi are:
 
-
-- Gadi walltime limit of 48 hours
+- [Gadi walltime limit of 48 hours](./12_walltime.qmd)
 - [Adjusting PBS directives to suit Gadi requirements and queue structure](./08_job_script.qmd)
 - [Lack of internet access for Gadi compute nodes](./08_job_script.qmd#lack-of-internet-access-on-compute-nodes)
 - [Data transfer](./05_data_transfer.qmd)
@@ -26,39 +20,171 @@ The main challenges users may face adapting Artemis workflows to Gadi are:
 - [Software installation and version upgrades on Gadi](./11_software.qmd) 
 - [Job arrays not supported on Gadi](./13_parallel_jobs.qmd) 
 
-In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.
+In this section, we will broadly address the first two challenges on this list, exploring how **optimising your workload through splitting/checkpointing jobs and optimising compute resource requests for Gadi queues can help minimise your walltime and use less KSU**. 
+
+For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.
+
+## What is workflow optimisation
+
+In short, to optimise a workflow or code is to make it faster and more efficient. This can be achieved through a number of practices: 
+
+- Efficient resource allocation
+  - Selecting the right number of CPUs, memory and queue for the job
+  - Avoiding overallocation (wasting resources) or underallocation (causing slow performance)
+- Parallelisation and scaling
+  - Splitting/checkpointing jobs into numerous smaller jobs to enable parallel computing and job resume 
+  - Balancing workload distribution to avoid bottlenecks caused when some cores are idle while others are overloaded
+- I/O optimisation
+  - Selecting the right filesystem for I/O, for example using compute node SSD for temp files
+  - Using efficient file formats
+  - Avoiding excessive small file creation to prevent inode exhaustion
+- Memory management
+  - Ensuring a job fits within allocated RAM to avoid swapping to disk
+  - Using efficient data structures to reduce memory footprint
+- Software and algorithm optimisation
+  - Choosing the best algorithm for the task
+  - Using binaries compiled on Gadi and optimised libraries
+  - Enabling hardware acceleration with GPU where possible
+
+Optimisation is crucial in HPC because it facilitates faster, more efficient, and cost-effective execution of computational workload. As researchers we want **fast results** but it is also our moral imperative to minimise our [**carbon footprint**](https://www.bcs.org/articles-opinion-and-research/carbon-footprint-the-not-so-hidden-cost-of-high-performance-computing/) while using HPC. We also have a **shared responsibility** to other users of the system to make efficient use of the resources we reserve for our jobs, and to The University of Sydney, which funds 100% of our compute with NCI. 
+
+In this section, we will look at one simple approach to optimisation through **compute resource benchmarking** as a quickstart way of adapting your Artemis workflows to Gadi and selecting the right CPU, mem and queue for your Gadi job. In order to optimise in other ways, for example testing different file formats, I/O flesystems, algorithm types, GPUs, etc, a similar systematic approach could be followed: run the same analysis with the relevant differences, and compare the job performance. 
+
+There are complex job tracing tools for fine-tuned code optimisation; we will not be covering these, instead focusing on an overall picture of CPU and memory efficiency to guide appropriate resource selection. 
 
 
-**COMING SOON - NOT COMPLETE!**
+## Compute resource benchmarking vs scientific benchmarking
 
-- what does optimise mean
-  - improve speed
-  - improve cpu efficiency
-  - minimise SU charge
-- why optimise
-  - efficiency monitoring by NCI
-  - efficient use of compute hours provide by USyd
-  - efficient use of energy resource
-- how to optimise
-  - appropriate resource and queue requests
-  - right queue for the job
-  - checkpointing to enable ease of resume
-  - do benchmarking
+Please note that this section covers **compute resource benchmarking** and not **scientific benchmarking**. While compute resource benchmarking focuses on execution speed and efficiency, scientific benchmarking focuses on whether computational results are correct, reproducible, and scientifically valid. Scientific benchmarking is extremely important, but not the focus of this training. Please *do* undertake scientific benchmarking, but understand that it is not covered within this section. It may be that changing job parameters can also influence the optimum resources required, such that once you have selected the right resources based on benchmarking for one set of parameters, you may need to re-run compute benchmarking for a different set of parameters. This may sound tedious, however if you typically run the same types of analyses frequently, the compute benchmarking you perform can save you both time (walltime, queue time, avoiding job failures from exceeding resources) and SU in the long run.
+
+In this section we will focus on selecting the right queue on Gadi, along with the CPU and memory that provides the best trade-off between walltime, CPU efficiency and memory efficiency. By optimising these aspects, we can also indirectly minimise our queue time, as an efficient job is generally a job with a shorter walltime and shorter walltimes contribute to shorter queue times. 
+
+## CPU and memory efficiency
+
+Efficiency can be **CPU efficiency** or **memory efficiency**. 
+
+CPU efficiency is easy to calculate, with the formula:
+
+```default
+cpu_e = cputime / (walltime X cpus_used)
+```
+
+A CPU efficiency value of 1 indicates perfect CPU utilisation for the duration of the job. This is often achieved for single-core jobs, however typically, as a tool or code is run with multiple threads or at scale across multiple nodes, the CPU efficiency declines. Aim to maintain your workflows above 80% where possible. 
+
+**NCI monitors CPU utilisation** and repeated execution of jobs with very poor CPU efficiency may be met with an email from the NCI technical team. 
+
+A job with extremely low CPU efficiency may be permissable if it has **high memory efficiency**. Memory efficiency can be calcualted with the formula:
+
+```default
+mem_e = max_mem_used / mem_requested
+```
+
+Below is a Gadi job log. All the details required to calculate CPU and memory efficiency are contained within this log:
+
+![](../fig/gadi-pbs-olog.png)
+
+### Challenge: calculate CPU efficiency
+
+From the above job log, use the formula `cpu_e = cputime / (walltime X cpus_used)` to calculate this job's CPU efficiency. 
+
+Do you think this job efficiently utilised CPU? 
+
+::: {.callout-note collapse="true"}
+## Answer
+
+The below answer converts CPU time and walltime to minutes. The same result is achieved if you use hours or seconds, as long as you use the same unit across both values. 
+
+```default
+cpu_e = cputime / (walltime X cpus_used)
+cpu_e = 177.55 / (164.15 X 7)
+cpu_e = 0.15
+```
+
+This job *did not* make efficient use of the requested 7 CPU. 
+
+:::
+
+### Challenge: calculate memory efficiency
+
+From the above job log, use the formula `mem_e = max_mem_used / mem_requested` to calculate this job's memory efficiency. 
+
+Do you think this job efficiently utilised memory? 
+
+::: {.callout-note collapse="true"}
+## Answer 
+
+```default
+mem_e = max_mem_used / mem_requested
+mem_e = 51.14 / 63
+mem_e = 0.81
+```
+
+This job *did* make efficient use of the requested 63 GB memory. 
+
+:::
 
 
-## Simple example 1
+Reflecting on the efficiencies calculated for this example job, would you consider this job to have requested appropriate resources on Gadi? 
 
-The Broadwell nodes have different memory per CPU ratios than the Cascade Lake nodes. This can be particularly helpful in reducing KSU usage for 'normal' compute jobs that require more than 4 GB RAM per CPU but less than what justifies a high memory queue. On the Broadwell 'normalbw' queue, there are nodes with 9 GB RAM per CPU. With a charge rate of just 1.25 SU per CPU hour (compared to 2 SU per CPU hour on the equivalent Cascade Lake queue), a job requiring 64 GB RAM for 1 hour could use 7 CPUs on the Broadwell nodes for a charge of `7 cpu * 1 h * 1.25 charge rate = 8.75 SU`. The same job on the Cascade Lake 'normal' queue would require 16 CPU, totalling `16 cpu * 1 h * 2 charge rate = 32 SU`. The reduced processor speed on Broadwell vs Cascade Lake may cause the Broadwell job to require slightly more walltime, however this increase in walltime will typically still cost less overall. We will discuss this in more detail in the section on [job efficiency and optimisation](./10_job_efficiency.qmd) where we will review tool benchmarking and job efficiency strategies. 
+Perfect utilisation of all 7 CPUs would result in a CPU efficiency of 1.0. If only one CPU were used with perfect efficiency, its individual contribution would be 1/7 ≈ 0.14. This job had a CPU efficiency of 0.15. This suggests that the job was a *single core job with a high memory requirement*. If this job requested only 1 CPU and the same 63 GB memory, the CPU efficiency calculation from the job log would be close to perfect! However, the memory efficiency and total SU charge would have remained identical. 
 
-## Simple example 2 
+Why would the user have requested 7 CPU over 1 CPU for a single-core job? By requesting 7 CPU, they have been protective of the resources they have partitioned for their job. If a request of 1 CPU and 63 GB memory was made, other users may have been able to utilise those other 6 CPU, *but only if there was sufficient memory remaining on that node*. Some jobs benefit from reserving extra CPUs even if they do not use them, such as memory-intensive jobs that prevent other users from overloading the node.
+
+Now that we have an understanding of CPU efficiency, memory efficiency, and how to calculate them, we have a means of directly comparing **replicate runs of the same analysis task with differing compute resources**. 
 
 
-## Resource benchmarking
+## Benchmarking CPU, memory and queue on Gadi
 
-- what is benchmarking
-  - we are talking about benchmarking compute resources, not technical benchmarking
-- why benchmark
-- how to benchmark 
+Compared to Artemis, Gadi has newer hardware, newer software, and more diverse queue options. A burning question from Artemis users newly migrating to Gadi is **how do I know what resources to request for my job?**
+
+If you have a fair idea of what resources your job required on Artemis and for how long, you can request similar resources on the relevant queue on Gadi, with the expectation that your job will execute more quickly due to the newer hardware and software. whether you have this prior knowledge or not, is is worthwhile to perform benchmarking on Gadi.
+
+Consider the below job log from Artemis:
+
+![](../fig/gadi-pbs-olog.png)
+
+
+This is a fairly long-running job with high CPU and memory utilisation. We could run this job with reasonable confidence on Gadi by applying the same resource requests:
+
+```bash
+#PBS -P MYPROJECT
+#PBS -l walltime=24:00:00
+#PBS -l ncpus=16
+#PBS -l mem=96GB
+#PBS -q normal
+```
+
+Yet this requests a CPU:mem ratio of 16:96 = 6, which as we have learnt from the section on [accounting](./06_accounting.qmd) is higher than the CPU:mem ratio on the normal queue of 4, so our job woul be charged double per resource hour. 
+
+How else could we structure this to ensure sufficient CPU, memory, and minimise SU?
+
+- 16 CPU with 4 GB RAM per CPU on the `normal` queue, total memory request of 64 GB. Would this be sufficient, or would the job die due to inadequate memory? Memory utilisation on Artemis was 100% at 96 GB
+- 16 CPU with 9 GB RAM per CPU on the `normalbw` queue. We would have plenty of memory at 144 GB, and a low charge rate of 1.25, but how much slower would our job be on the older Broadwell nodes?
+- 24 CPU with 4 GB RAM per CPU on the `normal` queue. We would have the same amount of memory as the Artemis job, but with more CPU. Would the walltime be faster due to this extra CPU, or would it take the same walltime and thus have a lower CPU efficiency? 
+
+
+
+
+
+
+
+## Benchmarking the best algorithm for the task
+
+Often, we have multiple tools or algorithms we could use to handle a computational task. These may produce identical or sufficiently equivalent results, in which case we would not need to consider scientific benchmarking to decide between the two. In these cases, we may rely on computational benchmarks to dictate our choices. For high computational workloads, the walltime and SU savings obtained by using a computationally efficient tool that is "almost as good" as its gold standard counterpart are well justifiable when reporting methods and results. If however you are only performing the analysis once, the deciding factor on tool choice should be scientific performance, not computational. 
+
+### Example 1
+
+In this project, a total of ~ 600 microbial metagenomes (DNA sequenced form saliva of 600 pateints, with DNA representing all the microbiota species of the oral cavity) were to be assembled (sequenced DNA fragments pieced back together like a jigsaw puzzle to aim to identify and quantify microbial species present). Literature review revealed two strong tool choices: `megahit` or `metaspades`. 
+
+
+
+
+
+
+
+In this simple example, we are comparing a very popular bioinformatics tool `bwa-mem` to a newer tool `bwa-mem2`, which claimed to yield identical results up to twice as fast. 
+
+
 
 ## Benchmarking template scripts
 
