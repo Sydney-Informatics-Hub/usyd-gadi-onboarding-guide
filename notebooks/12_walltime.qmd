@@ -171,9 +171,9 @@ As you can see, our workflow which was one long-running single job with very poo
 
 Many commonly used tools have built in option for limiting the number of iterations in repetitive processes  before saving the state of the process to a local file which can be reloaded from disk and then restarting the process from where it previously left off. This is commonly known as 'checkpointing'. It's a good idea to check the documentation of the tool you are using to see if it has some kind of checkpointing functionality built in since this greatly simplifies the process of splitting up long running tasks into smaller chunks.
 
-It is anyway recommended practice to use some kind of checkpointing in long running tasks because that way you can have a look at the output of them mid-way through to ensure that things are progressing as expected. Jobs can then be stopped mid way in case of unwanted results and restarted with different parameters, thus saving resource allocations on your project.
+It is also recommended practice to use some kind of checkpointing because that way you can have a look at the output of jobs mid-way through to ensure that things are progressing as expected. Jobs can then be restarted with different parameters in case of unwanted results, thus saving resource allocations on your project.
 
-Checkpointing can often be used in iterative minimisation jobs such as machine learning pipelines when training or fine-tuning a model. As such most machine learning packages will have options for checkpointing built-in. If you are building your own machine learning pipeline, simple instructions can be found for how to implement checkpointing in either TensorFlow [here](https://www.tensorflow.org/guide/checkpoint) or PyTorch [here](https://pytorch.org/torchft/checkpointing.html).
+Checkpointing is often very simple to implement in iterative parameter minimisation tasks such as machine learning pipelines when training or fine-tuning a model. As such most machine learning packages will have options for checkpointing built-in. If you are building your own machine learning pipeline, simple instructions can be found for how to implement checkpointing in either TensorFlow [here](https://www.tensorflow.org/guide/checkpoint) or PyTorch [here](https://pytorch.org/torchft/checkpointing.html).
 
 In this example we'll demonstrate a script with checkpointing that comes from the SIH developed [`aigis`](https://github.com/Sydney-Informatics-Hub/aigis) package. `aigis` is a tool that fine-tunes a [`detectron2`](https://github.com/facebookresearch/detectron2) image segmentation machine learning model to detect trees and buildings in aerial imagery datasets.
 
@@ -259,7 +259,7 @@ We can split this into as many shorter chunks as we would like, each starting fr
   $ qsub -W depend=afterok:136554542.gadi-pbs iteration2.pbs
   ```
 
-When you run `qsub` after this you will see the second script will have state `H` saying it has been held until `iteration1.pbs` has completed.
+When you run `qstat` after this you will see the second script will have state `H` saying it has been held until `iteration1.pbs` has completed.
 
 If you find the task of entering all these qsub commands tedious you can also make a bash script which you only need to run once to submit all the scripts:
 
@@ -285,7 +285,7 @@ Sometimes, you might be running your own software which has no checkpointing ava
 
 An effective way to add checkpointing to existing code is by saving the current state of the variables in your code to disk and then reloading them before starting the next step. The process of doing this is called *serialisation* and many different popular python packages (e.g. Numpy, Pandas) are able to do it with a simple command. Even native python variables (lists dicts etc. can be saved to disk using the `pickle` module).
 
-An example of how you might do this comes from an astronomy pipeline which reads thousands of sky images and makes multiple measurements from then followed by associating the stars in them with one another and then generating statistics on each star. 
+An example of how you might do this comes from an astronomy pipeline ([VAST](https://github.com/askap-vast/vast-pipeline)) which reads thousands of sky images and makes multiple measurements from then followed by associating the stars in them with one another and then generating statistics on each star. 
 
 This simple pipeline is easily split into multiple steps:
   1. Read images
