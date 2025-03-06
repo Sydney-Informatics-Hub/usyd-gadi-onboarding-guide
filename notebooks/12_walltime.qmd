@@ -141,7 +141,7 @@ done < my_samples_metedata.txt
 
 Note from the table above that these two steps do not multi-thread, and both have long walltimes. If you require a task like this in your workflow, it's critical to **interrogate the tool documentation** for ways to increase throughput and efficiency. 
 
-Within this tool's guide, we find there is a `-L` interval flag, which allows the tool to operate over discrete intervals of the reference file, rather than scanning the sample data over the whole reference file in one long running single-CPU task. The smaller the interval, the faster the run time, and the resultant output files are merged. 
+Within this tool's guide, we find there is a `-L` interval flag, which allows the tool to operate over discrete intervals of the reference file, rather than scanning the sample data over the whole reference file in one long running single-CPU task. The smaller the interval, the faster the run time, and the resultant output files are merged. This is an example of scatter-gather parallelism, where smaller sub tasks are scattered (distributed across the compute cluster) and then gathered (in this case, merged) to massively speed up a 'tall and slim' job (few resources consumed for a long time)  into a 'short and wide' job (many resources consumed for a short time). Introducing parallelism into your job is crucial to get the most out of HPC.
 
 Since this section is not a specialised bioinformatics training, we will not go into details for this tool here, but instead provide the main overview of steps and how with a bit of extra work, massive walltime savings can be made. 
 
@@ -169,15 +169,15 @@ As you can see, our workflow which was one long-running single job with very poo
 
 ### Example 2: A long running command with innate checkpointing
 
-Many commonly used tools have built in option for limiting the number of iterations in repetitive processes  before saving the state of the process to a local file which can be reloaded from disk and then restarting the process from where it previously left off. This is commonly known as 'checkpointing'. It's a good idea to check the documentation of the tool you are using to see if it has some kind of checkpointing functionality built in since this greatly simplifies the process of splitting up long running tasks into smaller chunks.
+Many commonly used tools have a built in option for saving the state of the process to a local file after a specified number of iterations in a repetitive task. This local file can be reloaded from disk and then the process can restart from where it previously left off. This is often called 'checkpointing'. It's a good idea to check the documentation of the tool you are using to see if it has some kind of checkpointing functionality built in since this greatly simplifies the splitting up long running tasks into smaller chunks.
 
 It is also recommended practice to use some kind of checkpointing because that way you can have a look at the output of jobs mid-way through to ensure that things are progressing as expected. Jobs can then be restarted with different parameters in case of unwanted results, thus saving resource allocations on your project.
 
-Checkpointing is often very simple to implement in iterative parameter minimisation tasks such as machine learning pipelines when training or fine-tuning a model. As such most machine learning packages will have options for checkpointing built-in. If you are building your own machine learning pipeline, simple instructions can be found for how to implement checkpointing in either TensorFlow [here](https://www.tensorflow.org/guide/checkpoint) or PyTorch [here](https://pytorch.org/torchft/checkpointing.html).
+Checkpointing is often very simple to implement in iterative parameter minimisation tasks such as machine learning pipelines that train or fine-tune a model. As such most machine learning packages will have options for checkpointing built-in. If you are building your own machine learning pipeline, simple instructions can be found for how to implement checkpointing in either TensorFlow [here](https://www.tensorflow.org/guide/checkpoint) or PyTorch [here](https://pytorch.org/torchft/checkpointing.html).
 
 In this example we'll demonstrate a script with checkpointing that comes from the SIH developed [`aigis`](https://github.com/Sydney-Informatics-Hub/aigis) package. `aigis` is a tool that fine-tunes a [`detectron2`](https://github.com/facebookresearch/detectron2) image segmentation machine learning model to detect trees and buildings in aerial imagery datasets.
 
-Aerial imagery datasets can be quite large and fine-tuning `detectron2` models using them can take a long time. Because of this the fine-tuning script has a flag that will only let it run for a given number of iterations and save the fine-tuned model to disk. The script can then be restarted with the previous output given as input.
+Aerial imagery datasets can be quite large and fine-tuning `detectron2` models using them can take a long time. Because of this the `aigis` fine-tuning script has a flag that will only let it run for a given number of iterations and save the fine-tuned model to disk. The script can then be restarted with the previous output given as input.
 
 Below shows an example that runs the `aigis` script called `fine_tune_detectron2.py` on artemis. The PBS script looks like:
 
