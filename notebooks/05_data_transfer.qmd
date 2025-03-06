@@ -21,7 +21,7 @@ The main challenges users may face adapting Artemis workflows to Gadi are:
 - [Understanding NCI accounting of KSU, disk and iNode limits](./06_accounting.qmd)
 - [Automatic 100-day Gadi /scratch purge policy](https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...#RecoverFiles...-RecoverQuarantinedFilesonscratch)
 - [Software installation and version upgrades on Gadi](./11_software.qmd)
-- [Job arrays not supported on Gadi](./13_parralel_jobs.qmd)
+- [Job arrays not supported on Gadi](./13_parallel_jobs.qmd)
  
 In this section, we will look at Data Transfer. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.
 

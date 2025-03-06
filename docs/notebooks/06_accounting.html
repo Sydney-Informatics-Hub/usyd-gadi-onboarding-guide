@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -138,7 +172,7 @@ cookieconsent.run({
     <ul class="dropdown-menu" aria-labelledby="nav-menu-introduction-to-gadi">    
         <li>
     <a class="dropdown-item" href="../notebooks/02_system_setup.html">
- <span class="dropdown-text">System offerings</span></a>
+ <span class="dropdown-text">Gadi overview</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notebooks/03_expectations.html">
@@ -152,24 +186,20 @@ cookieconsent.run({
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-working-on-gadi">    
         <li>
-    <a class="dropdown-item" href="../notebooks/04_nagivating_system.html">
- <span class="dropdown-text">Navigating the system</span></a>
+    <a class="dropdown-item" href="../notebooks/04_command_line.html">
+ <span class="dropdown-text">Command line</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notebooks/05_data_transfer.html">
- <span class="dropdown-text">Transferring data</span></a>
+ <span class="dropdown-text">Data transfer</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/11_software.html">
+ <span class="dropdown-text">Software</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notebooks/06_accounting.html">
  <span class="dropdown-text">Accounting</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/07_environments.html">
- <span class="dropdown-text">Specialised environments</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/11_software.html">
- <span class="dropdown-text">Managing software</span></a>
   </li>  
     </ul>
   </li>
@@ -183,12 +213,20 @@ cookieconsent.run({
  <span class="dropdown-text">Job scripts and submission</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../notebooks/12_walltime.html">
+ <span class="dropdown-text">Working within walltime</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../notebooks/09_job_monitoring.html">
  <span class="dropdown-text">Job monitoring</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../notebooks/13_parallel_jobs.html">
+ <span class="dropdown-text">Parallel jobs</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../notebooks/10_job_efficiency.html">
- <span class="dropdown-text">Resource efficiency</span></a>
+ <span class="dropdown-text">Benchmarking and efficiency</span></a>
   </li>  
     </ul>
   </li>
@@ -203,8 +241,24 @@ cookieconsent.run({
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#what-are-the-important-accounting-metrics" id="toc-what-are-the-important-accounting-metrics" class="nav-link" data-scroll-target="#what-are-the-important-accounting-metrics">What are the important accounting metrics?</a></li>
+  <li><a href="#service-units" id="toc-service-units" class="nav-link" data-scroll-target="#service-units">Service units</a>
+  <ul class="collapse">
+  <li><a href="#calculate-the-amount-of-su-the-job-will-require" id="toc-calculate-the-amount-of-su-the-job-will-require" class="nav-link" data-scroll-target="#calculate-the-amount-of-su-the-job-will-require">Calculate the amount of SU the job will require</a></li>
+  <li><a href="#check-your-available-su" id="toc-check-your-available-su" class="nav-link" data-scroll-target="#check-your-available-su">Check your available SU</a></li>
+  </ul></li>
+  <li><a href="#final-su-charged" id="toc-final-su-charged" class="nav-link" data-scroll-target="#final-su-charged">Final SU charged</a></li>
+  <li><a href="#disk" id="toc-disk" class="nav-link" data-scroll-target="#disk">Disk</a></li>
+  <li><a href="#inodes" id="toc-inodes" class="nav-link" data-scroll-target="#inodes">iNodes</a></li>
+  <li><a href="#key-points" id="toc-key-points" class="nav-link" data-scroll-target="#key-points">Key points</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -229,10 +283,187 @@ cookieconsent.run({
 
 
 <p>Coming soon! For now, see: https://opus.nci.org.au/spaces/Help/pages/236881132/Allocations…</p>
+<p><strong>TO BE COMPLETED</strong></p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>The main challenges users may face adapting Artemis workflows to Gadi are:</p>
+<ul>
+<li>Understanding NCI accounting of KSU, disk and iNode limits</li>
+<li><a href="../notebooks/12_walltime.html">Gadi walltime limit of 48 hours</a></li>
+<li><a href="../notebooks/08_job_script.html">Adjusting PBS directives to suit Gadi requirements and queue structure</a></li>
+<li><a href="../notebooks/08_job_script.html#lack-of-internet-access-on-compute-nodes">Lack of internet access for Gadi compute nodes</a></li>
+<li><a href="../notebooks/05_data_transfer.html">Data transfer</a></li>
+<li><a href="https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...#RecoverFiles...-RecoverQuarantinedFilesonscratch">Automatic 100-day Gadi /scratch purge policy</a></li>
+<li><a href="../notebooks/11_software.html">Software installation and version upgrades on Gadi</a></li>
+<li><a href="./13_parralel_jobs.qmd">Job arrays not supported on Gadi</a></li>
+</ul>
+<p>In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.</p>
+</section>
+<section id="what-are-the-important-accounting-metrics" class="level2">
+<h2 class="anchored" data-anchor-id="what-are-the-important-accounting-metrics">What are the important accounting metrics?</h2>
+<ol type="1">
+<li>Service units. The charge rate per resource hour.</li>
+<li>Disk (scratch, home, gdata). This refers to the amount of physical disk space used.<br>
+</li>
+<li>iNodes (scratch, home, gdata). Data structures used to store metadata about files and directories; NCI imposes an iNode limit.</li>
+</ol>
+</section>
+<section id="service-units" class="level2">
+<h2 class="anchored" data-anchor-id="service-units">Service units</h2>
+<p>For a detailed description of the NCI SU and why 1 SU does not equal 1 CPU hour, see <a href="https://opus.nci.org.au/spaces/Help/pages/119964320/Definition+Service+Unit+SU">here</a></p>
+<p>For every resource hour you consume on an NCI compute platform, you are charged at a specific rate. As a simple example the <code>normal</code> queue on Gadi has a charge rate of 2, so a job using 1 CPU for 1 hour will be charged 2 SU.</p>
+<p>We often speak in KSU or 1,000 SU for simplicity. Under the Sydney Scheme, you can easily request more KSU as you need it from the <a href="http://nci.sydney.edu.au">management portal</a>.</p>
+<p>Before running a job on Gadi, it is important to:</p>
+<ol type="1">
+<li>Calculate the amount of SU the job will require</li>
+<li>Check your available SU to ensure there is sufficient for the job to run</li>
+</ol>
+<section id="calculate-the-amount-of-su-the-job-will-require" class="level3">
+<h3 class="anchored" data-anchor-id="calculate-the-amount-of-su-the-job-will-require">Calculate the amount of SU the job will require</h3>
+<p>In the simple example above, we decided that our 1 CPU 1 hour <code>normal</code> queue job would cost 2 SU. There is actually another factor to consider, and that is memory. Each queue has nodes of a specific CPU:memory ratio, and if your job consumes more memory than this ratio allows, you will be charged based on the memory used. From the <a href="https://opus.nci.org.au/spaces/Help/pages/236880942/Job+Costs...">NCI job costs page</a>:</p>
+<p><em>“However, some jobs will request less CPUs and more memory. When this happens, you are taking memory away from the other CPUs in the node and will be charged accordingly, as other users can’t access those CPUs while your job is using that memory allocation”</em></p>
+<p>So let’s assume our 1 CPU job requests 12 GB memory. Checking the <a href="https://opus.nci.org.au/spaces/Help/pages/236880996/Queue+Structure+on+Gadi...">Gadi queue structure</a> page, under the <code>Intel Xeon Cascade Lake</code> dropdown, the <code>normal</code> nodes have the following hardware:</p>
+<ul>
+<li>2 x 24-coreIntel Xeon Platinum 8274 (Cascade Lake) 3.2 GHz CPUs per node</li>
+<li>192 GiB RAM per node</li>
+</ul>
+<p>From here we can determine that the CPU:mem ratio is 48:192 = 1:4 (1 CPU per 4 GB mem). By requesting 12 GB mem for our 1 CPU job, we are using 3 times as much mem per CPU as the ratio governs for this queue. So, we are likewise charged 3 times as much, or in other words, we are charged based on the MEMORY rather than the CPU.</p>
+<p>The equation for every job run on Gadi is charged using the formula:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>SU = Queue Charge Rate  ✕  Max (NCPUs, Memory Proportion)  ✕  Walltime Used (Hours)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For our example, this expands to:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>SU = 2 charge rate X 3 memory proportion X 1 hour</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>SU = 6</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="challenge-1-calculate-this-jobs-su-cost" class="level4">
+<h4 class="anchored" data-anchor-id="challenge-1-calculate-this-jobs-su-cost">Challenge 1: calculate this job’s SU cost</h4>
+<p>Use the <a href="https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...">queue limits</a> and <a href="https://opus.nci.org.au/spaces/Help/pages/236880996/Queue+Structure+on+Gadi...">queue structure</a> pages to help find the answer.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P MYPROJECT</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=02:00:00</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=4</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=48GB</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q normal</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -W umask=022</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l storage=gdata/MYPROJECT</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>First, we need to calculate the CPU:mem ratio of our job, which in this case is 4:48 = 1:12, ie 12 GB mem requested per CPU requested.</p>
+<p>Next, we need to check that against the queue hardware: These nodes have 48 CPU and 192 GB RAM. So the CPU:mem rato for this queue is 48:192 = 1:4 ie 4 GB RAM per CPU. By requesting 12 GB mem per CPU, we have requested <em>3 times as much mem per CPU</em> than the queue hardware provides for, so we will be charged based off the mem not the CPU, ie instead of being charged based on 4 CPU, we will be charged for the CPUs assigned to 48 GB RAM which is 12 (48 GB mem requested dividided by the queue mem per CPU value of 4).</p>
+<p>Finally, check the charge rate for the <code>normal</code> queue, which is 2 SU per resource hour.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>SU = 2 charge rate X 12 memory proportion X 2 hour</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>SU = 48</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="challenge-2-calculate-this-jobs-su-cost" class="level4">
+<h4 class="anchored" data-anchor-id="challenge-2-calculate-this-jobs-su-cost">Challenge 2: calculate this job’s SU cost</h4>
+<p>Use the <a href="https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...">queue limits</a> and <a href="https://opus.nci.org.au/spaces/Help/pages/236880996/Queue+Structure+on+Gadi...">queue structure</a> pages to help find the answer.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P MYPROJECT</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=04:00:00</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=280</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=2520GB</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q normalbw</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -W umask=022</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l storage=gdata/MYPROJECT</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>First, we need to calculate the CPU:mem ratio of our job, which in this case is 280:2520 = 1:9, ie 9 GB mem per CPU.</p>
+<p>Next, we need to chech that against the queue hardware: The <code>broadwell</code> queues (except express) have a charge rate of 1.25 SU per resource hour. The directives have requested the <code>normalbw</code> or “normal broadwell” queue, which has some nodes with 128 GB RAM and some nodes with 256 GB RAM. There is no difference in the charge rate for these nodes, and jobs are placed on either queue depending on both memory per CPU requested and resource availability. These nodes have 28 CPU per node. So the CPU:mem rato for this queue is <em>either</em> 28:128 <em>or</em> 28:256. Since the 256 GB nodes are charged the same as the 128 GB nodes, we go with the higher ratio, 28:256 = 1:9.14 ie 9.14 GB mem per CPU.</p>
+<p>Now we know that our job has requested <em>less mem per CPU than the queue allows per CPU</em> so our charge rate will be based on CPU not mem.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>SU = 1.25 charge rate X 280 CPU X 4 hour</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>SU = 1400</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>KSU = 1.4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="check-your-available-su" class="level3">
+<h3 class="anchored" data-anchor-id="check-your-available-su">Check your available SU</h3>
+<p>Once you have established your job script/s and calculated your SU cost, you should check that you have sufficient SU budget to rub the job.</p>
+<p>Use the below command, replacing the <code>&lt;nci-project-id&gt;</code> with your NCI project code:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nci_account</span> <span class="at">-P</span> <span class="op">&lt;</span>nci-project-id<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the below screenshot, you can see that project <code>qc03</code> has used 3.24 SU of its 1 KSU allocation (Grant). There are no SU reserved (<strong>reserved SU</strong> are SU assigned to jobs currently running or in queue) and there are 996.76 SU still available for the rest of the quarter.</p>
+<p><img src="../fig/nci_account-P-su.png" class="img-fluid"></p>
+<p>In order to run a job under this project code, it would need to have a computed job cost of less than or equal to 996.76 SU.</p>
+<p>If a job is submitted under a project that does not have sufficient SU to cover the expected cost, the job will be held. You can reveal the reason for a held job (status = ‘H’) from the “Comment” included in the <code>qstat -f</code> output:</p>
+<p><img src="../fig/gadi-job-insufficient-su.png" class="img-fluid"></p>
+<p>This job requires 19.2 KSU yet we know only 966 SU is available to the project. To run this job, you would need to <a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme#Additional-Service-Unit-Requests">obtain more KSU</a>.</p>
+<p>If the amount by which your job exceeds your current SU budget is small, you may consider reducing the requested resources to fit under the current budget. You can do this by either killing the job (<code>qdel &lt;jobID&gt;</code>), adjusting the resource requests then resubmitting, <em>or</em> use the <code>qalter</code> PBS command to reduce the resource requests of the held job via the command line. For example, to reduce CPU, mem and walltime:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qalter</span> <span class="at">-l</span> walltime=02:00:00 <span class="at">-l</span> ncpus=48 <span class="at">-l</span> mem=190GB <span class="op">&lt;</span>jobid<span class="op">&gt;</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="final-su-charged" class="level2">
+<h2 class="anchored" data-anchor-id="final-su-charged">Final SU charged</h2>
+<p>After your job completes, the SU consumed by the job is reported in the PBS <code>.o</code> job log (<code>&lt;jobname&gt;.o&lt;jobID&gt;</code> unless otherwise changed with the <code>#PBS -o &lt;logname&gt;</code> directive).</p>
+<p>The charged is based off the <strong>walltime used</strong>, not the walltime requested.</p>
+<p><img src="../fig/gadi-pbs-olog.png" class="img-fluid"></p>
+<p>In the above example, the job cost 23.94 SU. The job queue is not reported in the log, however this information is of course included in the directives of the job script. This job was run on <code>normalbw</code> which has a charge rate of 1.25 SU, and CPU:mem ratio of 1:9.14. Since the job requested 7 CPU and 63 GB RAM, this is below the mem:CPU ratio so the charge is based off CPU not memory:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>SU = 1.25 charge rate X 7 CPU X 2.74 hours</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>SU = 23.94</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="disk" class="level2">
+<h2 class="anchored" data-anchor-id="disk">Disk</h2>
+<p>New projects are assigned 1 TB disk quota and 202 K inode quota on Gadi’s scratch filesystem, and these can be increased with justification by contacting the <a href="https://nci.org.au/users/nci-helpdesk">NCI help desk</a>.</p>
+<p>You can check your project allocation with the same <code>nci_account -P &lt;nci-projet-id&gt;</code> command used to query SU:</p>
+<p><img src="../fig/nci_account-P-disk.png" class="img-fluid"></p>
+<p>This project has used 4.5 TB of its 10 TB allocated in scratch.</p>
+<p>Another way to check disk usage is with the <code>lquota</code> command, which will report filesystem usage for all projects of which you are a member:</p>
+<p><img src="../fig/gadi-lquota.png" class="img-fluid"></p>
+<p>Note the extra columns here - you will see that in addition to the amount of disk used and allocated, there are also ‘Limit’ columns. This is a grace amount of additional resources that your project may use, but only for a short time. This is to try and help jobs complete that may otherwise have exceeded the allocation and failed, causing unecessary wastage of compute resources. You cannot submit any new jobs under a project code that has exceeded the limit; the jobs will be <code>held</code> (stats H) until you have brought your disk usage back under the allocation quota. Your project cannot exceed the limits. If a running job causes the limit to be exceeded, the job will fail. If a running job exceeds the allocation but remains under the limit, the job will continue.</p>
+<p>NCI implements a <a href="https://opus.nci.org.au/spaces/Help/pages/156434436/Gadi+scratch+File+Management">scratch purge policy</a>, where files not accessed for 100 days are moved into quarantine for 14 days before permanent deletion. Files within quarantine still count towards project quotas.</p>
+<p>If you are a member of multiple projects, understand that the filepath of the files and not the group ownership of the files dictates the project to which the disk resources are accounted. Please see <a href="https://opus.nci.org.au/spaces/Help/pages/165609537/Q3+2022+Gadi+scratch+Quota+Enforcement+Updates">this NCI update</a> for more information.</p>
+</section>
+<section id="inodes" class="level2">
+<h2 class="anchored" data-anchor-id="inodes">iNodes</h2>
+<p>An inode (index node) is a data structure used by Unix-like file systems to store metadata about a file or directory. In simple terms, each file and directory contributes an inode count of 1, ie the inode of a filesystem is the count of all files and directories stored on that filesystem. Like physical disk space, a filesystem also has an inode limit, and if they get used up (even if there’s still free disk space), you won’t be able to create new files. This can cause failure of a running job.</p>
+<p>Most users will not need to worry about inode limit. For each TB of scratch or gdata disk assigned to a project, an amount if inode that is suitable for most users is also provided. If however you run <strong>tools or jobs which generate large numbers of tiny files</strong>, you may need to implement close inode monitoring and management, such as periodically deleting or archiving tiny temp files as they are no longer needed.</p>
+<p>From the <a href="">Gadi resources page</a>:</p>
+<p><em>“Please try to keep the number of files as low as possible as this can affect the I/O performance in your job. Gadi is efficient at handling large scale parallel I/O but performance becomes significantly worse when doing frequent small small operations. A main culprit for creating a large amount of files is the Python packaging system conda. Please use pip and the available modules that are already tuned for Gadi to keep file and folder count as low as possible</em>.””</p>
+<p>You can see the inode limits and usage for your project’s scratch and gdata with the <code>nci_account -P &lt;nci-project-id&gt;</code> command:</p>
+<p><img src="../fig/nci_account-P-inode.png" class="img-fluid"></p>
+<p>This project has been allocated (iAllocation) 4.5 million inodes in scratch, and has used (iUsed) 1.59 million inodes. With ~ 3 million inodes spare, there is plenty to continue work.</p>
+<p>The <code>lquota</code> command shown above also reports the inode usage, allocation and limit for all projects of which you are a member. The inode limit functions the same as the disk limit, whereby you can exceed the allocation/quota up to the limit, you cannot exceed the limit, and you cannot submit new jobs until the project is back under the allocation/quota.</p>
+<p>If you would like to determine the total inode usage of a specific directory and its subdirectories, run this command from within that directory:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> d <span class="kw">in</span> <span class="kw">`</span><span class="fu">find</span> <span class="at">-maxdepth</span> 1 <span class="at">-type</span> d <span class="kw">|</span><span class="fu">cut</span> <span class="at">-d\/</span> <span class="at">-f2</span> <span class="kw">|</span><span class="fu">sort</span><span class="kw">`;</span> <span class="cf">do</span> <span class="va">c</span><span class="op">=</span><span class="va">$(</span><span class="fu">find</span> <span class="va">$d</span> <span class="kw">|</span><span class="fu">wc</span> <span class="at">-l</span><span class="va">)</span> <span class="kw">;</span> <span class="bu">printf</span> <span class="st">"</span><span class="va">$c</span><span class="st">\t\t- </span><span class="va">$d</span><span class="st">\n"</span> <span class="kw">;</span> <span class="cf">done</span> <span class="kw">;</span> <span class="bu">printf</span> <span class="st">"Total: \t\t</span><span class="va">$(</span><span class="fu">find</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span><span class="va">)</span><span class="st">\n"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="key-points" class="level2">
+<h2 class="anchored" data-anchor-id="key-points">Key points</h2>
+<ul>
+<li>NCI accounts for disk usage, inode usage, and SU</li>
+<li>It is your responsibility to monitor and manage your usage of these resources as you work</li>
+<li>Use command <code>nci_account -P &lt;nci-project-id&gt;</code> to check SU of a specific project for the current quarter, as well as disk and inode for that project</li>
+<li>Use command <code>lquota</code> to check disk and inode usage and allocation for all projects you are a member of</li>
+<li>Requests for more SU can be made through the <a href="http://nci.sydney.edu.au">Sydney Scheme management portal</a></li>
+<li>Requests for more scratch disk and scratch inode can be made through the <a href="https://nci.org.au/users/nci-helpdesk">NCI help desk</a>, and will require justification</li>
+<li>Requests for more gdata disk and inode can be made by <a href="mailto:nci-sydney.scheme@sydney.edu.au">emailing the Sydney Scheme manager</a>, and will require justification</li>
+</ul>
 
 
+</section>
 
-<p>All materials copyright Sydney Informatics Hub, University of Sydney</p></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -657,7 +888,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-
+<p>All materials copyright Sydney Informatics Hub, University of Sydney</p>
 <div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
     <div class="nav-footer-right">
       &nbsp;
