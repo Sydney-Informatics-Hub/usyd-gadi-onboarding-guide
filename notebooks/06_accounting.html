@@ -437,7 +437,7 @@ Answer
 <h2 class="anchored" data-anchor-id="inodes">iNodes</h2>
 <p>An inode (index node) is a data structure used by Unix-like file systems to store metadata about a file or directory. In simple terms, each file and directory contributes an inode count of 1, ie the inode usage of a filesystem is the count of all files and directories stored on that filesystem. Like physical disk space, a filesystem also has an inode limit, and if they get used up (even if there’s still free disk space), you won’t be able to create new files. This can cause failure of a running job.</p>
 <p>Most users will not need to worry about inode limit. For each TB of scratch or gdata disk assigned to a project, an amount if inode that is suitable for most users is also provided. If however you run <strong>tools or jobs which generate large numbers of tiny files</strong>, you may need to implement close inode monitoring and management, such as periodically deleting or archiving tiny temp files as they are no longer needed.</p>
-<p>From the <a href="">Gadi resources page</a>:</p>
+<p>From the <a href="https://opus.nci.org.au/spaces/Help/pages/236880086/Gadi+Resources...#GadiResources...">Gadi resources page</a>:</p>
 <p><em>“Please try to keep the number of files as low as possible as this can affect the I/O performance in your job. Gadi is efficient at handling large scale parallel I/O but performance becomes significantly worse when doing frequent small operations. A main culprit for creating a large amount of files is the Python packaging system conda. Please use pip and the available modules that are already tuned for Gadi to keep file and folder count as low as possible.”</em></p>
 <p>You can see the inode limits and usage for your project’s scratch and gdata with the <code>nci_account -P &lt;nci-project-id&gt;</code> command:</p>
 <p><img src="../fig/nci_account-P-inode.png" class="img-fluid"></p>
@@ -448,8 +448,8 @@ Answer
 </section>
 <section id="disk-and-inode-usage-on-home" class="level2">
 <h2 class="anchored" data-anchor-id="disk-and-inode-usage-on-home">Disk and inode usage on /home</h2>
-<p>Each use has a quota of 10 GB of storage in their home directory, which is private and backed up. They also have an inode allocation of 10,240 M.</p>
-<p>Importantly, home directories <strong>do not have a grace limit</strong> like scratch and gdata do! It is critical to actively monitor and manage your home directory usage to avoid preventable job failures. Please note the NCI message above and avoid <code>conda</code>, but if this is unavoidable, use <code>conda</code> installations in scratch or gdata rather than your home directory.</p>
+<p>Each user has a quota of 10 GB of storage in their home directory, which is private and backed up. They also have an inode allocation of 10,240 M.</p>
+<p>Importantly, home directories <strong>do not have a grace limit</strong> like scratch and gdata do! It is critical to actively monitor and manage your home directory usage to avoid preventable job failures.</p>
 <p>The <code>nci_account</code> and <code>lquota</code> commands do not report usage on home. To view disk and inode quota and usage, use the command <code>quota -s</code>:</p>
 <p><img src="../fig/gadi-home-quota.png" class="img-fluid"></p>
 <p>This user has filled 8643 M of physical space in their home directory, and has 109 K inodes used of the total quota of 4295 M inodes. Note there is no ‘grace’ (limit) value in home; the quotas cannot be exceeded.</p>
