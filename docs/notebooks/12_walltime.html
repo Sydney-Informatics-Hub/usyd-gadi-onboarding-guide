@@ -294,7 +294,7 @@ cookieconsent.run({
 <li><a href="../notebooks/06_accounting.html">Understanding NCI accounting of KSU, disk and iNode limits</a></li>
 <li><a href="https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...#RecoverFiles...-RecoverQuarantinedFilesonscratch">Automatic 100-day Gadi /scratch purge policy</a></li>
 <li><a href="../notebooks/11_software.html">Software installation and version upgrades on Gadi</a></li>
-<li><a href="./13_parralel_jobs.qmd">Job arrays not supported on Gadi</a></li>
+<li><a href="../notebooks/13_parallel_jobs.html">Job arrays not supported on Gadi</a></li>
 </ul>
 <p>In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.</p>
 </section>
@@ -339,7 +339,7 @@ cookieconsent.run({
 <h3 class="anchored" data-anchor-id="example-1-a-workflow-with-multiple-discrete-commands">Example 1: A workflow with multiple discrete commands</h3>
 <p>In the field of genomics, the raw data is processed through a series of steps before the final output files are produced. Many groups perform all of these steps within a single, multi-command job, in order to only have to run one job to perform all the work.</p>
 <p>By splitting apart each of these steps so that each is its own job, we can improve code manageability, reduce walltime, and increase overall processing efficiency.</p>
-<p>While this does require some extra effort in terms of submitting multiple processing jobs rather than just one, the benefits described above far outweigh this. The burden of multiple job submission can be ameliorated by parallel processing per sample, and even further by a workflow manager such as Nextflow. For an exammple Nextflow genomics processing workflow, view <a href="https://github.com/Sydney-Informatics-Hub/Parabricks-Genomics-nf">this repository</a>, and for parallel jobs on Gadi, see <a href="./13_parralel_jobs.qmd">this section</a>.</p>
+<p>While this does require some extra effort in terms of submitting multiple processing jobs rather than just one, the benefits described above far outweigh this. The burden of multiple job submission can be ameliorated by parallel processing per sample, and even further by a workflow manager such as Nextflow. For an exammple Nextflow genomics processing workflow, view <a href="https://github.com/Sydney-Informatics-Hub/Parabricks-Genomics-nf">this repository</a>, and for parallel jobs on Gadi, see <a href="../notebooks/13_parallel_jobs.html">this section</a>.</p>
 <p>In the below Artemis script example, a samplesheet is read in containing metadata about 10 samples to be analysed. Each sample has one pair of raw ‘fastq’ input files that are processed through an analysis loop containing 4 steps:</p>
 <table class="caption-top table">
 <colgroup>
@@ -399,7 +399,7 @@ cookieconsent.run({
 <p><img src="../fig/dummy-gadi-fastqc-script.png" class="img-fluid"></p>
 <p><strong>Job 2: Map to reference</strong></p>
 <p>The <code>bwa</code> tool can multi-thread, and tool benchmarking in peer-reviewed literature shows almost perfect scalability up to a thread count of 36. Gadi <code>normal</code> queue has 48 CPU per node, so you could run this job with 48 CPU, assigning 36 CPU to the mapping and 12 CPU to the piped <code>sort</code> command.</p>
-<p>The key detail is to map each sample’s raw data as it’s own distinct job, instead of looping over each sample in series like the demo Artemis script. On Artemis, we can do this with <strong>job arrays</strong> but these are <em>not available on Gadi</em>. NCI and SIH recommend the use of <code>nci-parallel</code> (a custom wrapper utility for OpenMPI) for repeated runs of the same job script - see <a href="./13_parralel_jobs.qmd">parallel jobs on Gadi</a> for more details.</p>
+<p>The key detail is to map each sample’s raw data as it’s own distinct job, instead of looping over each sample in series like the demo Artemis script. On Artemis, we can do this with <strong>job arrays</strong> but these are <em>not available on Gadi</em>. NCI and SIH recommend the use of <code>nci-parallel</code> (a custom wrapper utility for OpenMPI) for repeated runs of the same job script - see <a href="../notebooks/13_parallel_jobs.html">parallel jobs on Gadi</a> for more details.</p>
 <p>To avoid complicating this walltime section, we will provide an example of using a simple <code>for loop</code> for job submission. <strong>NOTE: loops should ONLY be used for a VERY SMALL NUMBER OF JOBS, and always include a sleep in the loop!</strong> NCI does monitor the login nodes and serial offending with long <code>for loops</code> will be targeted!</p>
 <p>Note that the directive for job name is provided on the command line as an argument to <code>qsub</code>, the sample metadata is provided with the <code>qsub -v varname="varvalue"</code> syntax, and a 3-second <code>sleep</code> is used to avoid over-loading the job scheduler.</p>
 <p><strong><em>Script:</em></strong></p>

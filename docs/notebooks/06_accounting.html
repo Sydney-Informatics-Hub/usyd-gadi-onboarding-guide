@@ -256,6 +256,7 @@ cookieconsent.run({
   <li><a href="#final-su-charged" id="toc-final-su-charged" class="nav-link" data-scroll-target="#final-su-charged">Final SU charged</a></li>
   <li><a href="#disk" id="toc-disk" class="nav-link" data-scroll-target="#disk">Disk</a></li>
   <li><a href="#inodes" id="toc-inodes" class="nav-link" data-scroll-target="#inodes">iNodes</a></li>
+  <li><a href="#disk-and-inode-usage-on-home" id="toc-disk-and-inode-usage-on-home" class="nav-link" data-scroll-target="#disk-and-inode-usage-on-home">Disk and inode usage on /home</a></li>
   <li><a href="#key-points" id="toc-key-points" class="nav-link" data-scroll-target="#key-points">Key points</a></li>
   </ul>
 </nav>
@@ -282,8 +283,6 @@ cookieconsent.run({
 </header>
 
 
-<p>Coming soon! For now, see: https://opus.nci.org.au/spaces/Help/pages/236881132/Allocations…</p>
-<p><strong>TO BE COMPLETED</strong></p>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>The main challenges users may face adapting Artemis workflows to Gadi are:</p>
@@ -295,25 +294,24 @@ cookieconsent.run({
 <li><a href="../notebooks/05_data_transfer.html">Data transfer</a></li>
 <li><a href="https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...#RecoverFiles...-RecoverQuarantinedFilesonscratch">Automatic 100-day Gadi /scratch purge policy</a></li>
 <li><a href="../notebooks/11_software.html">Software installation and version upgrades on Gadi</a></li>
-<li><a href="./13_parralel_jobs.qmd">Job arrays not supported on Gadi</a></li>
+<li><a href="../notebooks/13_parallel_jobs.html">Job arrays not supported on Gadi</a></li>
 </ul>
 <p>In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.</p>
 </section>
 <section id="what-are-the-important-accounting-metrics" class="level2">
 <h2 class="anchored" data-anchor-id="what-are-the-important-accounting-metrics">What are the important accounting metrics?</h2>
 <ol type="1">
-<li>Service units. The charge rate per resource hour.</li>
-<li>Disk (scratch, home, gdata). This refers to the amount of physical disk space used.<br>
-</li>
-<li>iNodes (scratch, home, gdata). Data structures used to store metadata about files and directories; NCI imposes an iNode limit.</li>
+<li><strong>Service units</strong>: The charge rate per resource hour</li>
+<li><strong>Disk usage</strong>: The amount of physical disk space used on scratch, home, and gdata</li>
+<li><strong>iNode usage</strong>: The number of files and directories stored on scratch, home, and gdata</li>
 </ol>
 </section>
 <section id="service-units" class="level2">
 <h2 class="anchored" data-anchor-id="service-units">Service units</h2>
 <p>For a detailed description of the NCI SU and why 1 SU does not equal 1 CPU hour, see <a href="https://opus.nci.org.au/spaces/Help/pages/119964320/Definition+Service+Unit+SU">here</a></p>
 <p>For every resource hour you consume on an NCI compute platform, you are charged at a specific rate. As a simple example the <code>normal</code> queue on Gadi has a charge rate of 2, so a job using 1 CPU for 1 hour will be charged 2 SU.</p>
-<p>We often speak in KSU or 1,000 SU for simplicity. Under the Sydney Scheme, you can easily request more KSU as you need it from the <a href="http://nci.sydney.edu.au">management portal</a>.</p>
-<p>Before running a job on Gadi, it is important to:</p>
+<p>We often speak in KSU (1 KSU = 1,000 SU) for simplicity. Under the Sydney Scheme, you can easily request more KSU as you need it from the <a href="http://nci.sydney.edu.au">management portal</a>.</p>
+<p>Before submitting a job on Gadi, it is important to:</p>
 <ol type="1">
 <li>Calculate the amount of SU the job will require</li>
 <li>Check your available SU to ensure there is sufficient for the job to run</li>
@@ -357,7 +355,7 @@ Answer
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>First, we need to calculate the CPU:mem ratio of our job, which in this case is 4:48 = 1:12, ie 12 GB mem requested per CPU requested.</p>
-<p>Next, we need to check that against the queue hardware: These nodes have 48 CPU and 192 GB RAM. So the CPU:mem rato for this queue is 48:192 = 1:4 ie 4 GB RAM per CPU. By requesting 12 GB mem per CPU, we have requested <em>3 times as much mem per CPU</em> than the queue hardware provides for, so we will be charged based off the mem not the CPU, ie instead of being charged based on 4 CPU, we will be charged for the CPUs assigned to 48 GB RAM which is 12 (48 GB mem requested dividided by the queue mem per CPU value of 4).</p>
+<p>Next, we need to check that against the queue hardware: These nodes have 48 CPU and 192 GB RAM. So the CPU:mem ratio for this queue is 48:192 = 1:4 ie 4 GB RAM per CPU. By requesting 12 GB mem per CPU, we have requested <em>3 times as much mem per CPU</em> than the queue hardware provides for, so we will be charged based off the mem not the CPU, ie instead of being charged based on 4 CPU, we will be charged for the CPUs assigned to 48 GB RAM which is 12 (48 GB mem requested dividided by the queue mem per CPU value of 4).</p>
 <p>Finally, check the charge rate for the <code>normal</code> queue, which is 2 SU per resource hour.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>SU = 2 charge rate X 12 memory proportion X 2 hour</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>SU = 48</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -389,8 +387,8 @@ Answer
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>First, we need to calculate the CPU:mem ratio of our job, which in this case is 280:2520 = 1:9, ie 9 GB mem per CPU.</p>
-<p>Next, we need to chech that against the queue hardware: The <code>broadwell</code> queues (except express) have a charge rate of 1.25 SU per resource hour. The directives have requested the <code>normalbw</code> or “normal broadwell” queue, which has some nodes with 128 GB RAM and some nodes with 256 GB RAM. There is no difference in the charge rate for these nodes, and jobs are placed on either queue depending on both memory per CPU requested and resource availability. These nodes have 28 CPU per node. So the CPU:mem rato for this queue is <em>either</em> 28:128 <em>or</em> 28:256. Since the 256 GB nodes are charged the same as the 128 GB nodes, we go with the higher ratio, 28:256 = 1:9.14 ie 9.14 GB mem per CPU.</p>
-<p>Now we know that our job has requested <em>less mem per CPU than the queue allows per CPU</em> so our charge rate will be based on CPU not mem.</p>
+<p>Next, we need to check that against the queue hardware: The <code>broadwell</code> queues (except express) have a charge rate of 1.25 SU per resource hour. The directives have requested the <code>normalbw</code> or “normal broadwell” queue, which has some nodes with 128 GB RAM and some nodes with 256 GB RAM. There is no difference in the charge rate for these nodes, and jobs are placed on either node type depending on the memory per CPU requested and resource availability at the time. These nodes have 28 CPU per node. So the CPU:mem rato for this queue is <em>either</em> 28:128 <em>or</em> 28:256. Since the 256 GB nodes are charged the same as the 128 GB nodes, we go with the higher ratio, 28:256 = 1:9.14, ie 9.14 GB mem per CPU.</p>
+<p>Since we requested a CPU:mem ratio of 280:2520 = 1:9, we have requested <em>less mem per CPU than the queue allows per CPU</em> so our charge rate will be based on CPU not mem.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>SU = 1.25 charge rate X 280 CPU X 4 hour</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>SU = 1400</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>KSU = 1.4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -401,7 +399,7 @@ Answer
 </section>
 <section id="check-your-available-su" class="level3">
 <h3 class="anchored" data-anchor-id="check-your-available-su">Check your available SU</h3>
-<p>Once you have established your job script/s and calculated your SU cost, you should check that you have sufficient SU budget to rub the job.</p>
+<p>Once you have established your job script/s and calculated your SU cost, you should check that you have sufficient SU budget to run the job.</p>
 <p>Use the below command, replacing the <code>&lt;nci-project-id&gt;</code> with your NCI project code:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nci_account</span> <span class="at">-P</span> <span class="op">&lt;</span>nci-project-id<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In the below screenshot, you can see that project <code>qc03</code> has used 3.24 SU of its 1 KSU allocation (Grant). There are no SU reserved (<strong>reserved SU</strong> are SU assigned to jobs currently running or in queue) and there are 996.76 SU still available for the rest of the quarter.</p>
@@ -431,22 +429,30 @@ Answer
 <p>This project has used 4.5 TB of its 10 TB allocated in scratch.</p>
 <p>Another way to check disk usage is with the <code>lquota</code> command, which will report filesystem usage for all projects of which you are a member:</p>
 <p><img src="../fig/gadi-lquota.png" class="img-fluid"></p>
-<p>Note the extra columns here - you will see that in addition to the amount of disk used and allocated, there are also ‘Limit’ columns. This is a grace amount of additional resources that your project may use, but only for a short time. This is to try and help jobs complete that may otherwise have exceeded the allocation and failed, causing unecessary wastage of compute resources. You cannot submit any new jobs under a project code that has exceeded the limit; the jobs will be <code>held</code> (stats H) until you have brought your disk usage back under the allocation quota. Your project cannot exceed the limits. If a running job causes the limit to be exceeded, the job will fail. If a running job exceeds the allocation but remains under the limit, the job will continue.</p>
+<p>Note the extra columns here - you will see that in addition to the amount of disk used and allocated, there are also <strong>Limit</strong> columns. This is a grace amount of additional resources that your project may use, but only for a short time. This is to try and help jobs complete that may otherwise have exceeded the allocation and failed, causing unecessary wastage of compute resources. You cannot submit any new jobs under a project code that has exceeded the limit; the jobs will be <code>held</code> (status H) until you have brought your disk usage back under the allocation quota. Your project cannot exceed the limits. If a running job causes the limit to be exceeded, the job will fail. If a running job exceeds the allocation but remains under the limit, the job will continue.</p>
 <p>NCI implements a <a href="https://opus.nci.org.au/spaces/Help/pages/156434436/Gadi+scratch+File+Management">scratch purge policy</a>, where files not accessed for 100 days are moved into quarantine for 14 days before permanent deletion. Files within quarantine still count towards project quotas.</p>
 <p>If you are a member of multiple projects, understand that the filepath of the files and not the group ownership of the files dictates the project to which the disk resources are accounted. Please see <a href="https://opus.nci.org.au/spaces/Help/pages/165609537/Q3+2022+Gadi+scratch+Quota+Enforcement+Updates">this NCI update</a> for more information.</p>
 </section>
 <section id="inodes" class="level2">
 <h2 class="anchored" data-anchor-id="inodes">iNodes</h2>
-<p>An inode (index node) is a data structure used by Unix-like file systems to store metadata about a file or directory. In simple terms, each file and directory contributes an inode count of 1, ie the inode of a filesystem is the count of all files and directories stored on that filesystem. Like physical disk space, a filesystem also has an inode limit, and if they get used up (even if there’s still free disk space), you won’t be able to create new files. This can cause failure of a running job.</p>
+<p>An inode (index node) is a data structure used by Unix-like file systems to store metadata about a file or directory. In simple terms, each file and directory contributes an inode count of 1, ie the inode usage of a filesystem is the count of all files and directories stored on that filesystem. Like physical disk space, a filesystem also has an inode limit, and if they get used up (even if there’s still free disk space), you won’t be able to create new files. This can cause failure of a running job.</p>
 <p>Most users will not need to worry about inode limit. For each TB of scratch or gdata disk assigned to a project, an amount if inode that is suitable for most users is also provided. If however you run <strong>tools or jobs which generate large numbers of tiny files</strong>, you may need to implement close inode monitoring and management, such as periodically deleting or archiving tiny temp files as they are no longer needed.</p>
 <p>From the <a href="">Gadi resources page</a>:</p>
-<p><em>“Please try to keep the number of files as low as possible as this can affect the I/O performance in your job. Gadi is efficient at handling large scale parallel I/O but performance becomes significantly worse when doing frequent small small operations. A main culprit for creating a large amount of files is the Python packaging system conda. Please use pip and the available modules that are already tuned for Gadi to keep file and folder count as low as possible</em>.””</p>
+<p><em>“Please try to keep the number of files as low as possible as this can affect the I/O performance in your job. Gadi is efficient at handling large scale parallel I/O but performance becomes significantly worse when doing frequent small operations. A main culprit for creating a large amount of files is the Python packaging system conda. Please use pip and the available modules that are already tuned for Gadi to keep file and folder count as low as possible.”</em></p>
 <p>You can see the inode limits and usage for your project’s scratch and gdata with the <code>nci_account -P &lt;nci-project-id&gt;</code> command:</p>
 <p><img src="../fig/nci_account-P-inode.png" class="img-fluid"></p>
 <p>This project has been allocated (iAllocation) 4.5 million inodes in scratch, and has used (iUsed) 1.59 million inodes. With ~ 3 million inodes spare, there is plenty to continue work.</p>
-<p>The <code>lquota</code> command shown above also reports the inode usage, allocation and limit for all projects of which you are a member. The inode limit functions the same as the disk limit, whereby you can exceed the allocation/quota up to the limit, you cannot exceed the limit, and you cannot submit new jobs until the project is back under the allocation/quota.</p>
+<p>The <code>lquota</code> command shown previously also reports the inode usage, allocation and limit for all projects of which you are a member. The inode limit functions the same as the disk limit, whereby you can exceed the allocation/quota up to the inode limit, you cannot exceed the inode limit, and you cannot submit new jobs until the project is back under the inode allocation/quota.</p>
 <p>If you would like to determine the total inode usage of a specific directory and its subdirectories, run this command from within that directory:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> d <span class="kw">in</span> <span class="kw">`</span><span class="fu">find</span> <span class="at">-maxdepth</span> 1 <span class="at">-type</span> d <span class="kw">|</span><span class="fu">cut</span> <span class="at">-d\/</span> <span class="at">-f2</span> <span class="kw">|</span><span class="fu">sort</span><span class="kw">`;</span> <span class="cf">do</span> <span class="va">c</span><span class="op">=</span><span class="va">$(</span><span class="fu">find</span> <span class="va">$d</span> <span class="kw">|</span><span class="fu">wc</span> <span class="at">-l</span><span class="va">)</span> <span class="kw">;</span> <span class="bu">printf</span> <span class="st">"</span><span class="va">$c</span><span class="st">\t\t- </span><span class="va">$d</span><span class="st">\n"</span> <span class="kw">;</span> <span class="cf">done</span> <span class="kw">;</span> <span class="bu">printf</span> <span class="st">"Total: \t\t</span><span class="va">$(</span><span class="fu">find</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span><span class="va">)</span><span class="st">\n"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="disk-and-inode-usage-on-home" class="level2">
+<h2 class="anchored" data-anchor-id="disk-and-inode-usage-on-home">Disk and inode usage on /home</h2>
+<p>Each use has a quota of 10 GB of storage in their home directory, which is private and backed up. They also have an inode allocation of 10,240 M.</p>
+<p>Importantly, home directories <strong>do not have a grace limit</strong> like scratch and gdata do! It is critical to actively monitor and manage your home directory usage to avoid preventable job failures. Please note the NCI message above and avoid <code>conda</code>, but if this is unavoidable, use <code>conda</code> installations in scratch or gdata rather than your home directory.</p>
+<p>The <code>nci_account</code> and <code>lquota</code> commands do not report usage on home. To view disk and inode quota and usage, use the command <code>quota -s</code>:</p>
+<p><img src="../fig/gadi-home-quota.png" class="img-fluid"></p>
+<p>This user has filled 8643 M of physical space in their home directory, and has 109 K inodes used of the total quota of 4295 M inodes. Note there is no ‘grace’ (limit) value in home; the quotas cannot be exceeded.</p>
 </section>
 <section id="key-points" class="level2">
 <h2 class="anchored" data-anchor-id="key-points">Key points</h2>
@@ -455,9 +461,10 @@ Answer
 <li>It is your responsibility to monitor and manage your usage of these resources as you work</li>
 <li>Use command <code>nci_account -P &lt;nci-project-id&gt;</code> to check SU of a specific project for the current quarter, as well as disk and inode for that project</li>
 <li>Use command <code>lquota</code> to check disk and inode usage and allocation for all projects you are a member of</li>
+<li>Use <code>quota -s</code> to check disk and inode usage in your home directory</li>
 <li>Requests for more SU can be made through the <a href="http://nci.sydney.edu.au">Sydney Scheme management portal</a></li>
 <li>Requests for more scratch disk and scratch inode can be made through the <a href="https://nci.org.au/users/nci-helpdesk">NCI help desk</a>, and will require justification</li>
-<li>Requests for more gdata disk and inode can be made by <a href="mailto:nci-sydney.scheme@sydney.edu.au">emailing the Sydney Scheme manager</a>, and will require justification</li>
+<li>Requests for more gdata disk and gdata inode can be made by <a href="mailto:nci-sydney.scheme@sydney.edu.au">emailing the Sydney Scheme manager</a>, and will require justification</li>
 </ul>
 
 
