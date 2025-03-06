@@ -293,11 +293,15 @@ Likewise, the **extrapolated walltime for a full-size sample is also much lower 
 
 
 
-## Example of a complete benchmark study including full-size benchmarks and scalability results
+## Benchmarking at scale
 
 We are fortunate under the Sydney Scheme to have easy access to generous KSU. Prior to this scheme, NCI users would need to apply for merit-based allocations under Sydney Scheme or [NCMAS](https://my.nci.org.au/mancini/ncmas/2025/). NCMAS is highly prestigious and competitive, and applications are required to not only provide benchmarking results, but also to demonstrate scalability by showing that CPU and/or memory efficiency is maintained when the worflow is scaled to multi-node jobs. 
 
-***TBA***
+We typically see some decline in efficiency at scale. The figure below shows a scalability study using the same command as above, on one full-sized sample, running multiple 10 million query chunks in parallel with 6 CPU per task (best efficiency from the benchmark results above). Using this scatter-gather parallelism approach, multiple nodes per sample can be utilised (not something the tool can do natively), making great use of Gadi's extensive infrastructure.
+
+For a job with **perfect scalability**, we would see the walltime descrease as the number of nodes increased, while the SU and CPU efficiency remained constant. The job below does *not* demonstrate perfect scalability, as so few do. As expected, we can see a decrease in walltime as more nodes are assigned to this job, and a slight increase in SU and worsening of CPU efficiency. It appears the 'sweet spot' is around 3 nodes per sample for this analysis, where the CPU efficiency remains > 80% and a fair compromise between walltime and SU is observed. 
+
+![](../fig/benchmark-at-scale.png)
 
 
 ## Benchmarking the best algorithm for the task
