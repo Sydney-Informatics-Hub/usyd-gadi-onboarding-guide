@@ -172,7 +172,7 @@ cookieconsent.run({
     <ul class="dropdown-menu" aria-labelledby="nav-menu-introduction-to-gadi">    
         <li>
     <a class="dropdown-item" href="../notebooks/02_system_setup.html">
- <span class="dropdown-text">System offerings</span></a>
+ <span class="dropdown-text">Gadi overview</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notebooks/03_expectations.html">
@@ -186,24 +186,20 @@ cookieconsent.run({
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-working-on-gadi">    
         <li>
-    <a class="dropdown-item" href="../notebooks/04_nagivating_system.html">
- <span class="dropdown-text">Navigating the system</span></a>
+    <a class="dropdown-item" href="../notebooks/04_command_line.html">
+ <span class="dropdown-text">Command line</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notebooks/05_data_transfer.html">
- <span class="dropdown-text">Transferring data</span></a>
+ <span class="dropdown-text">Data transfer</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/11_software.html">
+ <span class="dropdown-text">Software</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notebooks/06_accounting.html">
  <span class="dropdown-text">Accounting</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/07_environments.html">
- <span class="dropdown-text">Specialised environments</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/11_software.html">
- <span class="dropdown-text">Managing software</span></a>
   </li>  
     </ul>
   </li>
@@ -217,12 +213,20 @@ cookieconsent.run({
  <span class="dropdown-text">Job scripts and submission</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../notebooks/12_walltime.html">
+ <span class="dropdown-text">Working within walltime</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../notebooks/09_job_monitoring.html">
  <span class="dropdown-text">Job monitoring</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../notebooks/13_parallel_jobs.html">
+ <span class="dropdown-text">Parallel jobs</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../notebooks/10_job_efficiency.html">
- <span class="dropdown-text">Resource efficiency</span></a>
+ <span class="dropdown-text">Benchmarking and efficiency</span></a>
   </li>  
     </ul>
   </li>
@@ -283,7 +287,8 @@ cookieconsent.run({
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In this section, we will compare Artemis job scripts to Gadi job scripts, and provide some guidance on how to adapt your Artemis workflow to NCI Gadi HPC.</p>
+<p>In this section, we will compare Artemis job scripts to Gadi job scripts, and provide some guidance on how to adapt your Artemis workflow to NCI Gadi HPC.<br>
+<a href="https://youtu.be/ZBOycXymok4">Watch the pre-recorded session</a></p>
 <p>The main challenges users may face adapting Artemis workflows to Gadi are:</p>
 <ul>
 <li>Adjusting PBS directives to suit Gadi requirements and queue structure</li>
@@ -293,7 +298,7 @@ cookieconsent.run({
 <li><a href="../notebooks/06_accounting.html">Understanding NCI accounting of KSU, disk and iNode limits</a></li>
 <li><a href="https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...#RecoverFiles...-RecoverQuarantinedFilesonscratch">Automatic 100-day Gadi /scratch purge policy</a></li>
 <li><a href="../notebooks/11_software.html">Software installation and version upgrades on Gadi</a></li>
-<li><a href="../notebooks/13_parralel_jobs.html">Job arrays not supported on Gadi</a></li>
+<li><a href="../notebooks/13_parallel_jobs.html">Job arrays not supported on Gadi</a></li>
 </ul>
 <p>In this section, we will look at the first two on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.</p>
 </section>
@@ -341,7 +346,7 @@ cookieconsent.run({
 <li>On Gadi, users must review their resource requirements against the queue structure and limits in order to <strong>request a specific queue</strong>. On Artemis, the scheduler managed this automatically according to requested resources and queue loads</li>
 <li>Maximum walltime for any queue is 48 hours. For large numbers of nodes requested in a single job, the maximum walltime reduces. This is described in the <a href="https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...">queue limits</a> page. See <a href="../notebooks/12_walltime.html">Working within walltime limit</a> for more details</li>
 <li>The requested resources are checked against the quantity of remaining KSU in the project specified at <code>-P</code>. If there is insufficient KSU to run the job, the job will be held. This will show as <code>H</code> status when the job is queried with <code>qstat</code>. See <a href="#queue-charge-rates">queue charge rates</a> for more details</li>
-<li>Job arrays (eg <code>#PBS J 1-1000</code>) are not permitted on Gadi. See <a href="../notebooks/13_parralel_jobs.html">Parallel jobs</a> and <a href="https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...">nci-parallel</a> for more details</li>
+<li>Job arrays (eg <code>#PBS J 1-1000</code>) are not permitted on Gadi. See <a href="../notebooks/13_parallel_jobs.html">Parallel jobs</a> and <a href="https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...">nci-parallel</a> for more details</li>
 <li>Unlike Artemis, Gadi compute nodes lack internet access. If you have a job script that relies on an external network call such as reading from a live database, you will need to adapt your method (for example pre-downloading the required information with <code>copyq</code> before running the compute job) or use an alternate platform such as <a href="https://opus.nci.org.au/spaces/Help/pages/152207472/Nirin+Cloud+User+Guide">Nirin</a></li>
 </ul>
 <p>Below is an example Artemis job script:</p>
@@ -573,7 +578,7 @@ Answer
 
 </section>
 
-<p>All materials copyright Sydney Informatics Hub, University of Sydney</p></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -998,7 +1003,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-
+<p>All materials copyright Sydney Informatics Hub, University of Sydney</p>
 <div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
     <div class="nav-footer-right">
       &nbsp;

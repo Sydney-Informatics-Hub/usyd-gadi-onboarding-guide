@@ -33,6 +33,8 @@ website:
         menu:
         - text: "Job scripts and submission"
           href: notebooks/08_job_script.html
+        - text: "Working within walltime"
+          href: notebooks/12_walltime.html          
         - text: "Job monitoring"
           href: notebooks/09_job_monitoring.html
         - text: "Parallel jobs"
@@ -47,7 +49,7 @@ website:
     policy-url: https://www.sydney.edu.au/privacy-statement.html
   google-analytics: "G-TNWWV3HK57"
 
-  body-footer: "All materials copyright Sydney Informatics Hub, University of Sydney"
+  page-footer: "All materials copyright Sydney Informatics Hub, University of Sydney"
 
 format:
   html:

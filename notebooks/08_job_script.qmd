@@ -10,6 +10,7 @@ from: markdown+emoji
 ## Introduction
 
 In this section, we will compare Artemis job scripts to Gadi job scripts, and provide some guidance on how to adapt your Artemis workflow to NCI Gadi HPC.  
+[Watch the pre-recorded session](https://youtu.be/ZBOycXymok4)
 
 The main challenges users may face adapting Artemis workflows to Gadi are:
 
@@ -20,7 +21,7 @@ The main challenges users may face adapting Artemis workflows to Gadi are:
 - [Understanding NCI accounting of KSU, disk and iNode limits](./06_accounting.qmd)
 - [Automatic 100-day Gadi /scratch purge policy](https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...#RecoverFiles...-RecoverQuarantinedFilesonscratch)
 - [Software installation and version upgrades on Gadi](./11_software.qmd) 
-- [Job arrays not supported on Gadi](./13_parralel_jobs.qmd) 
+- [Job arrays not supported on Gadi](./13_parallel_jobs.qmd) 
 
 In this section, we will look at the first two on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.
 
@@ -78,7 +79,7 @@ Below is a simple example of the PBS directives portion of a Gadi job script. Fo
 - On Gadi, users must review their resource requirements against the queue structure and limits in order to **request a specific queue**. On Artemis, the scheduler managed this automatically according to requested resources and queue loads
 - Maximum walltime for any queue is 48 hours. For large numbers of nodes requested in a single job, the maximum walltime reduces. This is described in the [queue limits](https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...) page. See [Working within walltime limit](./12_walltime.qmd) for more details 
 - The requested resources are checked against the quantity of remaining KSU in the project specified at `-P`. If there is insufficient KSU to run the job, the job will be held. This will show as `H` status when the job is queried with `qstat`. See [queue charge rates](#queue-charge-rates) for more details 
-- Job arrays (eg `#PBS J 1-1000`) are not permitted on Gadi. See [Parallel jobs](./13_parralel_jobs.qmd) and [nci-parallel](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...) for more details
+- Job arrays (eg `#PBS J 1-1000`) are not permitted on Gadi. See [Parallel jobs](./13_parallel_jobs.qmd) and [nci-parallel](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...) for more details
 - Unlike Artemis, Gadi compute nodes lack internet access. If you have a job script that relies on an external network call such as reading from a live database, you will need to adapt your method (for example pre-downloading the required information with `copyq` before running the compute job) or use an alternate platform such as [Nirin](https://opus.nci.org.au/spaces/Help/pages/152207472/Nirin+Cloud+User+Guide)
 
 

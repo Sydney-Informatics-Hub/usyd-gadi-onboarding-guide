@@ -9,6 +9,8 @@ from: markdown+emoji
 ## Introduction
  
 In this section, we will look at transferring data between the Research Data Store and Gadi.
+
+[Watch the pre-recorded session](https://youtu.be/ZBOycXymok4)
  
 The main challenges users may face adapting Artemis workflows to Gadi are:
  
@@ -19,7 +21,7 @@ The main challenges users may face adapting Artemis workflows to Gadi are:
 - [Understanding NCI accounting of KSU, disk and iNode limits](./06_accounting.qmd)
 - [Automatic 100-day Gadi /scratch purge policy](https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...#RecoverFiles...-RecoverQuarantinedFilesonscratch)
 - [Software installation and version upgrades on Gadi](./11_software.qmd)
-- [Job arrays not supported on Gadi](./13_parralel_jobs.qmd)
+- [Job arrays not supported on Gadi](./13_parallel_jobs.qmd)
  
 In this section, we will look at Data Transfer. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.
 
@@ -370,6 +372,20 @@ sftp <your-unikey>@research-data-ext.sydney.edu.au
 ```
 
 This time, you shouldn't be prompted for a password. You can proceed to transfer data between Gadi and USyd's Artemis/RDS system now on the `copyq`. 
+
+If you get the error "Fatal error: Host key verification failed" you may have to get an "ssh fingerprint" first. Do this by sending an ssh request to the RDS with:
+
+```bash
+ssh <your-unikey>@research-data-ext.sydney.edu.au
+```
+
+Accept that you trust the connection and enter your passowrd. The connection will then close with the following message:
+
+```
+This service allows sftp connections only.
+Connection to research-data-ext.sydney.edu.au closed.
+```
+But now try `lftp` connection again!
 
 :::
 

@@ -58,7 +58,7 @@ Your username will become active when a project Lead CI approves your request to
 
 6. At `Propose a project: step 5 of 10`, select `University of Sydney`
 
-7. At `Propose a project: step 6 of 10`, select `Gadt (at NCI)` under `HPC Compute`. Most projects will not require `massdata`. Some may require `gdata`, and this can be added later if necessary. All new projects are allocated some scratch space and this comes at no charge, however the other two file systems have an attached cost. 
+7. At `Propose a project: step 6 of 10`, select `Gadi (at NCI)` under `HPC Compute`. Most projects will not require `massdata`. Some may require `gdata`, and this can be added later if necessary. All new projects are allocated some scratch space and this comes at no charge, however the other two file systems have an attached cost. 
 
 6. At `Propose a project: step 7 of 10`, you are asked to fill in your initial resource requirements in `KSU`. One KSU is 1,000 service units, which is roughly equivalent to 500 CPU hours depending on the type of resource used. We expect 1 KSU to be a sufficient starting amount for most projects coming from Artemis. If you have a good understanding that you will require more than this, please enter those values here. They can easily and quickly be increased at a later date if needed. 
 
