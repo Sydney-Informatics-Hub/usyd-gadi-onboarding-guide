@@ -248,7 +248,9 @@ cookieconsent.run({
   <ul>
   <li><a href="#job-monitoring" id="toc-job-monitoring" class="nav-link active" data-scroll-target="#job-monitoring">Job monitoring</a></li>
   <li><a href="#job-ids" id="toc-job-ids" class="nav-link" data-scroll-target="#job-ids">Job IDs</a></li>
+  <li><a href="#monitoring-resource-usage-in-real-time" id="toc-monitoring-resource-usage-in-real-time" class="nav-link" data-scroll-target="#monitoring-resource-usage-in-real-time">Monitoring resource usage in real time</a></li>
   <li><a href="#job-logs" id="toc-job-logs" class="nav-link" data-scroll-target="#job-logs">Job logs</a></li>
+  <li><a href="#monitoring-job-disk-usage" id="toc-monitoring-job-disk-usage" class="nav-link" data-scroll-target="#monitoring-job-disk-usage">Monitoring job disk usage</a></li>
   </ul>
 </nav>
     </div>
@@ -278,7 +280,6 @@ cookieconsent.run({
 <h2 class="anchored" data-anchor-id="job-monitoring">Job monitoring</h2>
 <p>You should monitor your jobs to keep track of their progress but refrain from checking your jobs too frequently. Repeated queries will be considered attacks, especially in quick succession and you may get a warning from NCI. NCI recommends querying your jobs’ status a maximum of once every 10 minutes.</p>
 <p>Like Artemis, you can use the <code>qstat</code> command to monitor jobs on Gadi. The NCI Gadi <a href="https://opus.nci.org.au/spaces/Help/pages/236880322/Job+monitoring...">job monitoring page</a> describes some commonly used flags to qstat.</p>
-<p>You can also use the bespoke <code>nqstat_anu</code> utility (ANU = The Australian National University, where Gadi is housed) which provides a way of observing how much CPU and memory your job is currently using.</p>
 </section>
 <section id="job-ids" class="level2">
 <h2 class="anchored" data-anchor-id="job-ids">Job IDs</h2>
@@ -289,6 +290,35 @@ cookieconsent.run({
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-xf</span> 135615373</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If you have multiple jobs running, you do not need to check them individually with the job ID. You can check the status of multiple jobs using your NCI user ID:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-u</span> <span class="op">&lt;</span>nci-user-id<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="monitoring-resource-usage-in-real-time" class="level2">
+<h2 class="anchored" data-anchor-id="monitoring-resource-usage-in-real-time">Monitoring resource usage in real time</h2>
+<p>To view the CPU and memory utilisation of a running job, you can use the bespoke <code>nqstat_anu</code> utility (ANU = The Australian National University, where Gadi is housed).</p>
+<p>By default, running the command <code>nqstat_anu</code> will report on all jobs for the current user under their <strong>default project</strong>, providing the following details:</p>
+<ul>
+<li>% CPU utilisation</li>
+<li>walltime used</li>
+<li>walltime requested</li>
+<li>RSS</li>
+<li>maximum memory used by the job</li>
+<li>memory requested</li>
+<li>CPUs requested</li>
+<li>whether the job is queued or suspended</li>
+</ul>
+<p>Run <code>nqstat_anu -h</code> for more options.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Switching default project
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To change your default project, run <code>switchproj &lt;nci-project-id&gt;</code>, providing the ID of the project you want to switch to. If you don’t know what your default project is, run the command <code>nci_account</code> with no arguments. Since <code>-P &lt;nci-project-id&gt;</code> is not supplied, it will report on your default project.</p>
+</div>
+</div>
 </section>
 <section id="job-logs" class="level2">
 <h2 class="anchored" data-anchor-id="job-logs">Job logs</h2>
@@ -312,6 +342,10 @@ cookieconsent.run({
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -o ./logs/convert-fast5.o</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -e ./logs/convert-fast5.e</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This omits the job ID from being included in the log file name and sends the logs to a different directory.</p>
+</section>
+<section id="monitoring-job-disk-usage" class="level2">
+<h2 class="anchored" data-anchor-id="monitoring-job-disk-usage">Monitoring job disk usage</h2>
+<p>Each project has an allocation of physical disk space and inodes on scratch, gdata and home. When running jobs on Gadi, it’s important to ensure you have sufficient allocation remaining to meet the needs of the job you are running, as exceeding the limit of these resources can cause a running job to fail. Please see the section on <a href="../notebooks/06_accounting.html#disk">disk</a> and <a href="../notebooks/06_accounting.html#inodes">inode</a> usage for more details and how to query usage of these resources.</p>
 
 
 </section>

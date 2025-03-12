@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -246,15 +212,11 @@ cookieconsent.run({
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-is-high-performance-computing" id="toc-what-is-high-performance-computing" class="nav-link active" data-scroll-target="#what-is-high-performance-computing"><strong>What is high performance computing?</strong></a></li>
-  <li><a href="#why-do-we-need-hpc-for-bioinformatics" id="toc-why-do-we-need-hpc-for-bioinformatics" class="nav-link" data-scroll-target="#why-do-we-need-hpc-for-bioinformatics"><strong>Why do we need HPC for bioinformatics?</strong></a></li>
-  <li><a href="#expectations" id="toc-expectations" class="nav-link" data-scroll-target="#expectations"><strong>Expectations</strong></a>
-  <ul class="collapse">
-  <li><a href="#use-job-queues-appropriately" id="toc-use-job-queues-appropriately" class="nav-link" data-scroll-target="#use-job-queues-appropriately"><strong>1. Use job queues appropriately</strong></a></li>
-  <li><a href="#responsibly-manage-your-data" id="toc-responsibly-manage-your-data" class="nav-link" data-scroll-target="#responsibly-manage-your-data"><strong>2. Responsibly manage your data</strong></a></li>
-  <li><a href="#dont-request-more-resources-than-you-need" id="toc-dont-request-more-resources-than-you-need" class="nav-link" data-scroll-target="#dont-request-more-resources-than-you-need"><strong>3. Don’t request more resources than you need</strong></a></li>
-  <li><a href="#keep-track-of-your-resource-usage" id="toc-keep-track-of-your-resource-usage" class="nav-link" data-scroll-target="#keep-track-of-your-resource-usage"><strong>4. Keep track of your resource usage</strong></a></li>
-  </ul></li>
+  <li><a href="#use-job-queues-appropriately" id="toc-use-job-queues-appropriately" class="nav-link active" data-scroll-target="#use-job-queues-appropriately">Use job queues appropriately</a></li>
+  <li><a href="#responsibly-manage-your-data" id="toc-responsibly-manage-your-data" class="nav-link" data-scroll-target="#responsibly-manage-your-data">Responsibly manage your data</a></li>
+  <li><a href="#dont-request-more-resources-than-you-need" id="toc-dont-request-more-resources-than-you-need" class="nav-link" data-scroll-target="#dont-request-more-resources-than-you-need">Don’t request more resources than you need</a></li>
+  <li><a href="#keep-track-of-your-resource-usage" id="toc-keep-track-of-your-resource-usage" class="nav-link" data-scroll-target="#keep-track-of-your-resource-usage">Keep track of your resource usage</a></li>
+  <li><a href="#dont-misuse-the-login-nodes" id="toc-dont-misuse-the-login-nodes" class="nav-link" data-scroll-target="#dont-misuse-the-login-nodes">Don’t misuse the login nodes</a></li>
   </ul>
 </nav>
     </div>
@@ -280,45 +242,30 @@ cookieconsent.run({
 </header>
 
 
-<ul>
-<li><a href="https://opus.nci.org.au/spaces/Help/pages/236881327/Do+s+and+Don+ts+of+using+Gadi...">The do’s and don’ts of using Gadi</a></li>
-<li><a href="https://sydney-informatics-hub.github.io/training.gadi.intro/">SIH Into to Gadi HPC tutorial</a></li>
-<li><a href="https://youtu.be/YKJDRXCmGMo">Pro tips for bioinformatics on HPC webinar</a></li>
-</ul>
-<section id="what-is-high-performance-computing" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-high-performance-computing"><strong>What is high performance computing?</strong></h2>
-<p>High performance computing refers to the use of parallel processing techniques to solve complex computation problems efficiently. HPC systems, like Gadi, consist of clusters of interconnected computers, each equipped with multiple processors and large amounts of memory. These systems are designed to handle massive datasets and perform computations at speeds far beyond those achievable by your personal computer.</p>
-</section>
-<section id="why-do-we-need-hpc-for-bioinformatics" class="level2">
-<h2 class="anchored" data-anchor-id="why-do-we-need-hpc-for-bioinformatics"><strong>Why do we need HPC for bioinformatics?</strong></h2>
-<p>In bioinformatics, researchers deal with massive datasets generated by technologies such as next-generation sequencing (genomics, transcriptomics) and mass spectrometry (proteomics). Analysing these datasets requires computationally intensive tasks such as sequence alignment, genome assembly, and statistical analysis. HPC systems provide the computational power and memory resources necessary to process these datasets efficiently.</p>
-</section>
-<section id="expectations" class="level2">
-<h2 class="anchored" data-anchor-id="expectations"><strong>Expectations</strong></h2>
-<p>Gadi is a shared resource and its efficient use not only ensures fair access for all users but also helps minimise the environmental impact of high-performance computing, as systems like Gadi consume significant energy resources. When you are using a system like Gadi, there are potentially hundreds of other users accessing the system at the same time as you. For Gadi to remain efficient and usable, everyone needs to be courteous and use the system with consideration for others.</p>
-<p>Here are some tips to help you be a good citizen of the HPC community:</p>
-<section id="use-job-queues-appropriately" class="level3">
-<h3 class="anchored" data-anchor-id="use-job-queues-appropriately"><strong>1. Use job queues appropriately</strong></h3>
+<p>Gadi is a shared resource and its efficient use not only ensures fair access for all users but also helps minimise the <a href="https://www.bcs.org/articles-opinion-and-research/carbon-footprint-the-not-so-hidden-cost-of-high-performance-computing/">environmental impact of high-performance computing</a>, as systems like Gadi consume significant energy resources. When you are using a system like Gadi, there are potentially hundreds of other users accessing the system at the same time as you. For Gadi to remain efficient and usable, everyone needs to be courteous and use the system with consideration for others.</p>
+<p>To help you be a good citizen of the NCI HPC community, please review the <a href="https://opus.nci.org.au/spaces/Help/pages/236881327/Do+s+and+Don+ts+of+using+Gadi...">do’s and don’ts of using Gadi</a> as well as the general tips below.</p>
+<section id="use-job-queues-appropriately" class="level2">
+<h2 class="anchored" data-anchor-id="use-job-queues-appropriately">Use job queues appropriately</h2>
 <ul>
 <li><a href="https://opus.nci.org.au/spaces/Help/pages/90308824/Queue+Structure">Gadi job queues</a></li>
 <li><a href="https://opus.nci.org.au/spaces/Help/pages/90308823/Queue+Limits">Gadi queue limits</a></li>
 </ul>
-<p>Gadi runs a PBSpro job scheduler that manages the allocation of resources to users. When you submit a job, it is placed in a queue and will run when the requested resources become available. Unlike on Artemis where your job is allocated to a suitable queue based on your resource request, Gadi users need to explicitly request their job is sent to a specific queue. It is important for you to pick a job queue that is appropriate for your job.</p>
+<p>Gadi runs a PBSpro job scheduler that manages the allocation of resources to users. When you submit a job, it is placed in a queue and will run when the requested resources become available. Unlike on Artemis where your job is allocated to a suitable queue based on your resource request, Gadi users need to explicitly request their job is sent to a specific queue. It is important for you to <a href="../notebooks/08_job_script.html#selecting-the-right-queue">pick a job queue that is appropriate for your job</a>.</p>
 </section>
-<section id="responsibly-manage-your-data" class="level3">
-<h3 class="anchored" data-anchor-id="responsibly-manage-your-data"><strong>2. Responsibly manage your data</strong></h3>
+<section id="responsibly-manage-your-data" class="level2">
+<h2 class="anchored" data-anchor-id="responsibly-manage-your-data">Responsibly manage your data</h2>
 <ul>
 <li><a href="https://opus.nci.org.au/spaces/Help/pages/156434436/Gadi+scratch+File+Management">NCI file management policy</a></li>
-<li><a href="https://sydney-informatics-hub.github.io/training.gadi.intro/05-Data-transfer/index.html">Transferring data between RDS and Gadi</a></li>
+<li><a href="../notebooks/05_data_transfer.html">Transferring data between RDS and Gadi</a></li>
 </ul>
-<p><code>/scratch</code> is not a safe space for long term data storage. If it has not been accessed in 100 days, it will be subjected to NCI’s clean up policy. If you have a <code>/g/data</code> allocation, this is a better place to store your data whilst working on Gadi. Once you have finished your analysis, it is best practice to move your data to a more permanent storage solution, like RDS.</p>
+<p><code>/scratch</code> is not a safe space for long term data storage. If it has not been accessed in 100 days, it will be subjected to NCI’s clean up policy. If you have a <code>/g/data</code> allocation, this is a better place to store data that you will regularly need as input for your jobs. While gdata is not subjected to purge like scratch, it is not backed up. You should back up all input, job scripts and important output files to RDS. Please follow the <a href="../notebooks/05_data_transfer.html">data transfer between Gadi and RDS guide</a> for th best ways to do this.</p>
 </section>
-<section id="dont-request-more-resources-than-you-need" class="level3">
-<h3 class="anchored" data-anchor-id="dont-request-more-resources-than-you-need"><strong>3. Don’t request more resources than you need</strong></h3>
+<section id="dont-request-more-resources-than-you-need" class="level2">
+<h2 class="anchored" data-anchor-id="dont-request-more-resources-than-you-need">Don’t request more resources than you need</h2>
 <ul>
-<li><a href="https://github.com/Sydney-Informatics-Hub/Gadi-benchmarking/blob/main/tool_benchmark.pbs">Gadi benchmarking tool</a></li>
+<li><a href="../notebooks/10_job_efficiency.html">Benchmarking tasks on Gadi</a></li>
 </ul>
-<p>Don’t request resources that you won’t need, it will only result in your job and other users jobs being held up, and you wasting your service unit allocation. The PBS scheduler will find time for 2 cpus faster than 4 cpus, so in the interest of speed, be efficient. Given the bursty nature of some jobs, it can be hard to know what resources a tool needs. We suggest the following:</p>
+<p>Don’t request resources that you won’t need, it will only result in your job and other users jobs being held up, and you wasting your service unit allocation. It can be hard to know what resources a tool needs, and this can vary on different hardware. We suggest the following:</p>
 <ul>
 <li>Step 1: Consult the software documentation
 <ul>
@@ -328,28 +275,24 @@ cookieconsent.run({
 <ul>
 <li>This will give you a good idea of how much resources you need to request for your main job.</li>
 </ul></li>
-<li>Step 3: Ask for help</li>
+<li>Step 3: <a href="#support">Ask for help</a></li>
 </ul>
 </section>
-<section id="keep-track-of-your-resource-usage" class="level3">
-<h3 class="anchored" data-anchor-id="keep-track-of-your-resource-usage"><strong>4. Keep track of your resource usage</strong></h3>
+<section id="keep-track-of-your-resource-usage" class="level2">
+<h2 class="anchored" data-anchor-id="keep-track-of-your-resource-usage">Keep track of your resource usage</h2>
+<p>Running jobs on gadi requires users to have sufficient service units (compute hours) available. It is also important to monitor your use of physical disk space and inodes on scratch, home and gdata. Please see the <a href="../notebooks/06_accounting.html">accounting</a> section or the NCI pages below for more details:</p>
 <ul>
 <li><a href="https://opus.nci.org.au/spaces/Help/pages/236880322/Job+monitoring...">Monitor your jobs</a></li>
 <li><a href="https://opus.nci.org.au/spaces/Help/pages/236881132/Allocations...">Monitor your project allocation</a></li>
 <li><a href="https://opus.nci.org.au/spaces/Help/pages/236880942/Job+Costs...">What does a job cost?</a></li>
 <li><a href="https://opus.nci.org.au/spaces/Help/pages/230490410/Why+are+my+jobs+not+running+...">Why are my jobs not running?</a></li>
 </ul>
-<p>Running jobs on gadi requires users to have sufficient compute hours available. These compute hours are granted to projects rather than directly to the user. It is important to communicate with your project team to ensure you are not using more than your fair share of resources. You can monitor your project’s usage by running:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nci_project</span> <span class="at">-P</span> <span class="op">&lt;</span>project<span class="op">&gt;</span> -v</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>If you are consistently overusing resources, you may need to look into optimising your workloads and/or requesting more resources from NCI. Get in touch with SIH to discuss your options.</p>
-<p>At completion, your project is only charged the SU actually consumed by the job (ie based on walltime used, not walltime requested). Like Artemis, Gadi produces PBS logs. The “.o” job log will report the compute used (similar to the Artemis “.o” and “usage” logs combined).</p>
-<p>Like KSU, each project is assigned a finite amount of disk space and iNode (index node - can be likened to the total number of files and folders). You MUST monitor your disk and iNode usage, and this can be done with the command:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lquota</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>which shows disk resource availability for every project you are a member of.</p>
-<p>It is important to have an understanding of how much output your job will create, and ensure that you can remain within quotas/limits. Jobs can fail with “disk quota exceeded” messages.</p>
-
-
 </section>
+<section id="dont-misuse-the-login-nodes" class="level2">
+<h2 class="anchored" data-anchor-id="dont-misuse-the-login-nodes">Don’t misuse the login nodes</h2>
+<p>Login nodes are for logging in to the system, basic file and directory navigation commands, submitting jobs etc. Login nodes are not for large data transfers, compute tasks, excessive qstat queries, or submitting jobs via high-iteration for loops. Doing so will overload these nodes, causing a slow-down and frustration for all users. NCI monitors login node traffic and inappropriate use will be targeted. Please see the sections on <a href="../notebooks/05_data_transfer.html">data transfer</a> and <a href="../notebooks/13_parallel_jobs.html">parallel jobs</a> for recommended strategies for these tasks.</p>
+
+
 </section>
 
 </main> <!-- /main -->
