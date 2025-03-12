@@ -172,7 +172,7 @@ cookieconsent.run({
     <ul class="dropdown-menu" aria-labelledby="nav-menu-introduction-to-gadi">    
         <li>
     <a class="dropdown-item" href="../notebooks/02_system_setup.html">
- <span class="dropdown-text">System offerings</span></a>
+ <span class="dropdown-text">Gadi overview</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notebooks/03_expectations.html">
@@ -186,24 +186,20 @@ cookieconsent.run({
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-working-on-gadi">    
         <li>
-    <a class="dropdown-item" href="../notebooks/04_nagivating_system.html">
- <span class="dropdown-text">Navigating the system</span></a>
+    <a class="dropdown-item" href="../notebooks/04_command_line.html">
+ <span class="dropdown-text">Command line</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notebooks/05_data_transfer.html">
- <span class="dropdown-text">Transferring data</span></a>
+ <span class="dropdown-text">Data transfer</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/11_software.html">
+ <span class="dropdown-text">Software</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notebooks/06_accounting.html">
  <span class="dropdown-text">Accounting</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/07_environments.html">
- <span class="dropdown-text">Specialised environments</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/11_software.html">
- <span class="dropdown-text">Managing software</span></a>
   </li>  
     </ul>
   </li>
@@ -217,12 +213,20 @@ cookieconsent.run({
  <span class="dropdown-text">Job scripts and submission</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../notebooks/12_walltime.html">
+ <span class="dropdown-text">Working within walltime</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../notebooks/09_job_monitoring.html">
  <span class="dropdown-text">Job monitoring</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../notebooks/13_parallel_jobs.html">
+ <span class="dropdown-text">Parallel jobs</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../notebooks/10_job_efficiency.html">
- <span class="dropdown-text">Resource efficiency</span></a>
+ <span class="dropdown-text">Benchmarking and efficiency</span></a>
   </li>  
     </ul>
   </li>
@@ -242,13 +246,10 @@ cookieconsent.run({
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#option-1-use-ncis-are-platform" id="toc-option-1-use-ncis-are-platform" class="nav-link active" data-scroll-target="#option-1-use-ncis-are-platform"><strong>Option 1: Use NCI’s ARE platform</strong></a></li>
-  <li><a href="#option-2-install-visual-studio-code-on-your-computer" id="toc-option-2-install-visual-studio-code-on-your-computer" class="nav-link" data-scroll-target="#option-2-install-visual-studio-code-on-your-computer"><strong>Option 2: Install Visual Studio Code on your computer</strong></a></li>
-  <li><a href="#option-3-install-a-terminal-application-on-your-computer" id="toc-option-3-install-a-terminal-application-on-your-computer" class="nav-link" data-scroll-target="#option-3-install-a-terminal-application-on-your-computer"><strong>Option 3: Install a terminal application on your computer</strong></a>
-  <ul class="collapse">
-  <li><a href="#macos" id="toc-macos" class="nav-link" data-scroll-target="#macos"><strong><em>MacOS</em></strong></a></li>
-  <li><a href="#windows" id="toc-windows" class="nav-link" data-scroll-target="#windows"><strong><em>Windows</em></strong></a></li>
-  </ul></li>
+  <li><a href="#use-ncis-are-platform" id="toc-use-ncis-are-platform" class="nav-link active" data-scroll-target="#use-ncis-are-platform">Use NCI’s ARE platform</a></li>
+  <li><a href="#install-visual-studio-code" id="toc-install-visual-studio-code" class="nav-link" data-scroll-target="#install-visual-studio-code">Install Visual Studio Code</a></li>
+  <li><a href="#use-macos-native-terminal" id="toc-use-macos-native-terminal" class="nav-link" data-scroll-target="#use-macos-native-terminal">Use MacOS native terminal</a></li>
+  <li><a href="#install-a-terminal-client-on-your-windows-machine" id="toc-install-a-terminal-client-on-your-windows-machine" class="nav-link" data-scroll-target="#install-a-terminal-client-on-your-windows-machine">Install a terminal client on your windows machine</a></li>
   </ul>
 </nav>
     </div>
@@ -274,10 +275,16 @@ cookieconsent.run({
 </header>
 
 
-<p>To work on NCI Gadi, you will need to either install a terminal application on your computer or work on <a href="https://are.nci.org.au/">NCI’s Australian Research Environment (ARE)</a> platform. Before accessing Gadi, you will need to have an NCI account. Ensure you have completed this step by following directions on the <a href="./notebooks/gadi_access.qmd">Gadi Access instructions</a> on the previous page before proceeding.</p>
-<p>In order to work on Gadi, you’ll need a terminal application. A terminal is a text-based interface to your computer. It’s a program that takes text commands and passes them to the operating system to execute. We suggest you use one of the following options:</p>
-<section id="option-1-use-ncis-are-platform" class="level2">
-<h2 class="anchored" data-anchor-id="option-1-use-ncis-are-platform"><strong>Option 1: Use NCI’s ARE platform</strong></h2>
+<p>Before accessing Gadi, you will need to have an NCI account. Ensure you have completed this step by following directions on the <a href="./notebooks/gadi_access.qmd">Gadi Access instructions</a> on the previous page before proceeding.</p>
+<p>To work on NCI Gadi, you will need to use a <strong>terminal application</strong> on your local computer <em>or</em> work on <a href="https://are.nci.org.au/">NCI’s Australian Research Environment (ARE)</a> platform, which includes a web-based terminal interface to Gadi. If you already have a terminal application that you have used to access Artemis, for example <code>putty</code> or Mac <code>term</code>, you can continue to use that.</p>
+<p>Below we will describe 3 options for accessing Gadi:</p>
+<ol type="1">
+<li>Use the web-based terminal provided by NCI’s ARE platform</li>
+<li>Install Visual Studio Code, an integrated development environment with terminal and many other features</li>
+<li>Use a terminal application installed on your local computer</li>
+</ol>
+<section id="use-ncis-are-platform" class="level2">
+<h2 class="anchored" data-anchor-id="use-ncis-are-platform">Use NCI’s ARE platform</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -294,8 +301,8 @@ ARE: fast access with limited customisation
 <p>NCI has created a web-based graphical interface for accessing their systems. It is very simple to use and recommended over access methods described below for beginners.</p>
 <p>See NCI’s User Guide for instructions on how to access and use <a href="https://opus.nci.org.au/display/Help/ARE+User+Guide">ARE</a>.</p>
 </section>
-<section id="option-2-install-visual-studio-code-on-your-computer" class="level2">
-<h2 class="anchored" data-anchor-id="option-2-install-visual-studio-code-on-your-computer"><strong>Option 2: Install Visual Studio Code on your computer</strong></h2>
+<section id="install-visual-studio-code" class="level2">
+<h2 class="anchored" data-anchor-id="install-visual-studio-code">Install Visual Studio Code</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -309,7 +316,7 @@ VScode: customised configuration with an integrated terminal
 <p>This is a more advanced solution for accessing Gadi, with more customisation options. We recommended it for users who are comfortable with terminal applications and want to customise their set up.</p>
 </div>
 </div>
-<p>Visual Studio Code (VS Code) is a lightweight and powerful source code editor available for Windows, macOS and Linux computers. As an alternative to a terminal application it offers file additional functionality including file editing.</p>
+<p>Visual Studio Code (VS Code) is a lightweight and powerful source code editor available for Windows, macOS and Linux computers. As an alternative to a terminal application it offers additional functionality including file editing.</p>
 <ol type="1">
 <li>Download Visual Studio Code for your system from <a href="https://code.visualstudio.com/download">here</a> and follow the instructions for:
 <ul>
@@ -343,33 +350,20 @@ VScode: customised configuration with an integrated terminal
 </ol>
 <p><strong>Tips for using VS Code</strong></p>
 <ul>
+<li>Periodically delete your <code>~/.vscode-server/</code> directory on Gadi! VSCode will fill this directory with numerous files and cause your home quota to be exceeded</li>
 <li><a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf">VS code cheatsheet for Windows</a></li>
 <li><a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf">VS code cheatsheet for MacOS</a></li>
 </ul>
 </section>
-<section id="option-3-install-a-terminal-application-on-your-computer" class="level2">
-<h2 class="anchored" data-anchor-id="option-3-install-a-terminal-application-on-your-computer"><strong>Option 3: Install a terminal application on your computer</strong></h2>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Terminal: lightweight solution for advanced users
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This is a very lightweight solution for accessing Gadi. We recommended it for users who are comfortable with terminal applications and want to customise their set up.</p>
-</div>
-</div>
-<p>The options for terminal installation will depend on your computer’s operating system. See below for instructions for macOS and Windows.</p>
-<section id="macos" class="level3">
-<h3 class="anchored" data-anchor-id="macos"><strong><em>MacOS</em></strong></h3>
+<section id="use-macos-native-terminal" class="level2">
+<h2 class="anchored" data-anchor-id="use-macos-native-terminal">Use MacOS native terminal</h2>
 <p>Mac operating systems come with a terminal program, called Terminal. Just look for it in your Applications folder, or hit <code>Command</code> + <code>Space</code> and type ‘terminal’. You may find that other, 3rd party terminal programs are more user-friendly and powerful, like <a href="https://iterm2.com/">Iterm2</a>.</p>
 </section>
-<section id="windows" class="level3">
-<h3 class="anchored" data-anchor-id="windows"><strong><em>Windows</em></strong></h3>
-<p>We recommend <a href="https://mobaxterm.mobatek.net/download.html">MobaXterm</a>, which offers a rich experience as a full-featured X-server and terminal emulator for ssh connections, the free version is more than adequate.</p>
+<section id="install-a-terminal-client-on-your-windows-machine" class="level2">
+<h2 class="anchored" data-anchor-id="install-a-terminal-client-on-your-windows-machine">Install a terminal client on your windows machine</h2>
+<p>Windows OS now comes with Windows Subsystem for Linux (WSL) so if you are familiar with using that, you can <code>ssh</code> to Gadi from a WSL terminal.</p>
+<p>If not, you will need to install a terminal client. There are many options, including <strong>putty</strong>, <strong>Xwin-32</strong> (which the University of Sydney has a license for), and <strong>MobaXterm</strong>.</p>
+<p>Below we will describe the process to install the free version of <a href="https://mobaxterm.mobatek.net/download.html">MobaXterm</a>, which offers a rich experience as a full-featured X-server and terminal emulator for ssh connections.</p>
 <p>To install and start using MobaXterm:</p>
 <ol type="1">
 <li>Go to https://mobaxterm.mobatek.net/download.html</li>
@@ -407,9 +401,8 @@ Terminal: lightweight solution for advanced users
 
 
 </section>
-</section>
 
-<p>All materials copyright Sydney Informatics Hub, University of Sydney</p></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -834,7 +827,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-
+<p>All materials copyright Sydney Informatics Hub, University of Sydney</p>
 <div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
     <div class="nav-footer-right">
       &nbsp;
