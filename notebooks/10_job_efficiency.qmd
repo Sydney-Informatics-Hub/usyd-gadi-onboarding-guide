@@ -9,6 +9,10 @@ from: markdown+emoji
 
 ## Introduction
 
+In this section, we will consider job optimisation and benchmarking for compute resource usage efficiency. 
+
+[Watch the pre-recorded session](https://youtu.be/4ztdcnfIaP4)
+
 The main challenges users may face adapting Artemis workflows to Gadi are:
 
 - [Gadi walltime limit of 48 hours](./12_walltime.qmd)
