@@ -7,52 +7,27 @@ output:
 from: markdown+emoji
 ---
 
-- [The do's and don'ts of using Gadi](https://opus.nci.org.au/spaces/Help/pages/236881327/Do+s+and+Don+ts+of+using+Gadi...)
-- [SIH Into to Gadi HPC tutorial](https://sydney-informatics-hub.github.io/training.gadi.intro/)
-- [Pro tips for bioinformatics on HPC webinar](https://youtu.be/YKJDRXCmGMo)
-
-## **What is high performance computing?**
-
-High performance computing refers to the use of parallel processing techniques to solve complex computation problems efficiently. HPC systems, like Gadi, consist of clusters of interconnected computers, each equipped with multiple processors and large amounts of memory. These systems are capable of handling massive datasets and perform computations at speeds far beyond those achievable by your personal computer. 
-
-## **Why do we need HPC for research computing?**
-
-Research computing comes in all shapes and sizes. In some cases, your compute needs are well-met by your personal computer or a web-based platform. In other cases, these platforms are not sufficient and this is where HPC is critical to ensuring a timely analysis of your data. 
-
-To use HPC, it is *not* a requirement that your workflow makes use of the multi-node architecture. There are many reasons why HPC would be justified:
-
-- Large input data requiring vast physical storage for inputs and outputs
-- High CPU or node requirement
-- GPU requirement 
-- High memory requirement
-- Long walltime requirement 
-- Faster I/O operations than your local computer can handle
-- Freeing up your local computer resources for other tasks, or simply to shut down for the day without affecting the compute analysis you are running 
-
-HPC provides a reliable and efficient means of analysing data of all shapes and sizes from all research domains. 
-
-
-## **Expectations** 
 
 Gadi is a shared resource and its efficient use not only ensures fair access for all users but also helps minimise the [environmental impact of high-performance computing](https://www.bcs.org/articles-opinion-and-research/carbon-footprint-the-not-so-hidden-cost-of-high-performance-computing/), as systems like Gadi consume significant energy resources. When you are using a system like Gadi, there are potentially hundreds of other users accessing the system at the same time as you. For Gadi to remain efficient and usable, everyone needs to be courteous and use the system with consideration for others. 
 
-Here are some tips to help you be a good citizen of the HPC community: 
+To help you be a good citizen of the NCI HPC community, please review the [do's and don'ts of using Gadi](https://opus.nci.org.au/spaces/Help/pages/236881327/Do+s+and+Don+ts+of+using+Gadi...) as well as the general tips below.
 
-### __1. Use job queues appropriately__
+
+## Use job queues appropriately
 
 - [Gadi job queues](https://opus.nci.org.au/spaces/Help/pages/90308824/Queue+Structure)
 - [Gadi queue limits](https://opus.nci.org.au/spaces/Help/pages/90308823/Queue+Limits)
 
 Gadi runs a PBSpro job scheduler that manages the allocation of resources to users. When you submit a job, it is placed in a queue and will run when the requested resources become available. Unlike on Artemis where your job is allocated to a suitable queue based on your resource request, Gadi users need to explicitly request their job is sent to a specific queue. It is important for you to [pick a job queue that is appropriate for your job](./08_job_script.qmd#selecting-the-right-queue). 
 
-### __2. Responsibly manage your data__ 
+## Responsibly manage your data
 
 - [NCI file management policy](https://opus.nci.org.au/spaces/Help/pages/156434436/Gadi+scratch+File+Management)
 - [Transferring data between RDS and Gadi](./05_data_transfer.qmd)
 
 `/scratch` is not a safe space for long term data storage. If it has not been accessed in 100 days, it will be subjected to NCI's clean up policy. If you have a `/g/data` allocation, this is a better place to store data that you will regularly need as input for your jobs. While gdata is not subjected to purge like scratch, it is not backed up. You should back up all input, job scripts and important output files to RDS. Please follow the [data transfer between Gadi and RDS guide](./05_data_transfer.qmd) for th best ways to do this. 
 
-### __3. Don't request more resources than you need__
+## Don't request more resources than you need
 
 - [Benchmarking tasks on Gadi](./10_job_efficiency.qmd)
 
@@ -64,11 +39,16 @@ Don't request resources that you won't need, it will only result in your job and
   - This will give you a good idea of how much resources you need to request for your main job.
 - Step 3: [Ask for help](#support)
 
-### __4. Keep track of your resource usage__
+
+## Keep track of your resource usage
+
+Running jobs on gadi requires users to have sufficient service units (compute hours) available. It is also important to monitor your use of physical disk space and inodes on scratch, home and gdata. Please see the [accounting](./06_accounting.qmd) section or the NCI pages below for more details: 
 
 - [Monitor your jobs](https://opus.nci.org.au/spaces/Help/pages/236880322/Job+monitoring...)
 - [Monitor your project allocation](https://opus.nci.org.au/spaces/Help/pages/236881132/Allocations...)
 - [What does a job cost?](https://opus.nci.org.au/spaces/Help/pages/236880942/Job+Costs...)
 - [Why are my jobs not running?](https://opus.nci.org.au/spaces/Help/pages/230490410/Why+are+my+jobs+not+running+...)
 
-Running jobs on gadi requires users to have sufficient compute hours available. These compute hours are granted to projects rather than directly to the user. It is important to communicate with your project team to ensure you are not using more than your fair share of resources. Please see the [accounting](./06_accounting.qmd) section for more details. 
+## Don't misuse the login nodes 
+
+Login nodes are for logging in to the system, basic file and directory navigation commands, submitting jobs etc. Login nodes are not for large data transfers, compute tasks, excessive qstat queries, or submitting jobs via high-iteration for loops. Doing so will overload these nodes, causing a slow-down and frustration for all users. NCI monitors login node traffic and inappropriate use will be targeted. Please see the sections on [data transfer](./05_data_transfer.qmd) and [parallel jobs](./13_parallel_jobs.qmd) for recommended strategies for these tasks. 
