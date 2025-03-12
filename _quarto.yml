@@ -9,16 +9,16 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: notebooks/00_gadi_access.html
-        text: "Access Gadi"
-      - href: notebooks/01_setup.html
-        text: "Set up your computer"
       - text: "Introduction to Gadi"
         menu: 
         - text: "Gadi overview"
           href: notebooks/02_system_setup.html
         - text: "Infrastructure expectations"
           href: notebooks/03_expectations.html
+      - href: notebooks/00_gadi_access.html
+        text: "Access Gadi"
+      - href: notebooks/01_setup.html
+        text: "Set up your computer"
       - text: "Working on Gadi"
         menu: 
         - text: "Command line"

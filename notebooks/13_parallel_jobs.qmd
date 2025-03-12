@@ -28,8 +28,87 @@ The main challenges users may face adapting Artemis workflows to Gadi are:
 
 In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.
 
-## 
+## Parallel jobs
 
-https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...
+A parallel job is a job that executes across multiple processors, nodes, or cores simultaneously to speed up computations. This may be operating the same analysis over different input files, over different parameter values, or by dividing a large computational task into smaller subtasks that run concurrently, either through shared memory or distributed computing.
 
-https://sydney-informatics-hub.github.io/training.gadi.intro/08-Example-parallel-job/index.html 
+On Artemis, we could use the `#PBS -J <range>` directive to submit arrays of parallel jobs. On Gadi, **job arrays are not supported**. In order to simplify parallel jobs without the use of arrays, NCI have created a helper utility [`nci-parallel`](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...) which uses [OpenMPI](https://www.open-mpi.org/) for distributed computing of parallel tasks on Gadi.   
+
+## Using nci-parallel
+
+Use of this utility will require 3 job files:
+
+1. PBS script that launches the parallel job with the requested overall size (how many nodes/CPUs) plus the details of how many CPUs to assign to each task, and how many tasks to run concurrently
+2. The task script. This is the script file that contains the commands to run the job.
+3. The input arguments file. This is a text file that provides a new set of arguments per line. Each line of the input arguments file is provided to the task script by the PBS script as a separate parallel task. 
+
+NCI provides an [example](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...) where the input to the task script (in this case, named `test.sh`) is a single numeric value. The command `test.sh <value>` is included in the input argument file, as many times as needed for the job (in this case, 1000). Another way to do this (which you will encounter in some of our SIH workflows) is having an input argument list that *does not include* the name of the script file. The name of the script file is instead included within the PBS script. Both methods achieve the same result, the user can choose whichever they prefer. 
+
+Care must be taken to ensure the task script reads in the input arguments correctly. **Always run a single task small test before submitting the full parallel job!** 
+
+It is also important to check that the `binding` is done correctly. **TBA...**
+
+## Example 1: genomics 
+
+Parallel processing in genomics can faciliate rapid processing of terabytes of raw DNA sequencing data. These workloads are highly ameanble to parallel processing for 2 reasons:
+
+1. The same processing steps typically need to be run on many different samples
+2. Most of these processing steps can be further broken apart into smaller subtasks
+
+By parallelising at the level of sample, we may have say 10 or 100 tasks in a parallel job, depending on the number of samples in the analysis. Yet if we break the processing steps each into smaller subtasks, we can then parallelise to a much higher level of throughput, `number of samples * number of subtasks`. 
+
+One excellent example for how HPC and distributed computing can massively speed up processing is the case of mapping the DNA sequnces to the reference genome. In sequencing projects, each sample may have a few hundred million DNA sequences. Users typically map all of these in one job, that may take several hours and can multi-thread up to all of the cores on a node natively. However, since each DNA sequence is mapped *independently* to the reference, we can physically split the input into numerous smaller inputs and perform the mapping in parallel. 
+
+Say we have 100 samples, each with approxiamtely 400 million sequences each. To parallelise by sample, we could run 100 tasks concurrently. If we split the input into 10 million sequences per input, each asmple would have 40 inputs and then we could run a parallel job with `100 * 40 =  4,000` tasks. If each task required 5 minutes on 6 CPU, that's `6 * 4000 = 24,000 CPU = 500 nodes` for 5 minutes to run all tasks concurrently. This exceeds the maximum nodes per job of 432 for the `normal` queue. We could run 2,000 tasks concurrently, and this would requre double the walltime for half the nodes, so 10 minutes on 250 nodes, or even 1,000 tasks concurrently for 20 minutes on 125 nodes. This is a masive speedup compared to the ~ 6-8 hours required to process all 40 million sequences in one task. 
+
+Now how would we set this up? First up would be splitting the inputs, then running the mapping job, then performing a merge to per-sample final output. We won't cover the details of splitting or merging here as that is domain-specific, but we will look at the trip of scripts to demonstrate how the parallelisation is created. 
+
+Given the large number of tasks and complexity of the metadata, we find an additional script is required: we call this the `make_inputs` script, which reads your metadata and creates the input arguments file. We then have a set of 4 scripts that are inextricably linked for the job. 
+
+In the example scripts below, the metadata has been simplified for clarity. 
+
+For this workflow, only the make inputs file would be edited each time the analysis was run on a new set of input samples, and the PBS script directives would be adjusted based on the number of tasks to be run. The input arguments file is created by the make inputs script, and the task script would not need ot be edited at all, as long as no changes to the tool commands were required for example updated tool arguments, parameters etc. 
+
+
+### Example scripts
+
+TBA demo 4 scripts 
+
+### Testing it before you run the full job 
+
+eg just run it on 4 tasks and print out the command (wrap in printf for example )
+
+### Checking the parallel job
+
+- check outputs - right numberm, right name, right format, right size
+- check PBS .o for exit 0 and expected mem, time, cpu usage
+- check .e log file and how to check it re "exited with status 0" 
+
+
+## Example 2: Tom TBA
+
+**Tom TBA**
+
+## One disadvantage of nci-parallel
+
+In job arrays, each subjob of the array is a discrete task consuming a chunk of resources that may or may not be on the same node as other subjobs of the array. When that subjob completes, those resources are returned to the cluster and become available for other jobs. As such, they are no longer consuming CPU hours and contributing to the users account. In contrast, `nci-parallel` reserves the entire collection of resources *for all parallel tasks in the job* as a single large chunk. This means that tasks that have completed while other tasks are still running are still consuming those resources and thus still accruing service units spent. Because of this, parallel jobs where there is a large distrubution of walltime across the tasks are likely to result in poor efficiency and a lot of wasted resources. 
+
+There are a number of strategies you can employ to mitigate this:
+
+1. timeout - see https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...
+2. for small numbers of parallel tasks, use a loop, with varying walltime based on expecttations for the task, adding a sleep within the submission loop 
+3. sort tasks by epected order of walltime, longest to shortest, and request resources such that less than the total number of tasks are running in parallel
+4. group tasks, for example instead of one large job, run a "fast", "medium" and "slow" job with the tasks grouped by expected walltime 
+
+## A note on efficiency 
+
+[Benchmarking](./10_job_efficiency.qmd) should initially be done on the single task, in order to optimise resource requests for the full job. In some cases, efficiency can decline for parallel jobs, and this results in an increased walltime per task and overall SU cost for the job. Where possible, benchmarking tests should also be performed at scale, to assess any decline in performance when the workload is scaled up, enabling you to potentially further optimise, or allow for the decline in efficiency when requesting walltime. 
+
+For example, you have determined the optimum resources for your tasks to be 12 CPU and 48 GB mem, for justunder 20 minutes. You have 1,000 tasks to run. This equates to 250 `normal` nodes. Prior to submitting a 20 minute 250-node job, you should:
+
+1. Test 4 tasks in a parallel job - that's one full node. Does the CPU efficiency remain the same as benchmarked for the single task?
+2. Test a handful of nodes, say 10 - does the CPU efficiency remain the same as bencharmked, now 40 tasks are runnning concurrently?
+3. If so, go ahead and submit the remaining tasks (remember to remove the tasks already run through this benchmarking, if you have done this on full size inputs). If not, what happened to the walltime? If the efficiency loss was drastic and walltime much worse, consider reoptimising. If the decline was minimal, extrapolate from this to estimate the walltime required for the full job, potentially running a larger task lot first (for example the next 100 tasks in the input argument list) for more accurate extrapolation.  
+4. Keep records of the benchmark runs and full run resources for future reference. We recommend the [Gadi usage script](https://github.com/Sydney-Informatics-Hub/HPC_usage_reports/blob/master/Scripts/gadi_usage_report.pl) which will summarise compute resources into a tab delimited table for ease of review and record keeping. If you prefer to rely on your Gadi job logs alone for long term records of your jobs usage, please ensure to back these up to RDS as they will be purged from scratch in time.  
+
+This may sound like a lot of extra work, but it could save a large amount of KSU as well as walltime and your own frustration in the long run. Understanding how well your workload scales to a parallel job is important prior to submitting a large multi-node job like this.  

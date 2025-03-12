@@ -25,7 +25,7 @@ Gadi runs a PBSpro job scheduler that manages the allocation of resources to use
 - [NCI file management policy](https://opus.nci.org.au/spaces/Help/pages/156434436/Gadi+scratch+File+Management)
 - [Transferring data between RDS and Gadi](./05_data_transfer.qmd)
 
-`/scratch` is not a safe space for long term data storage. If it has not been accessed in 100 days, it will be subjected to NCI's clean up policy. If you have a `/g/data` allocation, this is a better place to store data that you will regularly need as input for your jobs. While gdata is not subjected to purge like scratch, it is not backed up. You should back up all input, job scripts and important output files to RDS. Please follow the [data transfer between Gadi and RDS guide](./05_data_transfer.qmd) for th best ways to do this. 
+`/scratch` is not a safe space for long term data storage. If it has not been accessed in 100 days, it will be subjected to NCI's clean up policy. If you have a `/g/data` allocation, this is a better place to store data that you will regularly need as input for your jobs. While gdata is not subjected to purge like scratch, it is not backed up. You should back up all input, job scripts and important output files to RDS. Please follow the [data transfer between Gadi and RDS guide](./05_data_transfer.qmd) for the best ways to do this. 
 
 ## Don't request more resources than you need
 
