@@ -13,8 +13,6 @@ You should monitor your jobs to keep track of their progress but refrain from ch
 
 Like Artemis, you can use the `qstat` command to monitor jobs on Gadi. The NCI Gadi [job monitoring page](https://opus.nci.org.au/spaces/Help/pages/236880322/Job+monitoring...) describes some commonly used flags to qstat. 
 
-You can also use the bespoke `nqstat_anu` utility (ANU = The Australian National University, where Gadi is housed) which provides a way of observing how much CPU and memory your job is currently using. 
-
 ## Job IDs
 
 Like Artemis jobs, jobs submitted to Gadi are given a jobID. This is shown to you as soon as it has been accepted, for example `135615373.gadi-pbs`. 
@@ -33,6 +31,28 @@ If you have multiple jobs running, you do not need to check them individually wi
 ```bash
 qstat -u <nci-user-id>
 ```
+
+## Monitoring resource usage in real time
+
+To view the CPU and memory utilisation of a running job, you can use the bespoke `nqstat_anu` utility (ANU = The Australian National University, where Gadi is housed). 
+
+By default, running the command `nqstat_anu` will report on all jobs for the current user under their **default project**, providing the following details:
+
+- % CPU utilisation
+- walltime used
+- walltime requested
+- RSS
+- maximum memory used by the job
+- memory requested
+- CPUs requested
+- whether the job is queued or suspended
+
+Run `nqstat_anu -h` for more options.
+
+::: {.callout-tip}
+## Switching default project
+To change your default project, run `switchproj <nci-project-id>`, providing the ID of the project you want to switch to. If you don't know what your default project is, run the command `nci_account` with no arguments. Since `-P <nci-project-id>` is not supplied, it will report on your default project. 
+:::
 
 
 ## Job logs
@@ -68,7 +88,7 @@ If desired, you can change the default log filepaths with the `-o` and `-e` dire
 ```
 This omits the job ID from being included in the log file name and sends the logs to a different directory. 
 
+## Monitoring job disk usage
 
-
-
+Each project has an allocation of physical disk space and inodes on scratch, gdata and home. When running jobs on Gadi, it's important to ensure you have sufficient allocation remaining to meet the needs of the job you are running, as exceeding the limit of these resources can cause a running job to fail. Please see the section on [disk](./06_accounting.qmd#disk) and [inode](./06_accounting.qmd#inodes) usage for more details and how to query usage of these resources. 
 
