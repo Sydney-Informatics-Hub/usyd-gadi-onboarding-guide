@@ -190,7 +190,7 @@ It is not critical to use this template, but it can be a helpful tool if you hav
 - Embrace the labour of benchmarking!
   - While it may seem like a time-consuming impediment to getting on with analysing your data, it can save you a lot of time and KSU down the track 
   - Benchmarking will make your analysis faster and use less USyd-funded resources and energy resources
-  - benchmarking can prevent avoidable job failures such as a job runing out of walltime or memory, which will cost more time and resources to resubmit
+  - Benchmarking can prevent avoidable job failures such as a job runing out of walltime or memory, which will cost more time and resources to resubmit
 
 
 

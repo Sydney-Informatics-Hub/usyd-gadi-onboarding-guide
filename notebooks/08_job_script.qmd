@@ -10,7 +10,7 @@ from: markdown+emoji
 ## Introduction
 
 In this section, we will compare Artemis job scripts to Gadi job scripts, and provide some guidance on how to adapt your Artemis workflow to NCI Gadi HPC. 
- 
+
 [Watch the pre-recorded session](https://youtu.be/ZBOycXymok4)
 
 The main challenges users may face adapting Artemis workflows to Gadi are:
