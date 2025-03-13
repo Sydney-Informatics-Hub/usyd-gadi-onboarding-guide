@@ -37,10 +37,11 @@ website:
           href: notebooks/12_walltime.html          
         - text: "Job monitoring"
           href: notebooks/09_job_monitoring.html
-        - text: "Parallel jobs"
-          href: notebooks/13_parallel_jobs.html          
         - text: "Benchmarking and efficiency"
           href: notebooks/10_job_efficiency.html
+        - text: "Parallel jobs"
+          href: notebooks/13_parallel_jobs.html          
+
 
   cookie-consent: 
     type: express
