@@ -125,7 +125,45 @@ eg just run it on 4 tasks and print out the command (wrap in printf for example 
 
 ### Example 2: Calculation of pi
 
-The script whatispi.py runs a simulation on estimating the number pi given a set of numbers - The higher the simulation number the closer the result should be to the true value of pi.
-
 ![](../fig/calc_pi.png)
 
+The script whatispi.py runs a simulation on estimating the number pi given a set of numbers - The higher the simulation number the closer the result should be to the true value of pi.
+
+```python
+import numpy.random as rng
+import time
+import sys
+from multiprocessing import Pool
+from numpy import power
+
+def pi_run(num_trials):
+    """Calculate pi based on points with a box and circle of radius 1
+    """
+    r = 1.0
+    r2 = r * r
+    Ncirc = 0
+    for _ in range(num_trials):
+        x = rng.random()
+        y = rng.random()
+        if ( power(x,2) + power(y,2) < r2 ):
+            Ncirc +=1
+    pi = 4.0 * ( Ncirc / num_trials )
+    return pi
+
+def cycle_pi(trials, noprocs=1):
+    """calculate pi based on a set of trials.
+    -- trials: a large number representing points
+    -- noprocs: number of python processes used in simulation
+    """
+    print("number of processes used: ", noprocs)
+    with Pool(noprocs) as pool:
+        pi_estimates = pool.map(pi_run, trials)
+
+    return pi_estimates
+
+if __name__ == "__main__":
+
+    trials = list(map(int, sys.argv[2:]))
+    print("estimating pi based on", trials)
+    print(cycle_pi(trials, int(sys.argv[1])))
+```
