@@ -167,3 +167,31 @@ if __name__ == "__main__":
     print("estimating pi based on", trials)
     print(cycle_pi(trials, int(sys.argv[1])))
 ```
+
+Within the `whatispi.py` file above, some basic concepts that use the Python multiprocessing library are:
+
+the `Pool(noprocs)` object creates a pool of processes. processes is the number of worker processes to use (i.e Python interpreters). If processes is None then the number returned by `os.cpu_count()` is used. This is the first argument to our script.
+The `pool.map(pi_run, trials)` attribute of this object uses the pool to map a defined function (`pi_run`) to a list/iterator object (`trials`).
+
+To run our estimation script with a pool of 2 cpus with 3 trials, we would use:
+
+```bash
+python whatispi.py 2 1000 2000 3000
+```
+
+this would produce the output:
+
+```default
+estimating pi based on [1000, 2000, 3000]
+number of processes used:  2
+[3.124, 3.134, 3.154]
+```
+
+The three trials above can be converted into a single estimate by taking the average (weighted by number of trials) of each run.
+
+
+TBA: How to run this on Artemis using job arrays
+
+TBA: How to convert Artemis script to Gadi script 
+
+TBA: how to optimize Gadi script - eg. when some runs have different average walltime.
