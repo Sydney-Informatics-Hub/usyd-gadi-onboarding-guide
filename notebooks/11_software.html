@@ -294,11 +294,11 @@ cookieconsent.run({
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> avail python3</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load a specific version of python3:</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load python3/3.12.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Each global app has a default version, so if you run without specifying a version, the default version will be loaded. While this is OK in some circumstances, it is typically recommended to specify the version you know works for your code. Default versons of global apps will change over time without warning, so reproducibility and functionality is best maintained by explicitly stating the version when you load a module within your script.</p>
+<p>Each global app has a default version, so if you run without specifying a version, the default version will be loaded. While this is OK in some circumstances, it is typically recommended to specify the version you know works for your code. Default versions of global apps will change over time without warning, so reproducibility and functionality is best maintained by explicitly stating the version when you load a module within your script.</p>
 </section>
 <section id="software-groups-and-specialised-environments" class="level2">
 <h2 class="anchored" data-anchor-id="software-groups-and-specialised-environments">Software groups and specialised environments</h2>
-<p>NCI provides a range of software groups and specialised environments for different resarch fields. Before attempting to self-install a tool, you should check if the tool you need is avalable through global apps or one of these environments.</p>
+<p>NCI provides a range of software groups and specialised environments for different research fields. Before attempting to self-install a tool, you should check if the tool you need is available through global apps or one of these environments.</p>
 <p>Please visit the NCI pages for more details:</p>
 <ul>
 <li><a href="https://opus.nci.org.au/spaces/DAE/pages/137199737/AI+Machine+Learning">AI/machine learning</a></li>
@@ -328,7 +328,7 @@ cookieconsent.run({
 <p>Note that the <code>singularity</code> project was recently migrated to <a href="https://apptainer.org/docs/user/1.0/introduction.html">apptainer</a>. Please continue to run <code>singularity</code> commands on Gadi for now.</p>
 <p>Singularity (Apptainer) is a <em>“container platform. It allows you to create and run containers that package up pieces of software in a way that is portable and reproducible. You can build a container using Apptainer on your laptop, and then run it on many of the largest HPC clusters in the world, local university or company clusters, a single server, in the cloud, or on a workstation down the hall. Your container is a single file, and you don’t have to worry about how to install all the software you need on each different operating system.” (from apptainer.org)</em></p>
 <p>There are numerous container repositories, for example <a href="https://hub.docker.com/">Docker Hub</a> or <a href="https://quay.io/">quay.io</a>. You can search these repositories, or build your own container if the tool or tool version you need is not yet available.</p>
-<p><a href="https://seqera.io/">Seqera</a> have greatly simplifed the process of building custom containers with their <a href="https://seqera.io/containers/">build-your-own container tool</a>! Simply search for the tool(s) you want in your container, and click <code>Get Container</code>. This tool will manage the build for you, and host the created container file.</p>
+<p><a href="https://seqera.io/">Seqera</a> have greatly simplified the process of building custom containers with their <a href="https://seqera.io/containers/">build-your-own container tool</a>! Simply search for the tool(s) you want in your container, and click <code>Get Container</code>. This tool will manage the build for you, and host the created container file.</p>
 <section id="example" class="level3">
 <h3 class="anchored" data-anchor-id="example">Example</h3>
 <p>Let’s assume you want to use the tool <strong>FoldSeek</strong>. Below are the steps to search for, obtain, test, and use this container in a PBS job script.</p>
@@ -338,7 +338,7 @@ cookieconsent.run({
 <li>Select the <code>biocontainers</code> container, and then select the <code>Tags</code> page from the icons on the left (options are <code>Information</code>, <code>Tags</code>, <code>Tag history</code>).</li>
 <li>On the far right of the most recent tag, select the <code>Fetch tag</code> icon and then change image format to <code>Docker Pull (by tag)</code>.</li>
 <li>Copy the command. We need to made some changes to the command before we execute it.</li>
-<li>Paste the command into your terminal (or <code>copyq</code> container download script) and change <code>docker</code> to <code>singularity</code> and add prefix <code>docker://</code> to the contaner path, as shown below:</li>
+<li>Paste the command into your terminal (or <code>copyq</code> container download script) and change <code>docker</code> to <code>singularity</code> and add prefix <code>docker://</code> to the container path, as shown below:</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Default command:</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> pull quay.io/biocontainers/foldseek:10.941cd33--h5021889_1</span>
@@ -349,7 +349,7 @@ cookieconsent.run({
 <li>Test the container with a basic help or version command. When running a container, typical usage involves the following command structure:</li>
 </ol>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span>  exec <span class="op">&lt;</span>container<span class="op">&gt;</span> <span class="op">&lt;</span>command<span class="op">&gt;</span> <span class="pp">[</span><span class="ss">args</span><span class="pp">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>So everything after the container name is the same as you would run when using a locally installed version of the tool. For <code>foldseek</code>, we would use <code>foldseek version</code> to view the tool verison or <code>foldseek help</code> to view the help menu. To run these commands via the container:</p>
+<p>So everything after the container name is the same as you would run when using a locally installed version of the tool. For <code>foldseek</code>, we would use <code>foldseek version</code> to view the tool version or <code>foldseek help</code> to view the help menu. To run these commands via the container:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec foldseek_10.941cd33--h5021889_1.sif foldseek version</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec foldseek_10.941cd33--h5021889_1.sif foldseek help</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Note that the version of foldseek corresponds to the tag name: in this case, v. 10.941cd33.</p>

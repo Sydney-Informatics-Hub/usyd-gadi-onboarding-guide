@@ -677,7 +677,7 @@ Click to expand
 <p>This time, you shouldn’t be prompted for a password. You can proceed to transfer data between Gadi and USyd’s Artemis/RDS system now on the <code>copyq</code>.</p>
 <p>If you get the error “Fatal error: Host key verification failed” you may have to get an “ssh fingerprint” first. Do this by sending an ssh request to the RDS with:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>your-unikey<span class="op">&gt;</span>@research-data-ext.sydney.edu.au</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Accept that you trust the connection and enter your passowrd. The connection will then close with the following message:</p>
+<p>Accept that you trust the connection and enter your password. The connection will then close with the following message:</p>
 <pre><code>This service allows sftp connections only.
 Connection to research-data-ext.sydney.edu.au closed.</code></pre>
 <p>But now try <code>lftp</code> connection again!</p>
@@ -868,8 +868,8 @@ Example <code>copyq</code> transfer from RDS to Gadi
 </div>
 </div>
 </section>
-<section id="confirm-transfers-after-competion" class="level4">
-<h4 class="anchored" data-anchor-id="confirm-transfers-after-competion">Confirm transfers after competion</h4>
+<section id="confirm-transfers-after-completion" class="level4">
+<h4 class="anchored" data-anchor-id="confirm-transfers-after-completion">Confirm transfers after completion</h4>
 <p>To confirm the transfer was successful, you’ll need to check your job logs. These are located in the same directory as your script and are named <code>transfer.o&lt;jobid&gt;</code>.</p>
 <p>However, this doesn’t guarantee the integrity of the files. You should check the files themselves to ensure they are intact. You can do this using md5checksums. See this <a href="https://sydney-informatics-hub.github.io/tidbits/safely-downloading-your-sequence-data-to-rds.html">SIH tidbits blogpost</a> about how to use these. You’ll need to create md5checksums for the original files if they don’t already exist and compare them after transfer.</p>
 </section>

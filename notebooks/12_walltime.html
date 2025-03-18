@@ -297,7 +297,7 @@ cookieconsent.run({
 <li><a href="../notebooks/11_software.html">Software installation and version upgrades on Gadi</a></li>
 <li><a href="../notebooks/13_parallel_jobs.html">Job arrays not supported on Gadi</a></li>
 </ul>
-<p>In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.</p>
+<p>In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.</p>
 </section>
 <section id="gadi-walltime-limit" class="level2">
 <h2 class="anchored" data-anchor-id="gadi-walltime-limit">Gadi walltime limit</h2>
@@ -340,7 +340,7 @@ cookieconsent.run({
 <h3 class="anchored" data-anchor-id="example-1-a-workflow-with-multiple-discrete-commands">Example 1: A workflow with multiple discrete commands</h3>
 <p>In the field of genomics, the raw data is processed through a series of steps before the final output files are produced. Many groups perform all of these steps within a single, multi-command job, in order to only have to run one job to perform all the work.</p>
 <p>By splitting apart each of these steps so that each is its own job, we can improve code manageability, reduce walltime, and increase overall processing efficiency.</p>
-<p>While this does require some extra effort in terms of submitting multiple processing jobs rather than just one, the benefits described above far outweigh this. The burden of multiple job submission can be ameliorated by parallel processing per sample, and even further by a workflow manager such as Nextflow. For an exammple Nextflow genomics processing workflow, view <a href="https://github.com/Sydney-Informatics-Hub/Parabricks-Genomics-nf">this repository</a>, and for parallel jobs on Gadi, see <a href="../notebooks/13_parallel_jobs.html">this section</a>.</p>
+<p>While this does require some extra effort in terms of submitting multiple processing jobs rather than just one, the benefits described above far outweigh this. The burden of multiple job submission can be ameliorated by parallel processing per sample, and even further by a workflow manager such as Nextflow. For an example Nextflow genomics processing workflow, view <a href="https://github.com/Sydney-Informatics-Hub/Parabricks-Genomics-nf">this repository</a>, and for parallel jobs on Gadi, see <a href="../notebooks/13_parallel_jobs.html">this section</a>.</p>
 <p>In the below Artemis script example, a samplesheet is read in containing metadata from about 10 samples to be analysed. Each sample has one pair of raw ‘fastq’ input files that are processed through an analysis loop containing 4 steps:</p>
 <table class="caption-top table">
 <colgroup>
