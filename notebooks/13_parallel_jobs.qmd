@@ -1,5 +1,5 @@
 ---
-title: "**Running parallel jobs on Gadi**"
+title: "**Running embarrassingly parallel jobs on Gadi**"
 output:
   html_document:
     toc: false
@@ -12,7 +12,7 @@ from: markdown+emoji
 
 ## Introduction
 
-In this section, we will discuss how you can run parallel jobs on Gadi using the `nci-parallel` utility in place of the Artemis job array method. 
+In this section, we will discuss how you can run embarrassingly parallel jobs on Gadi using the `nci-parallel` utility in place of the Artemis job array method. 
 
 The main challenges users may face adapting Artemis workflows to Gadi are:
 
@@ -26,39 +26,43 @@ The main challenges users may face adapting Artemis workflows to Gadi are:
 - [Software installation and version upgrades on Gadi](./11_software.qmd) 
 
 
-In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.
+In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.
 
-## Parallel jobs
+## Embarrassingly Parallel jobs on Gadi
 
-A parallel job is a job that executes across multiple processors, nodes, or cores simultaneously to speed up computations. This may be operating the same analysis over different input files, over different parameter values, or by dividing a large computational task into smaller subtasks that run concurrently, either through shared memory or distributed computing.
+A parallel job is a job that is broken down into numerous smaller tasks to be executed across multiple processors, nodes, or cores simultaneously to speed up computations. For example, operating the same analysis over different input files, over different parameter values, or by dividing a large computational task into smaller subtasks that run concurrently, using shared memory or distributed computing.
 
-On Artemis, we could use the `#PBS -J <range>` directive to submit arrays of parallel jobs. On Gadi, **job arrays are not supported**. In order to simplify parallel jobs without the use of arrays, NCI have created a helper utility [`nci-parallel`](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...) which uses [OpenMPI](https://www.open-mpi.org/) for distributed computing of parallel tasks on Gadi.   
+**Embarrassingly parallel** jobs are a specific type of parallel job where the tasks are completely independent of each other and do not require inter-process communication or shared memory. These types of jobs can be trivially parallelized by running each task separately on different cores or nodes. 
+
+On Artemis, we could use the `#PBS -J <range>` directive to submit arrays of embarrassingly parallel tasks. On Gadi, **job arrays are not supported**. In order to simplify embarrassingly parallel jobs without the use of arrays, NCI have created a tool [nci-parallel](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...) to be used with [OpenMPI](https://www.open-mpi.org/) for distributing parallel tasks across available compute resources on a Gadi queue. 
 
 ## Using nci-parallel
 
-Use of this utility will require 3 job files:
+Use of this utility will typically require 2-33 job files:
 
 1. PBS script that launches the parallel job with the requested overall size (how many nodes/CPUs) plus the details of how many CPUs to assign to each task, and how many tasks to run concurrently
-2. The input arguments file or command file. This is a text file that provides a new set of arguments per line. Each line of the input arguments file is used by a separate execution of the task script
-3. The task script. This is the script file that contains the commands to run the job and uses the arguments provided by the input arguments file.
+2. The input arguments file or command file. This is a text file that provides a new set of arguments/commands per line. Each line of the input arguments file/commands file is used as the input for a separate task 
+3. The task script. This is the script file that contains the commands to run the job and uses the arguments provided by the input arguments file/commands file. For some tasks where the command fits on a single line, a task script may not be required and the commands file may be sufficient. 
  
 
 NCI provides an [example](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...) where the input to the task script (in this case, named `test.sh`) is a single numeric value. The command `test.sh <value>` is included in the input argument file, as many times as needed for the job (in this case, 1000). Another way to do this (demonstrated in the [example below](TBA)) is having an input argument list that *does not include* the name of the script file. The name of the script file is instead included within the PBS script. Both methods achieve the same result, the user can choose whichever they prefer.
 
-**Option 1: task script call with arguments provided in a command file**
+**Option 1: task script call with arguments is provided in a command file**
 
 ![](../fig/parallel-scripts-opt1.png)
 
 
-**Option 2: task script call combined with arguments file within the PBS script**
+**Option 2: task script call is combined with arguments by the PBS script**
 
 ![](../fig/parallel-scripts-opt2.png)
 
-An **optional fourth script** may be required to make the input arguments/commands file, where the creation of these cannot easily be achieved with a simple `for` loop or similar on the command line. For complex inputs, especially those that read in metadata files, a `make inputs` script that is saved alongside the parallel script trio is useful for reproducibility and portability. 
+**Option 3: no task script, simple one-line command and arguments provided in a command file**
+
+![](../fig/parallel-scripts-opt3.png)
+
+For complex commands/arguments files, where the creation of these cannot easily be achieved with a simple `for` loop or similar on the command line, an **optional fourth script** may be required to make the input arguments/commands file. An example of this may be where the inputs are derived from a complex metadata file or require some further manipulation prior to generating the input/arguments list. A `make inputs` script that is saved alongside the parallel script trio is useful for reproducibility and portability. 
 
 Care must be taken to ensure the task script reads in the input arguments correctly. **Always run a single task small test before submitting the full parallel job!** To check that the task script reads in the arguments correctly, this need not be done on the compute nodes. You can run a quick test on the login node where your task script prints out the arguments it reads in from the input arguments file then exits before running any analysis. 
-
-It is also important to check that the `binding` is done correctly. **TODO**
 
 
 ### Simple example
@@ -137,30 +141,35 @@ mpirun --np 48 * 12 / 48
 mpirun --np 12
 ```
 
-`--map-by node:PE=${NCPUS}` is an option for mpirun that controls how processes are distributed across nodes. PE stands for 'processing elements'... **TODO**
+The next part of the `mpirun` command `--map-by node` means that processes will be distributed evenly across all nodes requested by the job. `PE=${NCPUS}` ('processing elements') indicates that each distributed task will be allocated `${NCPUS}` CPUs, which is a user-defined variable. 
 
-The arguments `--verbose` and `--input-file` are provided to the `nci-parallel` utility, which is the application being run in parallel. Run `nci-parallel -h` to see other available arguments. The input file is where `nci-parallel` reads the task commands from; each line of the file is treated as a separate command to be run as a parallel task. If the number of lines in the input file exceeds the number of processes MPI can run in parallel, the commands are assigned to resources in order, starting from line 1, until all resources are in use. As a running task completes, the next task in the list is assigned ot those now-free resources. 
-
-
+The arguments `--verbose` and `--input-file` are provided to the `nci-parallel` utility, which is the application being run in parallel. Run `nci-parallel -h` to see other available arguments. The input file is where `nci-parallel` reads the task commands from; each line of the file is treated as a separate command to be run as a parallel task. If the number of lines in the input file exceeds the number of processes MPI can run in parallel/simultaneously (ie, the value given to `mpirun --np <value>`), the commands are assigned to resources in order, starting from line 1, until all resources are in use. As a running task completes, the next task in the list is assigned to those now-free resources, until either all input lines have been assigned to resources and the tasks complete, or the job meets a fatal error (such as out of walltime).  
 
 
 
-Challenge: 
 
-How many tasks could run per normal node if NCPUS was set by the user as 6, and how many tasks could run concurrently if this job requested 10 normal nodes? 
+
+**Challenge**: How many tasks could run per normal node if NCPUS was set by the user as 6, and how many tasks could run concurrently if this job requested 10 normal nodes? 
+
+::: {.callout-note collapse="true"}
+## Number of tasks per `normal` node
 
 ```default
 M=$(( PBS_NCI_NCPUS_PER_NODE / NCPUS )) 
 M = 48 / 6
 M = 8
 ```
+:::
+
+::: {.callout-note collapse="true"}
+## Number of tasks running concurrently on 10 `normal` nodes
 
 ```default
 mpirun --np M * PBS_NCPUS / PBS_NCI_NCPUS_PER_NODE
 mpirun --np 8 * 480 / 48
 mpirun --np 80
 ```
-
+:::
 
 **Job file 2: the input arguments file**
 
@@ -219,18 +228,75 @@ Now for the `.e` log:
 
 ![](../fig/demo-parallel-elog.png)
 
-Each task in the input command file `/jobfs/136990777.gadi-pbs/input-file` has a line containing the node ID, status, and exit status... **TODO**
+Each parallel task has a line containing information including the ID of the node it was run on and the individual task exit status.
 
 Always check the exit status from the PBS `.o` log AND the per-task exit statuses from the `.e` log! An exit status of 0 for the parent job does not mean all tasks completed without error. And of course, as always, check the outputs, as an exit status for both parent job and task still does not necessarily dictate a successful job. 
 
-Count the number of tasks with exit status 0 - this should equal the number of lines in your input arguments/command file:  
+Count the number of tasks with exit status 0 - this should equal the number of lines in your input arguments/command file: 
+
 ```bash
 grep "status 0" demo_parallel.e | wc -l
 ```
 
-Extract task IDs that have a non-zero exit status: **TODO**
+If the number if tasks with exit status 0 is less than the number of inputs, either the job has met a fatal error (and the PBS `.o` log will have a non-zero exit status), or some individual tasks have failed. If all tasks have started, they will have an exit status in the `.e`log, so you can retrieve the failed tasks to a new input file to be resubmitted (after first troubleshooting the error). For example:
 
-These task IDs can be extracted, by the task number which is the line number of the inputs file, and resubmitted after troubleshooting the error. 
+```bash
+ grep -E "status [1-9]" demo_parallel.e | awk -F"status [0-9]+: " '{print $2}' > failed.input
+ ```
+
+If however the tasks *didn't start* for example the job exceeded walltime before they were allocated to resources, they won't have an entry in the `.e`log:
+
+![](../fig/demo-parallel-failed-elog.png)
+
+You would need to extract the lines from the original input file that do not have 'exited with status 0' within the `.e` log to make the failed tasks list.  
+
+## MPI 'map-by' parameter and NUMA nodes
+
+The `--map-by` parameter in the `mpirun` command specifies how processes should be distributed across the available resources (eg nodes, sockets, cores, or NUMA nodes).
+
+The example on the NCI page shows `map-by ppr` and the simple example above shows `map-by node`. What's the difference? 
+
+`ppr` stands for **processes per resource**, where processes is number of tasks assigned to that resource, where 'resource' may be node, socket or NUMA. A NUMA (Non-Uniform Memory Access) node/domain is a physical unit consisting of one or more CPU cores and the memory directly attached to them.
+
+The `mpirun` command in the NCI example:
+
+```bash
+PBS_NCPUS=384
+export ncores_per_task=4
+export ncores_per_numanode=12
+mpirun -np $((PBS_NCPUS/ncores_per_task)) --map-by ppr:$((ncores_per_numanode/ncores_per_task)):NUMA:PE=${ncores_per_task}
+```
+
+Expands to:
+
+```bash
+mpirun -np 384/4 --map-by ppr:12/4:NUMA:PE=4
+mpirun -np 96 --map-by ppr:3:NUMA:PE=4
+```
+
+Remember, `--np` specifies the number of processes for MPI to run in parallel, in this case, 96 of the 1,000 input tasks can run simultaneously. Processes (tasks) per resource is 3 and the resource is given as NUMA. So the job will run 3 tasks per NUMA node, each with 4 (`PE=4`) CPU. 
+
+The [Gadi queue structure page](https://opus.nci.org.au/spaces/Help/pages/236880996/Queue+Structure+on+Gadi...) states there are 12 CPUs per NUMA node on the Cascade lake `normal` queue, so this job fits nicely on that architecture. What if you wanted to run tasks with more CPUs than available on a single NUMA? 
+
+For example, for 24 CPUs per task, the equation would yield:
+
+```bash 
+mpirun -np $((PBS_NCPUS/ncores_per_task)) --map-by ppr:$((ncores_per_numanode/ncores_per_task)):NUMA:PE=${ncores_per_task}
+mpirun -np 384/24 --map-by ppr:12/24:NUMA:PE=24
+mpirun -np 16 --map-by ppr:0.5:NUMA:PE=24
+```
+
+This job would fail with non-zero exit status and display the error *"Your job has requested more processes than the ppr for this topology can support"*. 
+
+For jobs where more CPU (or memory) is required per task than exists on a single NUMA node, the `map-by node` method shown in the simple example above can enable this. For tasks of 24 CPU, memory is obtained across 2 whole NUMA nodes. For tasks of 16 CPU each, memory is obtained from 2 NUMA nodes, and some NUMA nodes wll provide memory and CPU to 2 tasks. To assess the effect of this memory latency on your workflow, [benchmarking](./10_job_efficiency.qmd) is recommended.  
+
+Mapping by node instead of NUMA node can also help increase CPU utilisation when the number of CPUs on the NUMA node is not evenly divisible by the optimal CPUs per task as chosen by benchmarking. For example to use 8 CPUs per task, mapping by NUMA node on the Cascade Lake `normal` queue would lead to 4 CPU per NUMA node idle, restricting each node to run only 48/12 = 4 tasks per node, rather than 48/8 = 6 tasks per node. 
+
+What is the advantage to mapping by NUMA node? The CPU cores within a NUMA node can access the memory within that NUMA node more quickly than the memory located in other NUMA nodes. Your jobs may have improved performance, especially for memory-intensive applications, if the memory per task is within a single NUMA domain. As always, it is ideal to perform [benchmarking](./10_job_efficiency.qmd) to determine the optimal resource configuration for your workflow. 
+
+
+
+
 
 ## Parallel job efficiency 
 
