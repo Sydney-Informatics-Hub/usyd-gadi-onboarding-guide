@@ -276,10 +276,10 @@ You only need to set this up once.
 
 SSH key pairs are used for secure communication between two systems. The pair consists of a **private** key and a **public** key. The **private** key should remain private and only be known by the user. It is stored securely on the user's computer. The **public** key can be shared with any system the user wants to connect to. It is added to the remote system's authorized keys. When a connection is attempted, the remote system uses the public key to create a message for the user's system.
 
-There are many general guides for this online, for example [this one](https://medium.com/@prateek.malhotra004/streamlining-secure-remote-access-a-guide-to-passwordless-ssh-connections-between-linux-servers-8c26bb008af9). For step-by-step instructions on how to set up keys between Gadi and RDS, expand the drop down below. 
+There are many general guides for this online, for example [this one](https://medium.com/@prateek.malhotra004/streamlining-secure-remote-access-a-guide-to-passwordless-ssh-connections-between-linux-servers-8c26bb008af9).  
 
-::: {.callout-note collapse="true"}
-### Click to expand
+::: {.callout-note}
+### Set up keys between Gadi and RDS 
 
 Follow the below steps carefully to set up SSH keys between RDS and Gadi. Note, **you only need to do this once**.
 
@@ -402,7 +402,7 @@ There are two scripts:
 
   + `from_rds_to_gadi.pbs` is used to transfer a file or folder from RDS to Gadi
 
-::: {.callout-note collapse="true"}
+::: {.callout-note}
 ## Transfer from Gadi to RDS
 
 `from_gadi_to_rds.pbs` script, replace variables in `<brackets>` as described:
@@ -442,7 +442,7 @@ sftp ${remote_user}@${remote_host}:${remote_path} <<< $"put -r ${local_path}"
 ```
 :::
 
-:::{.callout-note collapse="true"}
+:::{.callout-note}
 ## Transfer from RDS to Gadi
 
 `from_rds_to_gadi.pbs` script, replace variables in `<brackets>` as described:
@@ -610,7 +610,7 @@ Below is a template `.pbs` script that can be used to sync files between Gadi an
 Note that when using this script to copy a folder you should ensure the target directory exists on RDS first, otherwise the parent directory will not be synced with the data.
 :::
 
-:::{.callout-note collapse="true"}
+:::{.callout-note}
 ## Sync between Gadi and RDS
 
 ```bash
@@ -683,7 +683,7 @@ For transfer of large files directly from Artemis to Gadi, the use of resumable 
 
 For further info about copying data from Artemis `dtq` can be found in the [SIH Artemis Training Series](https://sydney-informatics-hub.github.io/training.artemis.rds/04-rcos2hpc/index.html).
 
-:::{.callout-note collapse="true"}
+:::{.callout-note}
 ## Template Artemis data transfer script using `rsync`
 
 ```bash
