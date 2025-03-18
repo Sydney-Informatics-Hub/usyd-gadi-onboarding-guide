@@ -11,7 +11,7 @@ Working on Gadi will require you to have reasonable confidence on the Linux/Unix
 
 ## Linux command line training
 
-NCI host a number of training sessons, including introductory Linux. Please visit their [training calendar](https://opus.nci.org.au/spaces/Help/pages/48497461/NCI+Training+and+Educational+Events). 
+NCI host a number of training sessions, including introductory Linux. Please visit their [training calendar](https://opus.nci.org.au/spaces/Help/pages/48497461/NCI+Training+and+Educational+Events). 
 
 There are numerous self-directed training tutorials online, such as [this one from Sandbox.bio](https://sandbox.bio/tutorials/carpentries-shell-novice/).
 
