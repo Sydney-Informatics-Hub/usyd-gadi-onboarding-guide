@@ -25,7 +25,7 @@ The main challenges users may face adapting Artemis workflows to Gadi are:
 - [Software installation and version upgrades on Gadi](./11_software.qmd) 
 - [Job arrays not supported on Gadi](./13_parallel_jobs.qmd) 
 
-In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.
+In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.
 
 ## Gadi walltime limit
 
@@ -77,7 +77,7 @@ In the field of genomics, the raw data is processed through a series of steps be
 
 By splitting apart each of these steps so that each is its own job, we can improve code manageability, reduce walltime, and increase overall processing efficiency.
 
-While this does require some extra effort in terms of submitting multiple processing jobs rather than just one, the benefits described above far outweigh this. The burden of multiple job submission can be ameliorated by parallel processing per sample, and even further by a workflow manager such as Nextflow. For an exammple Nextflow genomics processing workflow, view [this repository](https://github.com/Sydney-Informatics-Hub/Parabricks-Genomics-nf), and for parallel jobs on Gadi, see [this section](./13_parallel_jobs.qmd). 
+While this does require some extra effort in terms of submitting multiple processing jobs rather than just one, the benefits described above far outweigh this. The burden of multiple job submission can be ameliorated by parallel processing per sample, and even further by a workflow manager such as Nextflow. For an example Nextflow genomics processing workflow, view [this repository](https://github.com/Sydney-Informatics-Hub/Parabricks-Genomics-nf), and for parallel jobs on Gadi, see [this section](./13_parallel_jobs.qmd). 
 
 
 In the below Artemis script example, a samplesheet is read in containing metadata from about 10 samples to be analysed. Each sample has one pair of raw 'fastq' input files that are processed through an analysis loop containing 4 steps:

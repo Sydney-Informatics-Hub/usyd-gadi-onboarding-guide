@@ -20,7 +20,7 @@ The main challenges users may face adapting Artemis workflows to Gadi are:
 - [Software installation and version upgrades on Gadi](./11_software.qmd) 
 - [Job arrays not supported on Gadi](./13_parallel_jobs.qmd) 
 
-In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.
+In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.
 
 ## What are the important accounting metrics? 
 
@@ -87,7 +87,7 @@ Use the [queue limits](https://opus.nci.org.au/spaces/Help/pages/236881198/Queue
 
 First, we need to calculate the CPU:mem ratio of our job, which in this case is 4:48 = 1:12, ie 12 GB mem requested per CPU requested. 
 
-Next, we need to check that against the queue hardware: These nodes have 48 CPU and 192 GB RAM. So the CPU:mem ratio for this queue is 48:192 = 1:4 ie 4 GB RAM per CPU. By requesting 12 GB mem per CPU, we have requested *3 times as much mem per CPU* than the queue hardware provides for, so we will be charged based off the mem not the CPU, ie instead of being charged based on 4 CPU, we will be charged for the CPUs assigned to 48 GB RAM which is 12 (48 GB mem requested dividided by the queue mem per CPU value of 4). 
+Next, we need to check that against the queue hardware: These nodes have 48 CPU and 192 GB RAM. So the CPU:mem ratio for this queue is 48:192 = 1:4 ie 4 GB RAM per CPU. By requesting 12 GB mem per CPU, we have requested *3 times as much mem per CPU* than the queue hardware provides for, so we will be charged based off the mem not the CPU, ie instead of being charged based on 4 CPU, we will be charged for the CPUs assigned to 48 GB RAM which is 12 (48 GB mem requested divided by the queue mem per CPU value of 4). 
 
 Finally, check the charge rate for the `normal` queue, which is 2 SU per resource hour.
 
@@ -118,7 +118,7 @@ Use the [queue limits](https://opus.nci.org.au/spaces/Help/pages/236881198/Queue
 
 First, we need to calculate the CPU:mem ratio of our job, which in this case is 280:2520 = 1:9, ie 9 GB mem per CPU. 
 
-Next, we need to check that against the queue hardware: The `broadwell` queues (except express) have a charge rate of 1.25 SU per resource hour. The directives have requested the `normalbw` or "normal broadwell" queue, which has some nodes with 128 GB RAM and some nodes with 256 GB RAM. There is no difference in the charge rate for these nodes, and jobs are placed on either node type depending on the memory per CPU requested and resource availability at the time. These nodes have 28 CPU per node. So the CPU:mem rato for this queue is *either* 28:128 *or* 28:256. Since the 256 GB nodes are charged the same as the 128 GB nodes, we go with the higher ratio, 28:256 = 1:9.14, ie 9.14 GB mem per CPU. 
+Next, we need to check that against the queue hardware: The `broadwell` queues (except express) have a charge rate of 1.25 SU per resource hour. The directives have requested the `normalbw` or "normal Broadwell" queue, which has some nodes with 128 GB RAM and some nodes with 256 GB RAM. There is no difference in the charge rate for these nodes, and jobs are placed on either node type depending on the memory per CPU requested and resource availability at the time. These nodes have 28 CPU per node. So the CPU:mem rato for this queue is *either* 28:128 *or* 28:256. Since the 256 GB nodes are charged the same as the 128 GB nodes, we go with the higher ratio, 28:256 = 1:9.14, ie 9.14 GB mem per CPU. 
 
 Since we requested a CPU:mem ratio of 280:2520 = 1:9, we have requested *less mem per CPU than the queue allows per CPU* so our charge rate will be based on CPU not mem. 
 
@@ -176,7 +176,7 @@ SU = 23.94
 
 New projects are assigned 1 TB disk quota and 202 K inode quota on Gadi's scratch filesystem, and these can be increased with justification by contacting the [NCI help desk](https://nci.org.au/users/nci-helpdesk).
 
-You can check your project allocation with the same `nci_account -P <nci-projet-id>` command used to query SU:
+You can check your project allocation with the same `nci_account -P <nci-project-id>` command used to query SU:
 
 ![](../fig/nci_account-P-disk.png)
 
@@ -186,7 +186,7 @@ Another way to check disk usage is with the `lquota` command, which will report 
 
 ![](../fig/gadi-lquota.png)
 
-Note the extra columns here - you will see that in addition to the amount of disk used and allocated, there are also **Limit** columns. This is a grace amount of additional resources that your project may use, but only for a short time. This is to try and help jobs complete that may otherwise have exceeded the allocation and failed, causing unecessary wastage of compute resources. You cannot submit any new jobs under a project code that has exceeded the limit; the jobs will be `held` (status H) until you have brought your disk usage back under the allocation quota. Your project cannot exceed the limits. If a running job causes the limit to be exceeded, the job will fail. If a running job exceeds the allocation but remains under the limit, the job will continue. 
+Note the extra columns here - you will see that in addition to the amount of disk used and allocated, there are also **Limit** columns. This is a grace amount of additional resources that your project may use, but only for a short time. This is to try and help jobs complete that may otherwise have exceeded the allocation and failed, causing unnecessary wastage of compute resources. You cannot submit any new jobs under a project code that has exceeded the limit; the jobs will be `held` (status H) until you have brought your disk usage back under the allocation quota. Your project cannot exceed the limits. If a running job causes the limit to be exceeded, the job will fail. If a running job exceeds the allocation but remains under the limit, the job will continue. 
 
 NCI implements a [scratch purge policy](https://opus.nci.org.au/spaces/Help/pages/156434436/Gadi+scratch+File+Management), where files not accessed for 100 days are moved into quarantine for 14 days before permanent deletion. Files within quarantine still count towards project quotas. 
 

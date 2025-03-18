@@ -379,7 +379,7 @@ If you get the error "Fatal error: Host key verification failed" you may have to
 ssh <your-unikey>@research-data-ext.sydney.edu.au
 ```
 
-Accept that you trust the connection and enter your passowrd. The connection will then close with the following message:
+Accept that you trust the connection and enter your password. The connection will then close with the following message:
 
 ```
 This service allows sftp connections only.
@@ -592,7 +592,7 @@ ls MyData
 ```
 :::
 
-#### Confirm transfers after competion
+#### Confirm transfers after completion
 
 To confirm the transfer was successful, you'll need to check your job logs. These are located in the same directory as your script and are named `transfer.o<jobid>`. 
 

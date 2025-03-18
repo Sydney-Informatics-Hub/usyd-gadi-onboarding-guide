@@ -63,7 +63,7 @@ These nodes are designed specifically for fast data movement. You can use these 
 
 Please visit the [Gadi file transfer page](https://opus.nci.org.au/pages/viewpage.action?pageId=236880317) for more details.
 
-A comprehensive guide to data transfer between Gadi and University of Sydney RDS, including example commands, tempalte scripts and recommendations, can be found in the section on [transferring data](./05_data_transfer.qmd).
+A comprehensive guide to data transfer between Gadi and University of Sydney RDS, including example commands, template scripts and recommendations, can be found in the section on [transferring data](./05_data_transfer.qmd).
 
 ## Filesystems
 

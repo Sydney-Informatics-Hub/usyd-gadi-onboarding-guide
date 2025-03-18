@@ -28,11 +28,11 @@ module avail python3
 module load python3/3.12.1
 ```
 
-Each global app has a default version, so if you run without specifying a version, the default version will be loaded. While this is OK in some circumstances, it is typically recommended to specify the version you know works for your code. Default versons of global apps will change over time without warning, so reproducibility and functionality is best maintained by explicitly stating the version when you load a module within your script. 
+Each global app has a default version, so if you run without specifying a version, the default version will be loaded. While this is OK in some circumstances, it is typically recommended to specify the version you know works for your code. Default versions of global apps will change over time without warning, so reproducibility and functionality is best maintained by explicitly stating the version when you load a module within your script. 
 
 ## Software groups and specialised environments
 
-NCI provides a range of software groups and specialised environments for different resarch fields. Before attempting to self-install a tool, you should check if the tool you need is avalable through global apps or one of these environments. 
+NCI provides a range of software groups and specialised environments for different research fields. Before attempting to self-install a tool, you should check if the tool you need is available through global apps or one of these environments. 
 
  Please visit the NCI pages for more details:
 
@@ -79,7 +79,7 @@ Singularity (Apptainer) is a *"container platform. It allows you to create and r
 
 There are numerous container repositories, for example [Docker Hub](https://hub.docker.com/) or [quay.io](https://quay.io/). You can search these repositories, or build your own container if the tool or tool version you need is not yet available. 
 
-[Seqera](https://seqera.io/) have greatly simplifed the process of building custom containers with their [build-your-own container tool](https://seqera.io/containers/)! Simply search for the tool(s) you want in your container, and click `Get Container`. This tool will manage the build for you, and host the created container file.  
+[Seqera](https://seqera.io/) have greatly simplified the process of building custom containers with their [build-your-own container tool](https://seqera.io/containers/)! Simply search for the tool(s) you want in your container, and click `Get Container`. This tool will manage the build for you, and host the created container file.  
 
 ### Example
 
@@ -90,7 +90,7 @@ Let's assume you want to use the tool **FoldSeek**. Below are the steps to searc
 3. Select the `biocontainers` container, and then select the `Tags` page from the icons on the left (options are `Information`, `Tags`, `Tag history`). 
 4. On the far right of the most recent tag, select the `Fetch tag` icon and then change image format to `Docker Pull (by tag)`. 
 5. Copy the command. We need to made some changes to the command before we execute it. 
-6. Paste the command into your terminal (or `copyq` container download script) and change `docker` to `singularity` and add prefix `docker://` to the contaner path, as shown below: 
+6. Paste the command into your terminal (or `copyq` container download script) and change `docker` to `singularity` and add prefix `docker://` to the container path, as shown below: 
 
 ```bash
 # Default command:
@@ -106,7 +106,7 @@ singularity pull docker://quay.io/biocontainers/foldseek:10.941cd33--h5021889_1
 singularity  exec <container> <command> [args]
 ```
 
-So everything after the container name is the same as you would run when using a locally installed version of the tool. For `foldseek`, we would use `foldseek version` to view the tool verison or `foldseek help` to view the help menu. To run these commands via the container: 
+So everything after the container name is the same as you would run when using a locally installed version of the tool. For `foldseek`, we would use `foldseek version` to view the tool version or `foldseek help` to view the help menu. To run these commands via the container: 
 
 ```bash
 singularity exec foldseek_10.941cd33--h5021889_1.sif foldseek version
