@@ -479,9 +479,6 @@ Observe the similarities and differences:
 As you can see from this example, porting an existing Artemis job array to Gadi is straightforward and requires little extra work.
 
 
-
-
-
 ### Example 2: Calculation of pi
 
 ![](../fig/calc_pi.png)
