@@ -426,30 +426,60 @@ By parallelising at the level of sample, we may have say 10 or 100 tasks in a pa
 
 One excellent example for how HPC and distributed computing can massively speed up processing is the case of mapping the DNA sequences to the reference genome. In sequencing projects, each sample may have a few hundred million DNA sequences. Users typically map all of these in one job, that may take several hours and can multi-thread up to all of the cores on a node natively. However, since each DNA sequence is mapped *independently* to the reference, we can physically split the input into numerous smaller inputs and perform the mapping in parallel. 
 
-Say we have 100 samples, each with approximately 400 million DNA sequences requiring mapping to a reference file. To parallelise by sample, we could run 100 tasks concurrently. If we split the input into chunks of 10 million sequences, each sample would have 40 inputs, so we could run a parallel job with `100 * 40 =  4,000` tasks. If each task required 5 minutes on 6 CPU, that's `6 * 4000 = 24,000 CPU = 500 nodes` for 5 minutes to run all tasks concurrently. This exceeds the maximum nodes per job of 432 for the `normal` queue. We could run 2,000 tasks concurrently, and this would require double the walltime for half the nodes, so 10 minutes on 250 nodes. 250 nodes is a large chunk of resources, so possibly 1,000 tasks concurrently for 20 minutes on 125 nodes would be easier to schedule and result in less queue time. This is a massive speedup compared to the ~ 6-8 hours required to process all 400 million sequences in one task. 
+Say we have 100 samples, each with approximately 400 million DNA sequences requiring mapping to a reference file. To parallelise by sample, we could run 100 tasks concurrently. If we split the input into chunks of 10 million sequences, each sample would have 40 inputs, so we could run a parallel job with `100 * 40 =  4,000` tasks. 
 
-Now how would we set this up? First up would be physically splitting the inputs into numerous smaller files, then running the mapping job, then performing a merge to re-combine the split data to a per-sample output file. We won't cover the details of splitting or merging here as that is domain-specific, but we will look at the trio of paralle job scripts to demonstrate how the parallelisation is created, compared to a job array for the same tasks on Artemis. 
+Assuming the tasks were benchmarked to perform optimally with 6 `normal` CPU and required 5 minutes walltime, to run all tasks concurrently would require `6 * 4000 = 24,000 CPU`. This equates to 500 nodes, which exceeds the maximum nodes per job of 432 for the `normal` queue. We can add our benchmarking metrics into the [SIH parallel job resource calculator](link TODO) to help us request resources for this job. 
 
-Given the large number of tasks and complexity of the metadata, we find an additional script is required: we call this the `make_inputs` script, which reads your metadata and creates the input arguments file. We then have a set of 4 files that are inextricably linked for the job: a script to make the input arguments file, the input arguments file, the PBS script, and the DNA mapping task script. 
+By halving the number of nodes requested to 250, we halve the number of tasks that can run concurrently, so we would need to double the walltime: 
+ 
+![](../fig/resource-calc.png)
+ 
+250 nodes is a large chunk of resources, so possibly 1,000 tasks concurrently for 20 minutes on 125 nodes would be easier to schedule and result in less queue time. This is a massive speedup compared to the ~ 6-8 hours required to process all 400 million sequences in one task. 
 
-In the example scripts below, the metadata has been simplified for clarity. 
+In practice, scaling this 100-sample mapping to 4,000 embarassingly parallel tasks does take a number of steps - but remember that it's all worth it to achieve the vast speedup :-) 
 
-For this workflow, only the make inputs file would be edited each time the analysis was run on a new set of input samples, and the PBS script directives would be adjusted based on the number of tasks to be run. The input arguments file is created by the make inputs script, and the task script would not need to be edited at all, as long as no changes to the tool commands were required for example updated tool arguments, parameters etc. 
+1. Physically split the inputs into numerous smaller files (a 100-task job, parallel by sample)
+2. Check the logs and outputs to verify successful split job
+3. Use a helper `make input` script to read the per-sample metatdata and combine it with each of the split input files into an input arguments file
+4. Set up the task script to read the input arguments and run the mapping analysis
+5. Set up directives with the help of the resource calculator, then submit the PBS script with `qsub`
+6. Check the logs and outputs to verify successful mapping job
+7. Merge the split data to a per-sample output file (another 100-task job, parallel by sample)
+
+For this workflow, only the metadata and/or make inputs file would be edited each time the analysis was run on a new set of input samples, and the PBS script directives would be adjusted based on the number of tasks to be run. The mapping task script would not need to be edited between repeat jobs at all (aside from updated tool versions/parameters etc). So while it may seem complex to set up, the advantages for **speedup**, **reproducibility** and **portability** will save you much time in the long run. Ensure to **back up your job files to RDS** to avoid losing your hard work to scratch purge!  
 
 
-#### Example scripts
+#### Artemis job array vs Gadi nci-parallel job
 
-TBA demo 4 scripts 
+We won't cover the details of splitting or merging here as that is domain-specific, but we will look at the job files required for the massively parallel mapping job on NCI, as compared to the same analysis with job arrays on Gadi. 
 
-#### Testing it before you run the full job 
+Assume that the same comma-delimited input arguments file has been created for both the NCI and Artemis job:
 
-eg just run it on 4 tasks and print out the command (wrap in printf for example )
+![](../fig/parallel-job-genomics-inputs.png)
 
-#### Checking the parallel job
+**Artemis job array script**
 
-- check outputs - right number, right name, right format, right size
-- check PBS .o for exit 0 and expected mem, time, cpu usage
-- check .e log file and how to check it re "exited with status 0" 
+Note that the job must be run 4 times, each with a different set of 1,000 tasks, in line with the maximum number of elements per job array on Artemis.
+
+![](../fig/artemis-array-genomics.png)
+
+**Gadi parallel scripts**
+
+![](../fig/gadi-parallel-genomics.png)
+
+Observe the similarities and differences:
+
+- Both workflows use the same mapping command - for Gadi, the commands are in a different script to the directives, for Artemis, all is within the PBS script
+- Both workflows read in the same variables from the same input arguments files, but use a slightly different command
+- Both workflows request 6 CPU per task
+- All tasks on Gadi are run in the same job, Artemis array requires batching 
+- Slight differences to the directives, as outlined in the [section on Gadi PBS scripts compared to Artemis](./08_job_script.qmd)
+- The Gadi PBs script has the mpirun resource binding component, where the Artemis job array script includes the `-J <range>` directive 
+
+As you can see from this example, porting an existing Artemis job array to Gadi is straightforward and requires little extra work.
+
+
+
 
 
 ### Example 2: Tom TBA
@@ -459,12 +489,12 @@ eg just run it on 4 tasks and print out the command (wrap in printf for example 
 
 ## Summary
 
-- PBS job arrays are not permitted on Gadi, these can be adapted to `nci-parallel` jobs
+- PBS job arrays are not permitted on Gadi, these can be easily adapted to `nci-parallel` jobs
 - Always benchmark your tasks prior to submitting a full parallel workflow 
 - Always test your parallel job scripts prior to submitting a full parallel workflow
 - Determine whether mapping by node or by NUMA node is most appropriate for your job, and adapt the `mpirun` command accordingly
 - Parallel tasks can run all at once (concurrently) or in batches sequentially, this is determined by the CPU per task and total resources requested
-- To maximise efficiency, sort tasks by longest running to shortest running if known in advance
+- Take steps to maximise parallel job efficiency
 - If not known, request less resources than required to run all tasks concurrently - NCI recommends 10% of tasks concurrently but good efficiency can be achieved with more depending on your specific workflow
 - You can use our calculator to simplify adjusting total resource requests based on the results of benchmarking  
 - Thoroughly check each task in a completed parallel job: check *both* PBS logs as well as *all job outputs* - a custom checker script can help her
