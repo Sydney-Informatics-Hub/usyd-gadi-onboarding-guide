@@ -191,7 +191,7 @@ number of processes used:  2
 The three trials above can be converted into a single estimate by taking the average (weighted by number of trials) of each run.
 
 
-TBA: How to run this on Artemis using job arrays
+#### TBA: How to run this on Artemis using job arrays
 
 ```
 2 1000 2000
@@ -202,7 +202,7 @@ TBA: How to run this on Artemis using job arrays
 
 Here is a simple Artemis PBS script that uses the parameters above:
 
-```
+```bash
 #!/bin/bash
 #PBS -P SIHnextgen
 #PBS -l select=1:ncpus=2:mem=6GB
@@ -222,6 +222,75 @@ Running this script on Artemis will produce 4 .o and .e files number by their jo
 
 NOTE: Each job used separate resources on the queue so the shorter running jobs were not waiting for the longer running to finish.
 
-TBA: How to convert Artemis script to Gadi script 
+#### TBA: How to convert Artemis script to Gadi script
 
-TBA: how to optimize Gadi script - eg. when some runs have different average walltime.
+```bash
+#!/bin/bash
+#PBS -P qc03
+#PBS -q normal
+#PBS -l ncpus=8
+#PBS -l walltime=00:20:00
+#PBS -l mem=6GB
+#PBS -l storage=scratch/qc03
+#PBS -l wd
+#PBS -N test_parallel
+#PBS -o parallel.o
+
+SCRIPT='python3 whatispi.py'
+INPUTS=./job_params
+
+module load nci-parallel/1.0.0a
+module load python3/3.8.5
+
+sed "s/^/${SCRIPT} /" ${INPUTS} > ${PBS_JOBFS}/input_cmd
+
+mpirun -np 4 --map-by ppr:4:node:PE=2 --report-bindings nci-parallel --input-file ${PBS_JOBFS}/input_cmd --timeout 4000 --verbose -o ./
+```
+
+Running the above PBS script with the above list of parameters gives the following output:
+
+```default
+======================================================================================
+                  Resource Usage
+   Job Id:             137235074.gadi-pbs
+   Project:            qc03
+   Exit Status:        0
+   Service Units:      3.19
+   NCPUs Requested:    8                      NCPUs Used: 8
+                                           CPU Time Used: 00:20:51
+   Memory Requested:   6.0GB                 Memory Used: 1.96GB
+   Walltime requested: 00:20:00            Walltime Used: 00:11:58
+   JobFS requested:    100.0MB                JobFS used: 8.05MB
+======================================================================================
+```
+
+#### TBA: how to optimize Gadi script - eg. when some runs have different average walltime.
+
+We can make an improvement here by only allowing nci_parallel to consume two jobs at a time. That way it will do the fast running jobs first and then start on the longer running jobs. This will (counterintuitively) save kSU.
+
+To do this we change the above `mpirun` command to:
+
+```
+mpirun -np 2 --map-by ppr:2:node:PE=2 --report-bindings nci-parallel --input-file ${PBS_JOBFS}/input_cmd --timeout 4000 --verbose -o ./
+```
+
+and don't forget to change `ncps=4` in the header of the script.
+
+which gives up the following report:
+
+```
+======================================================================================
+                  Resource Usage on 2025-03-19 16:59:15:
+   Job Id:             137236250.gadi-pbs
+   Project:            qc03
+   Exit Status:        0
+   Service Units:      1.64
+   NCPUs Requested:    4                      NCPUs Used: 4
+                                           CPU Time Used: 00:20:23
+   Memory Requested:   6.0GB                 Memory Used: 1.12GB
+   Walltime requested: 00:20:00            Walltime Used: 00:12:19
+   JobFS requested:    100.0MB                JobFS used: 8.05MB
+======================================================================================
+```
+
+Further optimisations could be made my benchmarking different combinations of parallelism within the script itself, and the amount of times the script is run simultaneously.
