@@ -74,7 +74,7 @@ NCI provides an [example](https://opus.nci.org.au/spaces/Help/pages/248840680/Nc
 
 ![](../fig/parallel-scripts-opt3.png)
 
-Before submitting your parallel job, **always check** that the [task script reads in the input arguments correctly](#checking-the-parallel-job-before-submission) and that the [binding of tasks to resources is correct]. #TODO
+Before submitting your parallel job, **always check** that the [task script reads in the input arguments correctly](#check-that-the-task-script-reads-in-the-input-arguments-correctly) and that the [binding of tasks to resources is correct](#check-the-binding-of-resources-to-parallel-tasks).
 
 ### Simple example
 
@@ -321,7 +321,7 @@ Note that the `mpirun` command and all other aspects of the PBS script remain th
 
 Once the job completes, [check the exit status in both logs](#checking-a-completed-parallel-job) as well as the job outputs.
 
-### Check the binding of resources to tasks
+### Check the binding of resources to parallel tasks
 
 This refers to how the tasks are distributed across resources by `OpenMPI`. At this point in your parallel job setup, you should have a good understanding of what resources are required per task from benchmarking, and have determined that your job scripts are set up correctly for an `nci-parallel` job. 
 
@@ -369,29 +369,7 @@ Mapping by node instead of NUMA node can also help increase CPU utilisation when
 
 What is the advantage to mapping by NUMA node? The CPU cores within a NUMA node can access the memory within that NUMA node more quickly than the memory located in other NUMA nodes. Your jobs may have improved performance, especially for memory-intensive applications, if the memory per task is within a single NUMA domain. As always, it is ideal to perform [benchmarking](./10_job_efficiency.qmd) to determine the optimal resource configuration for your workflow. 
 
-**Note:** when mapping by NUMA node, the [NCI example command](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...) **only works if the remainder of ncores_per_numanode divided by ncores_per_task is zero**. Assume you have benchmarked that your tasks achieve optimum efficiency with 8 CPU per task on the `normal` queue with 1 task running per NUMA node. The example method of providing the value to `--np` will cause the fatal error *"Your job has requested more processes than the ppr for this topology can support"*. Why is this so?
-
-
-
-```bash
-PBS_NCPUS=48
-ncores_per_task=8
-ncores__per_numanode=12
-
-mpirun -np $((PBS_NCPUS/ncores_per_task)) --map-by ppr:$((ncores_per_numanode/ncores_per_task)):NUMA:PE=${ncores_per_task}
-mpirun -np (48/8) --map-by ppr:(12/8):NUMA:PE=8
-mpirun -np 6 --map-by ppr:1:NUMA:PE=8
-```
-
-This equation is asking for 6 tasks to be run concurrently (`-np 6`) with 1 x 8 CPU task per NUMA node (`ppr:1:NUMA`). The NUMA node can run a single 8 CPU task, but there have not been sufficient NUMA nodes requested by the job to run 6 tasks concurrently with the restriction of one task per NUMA. 
-
-To enable this job to run with the desired configuration, the equation to work out the value for `-np` must be changed:
-
-```bash
--np $((PBS_NCPUS/ncores_per_numanode))
--np (48/12)
--np 4
-```
+**Note:** when mapping by NUMA node, the [NCI example command](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...) **only works if the remainder of ncores_per_numanode divided by ncores_per_task is zero**. Assume you have benchmarked that your tasks achieve optimum efficiency with 8 CPU per task on the `normal` queue with 1 task running per NUMA node. 12/8 leaves a remainder of 4 so this binding is not possible. However, you can achieve the same by assigning `ncores_per_task` the same value as `ncores_per_numanode`, ie 12 in this example, to map 1 task per NUMA node. Then, define an additional variable within the PBS script with the value of 8, ensuring that the task script uses this variable, rather than `ncores_per_task`, as the number of CPUs to utilise. 
 
 
 
@@ -444,15 +422,15 @@ Parallel processing in genomics can facilitate rapid processing of terabytes of 
 1. The same processing steps typically need to be run on many different samples
 2. Most of these processing steps can be further broken apart into smaller subtasks
 
-By parallelising at the level of sample, we may have say 10 or 100 tasks in a parallel job, depending on the number of samples in the analysis. Yet if we break the processing steps each into smaller subtasks, we can then parallelise to a much higher level of throughput, `number of samples * number of subtasks`. 
+By parallelising at the level of sample, we may have say 10 or 100 tasks in a parallel job, depending on the number of samples in the analysis. Yet if we break the processing steps each into smaller subtasks, we can then parallelise to a much higher level of throughput, `number of samples * number of subtasks`, which can easily order into the thousands. 
 
 One excellent example for how HPC and distributed computing can massively speed up processing is the case of mapping the DNA sequences to the reference genome. In sequencing projects, each sample may have a few hundred million DNA sequences. Users typically map all of these in one job, that may take several hours and can multi-thread up to all of the cores on a node natively. However, since each DNA sequence is mapped *independently* to the reference, we can physically split the input into numerous smaller inputs and perform the mapping in parallel. 
 
-Say we have 100 samples, each with approximately 400 million sequences each. To parallelise by sample, we could run 100 tasks concurrently. If we split the input into chunks of 10 million sequences, each sample would have 40 inputs, so we could run a parallel job with `100 * 40 =  4,000` tasks. If each task required 5 minutes on 6 CPU, that's `6 * 4000 = 24,000 CPU = 500 nodes` for 5 minutes to run all tasks concurrently. This exceeds the maximum nodes per job of 432 for the `normal` queue. We could run 2,000 tasks concurrently, and this would require double the walltime for half the nodes, so 10 minutes on 250 nodes. 250 nodes is a large chunk of resources, so possibly 1,000 tasks concurrently for 20 minutes on 125 nodes would be easier to schedule and result in less queue time. This is a massive speedup compared to the ~ 6-8 hours required to process all 400 million sequences in one task. 
+Say we have 100 samples, each with approximately 400 million DNA sequences requiring mapping to a reference file. To parallelise by sample, we could run 100 tasks concurrently. If we split the input into chunks of 10 million sequences, each sample would have 40 inputs, so we could run a parallel job with `100 * 40 =  4,000` tasks. If each task required 5 minutes on 6 CPU, that's `6 * 4000 = 24,000 CPU = 500 nodes` for 5 minutes to run all tasks concurrently. This exceeds the maximum nodes per job of 432 for the `normal` queue. We could run 2,000 tasks concurrently, and this would require double the walltime for half the nodes, so 10 minutes on 250 nodes. 250 nodes is a large chunk of resources, so possibly 1,000 tasks concurrently for 20 minutes on 125 nodes would be easier to schedule and result in less queue time. This is a massive speedup compared to the ~ 6-8 hours required to process all 400 million sequences in one task. 
 
-Now how would we set this up? First up would be splitting the inputs, then running the mapping job, then performing a merge to per-sample final output. We won't cover the details of splitting or merging here as that is domain-specific, but we will look at the trio of scripts to demonstrate how the parallelisation is created. 
+Now how would we set this up? First up would be physically splitting the inputs into numerous smaller files, then running the mapping job, then performing a merge to re-combine the split data to a per-sample output file. We won't cover the details of splitting or merging here as that is domain-specific, but we will look at the trio of paralle job scripts to demonstrate how the parallelisation is created, compared to a job array for the same tasks on Artemis. 
 
-Given the large number of tasks and complexity of the metadata, we find an additional script is required: we call this the `make_inputs` script, which reads your metadata and creates the input arguments file. We then have a set of 4 scripts that are inextricably linked for the job. A script to make the input arguments list if not required for all jobs, only when the arguments are complex. Often, a simple loop is sufficient, for example to iterate over a range of numbers or files. 
+Given the large number of tasks and complexity of the metadata, we find an additional script is required: we call this the `make_inputs` script, which reads your metadata and creates the input arguments file. We then have a set of 4 files that are inextricably linked for the job: a script to make the input arguments file, the input arguments file, the PBS script, and the DNA mapping task script. 
 
 In the example scripts below, the metadata has been simplified for clarity. 
 
