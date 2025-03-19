@@ -481,10 +481,15 @@ As you can see from this example, porting an existing Artemis job array to Gadi 
 
 ### Example 2: Calculation of pi
 
+In this example we'll run through a simple parallel workflow using a python script that leverages the multiprocessing library for internal concurrency. This script can also be submitted multiple times simultaneously to the queue either via Artemis job arrays or Gadi nci_parallel. This is a typical case for simulation style workflows, where a single script is run multiple times with varying parameters and each script instance uses multiple cores for its processing.
+
+The script `whatispi.py` implements a monte-carlo estimation of pi by randomly generating points in a box and calculating the fraction of those points that lie within a circle enclosed by that box.
+
 ![](../fig/calc_pi.png)
 
-The script whatispi.py runs a simulation on estimating the number pi given a set of numbers - The higher the simulation number the closer the result should be to the true value of pi.
+The `whatispi.py` file is shown below. The higher the number of trials the closer the result should be to the true value of pi. This script is embarassingly parallel in that each instance of it can be run independently, and improved accuracy in the estimate of pi can be achieved by taking the weighted average of each independent results.
 
+**whatispi.py**s
 ```python
 import numpy.random as rng
 import time
@@ -501,8 +506,8 @@ def pi_run(num_trials):
     for _ in range(num_trials):
         x = rng.random()
         y = rng.random()
-        if ( power(x,2) + power(y,2) < r2 ):
-            Ncirc +=1
+        if ( power(x, 2) + power(y, 2) < r2 ):
+            Ncirc += 1
     pi = 4.0 * ( Ncirc / num_trials )
     return pi
 
@@ -547,13 +552,15 @@ number of processes used:  2
 The three trials above can be converted into a single estimate by taking the average (weighted by number of trials) of each run.
 
 
-#### TBA: How to run this on Artemis using job arrays
+#### Example run of `whatispi.py` using Artemis job array
+
+
 
 ```
 2 1000 2000
 2 2000 4000
-2 10000 20000
-2 50000 100000
+2 1000000 2000000
+2 5000000 1000000
 ```
 
 Here is a simple Artemis PBS script that uses the parameters above:
@@ -636,7 +643,7 @@ which gives up the following report:
 
 ```
 ======================================================================================
-                  Resource Usage on 2025-03-19 16:59:15:
+                  Resource Usage
    Job Id:             137236250.gadi-pbs
    Project:            qc03
    Exit Status:        0
