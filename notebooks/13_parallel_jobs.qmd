@@ -171,6 +171,7 @@ if __name__ == "__main__":
 Within the `whatispi.py` file above, some basic concepts that use the Python multiprocessing library are:
 
 the `Pool(noprocs)` object creates a pool of processes. processes is the number of worker processes to use (i.e Python interpreters). If processes is None then the number returned by `os.cpu_count()` is used. This is the first argument to our script.
+
 The `pool.map(pi_run, trials)` attribute of this object uses the pool to map a defined function (`pi_run`) to a list/iterator object (`trials`).
 
 To run our estimation script with a pool of 2 cpus with 3 trials, we would use:
@@ -191,6 +192,35 @@ The three trials above can be converted into a single estimate by taking the ave
 
 
 TBA: How to run this on Artemis using job arrays
+
+```
+2 1000 2000
+2 2000 4000
+2 10000 20000
+2 50000 100000
+```
+
+Here is a simple Artemis PBS script that uses the parameters above:
+
+```
+#!/bin/bash
+#PBS -P SIHnextgen
+#PBS -l select=1:ncpus=2:mem=6GB
+#PBS -l walltime=00:10:00
+#PBS -J 1-4
+#PBS -o piDemo^array_index^.o
+#PBS -e piDemo^array_index^.e
+
+module load python/3.8.2
+
+cd $PBS_O_WORKDIR
+params=`sed "${PBS_ARRAY_INDEX}q;d" job_params`
+python3 whatispi.py ${params}
+```
+
+Running this script on Artemis will produce 4 .o and .e files number by their job array number.
+
+NOTE: Each job used separate resources on the queue so the shorter running jobs were not waiting for the longer running to finish.
 
 TBA: How to convert Artemis script to Gadi script 
 
