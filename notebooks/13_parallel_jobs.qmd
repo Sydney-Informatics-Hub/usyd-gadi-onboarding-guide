@@ -247,7 +247,7 @@ Now for the `.e` log:
 
 Each parallel task has a line containing information including the ID of the node it was run on, the individual task exit status, and the command that ran the task.
 
-Always check the exit status from the PBS `.o` log AND the per-task exit statuses from the `.e` log! An exit status of 0 for the parent job does not mean all tasks completed without error. And of course, as always, check the outputs, as an exit status for both parent job and task still does not necessarily dictate a successful job. 
+Always check the exit status from the PBS `.o` log AND the per-task exit statuses from the `.e` log! An exit status of 0 for the parent job does not mean all tasks completed without error. And of course, as always, check the outputs, as an exit status for both parent job and task still does not necessarily indicate a successful job. 
 
 Count the number of tasks with exit status 0 - this should equal the number of lines in your input arguments/command file: 
 
@@ -345,7 +345,8 @@ The `mpirun` command in the NCI example:
 PBS_NCPUS=384
 export ncores_per_task=4
 export ncores_per_numanode=12
-mpirun -np $((PBS_NCPUS/ncores_per_task)) --map-by ppr:$((ncores_per_numanode/ncores_per_task)):NUMA:PE=${ncores_per_task}
+mpirun -np $((PBS_NCPUS/ncores_per_task)) \
+    --map-by ppr:$((ncores_per_numanode/ncores_per_task)):NUMA:PE=${ncores_per_task}
 ```
 
 Expands to:
@@ -362,7 +363,8 @@ The [Gadi queue structure page](https://opus.nci.org.au/spaces/Help/pages/236880
 For example, for 24 CPUs per task, the equation would yield:
 
 ```bash 
-mpirun -np $((PBS_NCPUS/ncores_per_task)) --map-by ppr:$((ncores_per_numanode/ncores_per_task)):NUMA:PE=${ncores_per_task}
+mpirun -np $((PBS_NCPUS/ncores_per_task)) \
+    --map-by ppr:$((ncores_per_numanode/ncores_per_task)):NUMA:PE=${ncores_per_task}
 mpirun -np 384/24 --map-by ppr:12/24:NUMA:PE=24
 mpirun -np 16 --map-by ppr:0.5:NUMA:PE=24
 ```
