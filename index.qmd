@@ -9,7 +9,7 @@ output:
 
 [National Computational Infrastructure (NCI)](https://nci.org.au/our-systems) is a services facility that provides high performance computing (HPC), cloud computing, and data services to Australian researchers.
 
-**Our insitutional HPC 'Artemis' will be de-comissioned on 29 August 2025**. NCI has been chosen as the replacement computing platform. All staff and students with a valid University of Sydney unikey can access NCI computing time under the [NCI-Sydney Scheme](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme). A [pre-recorded information session](https://youtu.be/DmfzO-YKeV8) summarising the Sydney Scheme and how to access NCI is available to view. 
+**Our institutional HPC 'Artemis' will be decommissioned on 29 August 2025**. NCI has been chosen as the replacement computing platform. All staff and students with a valid University of Sydney unikey can access NCI computing time under the [NCI-Sydney Scheme](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme). A [pre-recorded information session](https://youtu.be/DmfzO-YKeV8) summarising the Sydney Scheme and how to access NCI is available to view. 
 
 If HPC is not suitable for your workload, please consider NCI [cloud](https://opus.nci.org.au/display/Help/Nirin+Cloud+User+Guide) or [virtual research desktops](https://are.nci.org.au/). We are confident that your research computing will be well-supported by these platforms. 
 
@@ -58,6 +58,6 @@ For additional support, please contact the following people depending on your ne
 | Type of issue | Who | How | Details |
 |:---------|:----|:----|:---------|
 | Service unit allocation for running jobs. Request for g/data storage. | SIH | [Make a request](https://nci.sydney.edu.au/) | [Sydney Documentation](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme) |
-| A techincal issue with NCI. An error in your running job. New software installation. | NCI Helpdesk | [Log an NCI ticket](https://nci.org.au/users/nci-helpdesk) | Provide your error, log file, jobid. Versions or links for installs. |
+| A technical issue with NCI. An error in your running job. New software installation. | NCI Helpdesk | [Log an NCI ticket](https://nci.org.au/users/nci-helpdesk) | Provide your error, log file, jobid. Versions or links for installs. |
 | A bug in an [SIH pipeline](https://github.com/Sydney-Informatics-Hub) | SIH | Submit an issue on Github | Provide details e.g. [this issue](https://github.com/Sydney-Informatics-Hub/Germline-StructuralV-nf/issues/65) |
 | General research computing or data analysis advice | SIH| [Log an SIH ticket](https://www.sydney.edu.au/research/facilities/sydney-informatics-hub.html) | Provide relevant context, errors, tool names, scripts |

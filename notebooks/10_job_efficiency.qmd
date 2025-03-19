@@ -26,7 +26,7 @@ The main challenges users may face adapting Artemis workflows to Gadi are:
 
 In this section, we will broadly address the first two challenges on this list, exploring how **optimising your workload through splitting/checkpointing jobs and optimising compute resource requests for Gadi queues can help minimise your walltime and use less KSU**. 
 
-For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.
+For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.
 
 ## What is workflow optimisation
 
@@ -52,7 +52,7 @@ In short, to optimise a workflow or code is to make it faster and more efficient
 
 Optimisation is crucial in HPC because it facilitates faster, more efficient, and cost-effective execution of computational workload. As researchers we want **fast results** but it is also our moral imperative to minimise our [**carbon footprint**](https://www.bcs.org/articles-opinion-and-research/carbon-footprint-the-not-so-hidden-cost-of-high-performance-computing/) while using HPC. We also have a **shared responsibility** to other users of the system to make efficient use of the resources we reserve for our jobs, and to The University of Sydney, which funds 100% of our compute with NCI. 
 
-In this section, we will look at one simple approach to optimisation through **compute resource benchmarking** as a quickstart way of adapting your Artemis workflows to Gadi and selecting the right CPU, mem and queue for your Gadi job. In order to optimise in other ways, for example testing different file formats, I/O flesystems, algorithm types, GPUs, etc, a similar systematic approach could be followed: run the same analysis with the relevant differences, and compare the job performance. 
+In this section, we will look at one simple approach to optimisation through **compute resource benchmarking** as a quickstart way of adapting your Artemis workflows to Gadi and selecting the right CPU, mem and queue for your Gadi job. In order to optimise in other ways, for example testing different file formats, I/O filesystems, algorithm types, GPUs, etc, a similar systematic approach could be followed: run the same analysis with the relevant differences, and compare the job performance. 
 
 There are complex job tracing tools for fine-tuned code optimisation; we will not be covering these, instead focusing on an overall picture of CPU and memory efficiency to guide appropriate resource selection. 
 
@@ -77,7 +77,7 @@ A CPU efficiency value of 1 indicates perfect CPU utilisation for the duration o
 
 **NCI monitors CPU utilisation** and repeated execution of jobs with very poor CPU efficiency may be met with an email from the NCI technical team. 
 
-A job with extremely low CPU efficiency may be permissable if it has **high memory efficiency**. Memory efficiency can be calculated with the formula:
+A job with extremely low CPU efficiency may be permissible if it has **high memory efficiency**. Memory efficiency can be calculated with the formula:
 
 ```default
 mem_e = max_mem_used / mem_requested
@@ -174,13 +174,13 @@ These are the questions that we can answer with simple compute resource benchmar
 
 ## Benchmarking template scripts
 
-To make this process easier, SIH have a repository of [Gadi template benchmarking scripts](https://github.com/Sydney-Informatics-Hub/Gadi-benchmarking). This repository contains a pair of scripts designed to test single runs of a command/tool at various CPU and memory settings on different queues. It does require some modification (and carefully use and follow the guide!) to set it up, but once you know how to use this template, it can expedite testing chunks of your workflow to obtain the most efficient (ie optimised) queue and resource requests for the task. Running the `gadi_usage_report.pl` script from [this repository](https://github.com/Sydney-Informatics-Hub/HPC_usage_reports) will summarise the resources used by the benchmark jobs into a table that can be viewed or plotted to determine best resoruces. 
+To make this process easier, SIH have a repository of [Gadi template benchmarking scripts](https://github.com/Sydney-Informatics-Hub/Gadi-benchmarking). This repository contains a pair of scripts designed to test single runs of a command/tool at various CPU and memory settings on different queues. It does require some modification (and carefully use and follow the guide!) to set it up, but once you know how to use this template, it can expedite testing chunks of your workflow to obtain the most efficient (ie optimised) queue and resource requests for the task. Running the `gadi_usage_report.pl` script from [this repository](https://github.com/Sydney-Informatics-Hub/HPC_usage_reports) will summarise the resources used by the benchmark jobs into a table that can be viewed or plotted to determine best resources. 
 
 It is not critical to use this template, but it can be a helpful tool if you have not benchmarked before, or if you benchmark multiple tools/code chunks regularly and want a simple and replicable method. 
 
 ## Tips for benchmarking
 - Test individual parts of your code where possible - ie one command, one tool, one chunk of code
-  - This enables you to determine which parts of your workflow have differeing compute requirements
+  - This enables you to determine which parts of your workflow have differing compute requirements
   - Parts with differing compute requirements can be allocated to different queues and resources, saving you KSU
 - Do initial benchmarking on a small subset of your data - ie subsample, reduce sample numbers, reduce permutations, etc
 - Follow up with scalability testing: Once you have refined the candidate best resources, re-run the benchmark on a representative subset (ie whole sample, more iterations) and compare the CPU efficiency
@@ -190,7 +190,7 @@ It is not critical to use this template, but it can be a helpful tool if you hav
 - Embrace the labour of benchmarking!
   - While it may seem like a time-consuming impediment to getting on with analysing your data, it can save you a lot of time and KSU down the track 
   - Benchmarking will make your analysis faster and use less USyd-funded resources and energy resources
-  - Benchmarking can prevent avoidable job failures such as a job runing out of walltime or memory, which will cost more time and resources to resubmit
+  - Benchmarking can prevent avoidable job failures such as a job running out of walltime or memory, which will cost more time and resources to resubmit
 
 
 
@@ -288,7 +288,7 @@ This provides comprehensive job reporting metrics which can be copied to Excel f
 **Which resources would you choose when porting this Artemis job to Gadi?**
 
 1. Fastest walltime? 48 CPU on normal queue, but this comes with the lowest CPU efficiency and highest SU charge, which could really add up for multiple full-size samples
-2. Least service units? 7 CPU on normal broadwell queue, this also has the best CPU efficiency of 97% but the second slowest walltime
+2. Least service units? 7 CPU on normal Broadwell queue, this also has the best CPU efficiency of 97% but the second slowest walltime
 3. Trade-off between efficiency, walltime, and SU? That could be 14 CPU on the normalbw queue, which nicely fits 2 samples per node enabling a good fit for a multi-node parallel job when all samples are analysed  
 
 Of note, these benchmarks show a **much lower memory usage than the Artemis job**. Artemis takes a snapshot of memory usage to report in the log, and it may be that a surge in memory usage was recorded, and that the method in which NCI captures memory use for log reporting differs. This even further highlights the need to benchmark on Gadi, as a job that may appear to require high memory or walltime on Artemis may be sufficiently run with far less on Gadi.  
@@ -299,11 +299,11 @@ Likewise, the **extrapolated walltime for a full-size sample is also much lower 
 
 ## Benchmarking at scale
 
-We are fortunate under the Sydney Scheme to have easy access to generous KSU. Prior to this scheme, NCI users would need to apply for merit-based allocations under Sydney Scheme or [NCMAS](https://my.nci.org.au/mancini/ncmas/2025/). NCMAS is highly prestigious and competitive, and applications are required to not only provide benchmarking results, but also to demonstrate scalability by showing that CPU and/or memory efficiency is maintained when the worflow is scaled to multi-node jobs. 
+We are fortunate under the Sydney Scheme to have easy access to generous KSU. Prior to this scheme, NCI users would need to apply for merit-based allocations under Sydney Scheme or [NCMAS](https://my.nci.org.au/mancini/ncmas/2025/). NCMAS is highly prestigious and competitive, and applications are required to not only provide benchmarking results, but also to demonstrate scalability by showing that CPU and/or memory efficiency is maintained when the workflow is scaled to multi-node jobs. 
 
 We typically see some decline in efficiency at scale. The figure below shows a scalability study using the same command as above, on one full-sized sample, running multiple 10 million query chunks in parallel with 6 CPU per task (best efficiency from the benchmark results above). Using this scatter-gather parallelism approach, multiple nodes per sample can be utilised (not something the tool can do natively), making great use of Gadi's extensive infrastructure.
 
-For a job with **perfect scalability**, we would see the walltime descrease as the number of nodes increased, while the SU and CPU efficiency remained constant. The job below does *not* demonstrate perfect scalability, as so few do. As expected, we can see a decrease in walltime as more nodes are assigned to this job, and a slight increase in SU and worsening of CPU efficiency. It appears the 'sweet spot' is around 3 nodes per sample for this analysis, where the CPU efficiency remains > 80% and a fair compromise between walltime and SU is observed. 
+For a job with **perfect scalability**, we would see the walltime decrease as the number of nodes increased, while the SU and CPU efficiency remained constant. The job below does *not* demonstrate perfect scalability, as so few do. As expected, we can see a decrease in walltime as more nodes are assigned to this job, and a slight increase in SU and worsening of CPU efficiency. It appears the 'sweet spot' is around 3 nodes per sample for this analysis, where the CPU efficiency remains > 80% and a fair compromise between walltime and SU is observed. 
 
 ![](../fig/benchmark-at-scale.png)
 
@@ -312,7 +312,7 @@ For a job with **perfect scalability**, we would see the walltime descrease as t
 
 Often, there are multiple tools or algorithms we could choose from to perform a computational task. These may produce identical or sufficiently equivalent results, in which case we would not need to consider scientific benchmarking to decide between the two. In these cases, we may rely on computational benchmarks to dictate our choices. For high computational workloads, the walltime and SU savings obtained by using a computationally efficient tool that is "almost as good" as its gold standard counterpart are well justifiable when reporting methods and results. If however you are only performing the analysis once or a small number of times, the deciding factor on tool choice should be scientific performance, not computational. 
 
-To compare two tools for the same task, you could use the benchmarking template scripts desribed above. You would simply take two copies of the template scripts, and run separately for each tool. The scripts have variables for tool name and tool abbreviated name, so you could run the benchmarking within the same directory without filename contention. The compute usage and efficiency metrics across both tools could be compared, and combined with scientific benchmarking to make an informed choice of tool.  
+To compare two tools for the same task, you could use the benchmarking template scripts described above. You would simply take two copies of the template scripts, and run separately for each tool. The scripts have variables for tool name and tool abbreviated name, so you could run the benchmarking within the same directory without filename contention. The compute usage and efficiency metrics across both tools could be compared, and combined with scientific benchmarking to make an informed choice of tool.  
 
 ## Summary
 

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.5.55">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -37,10 +71,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-86daaaaad7353f9cc0c554efc1dd6d94.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f4163e54545b01daaae269814d862f3d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -123,14 +157,6 @@ cookieconsent.run({
     <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../notebooks/00_gadi_access.html"> 
-<span class="menu-text">Access Gadi</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../notebooks/01_setup.html"> 
-<span class="menu-text">Set up your computer</span></a>
-  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-introduction-to-gadi" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Introduction to Gadi</span>
@@ -146,6 +172,14 @@ cookieconsent.run({
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../notebooks/00_gadi_access.html"> 
+<span class="menu-text">Access Gadi</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../notebooks/01_setup.html"> 
+<span class="menu-text">Set up your computer</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-on-gadi" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Working on Gadi</span>
@@ -187,12 +221,12 @@ cookieconsent.run({
  <span class="dropdown-text">Job monitoring</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notebooks/13_parallel_jobs.html">
- <span class="dropdown-text">Parallel jobs</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="../notebooks/10_job_efficiency.html">
  <span class="dropdown-text">Benchmarking and efficiency</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/13_parallel_jobs.html">
+ <span class="dropdown-text">Parallel jobs</span></a>
   </li>  
     </ul>
   </li>
@@ -213,7 +247,15 @@ cookieconsent.run({
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
+  <li><a href="#parallel-jobs" id="toc-parallel-jobs" class="nav-link" data-scroll-target="#parallel-jobs">Parallel jobs</a></li>
+  <li><a href="#using-nci-parallel" id="toc-using-nci-parallel" class="nav-link" data-scroll-target="#using-nci-parallel">Using nci-parallel</a></li>
+  <li><a href="#parallel-job-efficiency" id="toc-parallel-job-efficiency" class="nav-link" data-scroll-target="#parallel-job-efficiency">Parallel job efficiency</a></li>
+  <li><a href="#one-disadvantage-of-nci-parallel" id="toc-one-disadvantage-of-nci-parallel" class="nav-link" data-scroll-target="#one-disadvantage-of-nci-parallel">One disadvantage of nci-parallel</a></li>
+  <li><a href="#example-parallel-jobs" id="toc-example-parallel-jobs" class="nav-link" data-scroll-target="#example-parallel-jobs">Example parallel jobs</a>
+  <ul class="collapse">
+  <li><a href="#example-1-genomics" id="toc-example-1-genomics" class="nav-link" data-scroll-target="#example-1-genomics">Example 1: Genomics</a></li>
+  <li><a href="#example-2-calculation-of-pi" id="toc-example-2-calculation-of-pi" class="nav-link" data-scroll-target="#example-2-calculation-of-pi">Example 2: Calculation of pi</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -256,12 +298,215 @@ cookieconsent.run({
 </ul>
 <p>In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.</p>
 </section>
-<section id="section" class="level2">
-<h2 class="anchored" data-anchor-id="section"></h2>
-<p>https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel…</p>
-<p>https://sydney-informatics-hub.github.io/training.gadi.intro/08-Example-parallel-job/index.html</p>
+<section id="parallel-jobs" class="level2">
+<h2 class="anchored" data-anchor-id="parallel-jobs">Parallel jobs</h2>
+<p>A parallel job is a job that executes across multiple processors, nodes, or cores simultaneously to speed up computations. This may be operating the same analysis over different input files, over different parameter values, or by dividing a large computational task into smaller subtasks that run concurrently, either through shared memory or distributed computing.</p>
+<p>On Artemis, we could use the <code>#PBS -J &lt;range&gt;</code> directive to submit arrays of parallel jobs. On Gadi, <strong>job arrays are not supported</strong>. In order to simplify parallel jobs without the use of arrays, NCI have created a helper utility <a href="https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel..."><code>nci-parallel</code></a> which uses <a href="https://www.open-mpi.org/">OpenMPI</a> for distributed computing of parallel tasks on Gadi.</p>
+</section>
+<section id="using-nci-parallel" class="level2">
+<h2 class="anchored" data-anchor-id="using-nci-parallel">Using nci-parallel</h2>
+<p>Use of this utility will require 3 job files:</p>
+<ol type="1">
+<li>PBS script that launches the parallel job with the requested overall size (how many nodes/CPUs) plus the details of how many CPUs to assign to each task, and how many tasks to run concurrently</li>
+<li>The input arguments file or command file. This is a text file that provides a new set of arguments per line. Each line of the input arguments file is used by a separate execution of the task script</li>
+<li>The task script. This is the script file that contains the commands to run the job and uses the arguments provided by the input arguments file.</li>
+</ol>
+<p>NCI provides an <a href="https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...">example</a> where the input to the task script (in this case, named <code>test.sh</code>) is a single numeric value. The command <code>test.sh &lt;value&gt;</code> is included in the input argument file, as many times as needed for the job (in this case, 1000). Another way to do this (demonstrated in the <a href="TBA">example below</a>) is having an input argument list that <em>does not include</em> the name of the script file. The name of the script file is instead included within the PBS script. Both methods achieve the same result, the user can choose whichever they prefer.</p>
+<p><strong>Option 1: task script call with arguments provided in a command file</strong></p>
+<p><strong>Option 2: task script call combined with arguments file within the PBS script</strong></p>
+<p>Care must be taken to ensure the task script reads in the input arguments correctly. <strong>Always run a single task small test before submitting the full parallel job!</strong></p>
+<p>It is also important to check that the <code>binding</code> is done correctly. <strong>TBA…</strong></p>
+</section>
+<section id="parallel-job-efficiency" class="level2">
+<h2 class="anchored" data-anchor-id="parallel-job-efficiency">Parallel job efficiency</h2>
+<p><a href="../notebooks/10_job_efficiency.html">Benchmarking</a> should initially be done on the single task, in order to optimise resource requests for the full job. In some cases, efficiency can decline for parallel jobs, and this results in an increased walltime per task and overall SU cost for the job. Where possible, benchmarking tests should also be performed at scale, to assess any decline in performance when the workload is scaled up. This can enable you to further optimise, or allow for the decline in efficiency when requesting walltime, to prevent avoidable job failures due to running out of walltime.</p>
+<p>For example, you have determined the optimum resources for your tasks to be 12 CPU and 48 GB mem, for justunder 20 minutes. You have 1,000 tasks to run. This equates to 250 <code>normal</code> nodes. Prior to submitting a 20 minute 250-node job, you should:</p>
+<ol type="1">
+<li>Test 4 tasks in a parallel job - that’s one full node. Does the CPU efficiency remain the same as benchmarked for the single task?</li>
+<li>Test a handful of nodes, say 10 - does the CPU efficiency remain the same as bencharmked, now 40 tasks are runnning concurrently?</li>
+<li>If so, go ahead and submit the remaining tasks (remember to remove the tasks already run through this benchmarking, if you have done this on full size inputs). If not, what happened to the walltime? If the efficiency loss was drastic and walltime much worse, consider reoptimising. If the decline was minimal, extrapolate from this to estimate the walltime required for the full job, potentially running a larger task lot first (for example the next 100 tasks in the input argument list) for more accurate extrapolation.<br>
+</li>
+<li>Keep records of the benchmark runs and full run resources for future reference. We recommend the <a href="https://github.com/Sydney-Informatics-Hub/HPC_usage_reports/blob/master/Scripts/gadi_usage_report.pl">Gadi usage script</a> which will summarise compute resources into a tab delimited table for ease of review and record keeping. If you prefer to rely on your Gadi job logs alone for long term records of your jobs usage, please ensure to back these up to RDS as they will be purged from scratch in time.</li>
+</ol>
+<p>This may sound like a lot of extra work, but it could save a large amount of KSU as well as walltime and your own frustration in the long run. Understanding how well your workload scales to a parallel job is important prior to submitting a large multi-node job like this.</p>
+</section>
+<section id="one-disadvantage-of-nci-parallel" class="level2">
+<h2 class="anchored" data-anchor-id="one-disadvantage-of-nci-parallel">One disadvantage of nci-parallel</h2>
+<p>In job arrays, each subjob of the array is a discrete task consuming a chunk of resources that may or may not be on the same node as other subjobs of the array. When that subjob completes, those resources are returned to the cluster and become available for other jobs. As such, they are no longer consuming CPU hours and contributing to the users account. In contrast, <code>nci-parallel</code> reserves the entire collection of resources <em>for all parallel tasks in the job</em> as a single large chunk. This means that tasks that have completed while other tasks are still running are still consuming those resources and thus still accruing service units spent. Because of this, parallel jobs where there is a large distrubution of walltime across the tasks are likely to result in poor efficiency and a lot of wasted resources.</p>
+<p>There are a number of strategies you can employ to mitigate this:</p>
+<ol type="1">
+<li>timeout - see https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel…</li>
+<li>for small numbers of parallel tasks, use a loop, with varying walltime based on expecttations for the task, adding a sleep within the submission loop</li>
+<li>sort tasks by epected order of walltime, longest to shortest, and request resources such that less than the total number of tasks are running in parallel</li>
+<li>group tasks, for example instead of one large job, run a “fast”, “medium” and “slow” job with the tasks grouped by expected walltime</li>
+</ol>
+</section>
+<section id="example-parallel-jobs" class="level2">
+<h2 class="anchored" data-anchor-id="example-parallel-jobs">Example parallel jobs</h2>
+<section id="example-1-genomics" class="level3">
+<h3 class="anchored" data-anchor-id="example-1-genomics">Example 1: Genomics</h3>
+<p>Parallel processing in genomics can faciliate rapid processing of terabytes of raw DNA sequencing data. These workloads are highly amenable to parallel processing for 2 reasons:</p>
+<ol type="1">
+<li>The same processing steps typically need to be run on many different samples</li>
+<li>Most of these processing steps can be further broken apart into smaller subtasks</li>
+</ol>
+<p>By parallelising at the level of sample, we may have say 10 or 100 tasks in a parallel job, depending on the number of samples in the analysis. Yet if we break the processing steps each into smaller subtasks, we can then parallelise to a much higher level of throughput, <code>number of samples * number of subtasks</code>.</p>
+<p>One excellent example for how HPC and distributed computing can massively speed up processing is the case of mapping the DNA sequnces to the reference genome. In sequencing projects, each sample may have a few hundred million DNA sequences. Users typically map all of these in one job, that may take several hours and can multi-thread up to all of the cores on a node natively. However, since each DNA sequence is mapped <em>independently</em> to the reference, we can physically split the input into numerous smaller inputs and perform the mapping in parallel.</p>
+<p>Say we have 100 samples, each with approximately 400 million sequences each. To parallelise by sample, we could run 100 tasks concurrently. If we split the input into chunks of 10 million sequences, each sample would have 40 inputs, so we could run a parallel job with <code>100 * 40 =  4,000</code> tasks. If each task required 5 minutes on 6 CPU, that’s <code>6 * 4000 = 24,000 CPU = 500 nodes</code> for 5 minutes to run all tasks concurrently. This exceeds the maximum nodes per job of 432 for the <code>normal</code> queue. We could run 2,000 tasks concurrently, and this would require double the walltime for half the nodes, so 10 minutes on 250 nodes. 250 nodes is a large chunk of resources, so possibly 1,000 tasks concurrently for 20 minutes on 125 nodes would be easier to schedule and result in less queue time. This is a massive speedup compared to the ~ 6-8 hours required to process all 400 million sequences in one task.</p>
+<p>Now how would we set this up? First up would be splitting the inputs, then running the mapping job, then performing a merge to per-sample final output. We won’t cover the details of splitting or merging here as that is domain-specific, but we will look at the trio of scripts to demonstrate how the parallelisation is created.</p>
+<p>Given the large number of tasks and complexity of the metadata, we find an additional script is required: we call this the <code>make_inputs</code> script, which reads your metadata and creates the input arguments file. We then have a set of 4 scripts that are inextricably linked for the job. A script to make the input arguments list if not required for all jobs, only when the arguments are complex. Often, a simple loop is sufficient, for examnple to iterate over a range of numbers or files.</p>
+<p>In the example scripts below, the metadata has been simplified for clarity.</p>
+<p>For this workflow, only the make inputs file would be edited each time the analysis was run on a new set of input samples, and the PBS script directives would be adjusted based on the number of tasks to be run. The input arguments file is created by the make inputs script, and the task script would not need to be edited at all, as long as no changes to the tool commands were required for example updated tool arguments, parameters etc.</p>
+<section id="example-scripts" class="level4">
+<h4 class="anchored" data-anchor-id="example-scripts">Example scripts</h4>
+<p>TBA demo 4 scripts</p>
+</section>
+<section id="testing-it-before-you-run-the-full-job" class="level4">
+<h4 class="anchored" data-anchor-id="testing-it-before-you-run-the-full-job">Testing it before you run the full job</h4>
+<p>eg just run it on 4 tasks and print out the command (wrap in printf for example )</p>
+</section>
+<section id="checking-the-parallel-job" class="level4">
+<h4 class="anchored" data-anchor-id="checking-the-parallel-job">Checking the parallel job</h4>
+<ul>
+<li>check outputs - right numberm, right name, right format, right size</li>
+<li>check PBS .o for exit 0 and expected mem, time, cpu usage</li>
+<li>check .e log file and how to check it re “exited with status 0”</li>
+</ul>
+</section>
+</section>
+<section id="example-2-calculation-of-pi" class="level3">
+<h3 class="anchored" data-anchor-id="example-2-calculation-of-pi">Example 2: Calculation of pi</h3>
+<p><img src="../fig/calc_pi.png" class="img-fluid"></p>
+<p>The script whatispi.py runs a simulation on estimating the number pi given a set of numbers - The higher the simulation number the closer the result should be to the true value of pi.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy.random <span class="im">as</span> rng</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> multiprocessing <span class="im">import</span> Pool</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> power</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> pi_run(num_trials):</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate pi based on points with a box and circle of radius 1</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    r2 <span class="op">=</span> r <span class="op">*</span> r</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    Ncirc <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(num_trials):</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> rng.random()</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> rng.random()</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> ( power(x,<span class="dv">2</span>) <span class="op">+</span> power(y,<span class="dv">2</span>) <span class="op">&lt;</span> r2 ):</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>            Ncirc <span class="op">+=</span><span class="dv">1</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    pi <span class="op">=</span> <span class="fl">4.0</span> <span class="op">*</span> ( Ncirc <span class="op">/</span> num_trials )</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pi</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cycle_pi(trials, noprocs<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""calculate pi based on a set of trials.</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">    -- trials: a large number representing points</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">    -- noprocs: number of python processes used in simulation</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"number of processes used: "</span>, noprocs)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> Pool(noprocs) <span class="im">as</span> pool:</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        pi_estimates <span class="op">=</span> pool.<span class="bu">map</span>(pi_run, trials)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pi_estimates</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    trials <span class="op">=</span> <span class="bu">list</span>(<span class="bu">map</span>(<span class="bu">int</span>, sys.argv[<span class="dv">2</span>:]))</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"estimating pi based on"</span>, trials)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(cycle_pi(trials, <span class="bu">int</span>(sys.argv[<span class="dv">1</span>])))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Within the <code>whatispi.py</code> file above, some basic concepts that use the Python multiprocessing library are:</p>
+<p>the <code>Pool(noprocs)</code> object creates a pool of processes. processes is the number of worker processes to use (i.e Python interpreters). If processes is None then the number returned by <code>os.cpu_count()</code> is used. This is the first argument to our script.</p>
+<p>The <code>pool.map(pi_run, trials)</code> attribute of this object uses the pool to map a defined function (<code>pi_run</code>) to a list/iterator object (<code>trials</code>).</p>
+<p>To run our estimation script with a pool of 2 cpus with 3 trials, we would use:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> whatispi.py 2 1000 2000 3000</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>this would produce the output:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>estimating pi based on [1000, 2000, 3000]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>number of processes used:  2</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>[3.124, 3.134, 3.154]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The three trials above can be converted into a single estimate by taking the average (weighted by number of trials) of each run.</p>
+<section id="tba-how-to-run-this-on-artemis-using-job-arrays" class="level4">
+<h4 class="anchored" data-anchor-id="tba-how-to-run-this-on-artemis-using-job-arrays">TBA: How to run this on Artemis using job arrays</h4>
+<pre><code>2 1000 2000
+2 2000 4000
+2 10000 20000
+2 50000 100000</code></pre>
+<p>Here is a simple Artemis PBS script that uses the parameters above:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P SIHnextgen</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l select=1:ncpus=2:mem=6GB</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=00:10:00</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -J 1-4</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -o piDemo^array_index^.o</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -e piDemo^array_index^.e</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load python/3.8.2</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="va">$PBS_O_WORKDIR</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="va">params</span><span class="op">=</span><span class="kw">`</span><span class="fu">sed</span> <span class="st">"</span><span class="va">${PBS_ARRAY_INDEX}</span><span class="st">q;d"</span> job_params<span class="kw">`</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> whatispi.py <span class="va">${params}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Running this script on Artemis will produce 4 .o and .e files number by their job array number.</p>
+<p>NOTE: Each job used separate resources on the queue so the shorter running jobs were not waiting for the longer running to finish.</p>
+</section>
+<section id="tba-how-to-convert-artemis-script-to-gadi-script" class="level4">
+<h4 class="anchored" data-anchor-id="tba-how-to-convert-artemis-script-to-gadi-script">TBA: How to convert Artemis script to Gadi script</h4>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P qc03</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q normal</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=8</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=00:20:00</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=6GB</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l storage=scratch/qc03</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N test_parallel</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -o parallel.o</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="va">SCRIPT</span><span class="op">=</span><span class="st">'python3 whatispi.py'</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="va">INPUTS</span><span class="op">=</span>./job_params</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load nci-parallel/1.0.0a</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load python3/3.8.5</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">"s/^/</span><span class="va">${SCRIPT}</span><span class="st"> /"</span> <span class="va">${INPUTS}</span> <span class="op">&gt;</span> <span class="va">${PBS_JOBFS}</span>/input_cmd</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="ex">mpirun</span> <span class="at">-np</span> 4 <span class="at">--map-by</span> ppr:4:node:PE=2 <span class="at">--report-bindings</span> nci-parallel <span class="at">--input-file</span> <span class="va">${PBS_JOBFS}</span>/input_cmd <span class="at">--timeout</span> 4000 <span class="at">--verbose</span> <span class="at">-o</span> ./</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Running the above PBS script with the above list of parameters gives the following output:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>======================================================================================</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                  Resource Usage</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>   Job Id:             137235074.gadi-pbs</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>   Project:            qc03</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>   Exit Status:        0</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>   Service Units:      3.19</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>   NCPUs Requested:    8                      NCPUs Used: 8</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>                                           CPU Time Used: 00:20:51</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>   Memory Requested:   6.0GB                 Memory Used: 1.96GB</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>   Walltime requested: 00:20:00            Walltime Used: 00:11:58</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>   JobFS requested:    100.0MB                JobFS used: 8.05MB</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>======================================================================================</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="tba-how-to-optimize-gadi-script---eg.-when-some-runs-have-different-average-walltime." class="level4">
+<h4 class="anchored" data-anchor-id="tba-how-to-optimize-gadi-script---eg.-when-some-runs-have-different-average-walltime.">TBA: how to optimize Gadi script - eg. when some runs have different average walltime.</h4>
+<p>We can make an improvement here by only allowing nci_parallel to consume two jobs at a time. That way it will do the fast running jobs first and then start on the longer running jobs. This will (counterintuitively) save kSU.</p>
+<p>To do this we change the above <code>mpirun</code> command to:</p>
+<pre><code>mpirun -np 2 --map-by ppr:2:node:PE=2 --report-bindings nci-parallel --input-file ${PBS_JOBFS}/input_cmd --timeout 4000 --verbose -o ./</code></pre>
+<p>and don’t forget to change <code>ncps=4</code> in the header of the script.</p>
+<p>which gives up the following report:</p>
+<pre><code>======================================================================================
+                  Resource Usage on 2025-03-19 16:59:15:
+   Job Id:             137236250.gadi-pbs
+   Project:            qc03
+   Exit Status:        0
+   Service Units:      1.64
+   NCPUs Requested:    4                      NCPUs Used: 4
+                                           CPU Time Used: 00:20:23
+   Memory Requested:   6.0GB                 Memory Used: 1.12GB
+   Walltime requested: 00:20:00            Walltime Used: 00:12:19
+   JobFS requested:    100.0MB                JobFS used: 8.05MB
+======================================================================================</code></pre>
+<p>Further optimisations could be made my benchmarking different combinations of parallelism within the script itself, and the amount of times the script is run simultaneously.</p>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -347,6 +592,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -457,6 +704,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

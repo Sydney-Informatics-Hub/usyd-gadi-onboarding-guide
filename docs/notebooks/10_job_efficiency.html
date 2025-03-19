@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.5.55">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -71,10 +71,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-86daaaaad7353f9cc0c554efc1dd6d94.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f4163e54545b01daaae269814d862f3d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -157,14 +157,6 @@ cookieconsent.run({
     <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../notebooks/00_gadi_access.html"> 
-<span class="menu-text">Access Gadi</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../notebooks/01_setup.html"> 
-<span class="menu-text">Set up your computer</span></a>
-  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-introduction-to-gadi" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Introduction to Gadi</span>
@@ -180,6 +172,14 @@ cookieconsent.run({
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../notebooks/00_gadi_access.html"> 
+<span class="menu-text">Access Gadi</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../notebooks/01_setup.html"> 
+<span class="menu-text">Set up your computer</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-on-gadi" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Working on Gadi</span>
@@ -221,12 +221,12 @@ cookieconsent.run({
  <span class="dropdown-text">Job monitoring</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notebooks/13_parallel_jobs.html">
- <span class="dropdown-text">Parallel jobs</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="../notebooks/10_job_efficiency.html">
  <span class="dropdown-text">Benchmarking and efficiency</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/13_parallel_jobs.html">
+ <span class="dropdown-text">Parallel jobs</span></a>
   </li>  
     </ul>
   </li>
@@ -261,7 +261,7 @@ cookieconsent.run({
   <li><a href="#benchmarking-template-scripts" id="toc-benchmarking-template-scripts" class="nav-link" data-scroll-target="#benchmarking-template-scripts">Benchmarking template scripts</a></li>
   <li><a href="#tips-for-benchmarking" id="toc-tips-for-benchmarking" class="nav-link" data-scroll-target="#tips-for-benchmarking">Tips for benchmarking</a></li>
   <li><a href="#demo-benchmarking-activity-using-the-template" id="toc-demo-benchmarking-activity-using-the-template" class="nav-link" data-scroll-target="#demo-benchmarking-activity-using-the-template">Demo benchmarking activity using the template</a></li>
-  <li><a href="#example-of-a-complete-benchmark-study-including-full-size-benchmarks-and-scalability-results" id="toc-example-of-a-complete-benchmark-study-including-full-size-benchmarks-and-scalability-results" class="nav-link" data-scroll-target="#example-of-a-complete-benchmark-study-including-full-size-benchmarks-and-scalability-results">Example of a complete benchmark study including full-size benchmarks and scalability results</a></li>
+  <li><a href="#benchmarking-at-scale" id="toc-benchmarking-at-scale" class="nav-link" data-scroll-target="#benchmarking-at-scale">Benchmarking at scale</a></li>
   <li><a href="#benchmarking-the-best-algorithm-for-the-task" id="toc-benchmarking-the-best-algorithm-for-the-task" class="nav-link" data-scroll-target="#benchmarking-the-best-algorithm-for-the-task">Benchmarking the best algorithm for the task</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul>
@@ -291,6 +291,8 @@ cookieconsent.run({
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>In this section, we will consider job optimisation and benchmarking for compute resource usage efficiency.</p>
+<p><a href="https://youtu.be/4ztdcnfIaP4">Watch the pre-recorded session</a></p>
 <p>The main challenges users may face adapting Artemis workflows to Gadi are:</p>
 <ul>
 <li><a href="../notebooks/12_walltime.html">Gadi walltime limit of 48 hours</a></li>
@@ -303,7 +305,7 @@ cookieconsent.run({
 <li><a href="../notebooks/13_parallel_jobs.html">Job arrays not supported on Gadi</a></li>
 </ul>
 <p>In this section, we will broadly address the first two challenges on this list, exploring how <strong>optimising your workload through splitting/checkpointing jobs and optimising compute resource requests for Gadi queues can help minimise your walltime and use less KSU</strong>.</p>
-<p>For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.</p>
+<p>For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.</p>
 </section>
 <section id="what-is-workflow-optimisation" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-workflow-optimisation">What is workflow optimisation</h2>
@@ -338,7 +340,7 @@ cookieconsent.run({
 </ul></li>
 </ul>
 <p>Optimisation is crucial in HPC because it facilitates faster, more efficient, and cost-effective execution of computational workload. As researchers we want <strong>fast results</strong> but it is also our moral imperative to minimise our <a href="https://www.bcs.org/articles-opinion-and-research/carbon-footprint-the-not-so-hidden-cost-of-high-performance-computing/"><strong>carbon footprint</strong></a> while using HPC. We also have a <strong>shared responsibility</strong> to other users of the system to make efficient use of the resources we reserve for our jobs, and to The University of Sydney, which funds 100% of our compute with NCI.</p>
-<p>In this section, we will look at one simple approach to optimisation through <strong>compute resource benchmarking</strong> as a quickstart way of adapting your Artemis workflows to Gadi and selecting the right CPU, mem and queue for your Gadi job. In order to optimise in other ways, for example testing different file formats, I/O flesystems, algorithm types, GPUs, etc, a similar systematic approach could be followed: run the same analysis with the relevant differences, and compare the job performance.</p>
+<p>In this section, we will look at one simple approach to optimisation through <strong>compute resource benchmarking</strong> as a quickstart way of adapting your Artemis workflows to Gadi and selecting the right CPU, mem and queue for your Gadi job. In order to optimise in other ways, for example testing different file formats, I/O filesystems, algorithm types, GPUs, etc, a similar systematic approach could be followed: run the same analysis with the relevant differences, and compare the job performance.</p>
 <p>There are complex job tracing tools for fine-tuned code optimisation; we will not be covering these, instead focusing on an overall picture of CPU and memory efficiency to guide appropriate resource selection.</p>
 </section>
 <section id="compute-resource-benchmarking-vs-scientific-benchmarking" class="level2">
@@ -348,12 +350,12 @@ cookieconsent.run({
 </section>
 <section id="cpu-and-memory-efficiency" class="level2">
 <h2 class="anchored" data-anchor-id="cpu-and-memory-efficiency">CPU and memory efficiency</h2>
-<p>Efficiency can be <strong>CPU efficiency</strong> or <strong>memory efficiency</strong>.</p>
-<p>CPU efficiency is easy to calculate, with the formula:</p>
+<p>Efficiency can refer to <strong>CPU efficiency</strong> or <strong>memory efficiency</strong>.</p>
+<p>CPU efficiency can be calculated with the formula:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>cpu_e = cputime / (walltime X cpus_used)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>A CPU efficiency value of 1 indicates perfect CPU utilisation for the duration of the job. This is often achieved for single-core jobs, however typically, as a tool or code is run with multiple threads or at scale across multiple nodes, the CPU efficiency declines. Aim to maintain your workflows above 80% where possible.</p>
 <p><strong>NCI monitors CPU utilisation</strong> and repeated execution of jobs with very poor CPU efficiency may be met with an email from the NCI technical team.</p>
-<p>A job with extremely low CPU efficiency may be permissable if it has <strong>high memory efficiency</strong>. Memory efficiency can be calcualted with the formula:</p>
+<p>A job with extremely low CPU efficiency may be permissible if it has <strong>high memory efficiency</strong>. Memory efficiency can be calculated with the formula:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mem_e = max_mem_used / mem_requested</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Below is a Gadi job log. All the details required to calculate CPU and memory efficiency are contained within this log:</p>
 <p><img src="../fig/gadi-pbs-olog.png" class="img-fluid"></p>
@@ -414,11 +416,11 @@ Answer
 <section id="benchmarking-cpu-memory-and-queue-on-gadi" class="level2">
 <h2 class="anchored" data-anchor-id="benchmarking-cpu-memory-and-queue-on-gadi">Benchmarking CPU, memory and queue on Gadi</h2>
 <p>Compared to Artemis, Gadi has newer hardware, newer software, and more diverse queue options. A burning question from Artemis users newly migrating to Gadi is <strong>how do I know what resources to request for my job?</strong></p>
-<p>If you have a fair idea of what resources your job required on Artemis and for how long, you can request similar resources on the relevant queue on Gadi, with the expectation that your job will execute more quickly due to the newer hardware and software. whether you have this prior knowledge or not, is is worthwhile to perform benchmarking on Gadi.</p>
+<p>If you have a fair idea of what resources your job required on Artemis and for how long, you can request similar resources on the relevant queue on Gadi, with the expectation that your job will execute more quickly due to the newer hardware and software. Whether you have this prior knowledge or not, it is worthwhile to perform benchmarking on Gadi.</p>
 <section id="example-artemis-usage-log" class="level3">
 <h3 class="anchored" data-anchor-id="example-artemis-usage-log">Example Artemis usage log</h3>
 <p>Consider the below job log from Artemis:</p>
-<p><img src="../fig/gadi-pbs-olog.png" class="img-fluid"></p>
+<p><img src="../fig/artemis-usage-log.png" class="img-fluid"></p>
 <p>This is a fairly long-running job with high CPU and memory utilisation. We could run this job with reasonable confidence on Gadi by applying the same resource requests:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P MYPROJECT</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=24:00:00</span></span>
@@ -432,12 +434,12 @@ Answer
 <li>16 CPU with 9 GB RAM per CPU on the <code>normalbw</code> queue. We would have plenty of memory at 144 GB, and a low charge rate of 1.25, but how much slower would our job be on the older Broadwell nodes?</li>
 <li>24 CPU with 4 GB RAM per CPU on the <code>normal</code> queue. We would have the same amount of memory as the Artemis job, but with more CPU. Would the walltime be faster due to this extra CPU, or would it take the same walltime and thus have a lower CPU efficiency?</li>
 </ul>
-<p>These are the questions that we can answer with simple compute resource benchmarking. In this example, we have a good starting point about the amount of resources the job requires. We can test different queues and differnet CPU and memory combinations that are around these values to obtain the most efficient values, ie those that are the best trade-off between walltime, SU, and efficiency.</p>
+<p>These are the questions that we can answer with simple compute resource benchmarking. In this example, we have a good starting point about the amount of resources the job requires. We can test different queues and different CPU and memory combinations that are around these values to obtain the most efficient values, ie those that are the best trade-off between walltime, SU, and efficiency.</p>
 </section>
 </section>
 <section id="benchmarking-template-scripts" class="level2">
 <h2 class="anchored" data-anchor-id="benchmarking-template-scripts">Benchmarking template scripts</h2>
-<p>To make this process easier, SIH have a repository of <a href="https://github.com/Sydney-Informatics-Hub/Gadi-benchmarking">Gadi template benchmarking scripts</a>. This repository contains a pair of scripts designed to test single runs of a command/tool at various CPU and memory settings on different queues. It does require some modification (and carefully use and follow the guide!) to set it up, but once you know how to use this tempalte, it can expedite testing chunks of your workflow to obtain the most efficient (ie optimsied) queue and resource requests for the task. Running the <code>gadi_usage_report.pl</code> script from <a href="https://github.com/Sydney-Informatics-Hub/HPC_usage_reports">this repository</a> will summarise the resources used by the benchmark jobs into a table that can be viewed or plotted to determine best resoruces.</p>
+<p>To make this process easier, SIH have a repository of <a href="https://github.com/Sydney-Informatics-Hub/Gadi-benchmarking">Gadi template benchmarking scripts</a>. This repository contains a pair of scripts designed to test single runs of a command/tool at various CPU and memory settings on different queues. It does require some modification (and carefully use and follow the guide!) to set it up, but once you know how to use this template, it can expedite testing chunks of your workflow to obtain the most efficient (ie optimised) queue and resource requests for the task. Running the <code>gadi_usage_report.pl</code> script from <a href="https://github.com/Sydney-Informatics-Hub/HPC_usage_reports">this repository</a> will summarise the resources used by the benchmark jobs into a table that can be viewed or plotted to determine best resources.</p>
 <p>It is not critical to use this template, but it can be a helpful tool if you have not benchmarked before, or if you benchmark multiple tools/code chunks regularly and want a simple and replicable method.</p>
 </section>
 <section id="tips-for-benchmarking" class="level2">
@@ -445,28 +447,28 @@ Answer
 <ul>
 <li>Test individual parts of your code where possible - ie one command, one tool, one chunk of code
 <ul>
-<li>this enables you to determine which parts of your workflow have differeing cmpute requirements</li>
-<li>parts with differing compute requirements can be allocated to different queues and resources, saving you KSU</li>
+<li>This enables you to determine which parts of your workflow have differing compute requirements</li>
+<li>Parts with differing compute requirements can be allocated to different queues and resources, saving you KSU</li>
 </ul></li>
 <li>Do initial benchmarking on a small subset of your data - ie subsample, reduce sample numbers, reduce permutations, etc</li>
 <li>Follow up with scalability testing: Once you have refined the candidate best resources, re-run the benchmark on a representative subset (ie whole sample, more iterations) and compare the CPU efficiency
 <ul>
 <li>Is it as good as the initial test benchmark in terms of CPU and memory efficiency?</li>
 <li>If so, then go ahead and apply this setting to your full run</li>
-<li>If not, re-run full benchmarks with the larger test dataset, or dig deeper into what is causing the loss of effiency at scale</li>
+<li>If not, re-run full benchmarks with the larger test dataset, or dig deeper into what is causing the loss of efficiency at scale</li>
 </ul></li>
 <li>Embrace the labour of benchmarking!
 <ul>
-<li>While it may seem like a time-consuming impediment to getting on with analysing your data, it can save you a lot of time and KSU down the track.</li>
+<li>While it may seem like a time-consuming impediment to getting on with analysing your data, it can save you a lot of time and KSU down the track</li>
 <li>Benchmarking will make your analysis faster and use less USyd-funded resources and energy resources</li>
-<li>benchmarking can prevent avoidable job failures such as a job runing out of walltime or memory, which will cost more time and resources to resubmit</li>
+<li>Benchmarking can prevent avoidable job failures such as a job running out of walltime or memory, which will cost more time and resources to resubmit</li>
 </ul></li>
 </ul>
 </section>
 <section id="demo-benchmarking-activity-using-the-template" class="level2">
 <h2 class="anchored" data-anchor-id="demo-benchmarking-activity-using-the-template">Demo benchmarking activity using the template</h2>
 <p>The example Artemis usage log shown above ran the tool <code>bwa-mem</code> to map DNA sequences to a reference sequence. When benchmarking, apply your domain knowledge to determine how to best subset the data to make <strong>small test datasets</strong> that can provide benchmark results quickly and with low SU cost. For this example, each query string within the input DNA file is mapped independently, so we can simply take a short subset of the file and map that to the reference.</p>
-<p>When subsetting, it’s important to finish benchmarking by completing one full (not subset) run at the best chosen compute resources, to ensure that the benchmark results are consistent when a large input is provided.</p>
+<p>When subsetting, it’s important to finish off benchmarking by completing one full (not subset) run at the best chosen compute resources, to ensure that the benchmark results are consistent when a large input is provided.</p>
 <p>It is also important to take a meaningful subset. The minimum size may not always be the best; aim to have your jobs run for at least 5 minutes. Starting a job and its various processes has an overhead, and making the subset data too small can cause the compute resource usage summary to be affected by these background processes. For this example, the full input was 433.4 million queries. For a target run time of 5 minutes, this equates to approximately 2 million queries. However, I am so optimistic about the execution speed on Gadi that I will hazard a guess that 2 million queries will be <em>too fast</em> for a decent preliminary benchmark run and we should use 10 million :-)</p>
 <p>After subsetting the raw data to the target 2 million entries, next set up the template benchmarking scripts. Working on Gadi, make a directory for the tool to be benchmarked, clone the repository, and rename the scripts</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /scratch/<span class="op">&lt;</span>nci-project-id<span class="op">&gt;</span></span>
@@ -483,7 +485,7 @@ Answer
 <p>Then, add the workflow code from the original script to the benchmarking template script named <code>bwa_benchmark.pbs</code>, ensuring to adhere to the output path and prefix requirements described in the comments. Also add your NCI project code at <code>#PBS -P</code> and update the <code>lstorage</code> paths as required for your input data:</p>
 <p><img src="../fig/benchmark-command.png" class="img-fluid"></p>
 <p>Make sure to <strong>check for the required software on Gadi</strong>. See <a href="../notebooks/11_software.html">software</a> for options when your tools/versions aren’t globally installed on Gadi.</p>
-<p>After making the required changes to this script, the completed <code>bwa_benchmark.pbs</code> workflow section appears as below. Note the use of <code>${ncpus}</code> for the BWA and samtools thread parameter values, and the use of <code>${outdir}</code> and <code>${outfile_prefix}</code> to name the outputs. These are specified within the run script, and are set up so you can run multiple benchmarks simultaneously without I/O clashes. Also not the slight adjustment to module versions and input file paths, as well as the lack of job array here compared to the Artemis script:</p>
+<p>After making the required changes to this script, the completed <code>bwa_benchmark.pbs</code> workflow section appears as below. Note the use of <code>${ncpus}</code> for the BWA and samtools thread parameter values, and the use of <code>${outdir}</code> and <code>${outfile_prefix}</code> to name the outputs. These are specified within the run script, and are set up so you can run multiple benchmarks simultaneously without I/O clashes. Also note the slight adjustment to module versions and input file paths, as well as the lack of job array here compared to the Artemis script:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">################################################</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">### YOUR SCRIPT HERE </span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">################################################</span></span>
@@ -522,139 +524,28 @@ Answer
 <p>Monitor with qstat, then when all jobs have completed, check the usage summary with the <a href="https://github.com/Sydney-Informatics-Hub/HPC_usage_reports/blob/master/Scripts/gadi_usage_report.pl">SIH Gadi job usage reporting tool</a>:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> PBS_logs/bwa/</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">perl</span> gadi_usage_report_v1.1.pl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This provides comprehensive job reporting metrics which can be copied to Excel for detailed review:</p>
-<p><img src="../fig/benchmark-usage.png" class="img-fluid"></p>
-<p>Extracting a few key columns from the table:, and adding some extrapolations to full-sized sample:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 21%">
-<col style="width: 9%">
-<col style="width: 8%">
-<col style="width: 5%">
-<col style="width: 8%">
-<col style="width: 8%">
-<col style="width: 6%">
-<col style="width: 8%">
-<col style="width: 13%">
-<col style="width: 9%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>#JobName</th>
-<th>CPUs_requested</th>
-<th>Mem_requested</th>
-<th>Mem_used</th>
-<th>CPUtime_mins</th>
-<th>Walltime_mins</th>
-<th>Efficiency</th>
-<th>Service_units</th>
-<th>Extrapolated_walltime</th>
-<th>Extrapolated_SU</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>normal_6NCPUS_24MEM_subset_10M.o</td>
-<td>6</td>
-<td>24.0GB</td>
-<td>16.5GB</td>
-<td>53.6</td>
-<td>9.73</td>
-<td>0.92</td>
-<td>1.95</td>
-<td>421.70</td>
-<td>84.51</td>
-</tr>
-<tr class="even">
-<td>normalbw_7NCPUS_63MEM_subset_10M.o</td>
-<td>7</td>
-<td>63.0GB</td>
-<td>16.05GB</td>
-<td>57.98</td>
-<td>8.52</td>
-<td>0.97</td>
-<td>1.24</td>
-<td>369.26</td>
-<td>53.74</td>
-</tr>
-<tr class="odd">
-<td>normal_12NCPUS_48MEM_subset_10M.o</td>
-<td>12</td>
-<td>48.0GB</td>
-<td>19.17GB</td>
-<td>53.27</td>
-<td>5.05</td>
-<td>0.88</td>
-<td>2.02</td>
-<td>218.87</td>
-<td>87.55</td>
-</tr>
-<tr class="even">
-<td>normalbw_14NCPUS_126MEM_subset_10M.o</td>
-<td>14</td>
-<td>126.0GB</td>
-<td>16.24GB</td>
-<td>59.28</td>
-<td>4.58</td>
-<td>0.92</td>
-<td>1.34</td>
-<td>198.50</td>
-<td>58.08</td>
-</tr>
-<tr class="odd">
-<td>normal_24NCPUS_96MEM_subset_10M.o</td>
-<td>24</td>
-<td>96.0GB</td>
-<td>22.58GB</td>
-<td>56.83</td>
-<td>3.27</td>
-<td>0.72</td>
-<td>2.61</td>
-<td>141.72</td>
-<td>113.12</td>
-</tr>
-<tr class="even">
-<td>normalbw_28NCPUS_250MEM_subset_10M.o</td>
-<td>28</td>
-<td>250.0GB</td>
-<td>23.15GB</td>
-<td>72.68</td>
-<td>3.45</td>
-<td>0.75</td>
-<td>2.01</td>
-<td>149.52</td>
-<td>87.11</td>
-</tr>
-<tr class="odd">
-<td>normal_48NCPUS_190MEM_subset_10M.o</td>
-<td>48</td>
-<td>190.0GB</td>
-<td>25.45GB</td>
-<td>64.35</td>
-<td>2.28</td>
-<td>0.59</td>
-<td>3.65</td>
-<td>98.82</td>
-<td>158.19</td>
-</tr>
-</tbody>
-</table>
+<p>This provides comprehensive job reporting metrics which can be copied to Excel for plotting or review. Extracting a few key columns from the table, and extrapolating walltime and SU to the full-sized sample:</p>
+<p><img src="../fig/benchmark-table.png" class="img-fluid"></p>
 <p><strong>Which resources would you choose when porting this Artemis job to Gadi?</strong></p>
 <ol type="1">
 <li>Fastest walltime? 48 CPU on normal queue, but this comes with the lowest CPU efficiency and highest SU charge, which could really add up for multiple full-size samples</li>
-<li>Least service units? 7 CPU on normal broadwell queue, this also has the best CPU efficiency of 97% but the second slowest walltime</li>
-<li>Trade-off between efficiency, walltime, and SU? That could be 14 CPU on the normal queue, which nicely fits 2 samples per node enabling a good fit for a multi-node parallel job when all samples are analysed</li>
+<li>Least service units? 7 CPU on normal Broadwell queue, this also has the best CPU efficiency of 97% but the second slowest walltime</li>
+<li>Trade-off between efficiency, walltime, and SU? That could be 14 CPU on the normalbw queue, which nicely fits 2 samples per node enabling a good fit for a multi-node parallel job when all samples are analysed</li>
 </ol>
+<p>Of note, these benchmarks show a <strong>much lower memory usage than the Artemis job</strong>. Artemis takes a snapshot of memory usage to report in the log, and it may be that a surge in memory usage was recorded, and that the method in which NCI captures memory use for log reporting differs. This even further highlights the need to benchmark on Gadi, as a job that may appear to require high memory or walltime on Artemis may be sufficiently run with far less on Gadi.</p>
+<p>Likewise, the <strong>extrapolated walltime for a full-size sample is also much lower than Artemis</strong>. We expect faster execution on Gadi, however this difference (2-7 hours vs 18 hours!) is greater than expected. There may have been some other inefficiencies within the tool versions or perhaps scratch disk contention at the time the job was run on Artemis. This clearly underpins the need to <strong><em>benchmark on the platform you plan to use</em></strong> and also, that the <strong><em>small-scale benchmarks should be followed up with a full-size run where possible</em></strong>.</p>
 </section>
-<section id="example-of-a-complete-benchmark-study-including-full-size-benchmarks-and-scalability-results" class="level2">
-<h2 class="anchored" data-anchor-id="example-of-a-complete-benchmark-study-including-full-size-benchmarks-and-scalability-results">Example of a complete benchmark study including full-size benchmarks and scalability results</h2>
-<p>We are fortunate under the Sydney Scheme to have easy access to generous KSU. Prior to this scheme, NCI users would need to apply for merit-based allocations under Sydney Scheme or <a href="https://my.nci.org.au/mancini/ncmas/2025/">NCMAS</a>. NCMAS is highly prestigious and competitive, and applications are required to not only provide benchmarking results, but also to demonstrate scalability by showing that CPU and/or memory efficiency is maintained when the worflow is scaled to multi-node jobs.</p>
-<p><strong><em>TBA</em></strong></p>
+<section id="benchmarking-at-scale" class="level2">
+<h2 class="anchored" data-anchor-id="benchmarking-at-scale">Benchmarking at scale</h2>
+<p>We are fortunate under the Sydney Scheme to have easy access to generous KSU. Prior to this scheme, NCI users would need to apply for merit-based allocations under Sydney Scheme or <a href="https://my.nci.org.au/mancini/ncmas/2025/">NCMAS</a>. NCMAS is highly prestigious and competitive, and applications are required to not only provide benchmarking results, but also to demonstrate scalability by showing that CPU and/or memory efficiency is maintained when the workflow is scaled to multi-node jobs.</p>
+<p>We typically see some decline in efficiency at scale. The figure below shows a scalability study using the same command as above, on one full-sized sample, running multiple 10 million query chunks in parallel with 6 CPU per task (best efficiency from the benchmark results above). Using this scatter-gather parallelism approach, multiple nodes per sample can be utilised (not something the tool can do natively), making great use of Gadi’s extensive infrastructure.</p>
+<p>For a job with <strong>perfect scalability</strong>, we would see the walltime decrease as the number of nodes increased, while the SU and CPU efficiency remained constant. The job below does <em>not</em> demonstrate perfect scalability, as so few do. As expected, we can see a decrease in walltime as more nodes are assigned to this job, and a slight increase in SU and worsening of CPU efficiency. It appears the ‘sweet spot’ is around 3 nodes per sample for this analysis, where the CPU efficiency remains &gt; 80% and a fair compromise between walltime and SU is observed.</p>
+<p><img src="../fig/benchmark-at-scale.png" class="img-fluid"></p>
 </section>
 <section id="benchmarking-the-best-algorithm-for-the-task" class="level2">
 <h2 class="anchored" data-anchor-id="benchmarking-the-best-algorithm-for-the-task">Benchmarking the best algorithm for the task</h2>
-<p>Often, there are multiple tools or algorithms we could choose from to perform a computational task. These may produce identical or sufficiently equivalent results, in which case we would not need to consider scientific benchmarking to decide between the two. In these cases, we may rely on computational benchmarks to dictate our choices. For high computational workloads, the walltime and SU savings obtained by using a computationally efficient tool that is “almost as good” as its gold standard counterpart are well justifiable when reporting methods and results. If however you are only performing the analysis once or a small number of times, the deciding factor on tool choice should be scientific performance, not computational. NCI have a range of compute platforms and no matter your computational requirements, we can help ensure you have the right compute for your needs.</p>
-<p>To compare two tools for the same task, you could use the benchmarking template scripts desribed above. You would simply take two copies of the template scripts, and run separately for each tool. The scripts have variables for tool name and tool abbreviated name, so you could run the benchmarking within the same directory without filename contention. The compute usage and efficiency metrics across both tools could be compared, and combined with scientific benchmarking to make an informed choice of tool.</p>
+<p>Often, there are multiple tools or algorithms we could choose from to perform a computational task. These may produce identical or sufficiently equivalent results, in which case we would not need to consider scientific benchmarking to decide between the two. In these cases, we may rely on computational benchmarks to dictate our choices. For high computational workloads, the walltime and SU savings obtained by using a computationally efficient tool that is “almost as good” as its gold standard counterpart are well justifiable when reporting methods and results. If however you are only performing the analysis once or a small number of times, the deciding factor on tool choice should be scientific performance, not computational.</p>
+<p>To compare two tools for the same task, you could use the benchmarking template scripts described above. You would simply take two copies of the template scripts, and run separately for each tool. The scripts have variables for tool name and tool abbreviated name, so you could run the benchmarking within the same directory without filename contention. The compute usage and efficiency metrics across both tools could be compared, and combined with scientific benchmarking to make an informed choice of tool.</p>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
@@ -753,6 +644,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -863,6 +756,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
