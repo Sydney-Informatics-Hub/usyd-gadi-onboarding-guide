@@ -264,7 +264,7 @@ cookieconsent.run({
   <li><a href="#example-parallel-jobs" id="toc-example-parallel-jobs" class="nav-link" data-scroll-target="#example-parallel-jobs">Example parallel jobs</a>
   <ul class="collapse">
   <li><a href="#example-1-genomics" id="toc-example-1-genomics" class="nav-link" data-scroll-target="#example-1-genomics">Example 1: Genomics</a></li>
-  <li><a href="#example-2-tom-tba" id="toc-example-2-tom-tba" class="nav-link" data-scroll-target="#example-2-tom-tba">Example 2: Tom TBA</a></li>
+  <li><a href="#example-2-calculation-of-pi" id="toc-example-2-calculation-of-pi" class="nav-link" data-scroll-target="#example-2-calculation-of-pi">Example 2: Calculation of pi</a></li>
   </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul>
@@ -651,9 +651,139 @@ Number of tasks running concurrently on 10 <code>normal</code> nodes
 <p>As you can see from this example, porting an existing Artemis job array to Gadi is straightforward and requires little extra work.</p>
 </section>
 </section>
-<section id="example-2-tom-tba" class="level3">
-<h3 class="anchored" data-anchor-id="example-2-tom-tba">Example 2: Tom TBA</h3>
-<p><strong>Tom TBA</strong></p>
+<section id="example-2-calculation-of-pi" class="level3">
+<h3 class="anchored" data-anchor-id="example-2-calculation-of-pi">Example 2: Calculation of pi</h3>
+<p>In this example we’ll run through a simple parallel workflow using a python script that leverages the multiprocessing library for internal concurrency. This script can also be submitted multiple times simultaneously to the queue either via Artemis job arrays or Gadi nci_parallel. This is a typical case for simulation style workflows, where a single script is run multiple times with varying parameters and each script instance uses multiple cores for its processing.</p>
+<p>The script <code>whatispi.py</code> implements a monte-carlo estimation of pi by randomly generating points in a box and calculating the fraction of those points that lie within a circle enclosed by that box.</p>
+<p><img src="../fig/calc_pi.png" class="img-fluid"></p>
+<p>The <code>whatispi.py</code> file is shown below. The higher the number of trials the closer the result should be to the true value of pi. This script is embarassingly parallel in that each instance of it can be run independently, and improved accuracy in the estimate of pi can be achieved by taking the weighted average of each independent results.</p>
+<p><strong>whatispi.py</strong>s</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy.random <span class="im">as</span> rng</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> multiprocessing <span class="im">import</span> Pool</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> power</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> pi_run(num_trials):</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate pi based on points with a box and circle of radius 1</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    r2 <span class="op">=</span> r <span class="op">*</span> r</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    Ncirc <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(num_trials):</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> rng.random()</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> rng.random()</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> ( power(x, <span class="dv">2</span>) <span class="op">+</span> power(y, <span class="dv">2</span>) <span class="op">&lt;</span> r2 ):</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>            Ncirc <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    pi <span class="op">=</span> <span class="fl">4.0</span> <span class="op">*</span> ( Ncirc <span class="op">/</span> num_trials )</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pi</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cycle_pi(trials, noprocs<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""calculate pi based on a set of trials.</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="co">    -- trials: a large number representing points</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="co">    -- noprocs: number of python processes used in simulation</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"number of processes used: "</span>, noprocs)</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> Pool(noprocs) <span class="im">as</span> pool:</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>        pi_estimates <span class="op">=</span> pool.<span class="bu">map</span>(pi_run, trials)</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pi_estimates</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>    trials <span class="op">=</span> <span class="bu">list</span>(<span class="bu">map</span>(<span class="bu">int</span>, sys.argv[<span class="dv">2</span>:]))</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"estimating pi based on"</span>, trials)</span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(cycle_pi(trials, <span class="bu">int</span>(sys.argv[<span class="dv">1</span>])))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Within the <code>whatispi.py</code> file above, some basic concepts that use the Python multiprocessing library are:</p>
+<p>the <code>Pool(noprocs)</code> object creates a pool of processes. processes is the number of worker processes to use (i.e Python interpreters). If processes is None then the number returned by <code>os.cpu_count()</code> is used. This is the first argument to our script.</p>
+<p>The <code>pool.map(pi_run, trials)</code> attribute of this object uses the pool to map a defined function (<code>pi_run</code>) to a list/iterator object (<code>trials</code>).</p>
+<p>To run our estimation script with a pool of 2 cpus with 3 trials, we would use:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> whatispi.py 2 1000 2000 3000</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>this would produce the output:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>estimating pi based on [1000, 2000, 3000]</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>number of processes used:  2</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>[3.124, 3.134, 3.154]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The three trials above can be converted into a single estimate by taking the average (weighted by number of trials) of each run.</p>
+<section id="example-run-of-whatispi.py-using-artemis-job-array" class="level4">
+<h4 class="anchored" data-anchor-id="example-run-of-whatispi.py-using-artemis-job-array">Example run of <code>whatispi.py</code> using Artemis job array</h4>
+<pre><code>2 1000 2000
+2 2000 4000
+2 1000000 2000000
+2 5000000 1000000</code></pre>
+<p>Here is a simple Artemis PBS script that uses the parameters above:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P SIHnextgen</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l select=1:ncpus=2:mem=6GB</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=00:10:00</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -J 1-4</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -o piDemo^array_index^.o</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -e piDemo^array_index^.e</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load python/3.8.2</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="va">$PBS_O_WORKDIR</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="va">params</span><span class="op">=</span><span class="kw">`</span><span class="fu">sed</span> <span class="st">"</span><span class="va">${PBS_ARRAY_INDEX}</span><span class="st">q;d"</span> job_params<span class="kw">`</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> whatispi.py <span class="va">${params}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Running this script on Artemis will produce 4 .o and .e files number by their job array number.</p>
+<p>NOTE: Each job used separate resources on the queue so the shorter running jobs were not waiting for the longer running to finish.</p>
+</section>
+<section id="tba-how-to-convert-artemis-script-to-gadi-script" class="level4">
+<h4 class="anchored" data-anchor-id="tba-how-to-convert-artemis-script-to-gadi-script">TBA: How to convert Artemis script to Gadi script</h4>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P qc03</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q normal</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=8</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=00:20:00</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=6GB</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l storage=scratch/qc03</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N test_parallel</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -o parallel.o</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="va">SCRIPT</span><span class="op">=</span><span class="st">'python3 whatispi.py'</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="va">INPUTS</span><span class="op">=</span>./job_params</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load nci-parallel/1.0.0a</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load python3/3.8.5</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">"s/^/</span><span class="va">${SCRIPT}</span><span class="st"> /"</span> <span class="va">${INPUTS}</span> <span class="op">&gt;</span> <span class="va">${PBS_JOBFS}</span>/input_cmd</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a><span class="ex">mpirun</span> <span class="at">-np</span> 4 <span class="at">--map-by</span> ppr:4:node:PE=2 <span class="at">--report-bindings</span> nci-parallel <span class="at">--input-file</span> <span class="va">${PBS_JOBFS}</span>/input_cmd <span class="at">--timeout</span> 4000 <span class="at">--verbose</span> <span class="at">-o</span> ./</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Running the above PBS script with the above list of parameters gives the following output:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>======================================================================================</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                  Resource Usage</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>   Job Id:             137235074.gadi-pbs</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>   Project:            qc03</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>   Exit Status:        0</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>   Service Units:      3.19</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>   NCPUs Requested:    8                      NCPUs Used: 8</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>                                           CPU Time Used: 00:20:51</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>   Memory Requested:   6.0GB                 Memory Used: 1.96GB</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>   Walltime requested: 00:20:00            Walltime Used: 00:11:58</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>   JobFS requested:    100.0MB                JobFS used: 8.05MB</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>======================================================================================</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="tba-how-to-optimize-gadi-script---eg.-when-some-runs-have-different-average-walltime." class="level4">
+<h4 class="anchored" data-anchor-id="tba-how-to-optimize-gadi-script---eg.-when-some-runs-have-different-average-walltime.">TBA: how to optimize Gadi script - eg. when some runs have different average walltime.</h4>
+<p>We can make an improvement here by only allowing nci_parallel to consume two jobs at a time. That way it will do the fast running jobs first and then start on the longer running jobs. This will (counterintuitively) save kSU.</p>
+<p>To do this we change the above <code>mpirun</code> command to:</p>
+<pre><code>mpirun -np 2 --map-by ppr:2:node:PE=2 --report-bindings nci-parallel --input-file ${PBS_JOBFS}/input_cmd --timeout 4000 --verbose -o ./</code></pre>
+<p>and don’t forget to change <code>ncps=4</code> in the header of the script.</p>
+<p>which gives up the following report:</p>
+<pre><code>======================================================================================
+                  Resource Usage
+   Job Id:             137236250.gadi-pbs
+   Project:            qc03
+   Exit Status:        0
+   Service Units:      1.64
+   NCPUs Requested:    4                      NCPUs Used: 4
+                                           CPU Time Used: 00:20:23
+   Memory Requested:   6.0GB                 Memory Used: 1.12GB
+   Walltime requested: 00:20:00            Walltime Used: 00:12:19
+   JobFS requested:    100.0MB                JobFS used: 8.05MB
+======================================================================================</code></pre>
+<p>Further optimisations could be made my benchmarking different combinations of parallelism within the script itself, and the amount of times the script is run simultaneously.</p>
+</section>
 </section>
 </section>
 <section id="summary" class="level2">
