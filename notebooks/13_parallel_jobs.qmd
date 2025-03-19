@@ -479,13 +479,184 @@ Observe the similarities and differences:
 As you can see from this example, porting an existing Artemis job array to Gadi is straightforward and requires little extra work.
 
 
+### Example 2: Calculation of pi
+
+In this example we'll run through a simple parallel workflow using a python script that leverages the multiprocessing library for internal concurrency. This script can also be submitted multiple times simultaneously to the queue either via Artemis job arrays or Gadi nci_parallel. This is a typical case for simulation style workflows, where a single script is run multiple times with varying parameters and each script instance uses multiple cores for its processing.
+
+The script `whatispi.py` implements a monte-carlo estimation of pi by randomly generating points in a box and calculating the fraction of those points that lie within a circle enclosed by that box.
+
+![](../fig/calc_pi.png)
+
+The `whatispi.py` file is shown below. The higher the number of trials the closer the result should be to the true value of pi. This script is embarassingly parallel in that each instance of it can be run independently, and improved accuracy in the estimate of pi can be achieved by taking the weighted average of each independent results.
+
+**whatispi.py**s
+```python
+import numpy.random as rng
+import time
+import sys
+from multiprocessing import Pool
+from numpy import power
+
+def pi_run(num_trials):
+    """Calculate pi based on points with a box and circle of radius 1
+    """
+    r = 1.0
+    r2 = r * r
+    Ncirc = 0
+    for _ in range(num_trials):
+        x = rng.random()
+        y = rng.random()
+        if ( power(x, 2) + power(y, 2) < r2 ):
+            Ncirc += 1
+    pi = 4.0 * ( Ncirc / num_trials )
+    return pi
+
+def cycle_pi(trials, noprocs=1):
+    """calculate pi based on a set of trials.
+    -- trials: a large number representing points
+    -- noprocs: number of python processes used in simulation
+    """
+    print("number of processes used: ", noprocs)
+    with Pool(noprocs) as pool:
+        pi_estimates = pool.map(pi_run, trials)
+
+    return pi_estimates
+
+if __name__ == "__main__":
+
+    trials = list(map(int, sys.argv[2:]))
+    print("estimating pi based on", trials)
+    print(cycle_pi(trials, int(sys.argv[1])))
+```
+
+Within the `whatispi.py` file above, some basic concepts that use the Python multiprocessing library are:
+
+the `Pool(noprocs)` object creates a pool of processes. processes is the number of worker processes to use (i.e Python interpreters). If processes is None then the number returned by `os.cpu_count()` is used. This is the first argument to our script.
+
+The `pool.map(pi_run, trials)` attribute of this object uses the pool to map a defined function (`pi_run`) to a list/iterator object (`trials`).
+
+To run our estimation script with a pool of 2 cpus with 3 trials, we would use:
+
+```bash
+python whatispi.py 2 1000 2000 3000
+```
+
+this would produce the output:
+
+```default
+estimating pi based on [1000, 2000, 3000]
+number of processes used:  2
+[3.124, 3.134, 3.154]
+```
+
+The three trials above can be converted into a single estimate by taking the average (weighted by number of trials) of each run.
+
+
+#### Example run of `whatispi.py` using Artemis job array
 
 
 
-### Example 2: Tom TBA
+```
+2 1000 2000
+2 2000 4000
+2 1000000 2000000
+2 5000000 1000000
+```
 
-**Tom TBA**
+Here is a simple Artemis PBS script that uses the parameters above:
 
+```bash
+#!/bin/bash
+#PBS -P SIHnextgen
+#PBS -l select=1:ncpus=2:mem=6GB
+#PBS -l walltime=00:10:00
+#PBS -J 1-4
+#PBS -o piDemo^array_index^.o
+#PBS -e piDemo^array_index^.e
+
+module load python/3.8.2
+
+cd $PBS_O_WORKDIR
+params=`sed "${PBS_ARRAY_INDEX}q;d" job_params`
+python3 whatispi.py ${params}
+```
+
+Running this script on Artemis will produce 4 .o and .e files number by their job array number.
+
+NOTE: Each job used separate resources on the queue so the shorter running jobs were not waiting for the longer running to finish.
+
+#### TBA: How to convert Artemis script to Gadi script
+
+```bash
+#!/bin/bash
+#PBS -P qc03
+#PBS -q normal
+#PBS -l ncpus=8
+#PBS -l walltime=00:20:00
+#PBS -l mem=6GB
+#PBS -l storage=scratch/qc03
+#PBS -l wd
+#PBS -N test_parallel
+#PBS -o parallel.o
+
+SCRIPT='python3 whatispi.py'
+INPUTS=./job_params
+
+module load nci-parallel/1.0.0a
+module load python3/3.8.5
+
+sed "s/^/${SCRIPT} /" ${INPUTS} > ${PBS_JOBFS}/input_cmd
+
+mpirun -np 4 --map-by ppr:4:node:PE=2 --report-bindings nci-parallel --input-file ${PBS_JOBFS}/input_cmd --timeout 4000 --verbose -o ./
+```
+
+Running the above PBS script with the above list of parameters gives the following output:
+
+```default
+======================================================================================
+                  Resource Usage
+   Job Id:             137235074.gadi-pbs
+   Project:            qc03
+   Exit Status:        0
+   Service Units:      3.19
+   NCPUs Requested:    8                      NCPUs Used: 8
+                                           CPU Time Used: 00:20:51
+   Memory Requested:   6.0GB                 Memory Used: 1.96GB
+   Walltime requested: 00:20:00            Walltime Used: 00:11:58
+   JobFS requested:    100.0MB                JobFS used: 8.05MB
+======================================================================================
+```
+
+#### TBA: how to optimize Gadi script - eg. when some runs have different average walltime.
+
+We can make an improvement here by only allowing nci_parallel to consume two jobs at a time. That way it will do the fast running jobs first and then start on the longer running jobs. This will (counterintuitively) save kSU.
+
+To do this we change the above `mpirun` command to:
+
+```
+mpirun -np 2 --map-by ppr:2:node:PE=2 --report-bindings nci-parallel --input-file ${PBS_JOBFS}/input_cmd --timeout 4000 --verbose -o ./
+```
+
+and don't forget to change `ncps=4` in the header of the script.
+
+which gives up the following report:
+
+```
+======================================================================================
+                  Resource Usage
+   Job Id:             137236250.gadi-pbs
+   Project:            qc03
+   Exit Status:        0
+   Service Units:      1.64
+   NCPUs Requested:    4                      NCPUs Used: 4
+                                           CPU Time Used: 00:20:23
+   Memory Requested:   6.0GB                 Memory Used: 1.12GB
+   Walltime requested: 00:20:00            Walltime Used: 00:12:19
+   JobFS requested:    100.0MB                JobFS used: 8.05MB
+======================================================================================
+```
+
+Further optimisations could be made my benchmarking different combinations of parallelism within the script itself, and the amount of times the script is run simultaneously.
 
 ## Summary
 

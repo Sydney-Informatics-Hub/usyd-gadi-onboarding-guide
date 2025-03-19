@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.5.55">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -37,10 +37,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-86daaaaad7353f9cc0c554efc1dd6d94.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f4163e54545b01daaae269814d862f3d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -123,14 +123,6 @@ cookieconsent.run({
     <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../notebooks/00_gadi_access.html"> 
-<span class="menu-text">Access Gadi</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../notebooks/01_setup.html"> 
-<span class="menu-text">Set up your computer</span></a>
-  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-introduction-to-gadi" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Introduction to Gadi</span>
@@ -146,6 +138,14 @@ cookieconsent.run({
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../notebooks/00_gadi_access.html"> 
+<span class="menu-text">Access Gadi</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../notebooks/01_setup.html"> 
+<span class="menu-text">Set up your computer</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-on-gadi" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Working on Gadi</span>
@@ -187,12 +187,12 @@ cookieconsent.run({
  <span class="dropdown-text">Job monitoring</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notebooks/13_parallel_jobs.html">
- <span class="dropdown-text">Parallel jobs</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="../notebooks/10_job_efficiency.html">
  <span class="dropdown-text">Benchmarking and efficiency</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/13_parallel_jobs.html">
+ <span class="dropdown-text">Parallel jobs</span></a>
   </li>  
     </ul>
   </li>
@@ -241,7 +241,7 @@ cookieconsent.run({
 <p>Working on Gadi will require you to have reasonable confidence on the Linux/Unix command line.</p>
 <section id="linux-command-line-training" class="level2">
 <h2 class="anchored" data-anchor-id="linux-command-line-training">Linux command line training</h2>
-<p>NCI host a number of training sessons, including introductory Linux. Please visit their <a href="https://opus.nci.org.au/spaces/Help/pages/48497461/NCI+Training+and+Educational+Events">training calendar</a>.</p>
+<p>NCI host a number of training sessions, including introductory Linux. Please visit their <a href="https://opus.nci.org.au/spaces/Help/pages/48497461/NCI+Training+and+Educational+Events">training calendar</a>.</p>
 <p>There are numerous self-directed training tutorials online, such as <a href="https://sandbox.bio/tutorials/carpentries-shell-novice/">this one from Sandbox.bio</a>.</p>
 <p>A bash cheatsheet such as <a href="https://opus.nci.org.au/spaces/Help/pages/90308858/Linux+Command+Quick+Reference">this one from NCI</a> or <a href="https://devhints.io/bash">this one</a> can also be helpful in increasing your familiarity with the command line.</p>
 <p>Due to the plethora of high-quality introductory command line materials available online, we will not reproduce those here.</p>
@@ -332,6 +332,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -442,6 +444,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
