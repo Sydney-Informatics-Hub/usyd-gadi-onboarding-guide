@@ -259,9 +259,9 @@ cookieconsent.run({
   <li><a href="#check-that-the-task-executes-correctly-with-those-provided-arguments-on-the-compute-node" id="toc-check-that-the-task-executes-correctly-with-those-provided-arguments-on-the-compute-node" class="nav-link" data-scroll-target="#check-that-the-task-executes-correctly-with-those-provided-arguments-on-the-compute-node">2. Check that the task executes correctly with those provided arguments on the compute node</a></li>
   <li><a href="#check-the-binding-of-resources-to-parallel-tasks" id="toc-check-the-binding-of-resources-to-parallel-tasks" class="nav-link" data-scroll-target="#check-the-binding-of-resources-to-parallel-tasks">3. Check the binding of resources to parallel tasks</a></li>
   </ul></li>
-  <li><a href="#parallel-job-efficiency" id="toc-parallel-job-efficiency" class="nav-link" data-scroll-target="#parallel-job-efficiency">Parallel job efficiency</a></li>
-  <li><a href="#one-disadvantage-of-nci-parallel-jobs" id="toc-one-disadvantage-of-nci-parallel-jobs" class="nav-link" data-scroll-target="#one-disadvantage-of-nci-parallel-jobs">One disadvantage of nci-parallel jobs</a></li>
-  <li><a href="#memory-management-for-nci-parallel-jobs" id="toc-memory-management-for-nci-parallel-jobs" class="nav-link" data-scroll-target="#memory-management-for-nci-parallel-jobs">Memory management for nci-parallel jobs</a></li>
+  <li><a href="#cpu-efficiency" id="toc-cpu-efficiency" class="nav-link" data-scroll-target="#cpu-efficiency">CPU efficiency</a></li>
+  <li><a href="#walltime-management-and-cpu-utilisation" id="toc-walltime-management-and-cpu-utilisation" class="nav-link" data-scroll-target="#walltime-management-and-cpu-utilisation">Walltime management and CPU utilisation</a></li>
+  <li><a href="#memory-management" id="toc-memory-management" class="nav-link" data-scroll-target="#memory-management">Memory management</a></li>
   <li><a href="#example-parallel-jobs" id="toc-example-parallel-jobs" class="nav-link" data-scroll-target="#example-parallel-jobs">Example parallel jobs</a>
   <ul class="collapse">
   <li><a href="#example1" id="toc-example1" class="nav-link" data-scroll-target="#example1">Example 1: Genomics</a></li>
@@ -596,9 +596,9 @@ Number of tasks running concurrently on 10 <code>normal</code> nodes
 <p><img src="../fig/mpi-report-bindings.png" class="img-fluid"></p>
 </section>
 </section>
-<section id="parallel-job-efficiency" class="level2">
-<h2 class="anchored" data-anchor-id="parallel-job-efficiency">Parallel job efficiency</h2>
-<p><a href="../notebooks/10_job_efficiency.html">Benchmarking</a> should initially be done on the single task, in order to optimise resource requests for the full job. In some cases, efficiency can decline for parallel jobs, and this results in an increased walltime per task and overall SU cost for the job. Where possible, benchmarking tests should also be performed at scale, to assess any decline in performance when the workload is scaled up. This can enable you to further optimise, or allow for the decline in efficiency when requesting walltime, to prevent avoidable job failures due to running out of walltime.</p>
+<section id="cpu-efficiency" class="level2">
+<h2 class="anchored" data-anchor-id="cpu-efficiency">CPU efficiency</h2>
+<p><a href="../notebooks/10_job_efficiency.html">Benchmarking</a> should initially be done on the single task, in order to optimise resource requests for the full job. In some cases, CPU efficiency can decline for parallel jobs, and this results in an increased walltime per task and overall SU cost for the job. Where possible, benchmarking tests should also be performed at scale, to assess any decline in performance when the workload is scaled up. This can enable you to further optimise, or allow for the decline in efficiency when requesting walltime, to prevent avoidable job failures due to running out of walltime.</p>
 <p>For example, you have determined the optimum resources for your tasks to be 12 CPU and 48 GB mem, for just under 20 minutes. You have 1,000 tasks to run. This equates to 250 <code>normal</code> nodes. Prior to submitting a 20 minute 250-node job, you should:</p>
 <ol type="1">
 <li>Test 4 tasks in a parallel job - that’s one full node. Does the CPU efficiency remain the same as benchmarked for the single task?</li>
@@ -609,8 +609,9 @@ Number of tasks running concurrently on 10 <code>normal</code> nodes
 </ol>
 <p>This may sound like a lot of extra work, but it could save a large amount of KSU as well as walltime and your own frustration in the long run. Understanding how well your workload scales to a parallel job is important prior to submitting a large multi-node job like this.</p>
 </section>
-<section id="one-disadvantage-of-nci-parallel-jobs" class="level2">
-<h2 class="anchored" data-anchor-id="one-disadvantage-of-nci-parallel-jobs">One disadvantage of nci-parallel jobs</h2>
+<section id="walltime-management-and-cpu-utilisation" class="level2">
+<h2 class="anchored" data-anchor-id="walltime-management-and-cpu-utilisation">Walltime management and CPU utilisation</h2>
+<p>This section descibes <strong>one disadvantage of nci-parallel jobs</strong> compared to PBS job arrays, and how utilisation can be maximised and walltime minimised with a few management strategies.</p>
 <p>In PBS job arrays, each subjob of the array is a discrete task consuming a chunk of resources that may or may not be on the same node as other subjobs of the array. When that subjob completes, those resources are returned to the cluster and become available for other jobs. As such, they are no longer consuming CPU hours and accruing resource usage to the user’s account. In contrast, <code>nci-parallel</code> reserves the entire collection of resources <em>for all parallel tasks in the job</em> as a single large chunk. This means that tasks that have completed while other tasks are still running are still consuming those resources (even though they are idle) and thus still being charged for.</p>
 <p>Because of this, parallel jobs where there is a <strong>large distribution of walltime across the tasks</strong> are likely to result in <strong>poor efficiency and a lot of wasted resources</strong>. There are a number of strategies you can employ alone or in combination to mitigate this:</p>
 <ol type="1">
@@ -623,8 +624,8 @@ Number of tasks running concurrently on 10 <code>normal</code> nodes
 <p>The wastage of resources that can occur within parallel jobs with unequal task sizes is demonstrated in the <strong>figure below</strong>. In this example of 5 tasks, applying the second strategy on the list increases CPU utilisation but at the cost of increased walltime. By using both strategy two and strategy four together, the optimal CPU utilisation and walltme is achieved:</p>
 <p><img src="../fig/HPC_Optimisation_task_size.png" class="img-fluid"></p>
 </section>
-<section id="memory-management-for-nci-parallel-jobs" class="level2">
-<h2 class="anchored" data-anchor-id="memory-management-for-nci-parallel-jobs">Memory management for nci-parallel jobs</h2>
+<section id="memory-management" class="level2">
+<h2 class="anchored" data-anchor-id="memory-management">Memory management</h2>
 <p>The number of CPUs allocated to each parallel task is controlled by the user-defined Bash variable within the PBS script (<code>NCPUS</code> in the <a href="#simple-example">map by node example</a>, and <code>ncores_per_task</code> in the <a href="https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...">NCI map by NUMA example</a>). However, each of these parallel tasks has access to the total amount of memory requested for the job via <code>PBS -l mem=&lt;mem&gt;</code>.</p>
 <p>To avoid memory contention, you should:</p>
 <ol type="1">
