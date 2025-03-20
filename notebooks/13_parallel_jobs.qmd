@@ -549,13 +549,15 @@ number of processes used:  2
 [3.124, 3.134, 3.154]
 ```
 
-The three trials above can be converted into a single estimate by taking the average (weighted by number of trials) of each run.
-
+The three trials above can be converted into a single estimate by taking the average (weighted by number of trials) of each run. Note that the selection of the pool of CPUs in a single run of the script (2 in this example) is the number of CPUs that will be used for each instance of the script running - in the next section we will wun multiple instances of the script each with an independent pool of CPUs.
 
 #### Example run of `whatispi.py` using Artemis job array
 
+In the implementation of the `whatispi.py` script above the `Pool(noprocs)` multiprocessing pool can only request a CPU Pool in a single NCI node of ?? CPUs. To scale out this implementation we would run the `whatspi.py` script multiple times simultaneously across multiple nodes on the cluster. We can easily automate this *embarrasingly parallel* process using either Artemis job arrays or Gadi nci_parallel. In this section we'll show a basic setup of this workflow using artemis job arrays and then in the next we'll explain how to convert the Artemis script to Gadi nci_parallel.
 
+To start with we set up a list of parameters we want to pass to the script for both the Artemis and Gadi job:
 
+**job_params**
 ```
 2 1000 2000
 2 2000 4000
@@ -563,13 +565,16 @@ The three trials above can be converted into a single estimate by taking the ave
 2 5000000 1000000
 ```
 
-Here is a simple Artemis PBS script that uses the parameters above:
+This list of parameters will run four instances of the `whatispi.py` script (potentially across multiple nodes) and each instance will create a multiprocessing pool of 2 CPUs and run two trials with the sizes specified. Note the larger run sizes of the last two instances, we will investigate the implications of this later on.
 
+Here is a simple Artemis PBS script that takes the parameter file above and runs it using an array job:
+
+*job_array.pbs*
 ```bash
 #!/bin/bash
 #PBS -P SIHnextgen
 #PBS -l select=1:ncpus=2:mem=6GB
-#PBS -l walltime=00:10:00
+#PBS -l walltime=00:20:00
 #PBS -J 1-4
 #PBS -o piDemo^array_index^.o
 #PBS -e piDemo^array_index^.e
@@ -581,11 +586,11 @@ params=`sed "${PBS_ARRAY_INDEX}q;d" job_params`
 python3 whatispi.py ${params}
 ```
 
-Running this script on Artemis will produce 4 .o and .e files number by their job array number.
+Details about how the script above is set up are beyond the scope of this guide - they can be found [here](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/212861043/Array+jobs). In summary, the script will run `whatispy.py` for the 4 sets of parameters in `job_params` above. When the jobs are complete the script on Artemis will produce 4 .o and .e files numberd by their job array number. These outputs can then be combined in to a final result during postprocessing.
 
 NOTE: Each job used separate resources on the queue so the shorter running jobs were not waiting for the longer running to finish.
 
-#### TBA: How to convert Artemis script to Gadi script
+#### Convert Artemis script to Gadi script
 
 ```bash
 #!/bin/bash
