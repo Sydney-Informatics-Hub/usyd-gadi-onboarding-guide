@@ -160,7 +160,15 @@ mpirun --np 12
 - mapping by node means that processes will be distributed evenly across all nodes requested by the job. Mapping by NUMA node will be described in a [later section](#check-the-binding-of-resources-to-parallel-tasks)
 - `PE=${NCPUS}` ('processing elements') indicates that each distributed task will be allocated `${NCPUS}` CPUs, which is a user-defined variable 
 
-The arguments `--verbose` and `--input-file` are provided to the `nci-parallel` utility, which is the application being run in parallel. Run `nci-parallel -h` to see other available arguments. The input file is where `nci-parallel` reads the task commands from; each line of the file is treated as a separate command to be 'farmed out' as an independent parallel task to the resources reserved for the job.  If the number of lines in the input file exceeds the number of processes MPI can run in parallel/simultaneously (ie, the value given to `mpirun --np <value>`), the commands are assigned to resources in order, starting from line 1, until all resources are in use. As a running task completes, the next task in the list is assigned to those now-free resources, until either all input lines have been assigned to resources and the tasks complete, or the job meets a fatal error (such as out of walltime).  
+```default
+nci-parallel \
+  --verbose \
+  --input-file ${PBS_JOBFS}/input-file
+```
+
+- `nci-parallel` is the application being run by `mpirun`
+- `--verbose` and `--input-file` are parameters for the `nci-parallel` tool, run `nci-parallel -h` to see other available parameters/flags
+- The input file is where `nci-parallel` reads the task commands from; each line of the file is treated as a separate command to be 'farmed out' as an independent parallel task to the resources reserved for the job.  If the number of lines in the input file exceeds the number of processes MPI can run in parallel/simultaneously (ie, the value given to `mpirun --np <value>`), the commands are assigned to resources in order, starting from line 1, until all resources are in use. As a running task completes, the next task in the list is assigned to those now-free resources, until either all input lines have been assigned to resources and the tasks complete, or the job meets a fatal error (such as out of walltime).  
 
 
 
