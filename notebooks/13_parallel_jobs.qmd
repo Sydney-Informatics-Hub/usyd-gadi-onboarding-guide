@@ -394,9 +394,9 @@ For more advanced applications where you are interested in which sockets and CPU
 ![](../fig/mpi-report-bindings.png)
 
 
-## Parallel job efficiency 
+## CPU efficiency 
 
-[Benchmarking](./10_job_efficiency.qmd) should initially be done on the single task, in order to optimise resource requests for the full job. In some cases, efficiency can decline for parallel jobs, and this results in an increased walltime per task and overall SU cost for the job. Where possible, benchmarking tests should also be performed at scale, to assess any decline in performance when the workload is scaled up. This can enable you to further optimise, or allow for the decline in efficiency when requesting walltime, to prevent avoidable job failures due to running out of walltime. 
+[Benchmarking](./10_job_efficiency.qmd) should initially be done on the single task, in order to optimise resource requests for the full job. In some cases, CPU efficiency can decline for parallel jobs, and this results in an increased walltime per task and overall SU cost for the job. Where possible, benchmarking tests should also be performed at scale, to assess any decline in performance when the workload is scaled up. This can enable you to further optimise, or allow for the decline in efficiency when requesting walltime, to prevent avoidable job failures due to running out of walltime. 
 
 For example, you have determined the optimum resources for your tasks to be 12 CPU and 48 GB mem, for just under 20 minutes. You have 1,000 tasks to run. This equates to 250 `normal` nodes. Prior to submitting a 20 minute 250-node job, you should:
 
@@ -407,7 +407,9 @@ For example, you have determined the optimum resources for your tasks to be 12 C
 
 This may sound like a lot of extra work, but it could save a large amount of KSU as well as walltime and your own frustration in the long run. Understanding how well your workload scales to a parallel job is important prior to submitting a large multi-node job like this.  
 
-## One disadvantage of nci-parallel jobs
+## Walltime management and CPU utilisation 
+
+This section descibes **one disadvantage of nci-parallel jobs** compared to PBS job arrays, and how utilisation can be maximised and walltime minimised with a few management strategies.
 
 In PBS job arrays, each subjob of the array is a discrete task consuming a chunk of resources that may or may not be on the same node as other subjobs of the array. When that subjob completes, those resources are returned to the cluster and become available for other jobs. As such, they are no longer consuming CPU hours and accruing resource usage to the user's account. In contrast, `nci-parallel` reserves the entire collection of resources *for all parallel tasks in the job* as a single large chunk. This means that tasks that have completed while other tasks are still running are still consuming those resources (even though they are idle) and thus still being charged for. 
 
@@ -425,7 +427,7 @@ The wastage of resources that can occur within parallel jobs with unequal task s
 ![](../fig/HPC_Optimisation_task_size.png)
 
 
-## Memory management for nci-parallel jobs
+## Memory management
 
 The number of CPUs allocated to each parallel task is controlled by the user-defined Bash variable within the PBS script (`NCPUS` in the [map by node example](#simple-example), and `ncores_per_task` in the [NCI map by NUMA example](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...)). However, each of these parallel tasks has access to the total amount of memory requested for the job via `PBS -l mem=<mem>`.
 
