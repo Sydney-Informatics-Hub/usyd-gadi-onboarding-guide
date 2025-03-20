@@ -377,7 +377,9 @@ Mapping by NUMA node **only works if the remainder of ncores_per_numanode divide
 
 What is the advantage to mapping by NUMA node? The CPU cores within a NUMA node can access the memory within that NUMA node more quickly than the memory located in other NUMA nodes. Your jobs may have improved performance, especially for memory-intensive applications, if the memory per task is within a single NUMA domain. As always, it is ideal to perform [benchmarking](./10_job_efficiency.qmd) to determine the optimal resource configuration for your workflow. 
 
-![](../fig/HPC_Optimisation_task_size.png)
+For more advanced applications where you are interested in which sockets and CPUs within the node your tasks are bound to, you can add the flag `--report-bindings` to the `mpirun` command. The example below shows the output of this flag (within the PBS `.e` job log) for a parallel job running 6 single-CPU tasks concurrently:
+
+![](../fig/mpi-report-bindings.png)
 
 
 ## Parallel job efficiency 
@@ -408,7 +410,7 @@ Because of this, parallel jobs where there is a **large distribution of walltime
 The wastage of resources that can occur within parallel jobs with unequal task sizes is demonstrated in the **figure below**. In this example of 5 tasks, applying the second strategy on the list increases CPU utilisation but at the cost of increased walltime. By using both strategy two and strategy four together, the optimal CPU utilisation and walltme is achieved:
 
 
-
+![](../fig/HPC_Optimisation_task_size.png)
 
 
 ## Memory management for nci-parallel jobs
