@@ -655,7 +655,7 @@ Running the Gadi PBS script `nci_parallel.pbs` with the list of parameters in `j
 
 We have used the 8 CPUs requested for a total of ~12 minutes, which gives 3.19 service units in total. However based on the number of trials of each job in `job_params` it is likely that the first two shorter jobs have completed much more quickly that the second two. This is an example of the issue described [above](#disadvantage): In the Artemis job arrays example the resources from the first two jobs would be freed as soon as those jobs complete, this is not the case on Gadi where the requested 8 CPUs are retained for the entire length of the running job. In the next section we will look at a way to optimise this workflow on Gadi to decrease the SU usage and little cost to Walltime.
 
-#### Optimie the Gadi script
+#### Optimise the Gadi script
 
 The list of parameters in our `job_params` file can broadly be separated into 2 groups of of long- and short- running jobs. When we ran the `nci_parallel` job above, the script allocated all of the resources for all the 4 jobs at the beginning. The 2 shorter jobs completed very quickly (in a matter of seconds), however Gadi has held onto the resources for all of them for the entire duration of the job, including the longer jobs which ran for 10 minutes. This has resulted in an unnecessarily large amount of kSU usage, while 4 CPUs are sitting idle waiting for the longer jobs to finish running.
 
