@@ -616,8 +616,12 @@ module load python3/3.8.5
 
 sed "s/^/${SCRIPT} /" ${INPUTS} > ${PBS_JOBFS}/input_cmd
 
-mpirun -np 4 \
-       --map-by ppr:4:node:PE=2 \
+# 2 CPUs per subjob
+NCPUS=2
+M=$(( PBS_NCI_NCPUS_PER_NODE / NCPUS ))
+
+mpirun -np $((M * PBS_NCPUS / PBS_NCI_NCPUS_PER_NODE)) \
+       --map-by node:PE=${NCPUS} \
        nci-parallel --input-file ${PBS_JOBFS}/input_cmd \
        --timeout 4000 \
        --verbose \
@@ -663,14 +667,14 @@ To do this we change the above `mpirun` command to only run 2 jobs of 2 CPUs:
 
 ```default
 mpirun -np 2\
-       --map-by ppr:2:node:PE=2 \
+       --map-by node:PE=2 \
       nci-parallel --input-file ${PBS_JOBFS}/input_cmd \
       --timeout 4000 \
       --verbose \
       -o ./
 ```
 
-and don't forget to change `ncps=4` in the header of the script.
+or alternitavely we can just set ```#PBS -l ncpus=4``` in the header of the above pbs script and the supplied calculation ```M * PBS_NCPUS / PBS_NCI_NCPUS_PER_NODE` will do the work for us.
 
 which gives up the following resource usage report:
 
