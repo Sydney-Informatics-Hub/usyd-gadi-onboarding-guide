@@ -357,7 +357,7 @@ The `--map-by` parameter in the `mpirun` command can map by node, socket, or NUM
 
 The example on the NCI page shows `--map-by ppr:<value>:NUMA:PE:<value>` and the simple example above shows `--map-by node:PE=<value>`. What's the difference? 
 
-`ppr` stands for **processes per resource**, where processes is number of tasks assigned to that resource, where 'resource' may be node, socket or NUMA node. A NUMA (Non-Uniform Memory Access) node/domain is a physical unit consisting of one or more CPU cores and the memory directly attached to them. CPUs can access the memory that is within the same NUMA node faster than memory from other NUMA nodes. 
+`ppr` stands for **processes per resource**, and specifies the number of tasks assigned to that resource, where 'resource' may be node, socket or NUMA node. A NUMA (Non-Uniform Memory Access) node/domain is a physical unit consisting of one or more CPU cores and the memory directly attached to them. CPUs can access the memory that is within the same NUMA node faster than memory from other NUMA nodes. 
 
 The `mpirun` command in the NCI example:
 
@@ -437,7 +437,7 @@ The wastage of resources that can occur within parallel jobs with unequal task s
 
 ## Memory management
 
-The number of CPUs allocated to each parallel task is controlled by the user-defined Bash variable within the PBS script (`NCPUS` in the [map by node example](#simple-example), and `ncores_per_task` in the [NCI map by NUMA example](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...)). However, each of these parallel tasks has access to the total amount of memory requested for the job via `PBS -l mem=<mem>`.
+The number of CPUs allocated to each parallel task is controlled by the user-defined Bash variable within the PBS script (`NCPUS` in the [map by node example](#simple-example), and `ncores_per_task` in the [NCI map by NUMA example](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...)). However, each of these parallel tasks has access to the total amount of memory on the node for jobs >=1 node, or to the job for jobs <=1 node.
 
 To avoid memory contention, you should:
 
