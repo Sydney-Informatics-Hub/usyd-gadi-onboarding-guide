@@ -166,7 +166,7 @@ The arguments `--verbose` and `--input-file` are provided to the `nci-parallel` 
 
 
 
-**Test your understanding**: 
+**Test your understanding:** 
 
 1. How many tasks could run per normal node if NCPUS was set by the user as 6? 
 
@@ -287,11 +287,6 @@ Before submitting your parallel job, **always check** that the:
 
 ### 1. Check that the task script reads in the input arguments correctly
 
-Best practice dictates two types of check before the full parallel job is launched: 
-
-1. Check that the input arguments are read in by the task script from the inputs file correctly
-
-
 To check that the task script reads in the arguments correctly, this need not be done on the compute nodes. You can run a quick test on the login node where your task script prints out the arguments it reads in from the input arguments file then exits before running any analysis. 
 
 Your code may already have a test condition; if so please run that prior to submitting the full parallel job. 
@@ -392,7 +387,7 @@ For jobs where more CPU (or memory) is required per task than exists on a single
 
 Mapping by NUMA node **only works if the remainder of ncores_per_numanode divided by ncores_per_task is zero**. Assume you have benchmarked that your tasks achieve optimum efficiency with 8 CPU per task on the `normal` queue with 1 task running per NUMA node. 12/8 leaves a remainder of 4 so this binding is not possible. However, you can achieve the same by assigning `ncores_per_task` the same value as `ncores_per_numanode`, ie 12 in this example, to map 1 task per NUMA node. Then, define an additional variable within the PBS script with the value of 8, ensuring that the task script uses this variable, rather than `ncores_per_task`, as the number of CPUs to utilise. 
 
-What is the advantage to mapping by NUMA node? The CPU cores within a NUMA node can access the memory within that NUMA node more quickly than the memory located in other NUMA nodes. Your jobs may have improved performance, especially for memory-intensive applications, if the memory per task is within a single NUMA domain. As always, it is ideal to perform [benchmarking](./10_job_efficiency.qmd) to determine the optimal resource configuration for your workflow. 
+What is the **advantage to mapping by NUMA node**? The CPU cores within a NUMA node can access the memory within that NUMA node more quickly than the memory located in other NUMA nodes. Your jobs may have improved performance, especially for memory-intensive applications, if the memory per task is within a single NUMA domain. As always, it is ideal to perform [benchmarking](./10_job_efficiency.qmd) to determine the optimal resource configuration for your workflow. 
 
 For more advanced applications where you are interested in which sockets and CPUs within the node your tasks are bound to, you can add the flag `--report-bindings` to the `mpirun` command. The example below shows the output of this flag (within the PBS `.e` job log) for a parallel job running 6 single-CPU tasks concurrently:
 
@@ -418,7 +413,7 @@ In PBS job arrays, each subjob of the array is a discrete task consuming a chunk
 
 Because of this, parallel jobs where there is a **large distribution of walltime across the tasks** are likely to result in **poor efficiency and a lot of wasted resources**. There are a number of strategies you can employ alone or in combination to mitigate this:
 
-1. **Use the nci-parallel --timeout parameter**, to cap the amount of walltime per task. This will prevent unexpectedly long-running tasks from dragging out the walltime when all other tasks have completed. These tasks can then be resubmitted separately with longer walltimes. 
+1. **Use the nci-parallel timeout parameter**, to cap the amount of walltime per task. This will prevent unexpectedly long-running tasks from dragging out the walltime when all other tasks have completed. These tasks can then be resubmitted separately with longer walltimes. 
 2. **Request less resources than are required for all tasks to run in parallel** so the amount of idle CPU while long-running tasks complete is reduced
 3. **Use a loop for jobs with small numbers of parallel tasks**, with varying walltime based on expectations for the task, adding a sleep within the submission loop 
 4. **Sort tasks by expected order of walltime**, longest to shortest, and request resources such that less than the total number of tasks are running in parallel
@@ -460,7 +455,7 @@ One excellent example for how HPC and distributed computing can massively speed 
 
 Say we have 100 samples, each with approximately 400 million DNA sequences requiring mapping to a reference file. To parallelise by sample, we could run 100 tasks concurrently. If we split the input into chunks of 10 million sequences, each sample would have 40 inputs, so we could run a parallel job with `100 * 40 =  4,000` tasks. 
 
-Assuming the tasks were benchmarked to perform optimally with 6 `normal` CPU and required 5 minutes walltime, to run all tasks concurrently would require `6 * 4000 = 24,000 CPU`. This equates to 500 nodes, which exceeds the maximum nodes per job of 432 for the `normal` queue. We can add our benchmarking metrics into the SIH parallel job resource calculator which you can download [here](https://github.com/Sydney-Informatics-Hub/usyd-gadi-onboarding-guide/raw/refs/heads/main/resources/parallel_resource_calculator.xlsx) to help us request resources for this job. 
+Assuming the tasks were benchmarked to perform optimally with 6 `normal` CPU and required 5 minutes walltime, to run all tasks concurrently would require `6 * 4000 = 24,000 CPU`. This equates to 500 nodes, which exceeds the maximum nodes per job of 432 for the `normal` queue. We can add our benchmarking metrics into the **SIH parallel job resource calculator** which you can download [here](https://github.com/Sydney-Informatics-Hub/usyd-gadi-onboarding-guide/raw/refs/heads/main/resources/parallel_resource_calculator.xlsx) to help us select resources for this job. 
 
 By halving the number of nodes requested to 250, we halve the number of tasks that can run concurrently, so we would need to double the walltime: 
  
