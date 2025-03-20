@@ -587,13 +587,13 @@ To start with we set up a list of parameters we want to pass to the script for b
 
 **job_params**
 ```default
-2 1000 2000
-2 2000 4000
-2 1000000 2000000
 2 5000000 1000000
+2 1000000 2000000
+2 2000 4000
+2 1000 2000
 ```
 
-In this example we will run four instances of the `whatispi.py` script (for larger lists of parameters this would run across multiple nodes) and each instance will create a multiprocessing pool of 2 CPUs and run two trials with the sizes specified. Note the larger run sizes of the last two instances, we will investigate the implications of this later on.
+In this example we will run four instances of the `whatispi.py` script (for larger lists of parameters this would run across multiple nodes) and each instance will create a multiprocessing pool of 2 CPUs and run two trials with the sizes specified. Note the larger run sizes of the first two instances, we will investigate the implications of this later on.
 
 Here is a simple Artemis PBS script that takes the parameter file above and runs it using an array job:
 
@@ -681,15 +681,15 @@ Running the Gadi PBS script `piDemo-nci-parallel.pbs` with the list of parameter
 ======================================================================================
 ```
 
-We have used the 8 CPUs requested for a total of ~12 minutes, which gives 3.19 service units in total. However based on the number of trials of each job in `job_params` it is likely that the first two shorter jobs have completed much more quickly than the second two. This is an example of the [issue described above](#one-disadvantage-of-nci-parallel-jobs): In the Artemis job arrays example the resources from the first two jobs would be freed as soon as those jobs complete. This is not the case with `nci-parallel` jobs  where the requested 8 CPUs are retained for the entire length of the running job. In the next section we will look at a way to optimise this workflow on Gadi to decrease the SU usage and little cost to walltime.
+We have used the 8 CPUs requested for a total of ~12 minutes, which gives 3.19 service units in total. However based on the number of trials of each job in `job_params` it is likely that the last two shorter jobs have completed much more quickly than the first two. This is an example of the [issue described above](#one-disadvantage-of-nci-parallel-jobs): In the Artemis job arrays example the resources from the last two jobs would be freed as soon as those jobs complete. This is not the case with `nci-parallel` jobs where the requested 8 CPUs are retained for the entire length of the running job. In the next section we will look at a way to optimise this workflow on Gadi to decrease the SU usage and little cost to walltime.
 
 #### Optimise the Gadi script
 
 The list of parameters in our `job_params` file can broadly be separated into 2 groups of long- and short- running jobs. When we ran the `nci-parallel` job above, the script allocated all of the resources for all the 4 jobs at the beginning. The 2 shorter jobs completed very quickly (in a matter of seconds), however Gadi has held onto the resources for all of them for the entire duration of the job, including the longer jobs which ran for 10 minutes. This has resulted in an unnecessary consumption of SU, while 4 CPUs are sitting idle waiting for the longer jobs to finish running.
 
-A simple way to improve this would be to separate the job into 2, one for the short running jobs that would terminate quickly and free their rsources and another for the longer running jobs. Indeed a recommended way to save on kSU usage when running large parallel jobs is to group them by equal expected processing time and submit these as separate jobs.
+A simple way to improve this would be to separate the job into 2, one for the short running jobs that would terminate quickly and free their resources and another for the longer running jobs. Indeed a recommended way to save on kSU usage when running large parallel jobs is to group them by equal expected processing time and submit these as separate jobs.
 
-Another way to do this with only a single job using `nci-parallel` would be to reduce the resource request to NCI parallel to consume only two jobs at a time rather than 4. That way it will do the 2 shorter subjobs first and then start on the longer running jobs. This way only 4 CPUs are needed and the walltime is only fractionally longer than the 4 CPU case.
+Another way to do this with only a single job using `nci-parallel` would be to reduce the resource request to NCI parallel to consume only two jobs at a time rather than 4. That way it will do the 2 longer subjobs first with the idea that the shorter tasks can backfill as longer tasks complete (see the [figures above](#one-disadvantage-of-nci-parallel-jobs) for reference). This way only 4 CPUs are needed and the walltime is only fractionally longer than the 4 CPU case. Note that for this to work optimally the sorting of our jobs in decreasing order of expected length as done in our `job_params` is important.
 
 To do this we change the above `mpirun` command to only run 2 jobs of 2 CPUs:
 
