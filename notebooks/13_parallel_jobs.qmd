@@ -44,7 +44,7 @@ Use of this utility will typically require 2-4 job files:
   - Contains PBS directives to launch the parallel job
   - Sets the number of CPUs to assign to each task
   - Specifies the inputs (job file 2) and/or task script (job file 3)
-  - Runs openmpi and nci-parallel to distribute concurrent tasks across the resources requested in the directives
+  - Runs `openmpi` and `nci-parallel` to distribute concurrent tasks across the resources requested in the directives
 2. Input arguments file or command file
   - A text file that provides a new set of arguments/commands per line
   - Each line of the input arguments file/commands file is used as the input for a separate parallel task 
@@ -59,7 +59,7 @@ Use of this utility will typically require 2-4 job files:
 
  
 
-NCI provides an [example](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...) where the input to the task script (in this case, named `test.sh`) is a single numeric value. The command `test.sh <value>` is included in the input argument file, as many times as needed for the job (in this case, 1000). Another way to do this (demonstrated in the [example below](TBA)) is having an input argument list that *does not include* the name of the script file. The name of the script file is instead included within the PBS script. Both methods achieve the same result, the user can choose whichever they prefer.
+NCI provides an [example](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...) where the input to the task script (in this case, named `test.sh`) is a single numeric value. The command `test.sh <value>` is included in the input argument file, as many times as needed for the job (in this case, 1000). Another way to do this (demonstrated in the [example below](#simple-example)) is having an input argument list that *does not include* the name of the script file. The name of the script file is instead included within the PBS script. Both methods achieve the same result, the user can choose whichever they prefer.
 
 **Option 1: task script call with arguments is provided in a command file**
 
@@ -377,7 +377,7 @@ Mapping by NUMA node **only works if the remainder of ncores_per_numanode divide
 
 What is the advantage to mapping by NUMA node? The CPU cores within a NUMA node can access the memory within that NUMA node more quickly than the memory located in other NUMA nodes. Your jobs may have improved performance, especially for memory-intensive applications, if the memory per task is within a single NUMA domain. As always, it is ideal to perform [benchmarking](./10_job_efficiency.qmd) to determine the optimal resource configuration for your workflow. 
 
-
+![](../fig/HPC_Optimisation_task_size.png)
 
 
 ## Parallel job efficiency 
@@ -397,12 +397,19 @@ This may sound like a lot of extra work, but it could save a large amount of KSU
 
 In job arrays, each subjob of the array is a discrete task consuming a chunk of resources that may or may not be on the same node as other subjobs of the array. When that subjob completes, those resources are returned to the cluster and become available for other jobs. As such, they are no longer consuming CPU hours and accruing resource usage to the user's account. In contrast, `nci-parallel` reserves the entire collection of resources *for all parallel tasks in the job* as a single large chunk. This means that tasks that have completed while other tasks are still running are still consuming those resources (even though they are idle) and thus still being charged for. 
 
-Because of this, parallel jobs where there is a **large distribution of walltime across the tasks** are likely to result in **poor efficiency and a lot of wasted resources**. There are a number of strategies you can employ to mitigate this:
+Because of this, parallel jobs where there is a **large distribution of walltime across the tasks** are likely to result in **poor efficiency and a lot of wasted resources**. There are a number of strategies you can employ alone or in combination to mitigate this:
 
 1. **Use the `nci-parallel --timeout` parameter**, to cap the amount of walltime per task. This will prevent unexpectedly long-running tasks from dragging out the walltime when all other tasks have completed. These tasks can then be resubmitted separately with longer walltimes. 
-2. **Use a loop for jobs with small numbers of parallel tasks**, with varying walltime based on expectations for the task, adding a sleep within the submission loop 
-3. **Sort tasks by expected order of walltime**, longest to shortest, and request resources such that less than the total number of tasks are running in parallel
-4. **Group subsets of parallel tasks by expected walltime**, and submit multiple separate parallel jobs, for example instead of one large job, run a "fast", "medium" and "slow" job
+2. **Request less resources than are required for all tasks to run in parallel** so the amount of idle CPU while long-running tasks complete is reduced
+3. **Use a loop for jobs with small numbers of parallel tasks**, with varying walltime based on expectations for the task, adding a sleep within the submission loop 
+4. **Sort tasks by expected order of walltime**, longest to shortest, and request resources such that less than the total number of tasks are running in parallel
+5. **Group subsets of parallel tasks by expected walltime**, and submit multiple separate parallel jobs, for example instead of one large job, run a "fast", "medium" and "slow" job
+
+The wastage of resources that can occur within parallel jobs with unequal task sizes is demonstrated in the **figure below**. In this example of 5 tasks, applying the second strategy on the list increases CPU utilisation but at the cost of increased walltime. By using both strategy two and strategy four together, the optimal CPU utilisation and walltme is achieved:
+
+
+
+
 
 ## Memory management for nci-parallel jobs
 
@@ -487,7 +494,7 @@ As you can see from this example, porting an existing Artemis job array to Gadi 
 
 ### Example 2: Calculation of pi
 
-In this example we'll run through a simple parallel workflow using a python script that leverages the multiprocessing library for internal concurrency. This script can also be submitted multiple times simultaneously to the queue either via Artemis job array or the Gadi equivalent: `nci_parallel`. This is a typical case for simulation style workflows, where a single script is run multiple times with varying parameters and each script instance uses multiple cores for its processing.
+In this example we'll run through a simple parallel workflow using a python script that leverages the multiprocessing library for internal concurrency. This script can also be submitted multiple times simultaneously to the queue either via Artemis job array or the Gadi equivalent: `nci-parallel`. This is a typical case for simulation style workflows, where a single script is run multiple times with varying parameters and each script instance uses multiple cores for its processing.
 
 The script `whatispi.py` implements a monte-carlo estimation of pi by randomly generating points in a box and calculating the fraction of those points that lie within a circle enclosed by it.
 
@@ -541,7 +548,7 @@ the `Pool(noprocs)` object creates a pool of Python processes. `noprocs` is the 
 
 The `pool.map(pi_run, trials)` uses the pool to map a defined function (`pi_run`) to a list/iterator object (`trials`).
 
-To run our estimation script with a pool of 2 cpus with 3 trials of varying length, we would use:
+To run our estimation script with a pool of 2 CPUs with 3 trials of varying length, we would use:
 
 ```bash
 python whatispi.py 2 1000 2000 3000
@@ -559,7 +566,7 @@ The three trials above can be converted into a single estimate by taking the ave
 
 #### Example run of `whatispi.py` using Artemis job array
 
-In the implementation of the `whatispi.py` script above the `Pool(noprocs)` multiprocessing pool can only request CPUs in the NCI node in which the script is running. To scale out this implementation to larger numbers of CPUs we would run the `whatspi.py` script multiple times simultaneously across multiple nodes on the cluster. We can easily automate this *embarrasingly parallel* process using either Artemis job arrays or Gadi nci_parallel. In this section we'll show a basic setup of this workflow using artemis job arrays and then in the next we'll explain how to convert the Artemis script to Gadi nci_parallel.
+In the implementation of the `whatispi.py` script above the `Pool(noprocs)` multiprocessing pool can only request CPUs in the NCI node in which the script is running. To scale out this implementation to larger numbers of CPUs we would run the `whatspi.py` script multiple times simultaneously across multiple nodes on the cluster. We can easily automate this *embarrasingly parallel* process using either Artemis job arrays or Gadi nci-parallel. In this section we'll show a basic setup of this workflow using artemis job arrays and then in the next we'll explain how to convert the Artemis script to Gadi nci-parallel.
 
 To start with we set up a list of parameters we want to pass to the script for both the Artemis and Gadi job (NOTE: We have kept this short to keep the example clear, normally for a large HPC job we might be running with hundereds or even thousands of parameter sets):
 
@@ -575,7 +582,7 @@ In this example we will run four instances of the `whatispi.py` script (for larg
 
 Here is a simple Artemis PBS script that takes the parameter file above and runs it using an array job:
 
-**job_array.pbs**
+**piDemo-job_array.pbs**
 ```bash
 #!/bin/bash
 #PBS -P SIHnextgen
@@ -592,15 +599,15 @@ params=`sed "${PBS_ARRAY_INDEX}q;d" job_params`
 python3 whatispi.py ${params}
 ```
 
-Details about how the script above is set up are beyond the scope of this guide - they can be found [here](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/212861043/Array+jobs). In summary, the script will run `whatispy.py` for the 4 sets of parameters in `job_params` above. When the jobs are complete the script on Artemis will produce 4 .o and .e files numberd by their job array number. These outputs can then be combined in to a final result during postprocessing.
+Details about how the script above is set up are beyond the scope of this guide - they can be found [here](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/212861043/Array+jobs). In summary, the script will run `whatispy.py` for the 4 sets of parameters in `job_params` above. When the jobs are complete the script on Artemis will produce 4 `.o` and `.e` files numbered by their job array number. These outputs can then be combined in to a final result during postprocessing.
 
 NOTE: Each job used separate resources on the queue so the shorter running jobs were not waiting for the longer running to finish.
 
 #### Convert Artemis script to Gadi script
 
-As shown in [Example 1](#example1) it is relatively straightforward to convert the basic Artemis PBS script to a Gadi script. We will use `nci_parallel` and request 4 subjobs on a single node with 2 CPUs per subjob for our short set of parameters in `job_params`. We use the same equation in the [simple example](#examplesimple) to define the number of subjobs (which will be 4 for 8 requested CPUs). Here is a Gadi script that performs the same task as the Artemis script above:
+As shown in [Example 1](#example1) it is relatively straightforward to convert the basic Artemis PBS script to a Gadi script. We will use `nci-parallel` and request 4 subjobs on a single node with 2 CPUs per subjob for our short set of parameters in `job_params`. We use the same equation in the [simple example](#examplesimple) to define the number of subjobs (which will be 4 for 8 requested CPUs). Here is a Gadi script that performs the same task as the Artemis script above:
 
-**nci_parallel.pbs**
+**piDemo-nci-parallel.pbs**
 ```bash
 #!/bin/bash
 #PBS -P qc03
@@ -611,8 +618,8 @@ As shown in [Example 1](#example1) it is relatively straightforward to convert t
 #PBS -l storage=scratch/qc03
 #PBS -l wd
 #PBS -N test_parallel
-#PBS -o nci_parallel.o
-#PBS -e nci_parallel.e
+#PBS -o piDemo-nci-parallel.o
+#PBS -e piDemo-nci-parallel.e
 
 SCRIPT='python3 whatispi.py'
 INPUTS=./job_params
@@ -634,15 +641,15 @@ mpirun -np $((M * PBS_NCPUS / PBS_NCI_NCPUS_PER_NODE)) \
        -o ./
 ```
 
-Note the main differences between the Artemis `job_array.pbs` and Gadi `nci_parallel.pbs` examples:
+Note the main differences between the Artemis `piDemo-job_array.pbs` and Gadi `piDemo-nci-parallel.pbs` examples:
 
-  - In the PBS declartions the Artemis script requests the number of CPUs per subjob and Gadi script requests the complete pool of CPUs, also the memory request on Gadi is the total across all subjobs.
+  - In the PBS directives, the Artemis script requests the number of CPUs and memory per subjob, while the Gadi script requests the complete pool of CPUs and memory across all subjobs.
   - The Gadi script generates a new command file `input_cmd` by prepending `python3 whatispi.py` to the list of commands.
-  - The Gadi script is run using `mpirun` with `--map-by` parameter definining 4 simultaneous jobs each using 2 CPUs. This example would use only one node but would use more as the task scales up to a larger list of parameters.
-  - Output files are named differently between the two scripts. The `-o ./` option to the nci-parallel command puts the output from each subjob into files named `stderr.<id>` and `stdout.<id>`. The general output from the job (resource summary, info on failures etc.) is put into files called `nci_parralel.o` and `nci_parallel.e`.
+  - The Gadi script is run using `mpirun` with `--map-by` parameter definining 4 simultaneous jobs each using 2 CPUs. This example would use CPUs from only one node but would use more as the task scales up to a larger list of parameters.
+  - Output files are named differently between the two scripts. The `-o ./` option to the `nci-parallel` command puts the output from each subjob into files named `stderr.<id>` and `stdout.<id>`. The general output from the job (resource summary, info on failures etc.) is put into the PBS log files `piDemo-nci_parralel.o` and `piDemo-nci-parallel.e`.
 
 
-Running the Gadi PBS script `nci_parallel.pbs` with the list of parameters in `job_params` yields the following resource usage summary in `nci_parallel.o`:
+Running the Gadi PBS script `piDemo-nci-parallel.pbs` with the list of parameters in `job_params` yields the following resource usage summary in `piDemo-nci-parallel.o`:
 
 ```default
 ======================================================================================
@@ -659,15 +666,15 @@ Running the Gadi PBS script `nci_parallel.pbs` with the list of parameters in `j
 ======================================================================================
 ```
 
-We have used the 8 CPUs requested for a total of ~12 minutes, which gives 3.19 service units in total. However based on the number of trials of each job in `job_params` it is likely that the first two shorter jobs have completed much more quickly that the second two. This is an example of the issue described [above](#disadvantage): In the Artemis job arrays example the resources from the first two jobs would be freed as soon as those jobs complete, this is not the case on Gadi where the requested 8 CPUs are retained for the entire length of the running job. In the next section we will look at a way to optimise this workflow on Gadi to decrease the SU usage and little cost to Walltime.
+We have used the 8 CPUs requested for a total of ~12 minutes, which gives 3.19 service units in total. However based on the number of trials of each job in `job_params` it is likely that the first two shorter jobs have completed much more quickly than the second two. This is an example of the issue described [above](#disadvantage): In the Artemis job arrays example the resources from the first two jobs would be freed as soon as those jobs complete. This is not the case with `nci-parallel` jobs  where the requested 8 CPUs are retained for the entire length of the running job. In the next section we will look at a way to optimise this workflow on Gadi to decrease the SU usage and little cost to walltime.
 
 #### Optimise the Gadi script
 
-The list of parameters in our `job_params` file can broadly be separated into 2 groups of of long- and short- running jobs. When we ran the `nci_parallel` job above, the script allocated all of the resources for all the 4 jobs at the beginning. The 2 shorter jobs completed very quickly (in a matter of seconds), however Gadi has held onto the resources for all of them for the entire duration of the job, including the longer jobs which ran for 10 minutes. This has resulted in an unnecessarily large amount of kSU usage, while 4 CPUs are sitting idle waiting for the longer jobs to finish running.
+The list of parameters in our `job_params` file can broadly be separated into 2 groups of long- and short- running jobs. When we ran the `nci-parallel` job above, the script allocated all of the resources for all the 4 jobs at the beginning. The 2 shorter jobs completed very quickly (in a matter of seconds), however Gadi has held onto the resources for all of them for the entire duration of the job, including the longer jobs which ran for 10 minutes. This has resulted in an unnecessary consumption of SU, while 4 CPUs are sitting idle waiting for the longer jobs to finish running.
 
 A simple way to improve this would be to separate the job into 2, one for the short running jobs that would terminate quickly and free their rsources and another for the longer running jobs. Indeed a recommended way to save on kSU usage when running large parallel jobs is to group them by equal expected processing time and submit these as separate jobs.
 
-Another way to do this with only a single job using `nci_parallel` would be to reduce the resource request to NCI parallel to consume only two jobs at a time rather than 4. That way it will do the 2 shorter subjobs first and then start on the longer running jobs. This way only 4 CPUs are needed and the Walltime is only fractionally longer than the 4 CPU case.
+Another way to do this with only a single job using `nci-parallel` would be to reduce the resource request to NCI parallel to consume only two jobs at a time rather than 4. That way it will do the 2 shorter subjobs first and then start on the longer running jobs. This way only 4 CPUs are needed and the walltime is only fractionally longer than the 4 CPU case.
 
 To do this we change the above `mpirun` command to only run 2 jobs of 2 CPUs:
 
@@ -680,7 +687,7 @@ mpirun -np 2\
       -o ./
 ```
 
-or alternitavely we can just set ```#PBS -l ncpus=4``` in the header of the above pbs script and the supplied calculation ```M * PBS_NCPUS / PBS_NCI_NCPUS_PER_NODE` will do the work for us.
+or alternatively we can just set ```#PBS -l ncpus=4``` in the header of the above pbs script and the supplied calculation `M * PBS_NCPUS / PBS_NCI_NCPUS_PER_NODE` will do the work for us.
 
 which gives up the following resource usage report:
 
@@ -699,7 +706,7 @@ which gives up the following resource usage report:
 ======================================================================================
 ```
 
-Now the job ran with just 4 CPUs for ~12 minutes which gives 1.64 service units in total.
+Now the job used ~ half the SU with only a ~3% increase in walltime.
 
 ## Summary
 
