@@ -481,7 +481,7 @@ As you can see from this example, porting an existing Artemis job array to Gadi 
 
 ### Example 2: Calculation of pi
 
-In this example we'll run through a simple parallel workflow using a python script that leverages the multiprocessing library for internal concurrency. This script can also be submitted multiple times simultaneously to the queue either via Artemis job arrays or Gadi nci_parallel. This is a typical case for simulation style workflows, where a single script is run multiple times with varying parameters and each script instance uses multiple cores for its processing.
+In this example we'll run through a simple parallel workflow using a python script that leverages the multiprocessing library for internal concurrency. This script can also be submitted multiple times simultaneously to the queue either via Artemis array jobs or Gadi nci_parallel. This is a typical case for simulation style workflows, where a single script is run multiple times with varying parameters and each script instance uses multiple cores for its processing.
 
 The script `whatispi.py` implements a monte-carlo estimation of pi by randomly generating points in a box and calculating the fraction of those points that lie within a circle enclosed by that box.
 
@@ -573,7 +573,7 @@ Here is a simple Artemis PBS script that takes the parameter file above and runs
 ```bash
 #!/bin/bash
 #PBS -P SIHnextgen
-#PBS -l select=1:ncpus=2:mem=6GB
+#PBS -l select=1:ncpus=2:mem=2GB
 #PBS -l walltime=00:20:00
 #PBS -J 1-4
 #PBS -o piDemo^array_index^.o
@@ -592,9 +592,9 @@ NOTE: Each job used separate resources on the queue so the shorter running jobs 
 
 #### Convert Artemis script to Gadi script
 
-Similar to what is described in Example 1 it is relatively straightforward to convert the above simple Artemis PBS script to a Gadi script. Here is a Gadi script that performs the same task as above:
+Similar to what is described in Example 1 it is relatively straightforward to convert the above simple Artemis PBS script to a Gadi script. We will use `nci_parallel` and request a single node with 4 subjobs and 2 CPUs per subjob. Here is a Gadi script that performs the same task as the Artemis script above:
 
-**nci_parallel.pbs**
+**nci_parallel.pbs**s
 ```bash
 #!/bin/bash
 #PBS -P qc03
@@ -626,14 +626,11 @@ mpirun -np 4 \
 
 Note the main difference between the Aretmis `job_array.pbs` and Gadi `nci_parallel.pbs` examples:
 
-  - Artemis script requests CPUs per job and Gadi script requests complete pool of CPUs
+  - Artemis script requests CPUs per job and Gadi script requests complete pool of CPUs, also the memory request on Gadi is the total across all subjobs.
   - The Gadi script generates a new command file `input_cmd` by prepending `python3 whatispi.py` to the list of commands.
   - The Gadi script is run using `mpirun` with `--map-by` parameter definining 4 simultaneous jobs each using 2 CPUs. This example would use only one node but would use more as the task scales up.
   - Output files are named differently between the two scripts. The `-o ./` option to the nci-parallel command puts the output from each subjob into files named `stderr.<id>` and `stdout.<id>`. The general output from the job (resource summary, info on failures etc.) is put into files called `nci_parralel.o` and `nci_parallel.e`.
 
-**Description of output files**
-
-**Description of mpirun command parameters**
 
 Running the Gadi PBS script `nci_parallel.pbs` with the list of parameters in `job_params` gives the following resource usage summary:
 
@@ -656,9 +653,13 @@ We have used 8 CPUs for a total of ~12 minutes, which gives 3.19 service units i
 
 #### Optimize the Gadi script
 
-We can make an improvement here by only allowing nci_parallel to consume two jobs at a time. That way it will do the fast running jobs first and then start on the longer running jobs. This will (counterintuitively) save kSU.
+The list of parameters in our `job_params` file can broadly be separated into 2 groups of of long- and short- running jobs. When we ran the `nci_parallel` job above, the script allocated all of the resources for all the 4 jobs at the beginning. The 2 shorter jobs completed very quickly (in a matter of seconds), however Gadi has held onto the resources for them for the entire duration of the job, including the longer jobs which ran for 10 minutes. This has resulted in an unnecessarily large amount of kSU usage, while 4 CPUs are sitting idle waiting for the longer jobs to finish running.
 
-To do this we change the above `mpirun` command to:
+A simple way to improve this would be to separate the job into 2, one for the short running jobs that would terminate quickly and free their rsources and another for the longer running jobs. Indeed a recommended way to save on kSU usage when running large parallel jobs is to group them by equal expected processing time and submit these as separate jobs.
+
+Another way to do this with only a single job using `nci_parallel` would be to reduce the resource request to NCI parallel to consume only two jobs at a time rather than 4. That way it will do the 2 shorter subjobs first and then start on the longer running jobs. This way only 4 CPUs are needed and the Walltime is only fractionally longer than the 4 CPU case.
+
+To do this we change the above `mpirun` command to only run 2 jobs of 2 CPUs:
 
 ```default
 mpirun -np 2\
@@ -671,7 +672,7 @@ mpirun -np 2\
 
 and don't forget to change `ncps=4` in the header of the script.
 
-which gives up the following report:
+which gives up the following resource usage report:
 
 ```default
 ======================================================================================
@@ -688,7 +689,7 @@ which gives up the following report:
 ======================================================================================
 ```
 
-Further optimisations could be made my benchmarking different combinations of parallelism within the script itself, and the amount of times the script is run simultaneously.
+Now the job ran with just 4 CPUs for ~12 minutes which gives 1.64 service units in total.
 
 ## Summary
 
