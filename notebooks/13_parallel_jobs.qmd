@@ -387,7 +387,7 @@ For example, you have determined the optimum resources for your tasks to be 12 C
 
 This may sound like a lot of extra work, but it could save a large amount of KSU as well as walltime and your own frustration in the long run. Understanding how well your workload scales to a parallel job is important prior to submitting a large multi-node job like this.  
 
-## One disadvantage of nci-parallel jobs
+## One disadvantage of nci-parallel jobs {#disadvantage}
 
 In job arrays, each subjob of the array is a discrete task consuming a chunk of resources that may or may not be on the same node as other subjobs of the array. When that subjob completes, those resources are returned to the cluster and become available for other jobs. As such, they are no longer consuming CPU hours and accruing resource usage to the user's account. In contrast, `nci-parallel` reserves the entire collection of resources *for all parallel tasks in the job* as a single large chunk. This means that tasks that have completed while other tasks are still running are still consuming those resources (even though they are idle) and thus still being charged for. 
 
@@ -558,7 +558,7 @@ In the implementation of the `whatispi.py` script above the `Pool(noprocs)` mult
 To start with we set up a list of parameters we want to pass to the script for both the Artemis and Gadi job:
 
 **job_params**
-```
+```default
 2 1000 2000
 2 2000 4000
 2 1000000 2000000
@@ -569,7 +569,7 @@ This list of parameters will run four instances of the `whatispi.py` script (pot
 
 Here is a simple Artemis PBS script that takes the parameter file above and runs it using an array job:
 
-*job_array.pbs*
+**job_array.pbs**
 ```bash
 #!/bin/bash
 #PBS -P SIHnextgen
@@ -592,6 +592,9 @@ NOTE: Each job used separate resources on the queue so the shorter running jobs 
 
 #### Convert Artemis script to Gadi script
 
+Similar to what is described in Example 1 it is relatively straightforward to convert the above simple Artemis PBS script to a Gadi script. Here is a Gadi script that performs the same task as above:
+
+**nci_parallel.pbs**
 ```bash
 #!/bin/bash
 #PBS -P qc03
@@ -602,7 +605,8 @@ NOTE: Each job used separate resources on the queue so the shorter running jobs 
 #PBS -l storage=scratch/qc03
 #PBS -l wd
 #PBS -N test_parallel
-#PBS -o parallel.o
+#PBS -o nci_parallel.o
+#PBS -e nci_parallel.e
 
 SCRIPT='python3 whatispi.py'
 INPUTS=./job_params
@@ -612,10 +616,26 @@ module load python3/3.8.5
 
 sed "s/^/${SCRIPT} /" ${INPUTS} > ${PBS_JOBFS}/input_cmd
 
-mpirun -np 4 --map-by ppr:4:node:PE=2 --report-bindings nci-parallel --input-file ${PBS_JOBFS}/input_cmd --timeout 4000 --verbose -o ./
+mpirun -np 4 \
+       --map-by ppr:4:node:PE=2 \
+       nci-parallel --input-file ${PBS_JOBFS}/input_cmd \
+       --timeout 4000 \
+       --verbose \
+       -o ./
 ```
 
-Running the above PBS script with the above list of parameters gives the following output:
+Note the main difference between the Aretmis `job_array.pbs` and Gadi `nci_parallel.pbs` examples:
+
+  - Artemis script requests CPUs per job and Gadi script requests complete pool of CPUs
+  - The Gadi script generates a new command file `input_cmd` by prepending `python3 whatispi.py` to the list of commands.
+  - The Gadi script is run using `mpirun` with `--map-by` parameter definining 4 simultaneous jobs each using 2 CPUs. This example would use only one node but would use more as the task scales up.
+  - Output files are named differently between the two scripts. The `-o ./` option to the nci-parallel command puts the output from each subjob into files named `stderr.<id>` and `stdout.<id>`. The general output from the job (resource summary, info on failures etc.) is put into files called `nci_parralel.o` and `nci_parallel.e`.
+
+**Description of output files**
+
+**Description of mpirun command parameters**
+
+Running the Gadi PBS script `nci_parallel.pbs` with the list of parameters in `job_params` gives the following resource usage summary:
 
 ```default
 ======================================================================================
@@ -632,21 +652,28 @@ Running the above PBS script with the above list of parameters gives the followi
 ======================================================================================
 ```
 
-#### TBA: how to optimize Gadi script - eg. when some runs have different average walltime.
+We have used 8 CPUs for a total of ~12 minutes, which gives 3.19 service units in total. However looking at the run time of each job in `job_params` it is likely that the first two jobs with ~1000 trials have completed much more quickly that the second two. This is an example of the issue described [above](#disadvantage): In the Artemis job arrays example the resources from the first two jobs would be freed as soon as those jobs complete, this is not the case on Gadi where the requested 8 CPUs are retained for the entire length of the running job. In the next section we will look at a way to optimize this workflow on Gadi to decrease the SU usage and little cost to Walltime.
+
+#### Optimize the Gadi script
 
 We can make an improvement here by only allowing nci_parallel to consume two jobs at a time. That way it will do the fast running jobs first and then start on the longer running jobs. This will (counterintuitively) save kSU.
 
 To do this we change the above `mpirun` command to:
 
-```
-mpirun -np 2 --map-by ppr:2:node:PE=2 --report-bindings nci-parallel --input-file ${PBS_JOBFS}/input_cmd --timeout 4000 --verbose -o ./
+```default
+mpirun -np 2\
+       --map-by ppr:2:node:PE=2 \
+      nci-parallel --input-file ${PBS_JOBFS}/input_cmd \
+      --timeout 4000 \
+      --verbose \
+      -o ./
 ```
 
 and don't forget to change `ncps=4` in the header of the script.
 
 which gives up the following report:
 
-```
+```default
 ======================================================================================
                   Resource Usage
    Job Id:             137236250.gadi-pbs
