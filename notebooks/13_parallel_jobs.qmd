@@ -7,8 +7,6 @@ output:
 from: markdown+emoji
 ---
 
-**TO BE COMPLETED** 
-
 
 ## Introduction
 
@@ -26,11 +24,11 @@ The main challenges users may face adapting Artemis workflows to Gadi are:
 - [Software installation and version upgrades on Gadi](./11_software.qmd) 
 
 
-In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.
+In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. [Recordings of past information sessions](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3479633933/Get+help+with+NCI+and+Sydney+Research+Cloud#Watch-the-recordings-of-previous-sessions) are available for some topics. 
 
 ## Embarrassingly parallel jobs on Gadi
 
-A parallel job is a job that is broken down into numerous smaller tasks to be executed across multiple processors, nodes, or cores simultaneously to speed up computations. For example, operating the same analysis over different input files, over different parameter values, or by dividing a large computational task into smaller subtasks that run concurrently, using shared memory or distributed computing.
+A parallel job is a job that is broken down into **numerous smaller tasks** to be executed across multiple processors, nodes, or cores simultaneously to speed up computations. For example, operating the same analysis over different input files, over different parameter values, or by dividing a large computational task into smaller subtasks that run concurrently, using shared memory or distributed computing.
 
 **Embarrassingly parallel** jobs are a specific type of parallel job where the tasks are completely independent of each other and do not require inter-process communication or shared memory. These types of jobs can be trivially parallelized by running each task separately on different cores or nodes. 
 
@@ -40,26 +38,26 @@ On Artemis, we could use the `#PBS -J <range>` directive to submit arrays of emb
 
 Use of this utility will typically require 2-4 job files:
 
-1. PBS script
+1. **PBS script**
   - Contains PBS directives to launch the parallel job
   - Sets the number of CPUs to assign to each task
   - Specifies the inputs (job file 2) and/or task script (job file 3)
   - Runs `openmpi` and `nci-parallel` to distribute concurrent tasks across the resources requested in the directives
-2. Input arguments file or command file
+2. **Input arguments file or command file**
   - A text file that provides a new set of arguments/commands per line
   - Each line of the input arguments file/commands file is used as the input for a separate parallel task 
-3. (optional) Task script
+3. **(optional) Task script**
   - The script file (eg Python, bash) that contains the commands to run the job
   - Uses the arguments provided by the input arguments file/commands file
   - For some tasks where the command fits on a single line, a task script may not be required and the commands file may be sufficient
-4. (optional) Script to make the input arguments/commands file
+4. **(optional) Script to make the input arguments/commands file**
   - For complex arguments/commands files, where the creation of these cannot easily be achieved with a simple `for` loop or similar on the command line, an optional fourth script may be required to make the input arguments/commands file
   - For example, where the inputs are derived from a complex metadata file or require some further manipulation prior to generating the input/arguments list
   - A `make inputs` script that is saved alongside the parallel script collection for the job is useful for reproducibility and portability
 
  
 
-NCI provides an [example](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...) where the input to the task script (in this case, named `test.sh`) is a single numeric value. The command `test.sh <value>` is included in the input argument file, as many times as needed for the job (in this case, 1000). Another way to do this (demonstrated in the [example below](#simple-example)) is having an input argument list that *does not include* the name of the script file. The name of the script file is instead included within the PBS script. Both methods achieve the same result, the user can choose whichever they prefer.
+NCI provides an [example](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...) where the input to the task script (in this case, named `test.sh`) is a single numeric value. The command `test.sh <value>` is included in the input argument file, as many times as needed for the job (in this case, 1000). Another way to do this (demonstrated in the [simple example further below](#simple-example)) is having an input argument list that *does not include* the name of the script file. The name of the script file is instead included within the PBS script. Both methods achieve the same result, the user can choose whichever they prefer.
 
 **Option 1: task script call with arguments is provided in a command file**
 
@@ -76,7 +74,7 @@ NCI provides an [example](https://opus.nci.org.au/spaces/Help/pages/248840680/Nc
 
 Before submitting your parallel job, **always check** that the [task script reads in the input arguments correctly](#check-that-the-task-script-reads-in-the-input-arguments-correctly) and that the [binding of tasks to resources is correct](#check-the-binding-of-resources-to-parallel-tasks).
 
-### Simple example {#examplesimple}
+### Simple example
 
 Below is a trio of job files to run a very simple demonstration of `nci-parallel`. 
 
@@ -155,16 +153,22 @@ mpirun --np 12
 - `mpirun` is used to run parallel jobs with the MPI (Message Passing Interface) framework. It allows you to execute the program across multiple processors or nodes. When you load the `nci-parallel/1.0.0a` module, [openmpi](https://www.open-mpi.org/) v. 4.1.0 is loaded as a requirement 
 - `--np` specifies the number of processes for MPI to run in parallel. This is determined by the number of tasks that can run on each node (`M`), and the number of nodes requested (requested CPUs divided by number of CPUs per node in that queue)
 
+```default
+--map-by node:PE=${NCPUS}
+```
 
-The next part of the `mpirun` command `--map-by node:PE=${NCPUS}` means that processes will be distributed evenly across all nodes requested by the job. `PE=${NCPUS}` ('processing elements') indicates that each distributed task will be allocated `${NCPUS}` CPUs, which is a user-defined variable. 
+- mapping by node means that processes will be distributed evenly across all nodes requested by the job. Mapping by NUMA node will be described in a [later section](#check-the-binding-of-resources-to-parallel-tasks)
+- `PE=${NCPUS}` ('processing elements') indicates that each distributed task will be allocated `${NCPUS}` CPUs, which is a user-defined variable 
 
-The arguments `--verbose` and `--input-file` are provided to the `nci-parallel` utility, which is the application being run in parallel. Run `nci-parallel -h` to see other available arguments. The input file is where `nci-parallel` reads the task commands from; each line of the file is treated as a separate command to be run as a parallel task. If the number of lines in the input file exceeds the number of processes MPI can run in parallel/simultaneously (ie, the value given to `mpirun --np <value>`), the commands are assigned to resources in order, starting from line 1, until all resources are in use. As a running task completes, the next task in the list is assigned to those now-free resources, until either all input lines have been assigned to resources and the tasks complete, or the job meets a fatal error (such as out of walltime).  
-
-
-
+The arguments `--verbose` and `--input-file` are provided to the `nci-parallel` utility, which is the application being run in parallel. Run `nci-parallel -h` to see other available arguments. The input file is where `nci-parallel` reads the task commands from; each line of the file is treated as a separate command to be 'farmed out' as an independent parallel task to the resources reserved for the job.  If the number of lines in the input file exceeds the number of processes MPI can run in parallel/simultaneously (ie, the value given to `mpirun --np <value>`), the commands are assigned to resources in order, starting from line 1, until all resources are in use. As a running task completes, the next task in the list is assigned to those now-free resources, until either all input lines have been assigned to resources and the tasks complete, or the job meets a fatal error (such as out of walltime).  
 
 
-**Challenge**: How many tasks could run per normal node if NCPUS was set by the user as 6, and how many tasks could run concurrently if this job requested 10 normal nodes? 
+
+
+
+**Test your understanding**: 
+
+1. How many tasks could run per normal node if NCPUS was set by the user as 6? 
 
 ::: {.callout-note collapse="true"}
 ## Number of tasks per `normal` node
@@ -174,7 +178,11 @@ M=$(( PBS_NCI_NCPUS_PER_NODE / NCPUS ))
 M = 48 / 6
 M = 8
 ```
+
+8 6-CPU tasks per `normal` node
 :::
+
+2. How many 6-CPU tasks could run concurrently if this job requested 10 `normal` nodes? 
 
 ::: {.callout-note collapse="true"}
 ## Number of tasks running concurrently on 10 `normal` nodes
@@ -184,13 +192,15 @@ mpirun --np M * PBS_NCPUS / PBS_NCI_NCPUS_PER_NODE
 mpirun --np 8 * 480 / 48
 mpirun --np 80
 ```
+
+80 concurrent 6-CPU tasks on 10 `normal` nodes
 :::
 
 **Job file 2: the input arguments file**
 
 A plain text file that contains the arguments for each parallel task, one per line. Since this is a simple file it can be made easily on the command line. More complex arguments/commands files may require a helper `make inputs` script as a fourth member of the file set for the parallel job. 
 
-This file was made by:
+The input arguments file for this demonstration job was simply made by:
 
 ```bash
 shuf -i 1-100 -n 12 > demo.inputs
@@ -214,7 +224,7 @@ shuf -i 1-100 -n 12 > demo.inputs
 
 **Job file 3: the task script**
 
-A simple script that reads in the single argument and executes the command. Note: **this script must be executable!** If not, the job will fail with permission denied errors. 
+A script that reads in the single argument and executes the command. Note: **this script must be executable!** If not, the job will fail with permission denied errors. 
 
 ```bash
 #!/bin/bash
@@ -247,7 +257,7 @@ Now for the `.e` log:
 
 Each parallel task has a line containing information including the ID of the node it was run on, the individual task exit status, and the command that ran the task.
 
-Always check the exit status from the PBS `.o` log AND the per-task exit statuses from the `.e` log! An exit status of 0 for the parent job does not mean all tasks completed without error. And of course, as always, check the outputs, as an exit status for both parent job and task still does not necessarily indicate a successful job. 
+**Always check the exit status from the PBS `.o` log AND the per-task exit statuses from the `.e` log!** An exit status of 0 for the parent job does not mean all tasks completed without error. And of course, as always, check the outputs, as an exit status for both parent job and task still does not necessarily indicate a successful job. 
 
 Count the number of tasks with exit status 0 - this should equal the number of lines in your input arguments/command file: 
 
@@ -265,18 +275,22 @@ If however the tasks *didn't start* for example the job exceeded walltime before
 
 ![](../fig/demo-parallel-failed-elog.png)
 
-You would need to extract the lines from the original input file that do not have 'exited with status 0' within the `.e` log to make the failed tasks list.  
+To capture failed tasks as well as tasks that did not start, you would need to extract the lines from the original input file that do not have 'exited with status 0' within the `.e` log.  
 
 ## Checking the parallel job before submission
 
-Before submitting your parallel job, **always check** that the task script reads in the input arguments correctly and that the binding of tasks to resources is correct and appropriate for your job.
+Before submitting your parallel job, **always check** that the:
 
-### Check that the task script reads in the input arguments correctly
+1. **Task script reads in the input arguments correctly**
+2. **Task executes correctly with those provided arguments on the compute node**
+3. **Binding of tasks to resources is correct and appropriate for your job**
+
+### 1. Check that the task script reads in the input arguments correctly
 
 Best practice dictates two types of check before the full parallel job is launched: 
 
 1. Check that the input arguments are read in by the task script from the inputs file correctly
-2. Check that the task executes correctly with those provided arguments on the compute node. This second test will also help you with checking the binding of resources by the `mpirun` command
+
 
 To check that the task script reads in the arguments correctly, this need not be done on the compute nodes. You can run a quick test on the login node where your task script prints out the arguments it reads in from the input arguments file then exits before running any analysis. 
 
@@ -295,12 +309,15 @@ If not, you can easily test the arguments for any type of script with the simple
 
 ![](../fig/parallel-job-test-args-bash.png)
 
+Once this check has proved successful, go on to check a single task running on the compute node.
 
-Once this check has proved successful, go on to **check a single task running on the compute node**.
+### 2. Check that the task executes correctly with those provided arguments on the compute node
 
-Ideally, you have already performed [benchmarking](./10_job_efficiency.qmd) to determine appropriate resources for your job. If your tasks are long-running, you could choose to either subset the input for the test task, or allow the test task to run for just enough time to determine that the inputs and scripts are set up correctly. If you have not done prior benchmarking on a subset followed by a full task at the chosen resources per task, it's preferable here to allow that test task to complete, even if it is long running. Allowing one task to fail now can give you the opportunity to debug and prevent your whole parallel workflow from failing, potentially costing many KSU (plus your time!). 
+This second test will also help you with the third and final check of binding tasks to resources by the `mpirun` command. 
 
-In the below example, each task requires 5 minutes walltime and 6 CPU, so the full task is run. 
+Ideally, you have already performed [benchmarking](./10_job_efficiency.qmd) to determine appropriate resources for your job. If your tasks are long-running, you could choose to either subset the input for the test task, or allow the test task to run for just enough time to determine that the inputs and scripts are set up correctly. If you have not done prior benchmarking on a subset followed by a full task at the chosen resources per task, it's preferable here to allow that test task to complete, even if it is long running. Allowing one task to fail now can give you the opportunity to debug and prevent your whole parallel workflow from failing, potentially costing many KSU - and your time and frustration! 
+
+In the below example, each task requires 6 CPU for approximately 5 minutes walltime.
 
 First, **delete or hash out** the `exit` command if it is still present from the previous checking of input arguments. Then: 
 
@@ -327,7 +344,7 @@ Note that the `mpirun` command and all other aspects of the PBS script remain th
 
 Once the job completes, [check the exit status in both logs](#checking-a-completed-parallel-job) as well as the job outputs.
 
-### Check the binding of resources to parallel tasks
+### 3. Check the binding of resources to parallel tasks
 
 This refers to how the tasks are distributed across resources by `OpenMPI`. At this point in your parallel job setup, you should have a good understanding of what resources are required per task from benchmarking, and have determined that your job scripts are set up correctly for an `nci-parallel` job. 
 
@@ -356,7 +373,7 @@ mpirun -np 384/4 --map-by ppr:12/4:NUMA:PE=4
 mpirun -np 96 --map-by ppr:3:NUMA:PE=4
 ```
 
-Remember, `--np` specifies the number of processes for MPI to run in parallel, in this case, 96 of the 1,000 input tasks can run simultaneously. Processes (tasks) per resource is 3 and the resource is given as NUMA. So the job will run 3 tasks per NUMA node, each with 4 (`PE=4`) CPU. 
+Remember, `--np` specifies the number of processes for MPI to run concurrently, in this case, 96 of the 1,000 input tasks can run at a time. Processes (tasks) per resource is 3 and the resource is given as NUMA. So the job will run 3 tasks per NUMA node, each with 4 (`PE=4`) CPU. 
 
 The [Gadi queue structure page](https://opus.nci.org.au/spaces/Help/pages/236880996/Queue+Structure+on+Gadi...) states there are 12 CPUs per NUMA node on the Cascade lake `normal` queue, so this job fits nicely on that architecture. What if you wanted to run tasks with more CPUs than available on a single NUMA? 
 
@@ -395,13 +412,13 @@ For example, you have determined the optimum resources for your tasks to be 12 C
 
 This may sound like a lot of extra work, but it could save a large amount of KSU as well as walltime and your own frustration in the long run. Understanding how well your workload scales to a parallel job is important prior to submitting a large multi-node job like this.  
 
-## One disadvantage of nci-parallel jobs {#disadvantage}
+## One disadvantage of nci-parallel jobs
 
-In job arrays, each subjob of the array is a discrete task consuming a chunk of resources that may or may not be on the same node as other subjobs of the array. When that subjob completes, those resources are returned to the cluster and become available for other jobs. As such, they are no longer consuming CPU hours and accruing resource usage to the user's account. In contrast, `nci-parallel` reserves the entire collection of resources *for all parallel tasks in the job* as a single large chunk. This means that tasks that have completed while other tasks are still running are still consuming those resources (even though they are idle) and thus still being charged for. 
+In PBS job arrays, each subjob of the array is a discrete task consuming a chunk of resources that may or may not be on the same node as other subjobs of the array. When that subjob completes, those resources are returned to the cluster and become available for other jobs. As such, they are no longer consuming CPU hours and accruing resource usage to the user's account. In contrast, `nci-parallel` reserves the entire collection of resources *for all parallel tasks in the job* as a single large chunk. This means that tasks that have completed while other tasks are still running are still consuming those resources (even though they are idle) and thus still being charged for. 
 
 Because of this, parallel jobs where there is a **large distribution of walltime across the tasks** are likely to result in **poor efficiency and a lot of wasted resources**. There are a number of strategies you can employ alone or in combination to mitigate this:
 
-1. **Use the `nci-parallel --timeout` parameter**, to cap the amount of walltime per task. This will prevent unexpectedly long-running tasks from dragging out the walltime when all other tasks have completed. These tasks can then be resubmitted separately with longer walltimes. 
+1. **Use the nci-parallel --timeout parameter**, to cap the amount of walltime per task. This will prevent unexpectedly long-running tasks from dragging out the walltime when all other tasks have completed. These tasks can then be resubmitted separately with longer walltimes. 
 2. **Request less resources than are required for all tasks to run in parallel** so the amount of idle CPU while long-running tasks complete is reduced
 3. **Use a loop for jobs with small numbers of parallel tasks**, with varying walltime based on expectations for the task, adding a sleep within the submission loop 
 4. **Sort tasks by expected order of walltime**, longest to shortest, and request resources such that less than the total number of tasks are running in parallel
@@ -443,7 +460,7 @@ One excellent example for how HPC and distributed computing can massively speed 
 
 Say we have 100 samples, each with approximately 400 million DNA sequences requiring mapping to a reference file. To parallelise by sample, we could run 100 tasks concurrently. If we split the input into chunks of 10 million sequences, each sample would have 40 inputs, so we could run a parallel job with `100 * 40 =  4,000` tasks. 
 
-Assuming the tasks were benchmarked to perform optimally with 6 `normal` CPU and required 5 minutes walltime, to run all tasks concurrently would require `6 * 4000 = 24,000 CPU`. This equates to 500 nodes, which exceeds the maximum nodes per job of 432 for the `normal` queue. We can add our benchmarking metrics into the [SIH parallel job resource calculator](https://github.com/Sydney-Informatics-Hub/usyd-gadi-onboarding-guide/raw/refs/heads/main/resources/parallel_resource_calculator.xlsx) to help us request resources for this job. 
+Assuming the tasks were benchmarked to perform optimally with 6 `normal` CPU and required 5 minutes walltime, to run all tasks concurrently would require `6 * 4000 = 24,000 CPU`. This equates to 500 nodes, which exceeds the maximum nodes per job of 432 for the `normal` queue. We can add our benchmarking metrics into the SIH parallel job resource calculator which you can download [here](https://github.com/Sydney-Informatics-Hub/usyd-gadi-onboarding-guide/raw/refs/heads/main/resources/parallel_resource_calculator.xlsx) to help us request resources for this job. 
 
 By halving the number of nodes requested to 250, we halve the number of tasks that can run concurrently, so we would need to double the walltime: 
  
@@ -457,7 +474,7 @@ In practice, scaling this 100-sample mapping to 4,000 embarassingly parallel tas
 2. Check the logs and outputs to verify successful split job
 3. Use a helper `make input` script to read the per-sample metatdata and combine it with each of the split input files into an input arguments file
 4. Set up the task script to read the input arguments and run the mapping analysis
-5. Set up directives with the help of the resource calculator, then submit the PBS script with `qsub`
+5. Select resource directives with the help of the resource calculator, then submit the PBS script with `qsub`
 6. Check the logs and outputs to verify successful mapping job
 7. Merge the split data to a per-sample output file (another 100-task job, parallel by sample)
 
@@ -483,13 +500,14 @@ Note that the Artemis array job must be submitted 4 times, each with a different
 
 Observe the similarities and differences:
 
-- Both workflows use the same mapping command - for Gadi, the commands are in a different script to the directives, for Artemis, all is within the PBS script
+- Both workflows use the same analysis commands - for Gadi, the commands are in a different script to the directives, for Artemis, all is within the PBS script
 - Both workflows read in the same variables from the same input arguments files, but use a slightly different command
 - Both workflows request 6 CPU per task
+- The Artemis memory and CPU directives are *per task*, where the Gadi memory and CPU directives request the total for all concurrently running tasks 
 - All tasks on Gadi are run in the same job, Artemis array requires batching 
 - Slight differences to the directives, as outlined in the [section on Gadi PBS scripts compared to Artemis](./08_job_script.qmd)
-- The Gadi PBs script has the mpirun resource binding component, where the Artemis job array script includes the `-J <range>` directive
-- The Artemis memory and CPU directives are *per task*, where the Gadi memory and CPU directives request the total for all concurrently running tasks  
+- The Gadi PBS script has the `mpirun` and `nci-parallel` command, where the Artemis job array script includes the `-J <range>` directive
+ 
 
 As you can see from this example, porting an existing Artemis job array to Gadi is straightforward and requires little extra work.
 
@@ -607,7 +625,7 @@ NOTE: Each job used separate resources on the queue so the shorter running jobs 
 
 #### Convert Artemis script to Gadi script
 
-As shown in [Example 1](#example1) it is relatively straightforward to convert the basic Artemis PBS script to a Gadi script. We will use `nci-parallel` and request 4 subjobs on a single node with 2 CPUs per subjob for our short set of parameters in `job_params`. We use the same equation in the [simple example](#examplesimple) to define the number of subjobs (which will be 4 for 8 requested CPUs). Here is a Gadi script that performs the same task as the Artemis script above:
+As shown in [Example 1](#example1) it is relatively straightforward to convert the basic Artemis PBS script to a Gadi script. We will use `nci-parallel` and request 4 subjobs on a single node with 2 CPUs per subjob for our short set of parameters in `job_params`. We use the same equation in the [simple example](#simple-example) to define the number of subjobs (which will be 4 for 8 requested CPUs). Here is a Gadi script that performs the same task as the Artemis script above:
 
 **piDemo-nci-parallel.pbs**
 ```bash
@@ -668,7 +686,7 @@ Running the Gadi PBS script `piDemo-nci-parallel.pbs` with the list of parameter
 ======================================================================================
 ```
 
-We have used the 8 CPUs requested for a total of ~12 minutes, which gives 3.19 service units in total. However based on the number of trials of each job in `job_params` it is likely that the first two shorter jobs have completed much more quickly than the second two. This is an example of the issue described [above](#disadvantage): In the Artemis job arrays example the resources from the first two jobs would be freed as soon as those jobs complete. This is not the case with `nci-parallel` jobs  where the requested 8 CPUs are retained for the entire length of the running job. In the next section we will look at a way to optimise this workflow on Gadi to decrease the SU usage and little cost to walltime.
+We have used the 8 CPUs requested for a total of ~12 minutes, which gives 3.19 service units in total. However based on the number of trials of each job in `job_params` it is likely that the first two shorter jobs have completed much more quickly than the second two. This is an example of the [issue described above](#one-disadvantage-of-nci-parallel-jobs): In the Artemis job arrays example the resources from the first two jobs would be freed as soon as those jobs complete. This is not the case with `nci-parallel` jobs  where the requested 8 CPUs are retained for the entire length of the running job. In the next section we will look at a way to optimise this workflow on Gadi to decrease the SU usage and little cost to walltime.
 
 #### Optimise the Gadi script
 
@@ -712,13 +730,13 @@ Now the job used ~ half the SU with only a ~3% increase in walltime.
 
 ## Summary
 
-- PBS job arrays are not permitted on Gadi, these can be easily adapted to `nci-parallel` jobs
+- PBS job arrays are not permitted on Gadi. These can be easily adapted to `nci-parallel` jobs
 - Always benchmark your tasks prior to submitting a full parallel workflow 
 - Always test your parallel job scripts prior to submitting a full parallel workflow
+- Take steps to maximise parallel job efficiency
 - Determine whether mapping by node or by NUMA node is most appropriate for your job, and adapt the `mpirun` command accordingly
 - Parallel tasks can run all at once (concurrently) or in batches sequentially, this is determined by the CPU per task and total resources requested
-- Take steps to maximise parallel job efficiency
 - If not known, request less resources than required to run all tasks concurrently - NCI recommends 10% of tasks concurrently but good efficiency can be achieved with more depending on your specific workflow
-- You can use our [calculator](https://github.com/Sydney-Informatics-Hub/usyd-gadi-onboarding-guide/raw/refs/heads/main/resources/parallel_resource_calculator.xlsx) to simplify adjusting total resource requests based on the results of benchmarking  
+- You can use our [calculator](https://github.com/Sydney-Informatics-Hub/usyd-gadi-onboarding-guide/raw/refs/heads/main/resources/parallel_resource_calculator.xlsx) to simplify adjusting total resource requests based on the results of your benchmarking  
 - Thoroughly check each task in a completed parallel job: check *both* PBS logs as well as *all job outputs* - a custom checker script can help here
 - Ensure to redirect important output, don't allow it to be printed only to the PBS logs as there is one per job, not one per task like there is with job arrays   
