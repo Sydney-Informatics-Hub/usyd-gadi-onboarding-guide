@@ -353,7 +353,7 @@ This refers to how the tasks are distributed across resources by `OpenMPI`. At t
 
 Here we will review the `mpirun` command a bit more closely and look at two alternative ways you can map/bind tasks to resources.  
 
-The `--map-by` parameter in the `mpirun` command specifies how processes should be distributed across the available resources (eg nodes, sockets, cores, or NUMA nodes).
+The `--map-by` parameter in the `mpirun` command can map by node, socket, or NUMA nodes.
 
 The example on the NCI page shows `--map-by ppr:<value>:NUMA:PE:<value>` and the simple example above shows `--map-by node:PE=<value>`. What's the difference? 
 
