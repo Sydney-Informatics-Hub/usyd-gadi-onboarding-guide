@@ -34,7 +34,7 @@ A parallel job is a job that is broken down into numerous smaller tasks to be ex
 
 **Embarrassingly parallel** jobs are a specific type of parallel job where the tasks are completely independent of each other and do not require inter-process communication or shared memory. These types of jobs can be trivially parallelized by running each task separately on different cores or nodes. 
 
-On Artemis, we could use the `#PBS -J <range>` directive to submit arrays of embarrassingly parallel tasks. On Gadi, **job arrays are not supported**. In order to simplify embarrassingly parallel jobs without the use of arrays, NCI have created a tool [nci-parallel](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...) to be used with [OpenMPI](https://www.open-mpi.org/) for distributing parallel tasks across available compute resources on a Gadi queue. 
+On Artemis, we could use the `#PBS -J <range>` directive to submit arrays of embarrassingly parallel tasks. On Gadi, **job arrays are not supported**. In order to simplify embarrassingly parallel jobs without the use of arrays, NCI have created a tool [nci-parallel](https://opus.nci.org.au/spaces/Help/pages/248840680/Nci-parallel...) to be used with [OpenMPI](https://www.open-mpi.org/) for distributing parallel tasks across available compute resources on a Gadi queue within a single PBS job. 
 
 ## Using nci-parallel
 
