@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.5.55">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -71,10 +71,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-86daaaaad7353f9cc0c554efc1dd6d94.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f4163e54545b01daaae269814d862f3d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -157,14 +157,6 @@ cookieconsent.run({
     <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../notebooks/00_gadi_access.html"> 
-<span class="menu-text">Access Gadi</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../notebooks/01_setup.html"> 
-<span class="menu-text">Set up your computer</span></a>
-  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-introduction-to-gadi" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Introduction to Gadi</span>
@@ -180,6 +172,14 @@ cookieconsent.run({
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../notebooks/00_gadi_access.html"> 
+<span class="menu-text">Access Gadi</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../notebooks/01_setup.html"> 
+<span class="menu-text">Set up your computer</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-on-gadi" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Working on Gadi</span>
@@ -221,12 +221,12 @@ cookieconsent.run({
  <span class="dropdown-text">Job monitoring</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notebooks/13_parallel_jobs.html">
- <span class="dropdown-text">Parallel jobs</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="../notebooks/10_job_efficiency.html">
  <span class="dropdown-text">Benchmarking and efficiency</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/13_parallel_jobs.html">
+ <span class="dropdown-text">Parallel jobs</span></a>
   </li>  
     </ul>
   </li>
@@ -254,7 +254,8 @@ cookieconsent.run({
   <li><a href="#examples-of-splitcheckpointed-jobs" id="toc-examples-of-splitcheckpointed-jobs" class="nav-link" data-scroll-target="#examples-of-splitcheckpointed-jobs">Examples of split/checkpointed jobs</a>
   <ul class="collapse">
   <li><a href="#example-1-a-workflow-with-multiple-discrete-commands" id="toc-example-1-a-workflow-with-multiple-discrete-commands" class="nav-link" data-scroll-target="#example-1-a-workflow-with-multiple-discrete-commands">Example 1: A workflow with multiple discrete commands</a></li>
-  <li><a href="#example-2-tom-tbc" id="toc-example-2-tom-tbc" class="nav-link" data-scroll-target="#example-2-tom-tbc">Example 2: TOM TBC</a></li>
+  <li><a href="#example-2-a-long-running-command-with-innate-checkpointing" id="toc-example-2-a-long-running-command-with-innate-checkpointing" class="nav-link" data-scroll-target="#example-2-a-long-running-command-with-innate-checkpointing">Example 2: A long running command with innate checkpointing</a></li>
+  <li><a href="#example-3-add-your-own-checkpointing-to-existing-code" id="toc-example-3-add-your-own-checkpointing-to-existing-code" class="nav-link" data-scroll-target="#example-3-add-your-own-checkpointing-to-existing-code">Example 3: Add your own checkpointing to existing code</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -281,10 +282,10 @@ cookieconsent.run({
 </header>
 
 
-<p><strong>TO BE COMPLETED</strong></p>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>In this section, we will discuss ways of adapting your long walltime jobs from Artemis to NCI platforms.</p>
+<p><a href="https://youtu.be/s1G8-TBRyTo">Watch the pre-recorded session</a></p>
 <p>The main challenges users may face adapting Artemis workflows to Gadi are:</p>
 <ul>
 <li>Gadi walltime limit of 48 hours</li>
@@ -296,7 +297,7 @@ cookieconsent.run({
 <li><a href="../notebooks/11_software.html">Software installation and version upgrades on Gadi</a></li>
 <li><a href="../notebooks/13_parallel_jobs.html">Job arrays not supported on Gadi</a></li>
 </ul>
-<p>In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decomission date.</p>
+<p>In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.</p>
 </section>
 <section id="gadi-walltime-limit" class="level2">
 <h2 class="anchored" data-anchor-id="gadi-walltime-limit">Gadi walltime limit</h2>
@@ -313,7 +314,7 @@ cookieconsent.run({
 <h2 class="anchored" data-anchor-id="option-1.-split-or-checkpoint-your-job">Option 1. Split or checkpoint your job</h2>
 <p>There are many advantages to splitting your job up into smaller discrete chunks.</p>
 <ol type="1">
-<li>Checkpointing: if one of your jobs in a series of fails, you only need to resubmit that discrete job script, rather than either the whole job or some finnicky “hashed out” version of your very long and comlex workflow script. This simplifies debugging and rerunning, saves you hands-on time and walltime, minimises errors, and saves KSU</li>
+<li>Checkpointing: if one of your jobs in a series fails, you only need to resubmit that discrete job script, rather than either the whole job or some finnicky “hashed out” version of your very long and complex workflow script. This simplifies debugging and rerunning, saves you hands-on time and walltime, minimises errors, and saves KSU</li>
 <li>Ease of code maintenance: changing part of workflow, for example adjusting parameters, input files or software versions, is far simpler to implement for shorter chunks of code than it is for a long and complex code with many steps</li>
 <li>Ease of benchmarking: Different stages of a complex workflow typically have different compute requirements, for example some long running single core tasks coupled with some GPU tasks, some high memory, some high CPU tasks etc. <a href="../notebooks/10_job_efficiency.html">Benchmarking</a> is more straightforward and informative when performed on discrete workflow chunks.</li>
 <li>Greater job efficiency: By benchmarking and optimising the resource configurations for each stage of the workflow, the series of jobs can be placed on an appropriate queue, and will not be reserving (and being charged for) unused resources. This will reduce KSU usage and resource wastage.</li>
@@ -339,8 +340,8 @@ cookieconsent.run({
 <h3 class="anchored" data-anchor-id="example-1-a-workflow-with-multiple-discrete-commands">Example 1: A workflow with multiple discrete commands</h3>
 <p>In the field of genomics, the raw data is processed through a series of steps before the final output files are produced. Many groups perform all of these steps within a single, multi-command job, in order to only have to run one job to perform all the work.</p>
 <p>By splitting apart each of these steps so that each is its own job, we can improve code manageability, reduce walltime, and increase overall processing efficiency.</p>
-<p>While this does require some extra effort in terms of submitting multiple processing jobs rather than just one, the benefits described above far outweigh this. The burden of multiple job submission can be ameliorated by parallel processing per sample, and even further by a workflow manager such as Nextflow. For an exammple Nextflow genomics processing workflow, view <a href="https://github.com/Sydney-Informatics-Hub/Parabricks-Genomics-nf">this repository</a>, and for parallel jobs on Gadi, see <a href="../notebooks/13_parallel_jobs.html">this section</a>.</p>
-<p>In the below Artemis script example, a samplesheet is read in containing metadata about 10 samples to be analysed. Each sample has one pair of raw ‘fastq’ input files that are processed through an analysis loop containing 4 steps:</p>
+<p>While this does require some extra effort in terms of submitting multiple processing jobs rather than just one, the benefits described above far outweigh this. The burden of multiple job submission can be ameliorated by parallel processing per sample, and even further by a workflow manager such as Nextflow. For an example Nextflow genomics processing workflow, view <a href="https://github.com/Sydney-Informatics-Hub/Parabricks-Genomics-nf">this repository</a>, and for parallel jobs on Gadi, see <a href="../notebooks/13_parallel_jobs.html">this section</a>.</p>
+<p>In the below Artemis script example, a samplesheet is read in containing metadata from about 10 samples to be analysed. Each sample has one pair of raw ‘fastq’ input files that are processed through an analysis loop containing 4 steps:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 8%">
@@ -390,7 +391,7 @@ cookieconsent.run({
 </tbody>
 </table>
 <p>The total walltime is 23 hours per sample, so the requested walltime in the below script is 240 hours (10 samples x 24 hours per sample)</p>
-<p><strong>There are multiple inefficiencies within this method</strong>, giving rise to an inflated walltime requirement of ~ 1 day per samnple plus a very low overall CPU utilisation of the job.</p>
+<p><strong>There are multiple inefficiencies within this method</strong>, giving rise to an inflated walltime requirement of ~ 1 day per sample plus a very low overall CPU utilisation of the job.</p>
 <p><img src="../fig/dummy-artemis-genomics-script.png" class="img-fluid"></p>
 <p>Now compare the above to a Gadi workflow, where each of these 4 steps are separated into their own job, with appropriate resource requests per job.</p>
 <p><strong>Job 1: Quality check</strong></p>
@@ -412,7 +413,7 @@ cookieconsent.run({
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span> <span class="op">&lt;</span> my_samples_metedata.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Job 3 and 4: Recalibration metrics and apply recalibration</strong></p>
 <p>Note from the table above that these two steps do not multi-thread, and both have long walltimes. If you require a task like this in your workflow, it’s critical to <strong>interrogate the tool documentation</strong> for ways to increase throughput and efficiency.</p>
-<p>Within this tool’s guide, we find there is a <code>-L</code> interval flag, which allows the tool to operate over discrete intervals of the reference file, rather than scanning the sample data over the whole reference file in one long running single-CPU task. The smaller the interval, the faster the run time, and the resultant output files are merged.</p>
+<p>Within this tool’s guide, we find there is a <code>-L</code> interval flag, which allows the tool to operate over discrete intervals of the reference file, rather than scanning the sample data over the whole reference file in one long running single-CPU task. The smaller the interval, the faster the run time, and the resultant output files are merged. This is an example of scatter-gather parallelism, where smaller sub tasks are scattered (distributed across the compute cluster) and then gathered (in this case, merged) to massively speed up a ‘tall and slim’ job (few resources consumed for a long time) into a ‘short and wide’ job (many resources consumed for a short time). Introducing parallelism into your job is crucial to get the most out of HPC.</p>
 <p>Since this section is not a specialised bioinformatics training, we will not go into details for this tool here, but instead provide the main overview of steps and how with a bit of extra work, massive walltime savings can be made.</p>
 <p>Steps 3 and 4 from the Artemis workflow are now executed as 5 jobs:</p>
 <ol type="1">
@@ -502,8 +503,146 @@ cookieconsent.run({
 </tbody>
 </table>
 </section>
-<section id="example-2-tom-tbc" class="level3">
-<h3 class="anchored" data-anchor-id="example-2-tom-tbc">Example 2: TOM TBC</h3>
+<section id="example-2-a-long-running-command-with-innate-checkpointing" class="level3">
+<h3 class="anchored" data-anchor-id="example-2-a-long-running-command-with-innate-checkpointing">Example 2: A long running command with innate checkpointing</h3>
+<p>Many commonly used tools have a built in option for saving the state of the process to a local file after a specified number of iterations in a repetitive task. This local file can be reloaded from disk and then the process can restart from where it previously left off. This is often called ‘checkpointing’. It’s a good idea to check the documentation of the tool you are using to see if it has some kind of checkpointing functionality built in since this greatly simplifies splitting up long running tasks into smaller chunks.</p>
+<p>It is also recommended practice to use some kind of checkpointing because that way you can have a look at the output of jobs mid-way through to ensure that things are progressing as expected. Jobs can then be restarted with different parameters in case of unwanted results, thus saving resource allocations on your project.</p>
+<p>Checkpointing is often very simple to implement in iterative parameter minimisation tasks such as machine learning pipelines that train or fine-tune a model. As such most machine learning packages will have options for checkpointing built-in. If you are building your own machine learning pipeline, simple instructions can be found for how to implement checkpointing in either TensorFlow <a href="https://www.tensorflow.org/guide/checkpoint">here</a> or PyTorch <a href="https://pytorch.org/torchft/checkpointing.html">here</a>.</p>
+<p>In this example we’ll demonstrate a script with checkpointing that comes from the SIH developed <a href="https://github.com/Sydney-Informatics-Hub/aigis"><code>aigis</code></a> package. <code>aigis</code> is a tool that fine-tunes a <a href="https://github.com/facebookresearch/detectron2"><code>detectron2</code></a> image segmentation machine learning model to detect trees and buildings in aerial imagery datasets.</p>
+<p>Aerial imagery datasets can be quite large and fine-tuning <code>detectron2</code> models using them can take a long time. Because of this the <code>aigis</code> fine-tuning script has a flag that will only let it run for a given number of iterations and save the fine-tuned model to disk. The script can then be restarted with the previous output given as input.</p>
+<p>Below shows an example that runs the <code>aigis</code> script called <code>fine_tune_detectron2.py</code> on artemis. The PBS script looks like:</p>
+<p><strong>aigis_script.pbs</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#! /bin/bash</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P SIHNextgen</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N fine_tune_example</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l select=1:ncpus=1:mem=16gb:ngpus=1</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=60:00:00</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q defaultQ</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span>   <span class="co"># Module loading and setup go here</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Actually run the program</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="ex">fine_tune_detectron2.py</span> <span class="at">--dataset-name</span> MyDataSet <span class="at">--train-json</span> MyDataSet_Train.json <span class="at">--test-json</span> MyDataSet_Test.json <span class="at">--max-iter</span> 20000 <span class="at">--output-dir</span> /project/aigis/model_fine_tuning</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The full run of this script with 20000 iterations (<code>--max-iter 20000</code>) takes 60hrs, which is longer than the maximum walltime allowed on gadi, however we can change the number of iterations to 10000 and run the script twice with checkpointing.</p>
+<p>To do this we would convert the above PBS script above to run on gadi and set the walltime to 31 hours and max-iter to 10000:</p>
+<p><strong>iteration1.pbs</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#! /bin/bash</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P qc03</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N fine_tune_example_s1</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=31:00:00</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=1</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ngpus=1</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=16GB</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q gpuvolta</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=scratch/qc03</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: We use 31 hours waltime rather than 30</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># to allow for overheads in running the script</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span>   <span class="co"># Module loading and setup go here</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="ex">fine_tune_detectron2.py</span> <span class="at">--dataset-name</span> MyDataSet <span class="at">--train-json</span> MyDataSet_Train.json <span class="at">--test-json</span> MyDataSet_Test.json <span class="at">--max-iter</span> 10000 <span class="at">--output-dir</span> /scratch/qc3/model_fine_tuning</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then we can create a second pbs script that will pick up the output of the above and continue running for 10000 more iterations, again allowing half the walltime:</p>
+<p><strong>iteration2.pbs</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#! /bin/bash</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P qc03</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N fine_tune_example_s2</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=31:00:00</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=1</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ngpus=1</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=16GB</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q gpuvolta</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=scratch/qc03</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span>   <span class="co"># Module loading and setup go her - likely the same as above.</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="ex">fine_tune_detectron2.py</span> <span class="at">--dataset-name</span> MyDataSet <span class="at">--train-json</span> MyDataSet_Train.json <span class="at">--test-json</span> MyDataSet_Test.json <span class="at">--max-iter</span> 10000 <span class="at">--output-dir</span> /scratch/qc3/model_fine_tuning <span class="at">--model-file</span> /scratch/qc3/model_fine_tuning/MODEL_9999.pth</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can split this into as many shorter chunks as we would like, each starting from the output of the previous iteration. These can then be run sequentially by adding the flag <code>-W depend=afterok:&lt;jobid&gt;</code> to <code>qsub</code> for each script after the first at the gadi command prompt like so:</p>
+<ol type="1">
+<li>Submit <code>iteration1.pbs</code> at the command line</li>
+</ol>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> qsub iteration1.pbs</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">136554542.gadi-pbs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li><p>gadi will return the jobid of the first script: <code>136554542.gadi-pbs</code>. You will need the jobid of the first script to pass to the second qsub command.</p></li>
+<li><p>Now we tell the scond script to only execute after the job in the first script has finished:</p></li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> qsub <span class="at">-W</span> depend=afterok:136554542.gadi-pbs iteration2.pbs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When you run <code>qstat</code> after this you will see the second script will have state <code>H</code> saying it has been held until <code>iteration1.pbs</code> has completed.</p>
+<p>If you find the task of entering all these qsub commands tedious you can also make a bash script which you only need to run once to submit all the scripts:</p>
+<p><strong>submit_jobs_checkpointed.py</strong></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!\bin\bash</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Submit first PBS script and save the run id to JOB1.</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="va">JOB1</span><span class="op">=</span><span class="va">$(</span><span class="ex">qsub</span> iteration1.pbs<span class="va">)</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Submit second pbs script and tell it to run only after the first has COMPLETED.</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the second run id to JOB2</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="va">JOB2</span><span class="op">=</span><span class="va">$(</span><span class="ex">qsub</span> <span class="at">-W</span> depend=afterok:<span class="va">$JOB1</span> iteration2.pbs<span class="va">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can of course chain as many iterations as necessary by continuing the above script.</p>
+<p>Please be aware when you submit multiple long-running job scripts in this way that you should check the output from time to time to ensure everything is going smoothly, and kill the running script if it isn’t before fixing issues and restarting.</p>
+</section>
+<section id="example-3-add-your-own-checkpointing-to-existing-code" class="level3">
+<h3 class="anchored" data-anchor-id="example-3-add-your-own-checkpointing-to-existing-code">Example 3: Add your own checkpointing to existing code</h3>
+<p>Sometimes, you might be running your own software which has no checkpointing available. In this case it still might be possible to add checkpointing to your code yourself with a minimum of fuss, particularly if the code you are running is a long sequential pipeline where each step depends on the result of the previous one.</p>
+<p>An effective way to add checkpointing to existing code is by saving the current state of the variables in your code to disk and then reloading them before starting the next step. The process of doing this is called <em>serialisation</em> and many different popular python packages (e.g.&nbsp;Numpy, Pandas) are able to do it with a simple command. Even native python variables (lists dicts etc. can be saved to disk using the <code>pickle</code> module).</p>
+<p>An example of how you might do this comes from an astronomy pipeline (<a href="https://github.com/askap-vast/vast-pipeline">VAST</a>) which reads thousands of sky images and makes multiple measurements from then followed by associating the stars in them with one another and then generating statistics on each star.</p>
+<p>This simple pipeline is easily split into multiple steps: 1. Read images 2. Measure stars in images 3. Associate stars with one another between images 4. Generate statistics about the stars.</p>
+<p>Here is a minimal example of the pipeline code between step 1 and 2. Step one is simple a function that returns a pandas DataFrame containing the image information and step 2 is another function that reads that dataframe before measureing stars in the image data from step 1.</p>
+<p><strong><code>pipeline.py</code></strong></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Imports and setup at top of pipeline script</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Pipeline Step 1: read images</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Some call to a function that reads images into a pandas dataframe</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>images_df <span class="op">=</span> get_parallel_assoc_image_df(</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                image_file_paths, ...</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Pipeline Step 2: make measurements</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Call a function that measures stars from our image data in images_df</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>sources_df <span class="op">=</span> get_sources(</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>                images_df, ...</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>             )</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This can be split into python sripts <code>step1</code> and <code>step2</code> where the end of step1 involves writing the returned dataframe to disk and then the start of step2 involves reading the result from disk.</p>
+<p><strong><code>step1.py</code></strong></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Pipeline Step 1: read images</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Some call to a function that reads images into a pandas dataframe</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>images_df <span class="op">=</span> get_parallel_assoc_image_df(</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                image_file_paths, ...</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>images_df.write_parquet(<span class="st">'images_df.parquet'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong><code>step2.py</code></strong></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Possible config setup here.</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>images_df <span class="op">=</span> pd.read_parquet(<span class="st">'images_df.parquet'</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Pipeline Step 2: make measurements</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Call a function that measures stars from our image data in images_df</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>sources_df <span class="op">=</span> get_sources(</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                images_df, ...</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>pd.write_parquet(...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These scripts can then be run sequentially using the method described in the previous example.</p>
 
 
 </section>
@@ -592,6 +731,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -702,6 +843,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

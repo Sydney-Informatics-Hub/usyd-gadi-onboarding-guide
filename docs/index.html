@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.5.55">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -37,10 +37,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-86daaaaad7353f9cc0c554efc1dd6d94.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-f4163e54545b01daaae269814d862f3d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -123,14 +123,6 @@ cookieconsent.run({
     <a class="nav-link active" href="./index.html" aria-current="page"> 
 <span class="menu-text">Home</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./notebooks/00_gadi_access.html"> 
-<span class="menu-text">Access Gadi</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./notebooks/01_setup.html"> 
-<span class="menu-text">Set up your computer</span></a>
-  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-introduction-to-gadi" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Introduction to Gadi</span>
@@ -146,6 +138,14 @@ cookieconsent.run({
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./notebooks/00_gadi_access.html"> 
+<span class="menu-text">Access Gadi</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./notebooks/01_setup.html"> 
+<span class="menu-text">Set up your computer</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-on-gadi" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Working on Gadi</span>
@@ -187,12 +187,12 @@ cookieconsent.run({
  <span class="dropdown-text">Job monitoring</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./notebooks/13_parallel_jobs.html">
- <span class="dropdown-text">Parallel jobs</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="./notebooks/10_job_efficiency.html">
  <span class="dropdown-text">Benchmarking and efficiency</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./notebooks/13_parallel_jobs.html">
+ <span class="dropdown-text">Parallel jobs</span></a>
   </li>  
     </ul>
   </li>
@@ -212,7 +212,9 @@ cookieconsent.run({
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#support" id="toc-support" class="nav-link active" data-scroll-target="#support">Support</a></li>
+  <li><a href="#what-is-high-performance-computing" id="toc-what-is-high-performance-computing" class="nav-link active" data-scroll-target="#what-is-high-performance-computing"><strong>What is high performance computing?</strong></a></li>
+  <li><a href="#why-do-we-need-hpc-for-research-computing" id="toc-why-do-we-need-hpc-for-research-computing" class="nav-link" data-scroll-target="#why-do-we-need-hpc-for-research-computing"><strong>Why do we need HPC for research computing?</strong></a></li>
+  <li><a href="#support" id="toc-support" class="nav-link" data-scroll-target="#support">Support</a></li>
   </ul>
 </nav>
     </div>
@@ -239,10 +241,29 @@ cookieconsent.run({
 
 
 <p><a href="https://nci.org.au/our-systems">National Computational Infrastructure (NCI)</a> is a services facility that provides high performance computing (HPC), cloud computing, and data services to Australian researchers.</p>
-<p>Our insitutional HPC ‘Artemis’ will be de-comissioned in August 2025. NCI has been chosen as the replacement computing platform. All staff and students with a valid University of Sydney unikey can access NCI computing time under the <a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme">NCI-Sydney Scheme</a>.</p>
+<p><strong>Our institutional HPC ‘Artemis’ will be decommissioned on 29 August 2025</strong>. NCI has been chosen as the replacement computing platform. All staff and students with a valid University of Sydney unikey can access NCI computing time under the <a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme">NCI-Sydney Scheme</a>. A <a href="https://youtu.be/DmfzO-YKeV8">pre-recorded information session</a> summarising the Sydney Scheme and how to access NCI is available to view.</p>
 <p>If HPC is not suitable for your workload, please consider NCI <a href="https://opus.nci.org.au/display/Help/Nirin+Cloud+User+Guide">cloud</a> or <a href="https://are.nci.org.au/">virtual research desktops</a>. We are confident that your research computing will be well-supported by these platforms.</p>
 <p>This site is focused on the use of NCI’s <a href="https://nci.org.au/our-systems/hpc-systems">Gadi HPC</a>, in the context of University of Sydney researchers.</p>
 <p>Please be mindful this is not an exhaustive resource for using Gadi. It is only intended to orient you to the system and navigate the comprehensive <a href="https://opus.nci.org.au/spaces/Help/pages/12583138/NCI+Help">NCI user documentation</a>.</p>
+<section id="what-is-high-performance-computing" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-high-performance-computing"><strong>What is high performance computing?</strong></h2>
+<p>High performance computing refers to the use of parallel processing techniques to solve complex computation problems efficiently. HPC systems, like Gadi, consist of clusters of interconnected computers, each equipped with multiple processors and large amounts of memory. These systems are capable of handling massive datasets and perform computations at speeds far beyond those achievable by your personal computer.</p>
+</section>
+<section id="why-do-we-need-hpc-for-research-computing" class="level2">
+<h2 class="anchored" data-anchor-id="why-do-we-need-hpc-for-research-computing"><strong>Why do we need HPC for research computing?</strong></h2>
+<p>Research computing comes in all shapes and sizes. In some cases, your compute needs are well-met by your personal computer or a web-based platform. In other cases, these platforms are not sufficient and this is where HPC is critical to ensuring a timely analysis of your data.</p>
+<p>To use HPC, it is <em>not</em> a requirement that your workflow makes use of the multi-node architecture. There are many reasons why HPC would be justified:</p>
+<ul>
+<li>Large input data requiring vast physical storage for inputs and outputs</li>
+<li>High CPU or node requirement</li>
+<li>GPU requirement</li>
+<li>High memory requirement</li>
+<li>Long walltime requirement</li>
+<li>Faster I/O operations than your local computer can handle</li>
+<li>Freeing up your local computer resources for other tasks, or simply to shut down for the day without affecting the compute analysis you are running</li>
+</ul>
+<p>HPC provides a reliable and efficient means of analysing data of all shapes and sizes from all research domains.</p>
+</section>
 <section id="support" class="level2">
 <h2 class="anchored" data-anchor-id="support">Support</h2>
 <p>SIH is limited in the support it can provide for NCI Gadi users. If you are new to HPC and Gadi, we expect you will attend <a href="https://opus.nci.org.au/spaces/Help/pages/48497461/NCI+Training+and+Educational+Events">NCI’s Intro to Gadi</a> courses. Additionally, familiarise yourself with Gadi using the <a href="https://opus.nci.org.au/display/Help/Gadi+User+Guide">NCI Gadi user guide</a>.</p>
@@ -250,6 +271,12 @@ cookieconsent.run({
 <ul>
 <li><a href="https://www.sydney.edu.au/research/facilities/sydney-informatics-hub/workshops-and-training/training-calendar.html">SIH training calendar</a></li>
 <li><a href="https://opus.nci.org.au/display/Help/NCI+Training+and+Educational+Events">NCI training calendar</a></li>
+<li>A pre-recorded information session <a href="https://youtu.be/DmfzO-YKeV8">summarising the Sydney Scheme and how to access NCI</a></li>
+<li>A pre-recorded information session on <a href="https://www.youtube.com/watch?v=ZBOycXymok4">adapting Artemis job scripts to Gadi</a></li>
+<li>A pre-recorded information session on <a href="https://youtu.be/ZBOycXymok4?si=Ln03g69UjCcylF13&amp;t=1856">data transfer between RDS and Gadi</a></li>
+<li>A pre-recorded information session on <a href="https://youtu.be/s1G8-TBRyTo">working within the Gadi walltime limit</a></li>
+<li>A pre-recorded information session on <a href="https://youtu.be/4ztdcnfIaP4">KSU estimation and compute resource benchmarking on Gadi</a></li>
+<li>A live session on <a href="https://uni-sydney.zoom.us/j/86462552203">running parallel jobs on Gadi</a> - recording TBA</li>
 </ul>
 <p>For additional support, please contact the following people depending on your needs:</p>
 <table class="caption-top table">
@@ -269,7 +296,7 @@ cookieconsent.run({
 <td style="text-align: left;"><a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme">Sydney Documentation</a></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">A techincal issue with NCI. An error in your running job. New software installation.</td>
+<td style="text-align: left;">A technical issue with NCI. An error in your running job. New software installation.</td>
 <td style="text-align: left;">NCI Helpdesk</td>
 <td style="text-align: left;"><a href="https://nci.org.au/users/nci-helpdesk">Log an NCI ticket</a></td>
 <td style="text-align: left;">Provide your error, log file, jobid. Versions or links for installs.</td>
@@ -281,7 +308,7 @@ cookieconsent.run({
 <td style="text-align: left;">Provide details e.g.&nbsp;<a href="https://github.com/Sydney-Informatics-Hub/Germline-StructuralV-nf/issues/65">this issue</a></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">General research computing or bioinformatics advice</td>
+<td style="text-align: left;">General research computing or data analysis advice</td>
 <td style="text-align: left;">SIH</td>
 <td style="text-align: left;"><a href="https://www.sydney.edu.au/research/facilities/sydney-informatics-hub.html">Log an SIH ticket</a></td>
 <td style="text-align: left;">Provide relevant context, errors, tool names, scripts</td>
@@ -375,6 +402,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -485,6 +514,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
