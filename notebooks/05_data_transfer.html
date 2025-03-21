@@ -604,18 +604,16 @@ Warning
 <p>If you are transferring data directly for example <code>scp</code> on the command line or via a transfer client on your local computer, entering a password to initiate the transfer is straightforward. If however you want to transfer via a job submitted to either <code>copyq</code> or <code>dtq</code>, you will need to set up SSH keys first, or else your script will halt while it waits fro a password to be entered.</p>
 <p>You only need to set this up once.</p>
 <p>SSH key pairs are used for secure communication between two systems. The pair consists of a <strong>private</strong> key and a <strong>public</strong> key. The <strong>private</strong> key should remain private and only be known by the user. It is stored securely on the user’s computer. The <strong>public</strong> key can be shared with any system the user wants to connect to. It is added to the remote system’s authorized keys. When a connection is attempted, the remote system uses the public key to create a message for the user’s system.</p>
-<p>There are many general guides for this online, for example <a href="https://medium.com/@prateek.malhotra004/streamlining-secure-remote-access-a-guide-to-passwordless-ssh-connections-between-linux-servers-8c26bb008af9">this one</a>. For step-by-step instructions on how to set up keys between Gadi and RDS, expand the drop down below.</p>
+<p>There are many general guides for this online, for example <a href="https://medium.com/@prateek.malhotra004/streamlining-secure-remote-access-a-guide-to-passwordless-ssh-connections-between-linux-servers-8c26bb008af9">this one</a>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Click to expand
+Set up keys between Gadi and RDS
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Follow the below steps carefully to set up SSH keys between RDS and Gadi. Note, <strong>you only need to do this once</strong>.</p>
 <ol type="1">
@@ -683,7 +681,6 @@ Connection to research-data-ext.sydney.edu.au closed.</code></pre>
 <p>But now try <code>lftp</code> connection again!</p>
 </div>
 </div>
-</div>
 </section>
 <section id="template-copyq-scripts-for-transferring-data-with-sftp" class="level4">
 <h4 class="anchored" data-anchor-id="template-copyq-scripts-for-transferring-data-with-sftp">Template copyq scripts for transferring data with <code id="scopyq">sftp</code></h4>
@@ -695,16 +692,14 @@ Connection to research-data-ext.sydney.edu.au closed.</code></pre>
 <li><p><code>from_rds_to_gadi.pbs</code> is used to transfer a file or folder from RDS to Gadi</p></li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Transfer from Gadi to RDS
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><code>from_gadi_to_rds.pbs</code> script, replace variables in <code>&lt;brackets&gt;</code> as described:</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
@@ -740,18 +735,15 @@ Transfer from Gadi to RDS
 <span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a><span class="ex">sftp</span> <span class="va">${remote_user}</span>@<span class="va">${remote_host}</span>:<span class="va">${remote_path}</span> <span class="op">&lt;&lt;&lt;</span> <span class="st">$"put -r </span><span class="va">${local_path}</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-</div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Transfer from RDS to Gadi
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><code>from_rds_to_gadi.pbs</code> script, replace variables in <code>&lt;brackets&gt;</code> as described:</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
@@ -790,7 +782,6 @@ Transfer from RDS to Gadi
 <span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy folder with sftp</span></span>
 <span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a><span class="ex">sftp</span> <span class="at">-r</span> <span class="va">${remote_user}</span>@<span class="va">${remote_host}</span>:<span class="va">${remote_path}</span> <span class="va">${dest_path}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </div>
 </div>
 <p>Here is an example showing you how to transfer a folder called <code>MyData</code> in the RDS project <code>Training</code> to some scratch space in Gadi owned by project <code>aa00</code>.</p>
@@ -891,16 +882,14 @@ Warning
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Sync between Gadi and RDS
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="sourceCode" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -942,7 +931,6 @@ Sync between Gadi and RDS
 <span id="cb34-38"><a href="#cb34-38" aria-hidden="true" tabindex="-1"></a><span class="op">EOF</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-</div>
 </section>
 <section id="suggested-workflow-for-copying-data-between-rds-and-gadi-and-keeping-it-up-to-date" class="level4">
 <h4 class="anchored" data-anchor-id="suggested-workflow-for-copying-data-between-rds-and-gadi-and-keeping-it-up-to-date">Suggested workflow for copying data between RDS and Gadi and keeping it up-to-date</h4>
@@ -977,16 +965,14 @@ Warning
 <p>For transfer of large files directly from Artemis to Gadi, the use of resumable <code>rsync</code> is recommended (see script below). The transfer can be initiated using Artemis <code>dtq</code> and using Gadi’s data mover node: <code>gadi-dm.nci.org.au</code>. The below template script can be used with Artemis’ <code>dtq</code> using <code>rsync</code>.</p>
 <p>For further info about copying data from Artemis <code>dtq</code> can be found in the <a href="https://sydney-informatics-hub.github.io/training.artemis.rds/04-rcos2hpc/index.html">SIH Artemis Training Series</a>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Template Artemis data transfer script using <code>rsync</code>
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-16" class="callout-16-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="sourceCode" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1023,7 +1009,6 @@ Template Artemis data transfer script using <code>rsync</code>
 <span id="cb35-33"><a href="#cb35-33" aria-hidden="true" tabindex="-1"></a>                <span class="fu">sleep</span> 180</span>
 <span id="cb35-34"><a href="#cb35-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">fi</span></span>
 <span id="cb35-35"><a href="#cb35-35" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </div>
 </div>
 
