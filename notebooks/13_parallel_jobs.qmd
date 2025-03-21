@@ -12,6 +12,8 @@ from: markdown+emoji
 
 In this section, we will discuss how you can run embarrassingly parallel jobs on Gadi using the `nci-parallel` utility in place of the Artemis job array method. 
 
+[Watch the pre-recorded session.](https://youtu.be/wl-oAso0c30)
+
 The main challenges users may face adapting Artemis workflows to Gadi are:
 
 - Job arrays not supported on Gadi
