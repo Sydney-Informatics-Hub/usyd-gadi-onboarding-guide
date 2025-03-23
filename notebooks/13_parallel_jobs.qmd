@@ -607,6 +607,12 @@ To start with we set up a list of parameters we want to pass to the script for b
 
 In this example we will run four instances of the `whatispi.py` script (for larger lists of parameters this would run across multiple nodes) and each instance will create a multiprocessing pool of 2 CPUs and run two trials with the sizes specified. Note the larger run sizes of the first two instances, we will investigate the implications of this later on.
 
+From some benchmarking investigations we estimate that our longest run in `job_params` will take ~10 minutes. We can use the [parallel resource calculator](https://github.com/Sydney-Informatics-Hub/usyd-gadi-onboarding-guide/raw/refs/heads/main/resources/parallel_resource_calculator.xlsx) to estimate the required resources for our run by filling in the red highlighted cells there. Note that in this simple example we only request ~0.17 nodes since that is all we require - normally for large parallel jobs you would require >>1 nodes. 
+
+![](../fig/resource-calc-pi.png)
+
+The resource calculator has estimated that we can run our 4 jobs in parallel with 8 cores and should end up using 4 SU for the run. This is a worse case estimate since we entered 10 minutes per task and some of the runs will be much shorter than this.
+
 Here is a simple Artemis PBS script that takes the parameter file above and runs it using an array job:
 
 **piDemo-job_array.pbs**
