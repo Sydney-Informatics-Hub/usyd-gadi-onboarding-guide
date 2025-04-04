@@ -267,18 +267,21 @@ cookieconsent.run({
 <section id="support" class="level2">
 <h2 class="anchored" data-anchor-id="support">Support</h2>
 <p>SIH is limited in the support it can provide for NCI Gadi users. If you are new to HPC and Gadi, we expect you will attend <a href="https://opus.nci.org.au/spaces/Help/pages/48497461/NCI+Training+and+Educational+Events">NCI’s Intro to Gadi</a> courses. Additionally, familiarise yourself with Gadi using the <a href="https://opus.nci.org.au/display/Help/Gadi+User+Guide">NCI Gadi user guide</a>.</p>
-<p>Live and self-directed training is also offered by SIH and NCI on HPC and data analysis topics:</p>
+<p><strong>Live and self-directed training</strong> is also offered by SIH and NCI on HPC and data analysis topics:</p>
 <ul>
 <li><a href="https://www.sydney.edu.au/research/facilities/sydney-informatics-hub/workshops-and-training/training-calendar.html">SIH training calendar</a></li>
 <li><a href="https://opus.nci.org.au/display/Help/NCI+Training+and+Educational+Events">NCI training calendar</a></li>
-<li>A pre-recorded information session <a href="https://youtu.be/DmfzO-YKeV8">summarising the Sydney Scheme and how to access NCI</a></li>
-<li>A pre-recorded information session on <a href="https://www.youtube.com/watch?v=ZBOycXymok4">adapting Artemis job scripts to Gadi</a></li>
-<li>A pre-recorded information session on <a href="https://youtu.be/ZBOycXymok4?si=Ln03g69UjCcylF13&amp;t=1856">data transfer between RDS and Gadi</a></li>
-<li>A pre-recorded information session on <a href="https://youtu.be/s1G8-TBRyTo">working within the Gadi walltime limit</a></li>
-<li>A pre-recorded information session on <a href="https://youtu.be/4ztdcnfIaP4">KSU estimation and compute resource benchmarking on Gadi</a></li>
-<li>A live session on <a href="https://uni-sydney.zoom.us/j/86462552203">running parallel jobs on Gadi</a> - recording TBA</li>
 </ul>
-<p>For additional support, please contact the following people depending on your needs:</p>
+<p><strong>Pre-recorded information sessions:</strong></p>
+<ul>
+<li><a href="https://youtu.be/DmfzO-YKeV8">Summarising the Sydney Scheme and how to access NCI</a></li>
+<li><a href="https://www.youtube.com/watch?v=ZBOycXymok4">Adapting Artemis job scripts to Gadi</a></li>
+<li><a href="https://youtu.be/ZBOycXymok4?si=Ln03g69UjCcylF13&amp;t=1856">Data transfer between RDS and Gadi</a></li>
+<li><a href="https://youtu.be/s1G8-TBRyTo">Working within the Gadi walltime limit</a></li>
+<li><a href="https://youtu.be/4ztdcnfIaP4">KSU estimation and compute resource benchmarking on Gadi</a></li>
+<li><a href="https://youtu.be/wl-oAso0c30">Running embarassingly parallel jobs on Gadi</a> (replaces Artemis job arrays)</li>
+</ul>
+<p><strong>For additional support</strong>, please contact the following people depending on your needs:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -290,24 +293,42 @@ cookieconsent.run({
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Service unit allocation for running jobs. Request for g/data storage.</td>
+<td style="text-align: left;">Service unit allocation for running jobs</td>
 <td style="text-align: left;">SIH</td>
 <td style="text-align: left;"><a href="https://nci.sydney.edu.au/">Make a request</a></td>
 <td style="text-align: left;"><a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme">Sydney Documentation</a></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">A technical issue with NCI. An error in your running job. New software installation.</td>
-<td style="text-align: left;">NCI Helpdesk</td>
-<td style="text-align: left;"><a href="https://nci.org.au/users/nci-helpdesk">Log an NCI ticket</a></td>
-<td style="text-align: left;">Provide your error, log file, jobid. Versions or links for installs.</td>
+<td style="text-align: left;">Request for increased <strong>g/data</strong> storage</td>
+<td style="text-align: left;">SIH</td>
+<td style="text-align: left;"><a href="mailto:nci-sydney.scheme@sydney.edu.au">Send an email</a></td>
+<td style="text-align: left;"><a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme">Sydney Documentation</a></td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">Request for increased <strong>scratch</strong> space</td>
+<td style="text-align: left;">NCI Helpdesk</td>
+<td style="text-align: left;"><a href="https://nci.org.au/users/nci-helpdesk">Log an NCI ticket</a></td>
+<td style="text-align: left;">Provide brief justification for the need including number of files, size of files, data lifecycle</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Request for increased <strong>iNode</strong> quota in gdata or scratch</td>
+<td style="text-align: left;">NCI Helpdesk</td>
+<td style="text-align: left;"><a href="https://nci.org.au/users/nci-helpdesk">Log an NCI ticket</a></td>
+<td style="text-align: left;">Provide brief justification for the need including number of files, size of files, data lifecycle, efforts to reduce iNode footprint</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A technical issue with NCI systems or compute jobs</td>
+<td style="text-align: left;">NCI Helpdesk</td>
+<td style="text-align: left;"><a href="https://nci.org.au/users/nci-helpdesk">Log an NCI ticket</a></td>
+<td style="text-align: left;">Provide all relevant information such as your error, log file, jobid</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">A bug in an <a href="https://github.com/Sydney-Informatics-Hub">SIH pipeline</a></td>
 <td style="text-align: left;">SIH</td>
 <td style="text-align: left;">Submit an issue on Github</td>
 <td style="text-align: left;">Provide details e.g.&nbsp;<a href="https://github.com/Sydney-Informatics-Hub/Germline-StructuralV-nf/issues/65">this issue</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">General research computing or data analysis advice</td>
 <td style="text-align: left;">SIH</td>
 <td style="text-align: left;"><a href="https://www.sydney.edu.au/research/facilities/sydney-informatics-hub.html">Log an SIH ticket</a></td>
