@@ -264,13 +264,20 @@ For more info about tmux check [here](https://www.redhat.com/en/blog/introductio
 
 The data transfer queue on Gadi is called `copyq`. This is comparable to the data transfer queue on Artemis `dtq`. Data transfer methods/scripts that you used to put data onto Artemis for example from the web via `wget` or from another server should be easily portable to use on Gadi's `copyq`. 
 
+::: {.callout-important}
+If you have been relying on ssh key pairs between Gadi and Artemis for passwordless data transfers, please create a new ssh key pair between Gadi and `research-data-ext` (the RDS login server), as after 29th August, your Gadi-Artemis key pair will no longer work.
+Users have home directory on `research-data-ext` with a very small quota to enable storing of ssh key files. 
+:::
+
 Please note that the compute nodes on Gadi **do not have** internet access like the Artemis compute nodes do, so all required data must first be downloaded before submitting a compute job that requires the data.  
 
 Due to stringent security settings around Artemis and RDS, commands like `rsync` or `scp` **cannot** be initiated from NCI Gadi login nodes or `copyq`. To initiate the transfer from Gadi, `sftp` or `lftp` must be used. In the not too distant future Globus will become available for data transfer and then that will be the preferred method for transferring data to and from Gadi.
 
 #### How to set up SSH keys for passwordless data transfer
 
-If you are transferring data directly for example `scp` on the command line or via a transfer client on your local computer, entering a password to initiate the transfer is straightforward. If however you want to transfer via a job submitted to either `copyq` or `dtq`, you will need to set up SSH keys first, or else your script will halt while it waits fro a password to be entered.
+If you are transferring data directly for example `scp` on the command line or via a transfer client on your local computer, entering a password to initiate the transfer is straightforward. If however you want to transfer via a job submitted to either `copyq` or `dtq`, you will need to set up SSH keys first, or else your script will halt while it waits for a password to be entered.
+
+**If you have been relying on ssh key pairs between gadi and Artemis for passwordless data transfers, please create a new ssh key pair between Gadi and research-data-ext (the RDS login server), as after 29th August, your Gadi-Artemis key pair will no longer work.
 
 You only need to set this up once.
 
@@ -322,56 +329,57 @@ chmod 600 id_rsa
 chmod 644 id_rsa.pub
 ```
 
-7. Make an `authorized_keys` file if you don't already have one that can be transferred to USyd's Artemis/RDS system: 
+7. Make an `authorized_keys` file if you don't already have one: 
 
 ```bash
 touch ~/.ssh/authorized_keys
 ```
 
-7. Copy the contents of the public key file (`~/.ssh/id_rsa.pub`) to the `authorized_keys` file to be transferred to USyd's Artemis/RDS system: 
+8. Copy the contents of the public key file (`~/.ssh/id_rsa.pub`) to the `authorized_keys` file: 
 
 ```bash
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 ```
 
-8. Set permissions for the `authorized_keys` file to be transferred to USyd's Artemis/RDS system: 
+9. Set permissions for the `authorized_keys` file: 
 
 ```bash
 chmod 600 ~/.ssh/authorized_keys
 ```
 
-9. Connect to USyd's Artemis/RDS system using `lftp` and your unikey:
+10. Connect to USyd's RDS login server using `lftp` and your unikey:
 
 ```bash
 lftp sftp://<your-unikey>@research-data-ext.sydney.edu.au
 ```
+Provide your unikey password when prompted. When you log in, you are in your personal home directory on the RDS login server. This is NOT the place to store data, only ssh key files. 
 
-Provide your password when prompted. Then make and move into a `.ssh` directory if you don't already have one: 
+Then make and move into a `.ssh` directory if you don't already have one: 
 
 ```bash
 mkdir -p ~/.ssh
 cd ~/.ssh
 ```
 
-10. Transfer the `authorized_keys` file from Gadi to USyd's Artemis/RDS system: 
+11. Transfer the `authorized_keys` file from Gadi to USyd's RDS login server: 
 
 ```bash 
 put authorized_keys
 ```
 
-Doing this will transfer authorized_keys on Gadi to your current directory. With lftp, it will look for the file relative to where you launched lftp. You can check where you are on Gadi using:
+Doing this will transfer authorized_keys on Gadi to your current directory on RDS (/home/<unikey>). With lftp, it will look for the file relative to where you launched lftp. You can check where you are on Gadi using:
 
 ```bash
 local pwd
 ```
 
-11. Exit your lftp connection to USyd's Artemis/RDS system `ctrl + d` and test the passwordless connection: 
+12. Exit your `lftp` connection to RDS by entering `ctrl + d`. You are now back to your Gadi session. Then, test the passwordless connection: 
 
 ```bash
 sftp <your-unikey>@research-data-ext.sydney.edu.au
 ```
 
-This time, you shouldn't be prompted for a password. You can proceed to transfer data between Gadi and USyd's Artemis/RDS system now on the `copyq`. 
+This time, you shouldn't be prompted for a password. You can proceed to transfer data between Gadi and RDS now on the `copyq`. 
 
 If you get the error "Fatal error: Host key verification failed" you may have to get an "ssh fingerprint" first. Do this by sending an ssh request to the RDS with:
 
