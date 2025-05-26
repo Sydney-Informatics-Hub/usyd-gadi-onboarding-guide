@@ -129,6 +129,10 @@ cookieconsent.run({
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-introduction-to-gadi">    
         <li>
+    <a class="dropdown-item" href="./notebooks/02_intro_hpc.html">
+ <span class="dropdown-text">Introduction to HPC</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="./notebooks/02_system_setup.html">
  <span class="dropdown-text">Gadi overview</span></a>
   </li>  
@@ -196,6 +200,10 @@ cookieconsent.run({
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./support.html"> 
+<span class="menu-text">Support and resources</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
@@ -208,15 +216,7 @@ cookieconsent.run({
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#what-is-high-performance-computing" id="toc-what-is-high-performance-computing" class="nav-link active" data-scroll-target="#what-is-high-performance-computing"><strong>What is high performance computing?</strong></a></li>
-  <li><a href="#why-do-we-need-hpc-for-research-computing" id="toc-why-do-we-need-hpc-for-research-computing" class="nav-link" data-scroll-target="#why-do-we-need-hpc-for-research-computing"><strong>Why do we need HPC for research computing?</strong></a></li>
-  <li><a href="#support" id="toc-support" class="nav-link" data-scroll-target="#support">Support</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -240,105 +240,61 @@ cookieconsent.run({
 </header>
 
 
-<p><a href="https://nci.org.au/our-systems">National Computational Infrastructure (NCI)</a> is a services facility that provides high performance computing (HPC), cloud computing, and data services to Australian researchers.</p>
-<p><strong>Our institutional HPC ‘Artemis’ will be decommissioned on 29 August 2025</strong>. NCI has been chosen as the replacement computing platform. All staff and students with a valid University of Sydney unikey can access NCI computing time under the <a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme">NCI-Sydney Scheme</a>. A <a href="https://youtu.be/DmfzO-YKeV8">pre-recorded information session</a> summarising the Sydney Scheme and how to access NCI is available to view.</p>
-<p>If HPC is not suitable for your workload, please consider NCI <a href="https://opus.nci.org.au/display/Help/Nirin+Cloud+User+Guide">cloud</a> or <a href="https://are.nci.org.au/">virtual research desktops</a>. We are confident that your research computing will be well-supported by these platforms.</p>
-<p>This site is focused on the use of NCI’s <a href="https://nci.org.au/our-systems/hpc-systems">Gadi HPC</a>, in the context of University of Sydney researchers.</p>
-<p>Please be mindful this is not an exhaustive resource for using Gadi. It is only intended to orient you to the system and navigate the comprehensive <a href="https://opus.nci.org.au/spaces/Help/pages/12583138/NCI+Help">NCI user documentation</a>.</p>
-<section id="what-is-high-performance-computing" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-high-performance-computing"><strong>What is high performance computing?</strong></h2>
-<p>High performance computing refers to the use of parallel processing techniques to solve complex computation problems efficiently. HPC systems, like Gadi, consist of clusters of interconnected computers, each equipped with multiple processors and large amounts of memory. These systems are capable of handling massive datasets and perform computations at speeds far beyond those achievable by your personal computer.</p>
-</section>
-<section id="why-do-we-need-hpc-for-research-computing" class="level2">
-<h2 class="anchored" data-anchor-id="why-do-we-need-hpc-for-research-computing"><strong>Why do we need HPC for research computing?</strong></h2>
-<p>Research computing comes in all shapes and sizes. In some cases, your compute needs are well-met by your personal computer or a web-based platform. In other cases, these platforms are not sufficient and this is where HPC is critical to ensuring a timely analysis of your data.</p>
-<p>To use HPC, it is <em>not</em> a requirement that your workflow makes use of the multi-node architecture. There are many reasons why HPC would be justified:</p>
-<ul>
-<li>Large input data requiring vast physical storage for inputs and outputs</li>
-<li>High CPU or node requirement</li>
-<li>GPU requirement</li>
-<li>High memory requirement</li>
-<li>Long walltime requirement</li>
-<li>Faster I/O operations than your local computer can handle</li>
-<li>Freeing up your local computer resources for other tasks, or simply to shut down for the day without affecting the compute analysis you are running</li>
-</ul>
-<p>HPC provides a reliable and efficient means of analysing data of all shapes and sizes from all research domains.</p>
-</section>
-<section id="support" class="level2">
-<h2 class="anchored" data-anchor-id="support">Support</h2>
-<p>SIH is limited in the support it can provide for NCI Gadi users. If you are new to HPC and Gadi, we expect you will attend <a href="https://opus.nci.org.au/spaces/Help/pages/48497461/NCI+Training+and+Educational+Events">NCI’s Intro to Gadi</a> courses. Additionally, familiarise yourself with Gadi using the <a href="https://opus.nci.org.au/display/Help/Gadi+User+Guide">NCI Gadi user guide</a>.</p>
-<p><strong>Live and self-directed training</strong> is also offered by SIH and NCI on HPC and data analysis topics:</p>
-<ul>
-<li><a href="https://www.sydney.edu.au/research/facilities/sydney-informatics-hub/workshops-and-training/training-calendar.html">SIH training calendar</a></li>
-<li><a href="https://opus.nci.org.au/display/Help/NCI+Training+and+Educational+Events">NCI training calendar</a></li>
-</ul>
-<p><strong>Pre-recorded information sessions:</strong></p>
-<ul>
-<li><a href="https://youtu.be/DmfzO-YKeV8">Summarising the Sydney Scheme and how to access NCI</a></li>
-<li><a href="https://www.youtube.com/watch?v=ZBOycXymok4">Adapting Artemis job scripts to Gadi</a></li>
-<li><a href="https://youtu.be/ZBOycXymok4?si=Ln03g69UjCcylF13&amp;t=1856">Data transfer between RDS and Gadi</a></li>
-<li><a href="https://youtu.be/s1G8-TBRyTo">Working within the Gadi walltime limit</a></li>
-<li><a href="https://youtu.be/4ztdcnfIaP4">KSU estimation and compute resource benchmarking on Gadi</a></li>
-<li><a href="https://youtu.be/wl-oAso0c30">Running embarassingly parallel jobs on Gadi</a> (replaces Artemis job arrays)</li>
-</ul>
-<p><strong>For additional support</strong>, please contact the following people depending on your needs:</p>
+<p><a href="https://nci.org.au/our-systems">National Computational Infrastructure (NCI)</a> provides high performance computing (HPC), cloud computing, and data services to Australian researchers. This guide has been developed to support University of Sydney researchers in setting up their computational workflows on NCI’s <a href="https://nci.org.au/our-systems/hpc-systems">Gadi HPC</a>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Please be mindful this is not an exhaustive resource for using Gadi. It is only intended to orient you to the system and navigate the comprehensive <a href="https://opus.nci.org.au/spaces/Help/pages/12583138/NCI+Help">NCI user documentation</a>. See the <a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/overview?homepageId=173932782">University of Sydney Research Computing documentation</a> for more information on research computing infrastructure available at USyd.</p>
+</div>
+</div>
+<p><br> <br> Navigate to the following sections to access the information you need to get started:</p>
 <table class="table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 66%">
+</colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">Type of issue</th>
-<th style="text-align: left;">Who</th>
-<th style="text-align: left;">How</th>
-<th style="text-align: left;">Details</th>
+<th>Section</th>
+<th>What is covered</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Service unit allocation for running jobs</td>
-<td style="text-align: left;">SIH</td>
-<td style="text-align: left;"><a href="https://nci.sydney.edu.au/">Make a request</a></td>
-<td style="text-align: left;"><a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme">Sydney Documentation</a></td>
+<td>Introduction to Gadi</td>
+<td>Explanation of Gadi resources and expectations</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Request for increased <strong>g/data</strong> storage</td>
-<td style="text-align: left;">SIH</td>
-<td style="text-align: left;"><a href="mailto:nci-sydney.scheme@sydney.edu.au">Send an email</a></td>
-<td style="text-align: left;"><a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme">Sydney Documentation</a></td>
+<td>Access Gadi</td>
+<td>Sydney Scheme documentation</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Request for increased <strong>scratch</strong> space</td>
-<td style="text-align: left;">NCI Helpdesk</td>
-<td style="text-align: left;"><a href="https://nci.org.au/users/nci-helpdesk">Log an NCI ticket</a></td>
-<td style="text-align: left;">Provide brief justification for the need including number of files, size of files, data lifecycle</td>
+<td>Set up your computer</td>
+<td>Installing and configuring an IDE or terminal</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Request for increased <strong>iNode</strong> quota in gdata or scratch</td>
-<td style="text-align: left;">NCI Helpdesk</td>
-<td style="text-align: left;"><a href="https://nci.org.au/users/nci-helpdesk">Log an NCI ticket</a></td>
-<td style="text-align: left;">Provide brief justification for the need including number of files, size of files, data lifecycle, efforts to reduce iNode footprint</td>
+<td>Working on Gadi</td>
+<td>Key concepts you need to understand to work effectively on Gadi</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">A technical issue with NCI systems or compute jobs</td>
-<td style="text-align: left;">NCI Helpdesk</td>
-<td style="text-align: left;"><a href="https://nci.org.au/users/nci-helpdesk">Log an NCI ticket</a></td>
-<td style="text-align: left;">Provide all relevant information such as your error, log file, jobid</td>
+<td>Running a job</td>
+<td>Worked examples of different types of jobs on Gadi</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">A bug in an <a href="https://github.com/Sydney-Informatics-Hub">SIH pipeline</a></td>
-<td style="text-align: left;">SIH</td>
-<td style="text-align: left;">Submit an issue on Github</td>
-<td style="text-align: left;">Provide details e.g.&nbsp;<a href="https://github.com/Sydney-Informatics-Hub/Germline-StructuralV-nf/issues/65">this issue</a></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">General research computing or data analysis advice</td>
-<td style="text-align: left;">SIH</td>
-<td style="text-align: left;"><a href="https://www.sydney.edu.au/research/facilities/sydney-informatics-hub.html">Log an SIH ticket</a></td>
-<td style="text-align: left;">Provide relevant context, errors, tool names, scripts</td>
+<td>Support and resources</td>
+<td>Resources and useful points of contact</td>
 </tr>
 </tbody>
 </table>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

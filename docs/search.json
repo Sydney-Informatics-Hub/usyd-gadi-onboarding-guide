@@ -389,7 +389,7 @@
     "href": "index.html",
     "title": "NCI for USyd researchers",
     "section": "",
-    "text": "National Computational Infrastructure (NCI) is a services facility that provides high performance computing (HPC), cloud computing, and data services to Australian researchers.\nOur institutional HPC ‘Artemis’ will be decommissioned on 29 August 2025. NCI has been chosen as the replacement computing platform. All staff and students with a valid University of Sydney unikey can access NCI computing time under the NCI-Sydney Scheme. A pre-recorded information session summarising the Sydney Scheme and how to access NCI is available to view.\nIf HPC is not suitable for your workload, please consider NCI cloud or virtual research desktops. We are confident that your research computing will be well-supported by these platforms.\nThis site is focused on the use of NCI’s Gadi HPC, in the context of University of Sydney researchers.\nPlease be mindful this is not an exhaustive resource for using Gadi. It is only intended to orient you to the system and navigate the comprehensive NCI user documentation."
+    "text": "National Computational Infrastructure (NCI) provides high performance computing (HPC), cloud computing, and data services to Australian researchers. This guide has been developed to support University of Sydney researchers in setting up their computational workflows on NCI’s Gadi HPC.\n\n\n\n\n\n\nNote\n\n\n\nPlease be mindful this is not an exhaustive resource for using Gadi. It is only intended to orient you to the system and navigate the comprehensive NCI user documentation. See the University of Sydney Research Computing documentation for more information on research computing infrastructure available at USyd.\n\n\n  Navigate to the following sections to access the information you need to get started:\n\n\n\n\n\n\n\nSection\nWhat is covered\n\n\n\n\nIntroduction to Gadi\nExplanation of Gadi resources and expectations\n\n\nAccess Gadi\nSydney Scheme documentation\n\n\nSet up your computer\nInstalling and configuring an IDE or terminal\n\n\nWorking on Gadi\nKey concepts you need to understand to work effectively on Gadi\n\n\nRunning a job\nWorked examples of different types of jobs on Gadi\n\n\nSupport and resources\nResources and useful points of contact"
   },
   {
     "objectID": "index.html#what-is-high-performance-computing",
@@ -410,7 +410,7 @@
     "href": "index.html#support",
     "title": "NCI for USyd researchers",
     "section": "Support",
-    "text": "Support\nSIH is limited in the support it can provide for NCI Gadi users. If you are new to HPC and Gadi, we expect you will attend NCI’s Intro to Gadi courses. Additionally, familiarise yourself with Gadi using the NCI Gadi user guide.\nLive and self-directed training is also offered by SIH and NCI on HPC and data analysis topics:\n\nSIH training calendar\nNCI training calendar\n\nPre-recorded information sessions:\n\nSummarising the Sydney Scheme and how to access NCI\nAdapting Artemis job scripts to Gadi\nData transfer between RDS and Gadi\nWorking within the Gadi walltime limit\nKSU estimation and compute resource benchmarking on Gadi\nRunning embarassingly parallel jobs on Gadi (replaces Artemis job arrays)\n\nFor additional support, please contact the following people depending on your needs:\n\n\n\nType of issue\nWho\nHow\nDetails\n\n\n\n\nService unit allocation for running jobs\nSIH\nMake a request\nSydney Documentation\n\n\nRequest for increased g/data storage\nSIH\nSend an email\nSydney Documentation\n\n\nRequest for increased scratch space\nNCI Helpdesk\nLog an NCI ticket\nProvide brief justification for the need including number of files, size of files, data lifecycle\n\n\nRequest for increased iNode quota in gdata or scratch\nNCI Helpdesk\nLog an NCI ticket\nProvide brief justification for the need including number of files, size of files, data lifecycle, efforts to reduce iNode footprint\n\n\nA technical issue with NCI systems or compute jobs\nNCI Helpdesk\nLog an NCI ticket\nProvide all relevant information such as your error, log file, jobid\n\n\nA bug in an SIH pipeline\nSIH\nSubmit an issue on Github\nProvide details e.g. this issue\n\n\nGeneral research computing or data analysis advice\nSIH\nLog an SIH ticket\nProvide relevant context, errors, tool names, scripts"
+    "text": "Support"
   },
   {
     "objectID": "notebooks/09_job_monitoring.html",
@@ -628,5 +628,96 @@
     "title": "Command line environment",
     "section": "Linux command line training",
     "text": "Linux command line training\nNCI host a number of training sessions, including introductory Linux. Please visit their training calendar.\nThere are numerous self-directed training tutorials online, such as this one from Sandbox.bio.\nA bash cheatsheet such as this one from NCI or this one can also be helpful in increasing your familiarity with the command line.\nDue to the plethora of high-quality introductory command line materials available online, we will not reproduce those here."
+  },
+  {
+    "objectID": "support.html",
+    "href": "support.html",
+    "title": "Support and resources",
+    "section": "",
+    "text": "Attention researchers\n\n\n\nPlease see the University of Sydney Research Computing documentation for a comprehensive overview of support available to you as a University of Sydney researcher using NCI resources."
+  },
+  {
+    "objectID": "notebooks/02_intro_hpc.html",
+    "href": "notebooks/02_intro_hpc.html",
+    "title": "Introduction to HPC",
+    "section": "",
+    "text": "High performance computing (HPC) refers to the use of parallel processing techniques to solve complex computation problems efficiently. HPC systems, like Gadi, consist of clusters of interconnected computers, each equipped with multiple processors and large amounts of memory. These systems are capable of handling massive datasets and perform computations at speeds far beyond those achievable by your personal computer."
+  },
+  {
+    "objectID": "notebooks/02_intro_hpc.html#what-is-high-performance-computing",
+    "href": "notebooks/02_intro_hpc.html#what-is-high-performance-computing",
+    "title": "Introduction to HPC",
+    "section": "",
+    "text": "High performance computing (HPC) refers to the use of parallel processing techniques to solve complex computation problems efficiently. HPC systems, like Gadi, consist of clusters of interconnected computers, each equipped with multiple processors and large amounts of memory. These systems are capable of handling massive datasets and perform computations at speeds far beyond those achievable by your personal computer."
+  },
+  {
+    "objectID": "notebooks/02_intro_hpc.html#why-do-we-need-hpc-for-research-computing",
+    "href": "notebooks/02_intro_hpc.html#why-do-we-need-hpc-for-research-computing",
+    "title": "Introduction to HPC",
+    "section": "Why do we need HPC for research computing?",
+    "text": "Why do we need HPC for research computing?\nResearch computing comes in all shapes and sizes. In some cases, your compute needs are well-met by your personal computer or a web-based platform. In other cases, these platforms are not sufficient and this is where HPC is critical to ensuring a timely analysis of your data.\nTo use HPC, it is not a requirement that your workflow makes use of the multi-node architecture. There are many reasons why HPC would be justified:\n\nLarge input data requiring vast physical storage for inputs and outputs\nHigh CPU or node requirement\nGPU requirement\nHigh memory requirement\nLong walltime requirement\nFaster I/O operations than your local computer can handle\nFreeing up your local computer resources for other tasks, or simply to shut down for the day without affecting the compute analysis you are running\n\nHPC provides a reliable and efficient means of analysing data of all shapes and sizes from all research domains."
+  },
+  {
+    "objectID": "index.html#using-this-guide",
+    "href": "index.html#using-this-guide",
+    "title": "NCI for USyd researchers",
+    "section": "Using this guide",
+    "text": "Using this guide"
+  },
+  {
+    "objectID": "index.html#getting-started",
+    "href": "index.html#getting-started",
+    "title": "NCI for USyd researchers",
+    "section": "Getting started",
+    "text": "Getting started\nNavigate to the following sections to access the information you need to get started with Gadi:\n\n\n\n\n\n\n\nSection\nWhat is covered\n\n\n\n\nIntroduction to Gadi\nExplanation of Gadi resources and expectations\n\n\nAccess Gadi\nSydney Scheme documentation\n\n\nSet up your computer\nInstalling and configuring an IDE or terminal\n\n\nWorking on Gadi\nKey concepts you need to understand to work effectively on Gadi\n\n\nRunning a job\nWorked examples of different types of jobs on Gadi\n\n\nSupport\nResources and useful points of contact"
+  },
+  {
+    "objectID": "support.html#live-and-self-directed-training",
+    "href": "support.html#live-and-self-directed-training",
+    "title": "Support and resources",
+    "section": "Live and self-directed training",
+    "text": "Live and self-directed training\nIf you are new to HPC and/or NCI, we suggest you attend NCI’s Intro to Gadi courses.\nThere are various trainings offered by SIH and NCI on HPC and data analysis topics:\n\nSIH training calendar\nNCI training calendar"
+  },
+  {
+    "objectID": "support.html#pre-recorded-information-sessions",
+    "href": "support.html#pre-recorded-information-sessions",
+    "title": "Support and resources",
+    "section": "Pre-recorded information sessions",
+    "text": "Pre-recorded information sessions\n\nSummarising the Sydney Scheme and how to access NCI\nAdapting Artemis job scripts to Gadi\nData transfer between RDS and Gadi\nWorking within the Gadi walltime limit\nKSU estimation and compute resource benchmarking on Gadi\nRunning embarassingly parallel jobs on Gadi (replaces Artemis job arrays)"
+  },
+  {
+    "objectID": "support.html#additional-support",
+    "href": "support.html#additional-support",
+    "title": "Support and resources",
+    "section": "Additional support",
+    "text": "Additional support\nPlease contact the following people depending on your needs:\n\n\n\nType of issue\nWho\nHow\nDetails\n\n\n\n\nService unit allocation for running jobs\nSydney Scheme managers\nMake a request\nSydney Documentation\n\n\nRequest for increased g/data storage\nSydney Scheme managers\nSend an email\nSydney Documentation\n\n\nRequest for increased scratch space\nNCI Helpdesk\nLog an NCI ticket\nProvide brief justification for the need including number of files, size of files, data lifecycle\n\n\nRequest for increased iNode quota in gdata or scratch\nNCI Helpdesk\nLog an NCI ticket\nProvide brief justification for the need including number of files, size of files, data lifecycle, efforts to reduce iNode footprint\n\n\nA technical issue with NCI systems or compute jobs\nNCI Helpdesk\nLog an NCI ticket\nProvide all relevant information such as your error, log file, jobid\n\n\nA bug in an SIH pipeline\nSIH\nSubmit an issue on Github\nProvide details e.g. this issue\n\n\nGeneral research computing or data analysis advice\nSIH\nLog an SIH ticket\nProvide relevant context, errors, tool names, scripts"
+  },
+  {
+    "objectID": "support.html#documentation",
+    "href": "support.html#documentation",
+    "title": "Support and resources",
+    "section": "Documentation",
+    "text": "Documentation\nFamiliarise yourself with Gadi using NCI’s documentation and the University of Sydney’s Research Computing documentation.\n\nNCI Gadi user guide\nUSyd Research Computing documentation"
+  },
+  {
+    "objectID": "support.html#i-need-to-talk-to-someone",
+    "href": "support.html#i-need-to-talk-to-someone",
+    "title": "Support and resources",
+    "section": "I need to talk to someone",
+    "text": "I need to talk to someone\nPlease contact the following people depending on your needs:\n\n\n\nType of issue\nWho\nHow\nDetails\n\n\n\n\nService unit allocation for running jobs\nSydney Scheme managers\nMake a request\nSydney Documentation\n\n\nRequest for increased g/data storage\nSydney Scheme managers\nSend an email\nSydney Documentation\n\n\nRequest for increased scratch space\nNCI Helpdesk\nLog an NCI ticket\nProvide brief justification for the need including number of files, size of files, data lifecycle\n\n\nRequest for increased iNode quota in gdata or scratch\nNCI Helpdesk\nLog an NCI ticket\nProvide brief justification for the need including number of files, size of files, data lifecycle, efforts to reduce iNode footprint\n\n\nA technical issue with NCI systems or compute jobs\nNCI Helpdesk\nLog an NCI ticket\nProvide all relevant information such as your error, log file, jobid\n\n\nA bug in an SIH pipeline\nSIH\nSubmit an issue on Github\nProvide details e.g. this issue\n\n\nGeneral research computing or data analysis advice\nSIH\nLog an SIH ticket\nProvide relevant context, errors, tool names, scripts"
+  },
+  {
+    "objectID": "support.html#demonstrations",
+    "href": "support.html#demonstrations",
+    "title": "Support and resources",
+    "section": "Demonstrations",
+    "text": "Demonstrations\nHPC experts at SIH have created a series of videos to help you get jobs running on Gadi:\n\nSummarising the Sydney Scheme and how to access NCI\nAdapting Artemis job scripts to Gadi\nData transfer between RDS and Gadi\nWorking within the Gadi walltime limit\nKSU estimation and compute resource benchmarking on Gadi\nRunning embarassingly parallel jobs on Gadi (replaces Artemis job arrays)"
+  },
+  {
+    "objectID": "support.html#technical-documentation",
+    "href": "support.html#technical-documentation",
+    "title": "Support and resources",
+    "section": "Technical documentation",
+    "text": "Technical documentation\nFamiliarise yourself with Gadi using NCI’s documentation and the University of Sydney’s Research Computing documentation.\n\nNCI Gadi user guide\nUSyd Research Computing documentation"
   }
 ]
