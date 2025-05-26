@@ -43,7 +43,8 @@ website:
           href: notebooks/10_job_efficiency.html
         - text: "Parallel jobs"
           href: notebooks/13_parallel_jobs.html          
-
+      - href: support.qmd
+        text: Support and resources
 
   cookie-consent: 
     type: express
