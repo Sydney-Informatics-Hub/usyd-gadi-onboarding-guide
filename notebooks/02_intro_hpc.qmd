@@ -1,0 +1,26 @@
+---
+title: "**Introduction to HPC**"
+output:
+  html_document:
+    toc: false
+    toc_float: false
+from: markdown+emoji
+---
+
+High performance computing (HPC) refers to the use of parallel processing techniques to solve complex computation problems efficiently. HPC systems, like Gadi, consist of clusters of interconnected computers, each equipped with multiple processors and large amounts of memory. These systems are capable of handling massive datasets and perform computations at speeds far beyond those achievable by your personal computer. 
+
+## Why do we need HPC for research computing?
+
+Research computing comes in all shapes and sizes. In some cases, your compute needs are well-met by your personal computer or a web-based platform. In other cases, these platforms are not sufficient and this is where HPC is critical to ensuring a timely analysis of your data. 
+
+To use HPC, it is *not* a requirement that your workflow makes use of the multi-node architecture. There are many reasons why HPC would be justified:
+
+- Large input data requiring vast physical storage for inputs and outputs
+- High CPU or node requirement
+- GPU requirement 
+- High memory requirement
+- Long walltime requirement 
+- Faster I/O operations than your local computer can handle
+- Freeing up your local computer resources for other tasks, or simply to shut down for the day without affecting the compute analysis you are running 
+
+HPC provides a reliable and efficient means of analysing data of all shapes and sizes from all research domains. 
