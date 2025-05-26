@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.4.554">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Accessing NCI – USyd NCI Gadi User Guide</title>
+<title>USyd NCI Gadi User Guide - Accessing NCI</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -37,10 +37,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-86daaaaad7353f9cc0c554efc1dd6d94.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f4163e54545b01daaae269814d862f3d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -114,7 +114,7 @@ cookieconsent.run({
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -123,16 +123,8 @@ cookieconsent.run({
     <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link active" href="../notebooks/00_gadi_access.html" aria-current="page"> 
-<span class="menu-text">Access Gadi</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../notebooks/01_setup.html"> 
-<span class="menu-text">Set up your computer</span></a>
-  </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-introduction-to-gadi" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-introduction-to-gadi" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Introduction to Gadi</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-introduction-to-gadi">    
@@ -146,8 +138,16 @@ cookieconsent.run({
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="../notebooks/00_gadi_access.html" aria-current="page"> 
+<span class="menu-text">Access Gadi</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../notebooks/01_setup.html"> 
+<span class="menu-text">Set up your computer</span></a>
+  </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-on-gadi" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-on-gadi" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Working on Gadi</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-working-on-gadi">    
@@ -170,7 +170,7 @@ cookieconsent.run({
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-running-a-job" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-running-a-job" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Running a job</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-running-a-job">    
@@ -187,18 +187,18 @@ cookieconsent.run({
  <span class="dropdown-text">Job monitoring</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../notebooks/13_parallel_jobs.html">
- <span class="dropdown-text">Parallel jobs</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="../notebooks/10_job_efficiency.html">
  <span class="dropdown-text">Benchmarking and efficiency</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/13_parallel_jobs.html">
+ <span class="dropdown-text">Parallel jobs</span></a>
   </li>  
     </ul>
   </li>
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -208,15 +208,7 @@ cookieconsent.run({
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#create-an-account-and-join-an-existing-project" id="toc-create-an-account-and-join-an-existing-project" class="nav-link active" data-scroll-target="#create-an-account-and-join-an-existing-project">Create an account and join an existing project</a></li>
-  <li><a href="#create-an-account-and-propose-a-new-project" id="toc-create-an-account-and-propose-a-new-project" class="nav-link" data-scroll-target="#create-an-account-and-propose-a-new-project">Create an account and propose a new project</a></li>
-  <li><a href="#i-already-have-an-nci-account-how-can-i-join-an-existing-project" id="toc-i-already-have-an-nci-account-how-can-i-join-an-existing-project" class="nav-link" data-scroll-target="#i-already-have-an-nci-account-how-can-i-join-an-existing-project">I already have an NCI account, how can I join an existing project?</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -240,62 +232,22 @@ cookieconsent.run({
 </header>
 
 
-<p>To access any of NCI’s computing platforms including Gadi HPC, you first need to create an NCI account. You will also need to either create a new project or request to join an existing one. You can be a member of multiple projects.</p>
-<p>All new users must create their account through the <a href="https://my.nci.org.au/mancini/login?next=/mancini/">NCI online self service portal</a>. To create your account you will need the following information:</p>
-<ul>
-<li>Your Name</li>
-<li>Institutional email address (Gmail, Hotmail, etc. are not accepted)</li>
-<li>Mobile phone number</li>
-<li>Either:
-<ul>
-<li>NCI project code of an existing project you wish to join</li>
-<li>A new project proposal to be assessed by a Scheme Manager to determine if they will grant your project time</li>
-</ul></li>
-</ul>
-<p>Note that resources at NCI are allocated to <strong>projects</strong> and not to individual users.</p>
-<section id="create-an-account-and-join-an-existing-project" class="level2">
-<h2 class="anchored" data-anchor-id="create-an-account-and-join-an-existing-project">Create an account and join an existing project</h2>
-<ol type="1">
-<li><p>Click on ‘Sign up’ link on the <a href="https://my.nci.org.au/mancini/login?next=/mancini/">NCI online self service portal</a>: <img src="../fig/gadi_login.png" class="img-fluid"></p></li>
-<li><p>Accept the terms and conditions: <img src="../fig/gadi_step1.png" class="img-fluid"></p></li>
-<li><p>Provide your personal details: <img src="../fig/gadi_step2.png" class="img-fluid"></p></li>
-<li><p>Provide details on the project you’ll be working on. Select <code>I need to join one or more existing projects</code>. Enter the NCI project code (eg <code>qc03</code> for the SIH training project) in the <code>Projects</code> menu: <img src="../fig/gadi_step3.png" class="img-fluid"></p></li>
-<li><p>Select University of Sydney as your institution: <img src="../fig/gadi_step4.png" class="img-fluid"></p></li>
-</ol>
-<p>Your username will become active when a project Lead CI approves your request to join their project. You will receive a confirmation email from the Mancini system when your username is activated.</p>
-</section>
-<section id="create-an-account-and-propose-a-new-project" class="level2">
-<h2 class="anchored" data-anchor-id="create-an-account-and-propose-a-new-project">Create an account and propose a new project</h2>
-<ol type="1">
-<li><p>To create your account, follow the first three steps from the above section</p></li>
-<li><p>On the NCI page <code>Step 3 of 5 - Project</code>, select <code>I intend to propose a new project</code></p></li>
-<li><p>Complete the account creation form and verify your account by following the account verification email</p></li>
-<li><p>Once activated, you can login to <a href="https://my.nci.org.au/mancini/">MyNCI</a> and propose a new project by selecting this from the menu bar on the left:</p></li>
-</ol>
-<p><img src="../fig/propose_new_project.png" class="img-fluid"></p>
-<ol start="5" type="1">
-<li><p>Follow the prompts to fill the form for your proposed project</p></li>
-<li><p>At <code>Propose a project: step 5 of 10</code>, select <code>University of Sydney</code></p></li>
-<li><p>At <code>Propose a project: step 6 of 10</code>, select <code>Gadi (at NCI)</code> under <code>HPC Compute</code>. Most projects will not require <code>massdata</code>. Some may require <code>gdata</code>, and this can be added later if necessary. All new projects are allocated some scratch space and this comes at no charge, however the other two file systems have an attached cost.</p></li>
-<li><p>At <code>Propose a project: step 7 of 10</code>, you are asked to fill in your initial resource requirements in <code>KSU</code>. One KSU is 1,000 service units, which is roughly equivalent to 500 CPU hours depending on the type of resource used. We expect 1 KSU to be a sufficient starting amount for most projects coming from Artemis. If you have a good understanding that you will require more than this, please enter those values here. They can easily and quickly be increased at a later date if needed.</p></li>
-<li><p>Complete the rest of the form, ensuring that you carefully review the terms and conditions of use and declare the status of your project in relation to the Defence Trade Controls Act.</p></li>
-</ol>
-<p>Your new project will become active when a USyd Scheme Manager approves your new project proposal.</p>
-</section>
-<section id="i-already-have-an-nci-account-how-can-i-join-an-existing-project" class="level2">
-<h2 class="anchored" data-anchor-id="i-already-have-an-nci-account-how-can-i-join-an-existing-project">I already have an NCI account, how can I join an existing project?</h2>
-<ol type="1">
-<li><p>Login to <a href="https://my.nci.org.au/mancini/">MyNCI</a> and select <code>Projects and groups</code> from the menu bar on the left</p></li>
-<li><p>Switch the tab to <code>Find project or group</code> and search for the project you wish to join</p></li>
-</ol>
-<p><img src="../fig/search-for-project.png" class="img-fluid"></p>
-<ol start="3" type="1">
-<li><p>Select the project from the search results, confirm the project by checking the overview, then switch the tab to <code>Join</code></p></li>
-<li><p>After agreeing to the terms and conditions, select <code>Request membership</code>. You membership needs to be approved by the Lead Chief Investigator</p></li>
-</ol>
+<p>University of Sydney researchers are entitled to fully-subsidised access to NCI facilities through the Sydney Scheme. Access to NCI systems will be an ongoing feature of the <a href="https://intranet.sydney.edu.au/research-support/managing-research/facilities-and-tools/sydney-research-cloud.html">Sydney Research Cloud</a> initiative.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Attention researchers
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Please see the <a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme">University of Sydney Research Computing documentation</a> for details on how to access NCI.</p>
+</div>
+</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -333,7 +285,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -365,27 +328,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -393,7 +336,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
@@ -490,6 +433,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

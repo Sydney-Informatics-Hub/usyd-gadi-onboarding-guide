@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.4.554">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Transferring data to and from Gadi – USyd NCI Gadi User Guide</title>
+<title>USyd NCI Gadi User Guide - Transferring data to and from Gadi</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -148,7 +148,7 @@ cookieconsent.run({
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -158,7 +158,7 @@ cookieconsent.run({
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-introduction-to-gadi" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-introduction-to-gadi" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Introduction to Gadi</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-introduction-to-gadi">    
@@ -181,7 +181,7 @@ cookieconsent.run({
 <span class="menu-text">Set up your computer</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-on-gadi" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-on-gadi" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Working on Gadi</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-working-on-gadi">    
@@ -204,7 +204,7 @@ cookieconsent.run({
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-running-a-job" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-running-a-job" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Running a job</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-running-a-job">    
@@ -232,7 +232,7 @@ cookieconsent.run({
   </li>
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -300,7 +300,7 @@ cookieconsent.run({
 <p>In this section, we will look at Data Transfer. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.</p>
 <section id="the-table-below-summarises-the-data-transfer-methods-covered-in-this-section" class="level5">
 <h5 class="anchored" data-anchor-id="the-table-below-summarises-the-data-transfer-methods-covered-in-this-section"><strong>The table below summarises the data transfer methods covered in this section:</strong></h5>
-<table class="caption-top table">
+<table class="table">
 <thead>
 <tr class="header">
 <th>Method</th>
@@ -597,25 +597,37 @@ Warning
 <section id="transfer-using-sftp-or-lftp-from-gadi-copyq" class="level3">
 <h3 class="anchored" data-anchor-id="transfer-using-sftp-or-lftp-from-gadi-copyq">Transfer using <code>sftp</code> or <code>lftp</code> from Gadi <code>copyq</code></h3>
 <p>The data transfer queue on Gadi is called <code>copyq</code>. This is comparable to the data transfer queue on Artemis <code>dtq</code>. Data transfer methods/scripts that you used to put data onto Artemis for example from the web via <code>wget</code> or from another server should be easily portable to use on Gadi’s <code>copyq</code>.</p>
-<p>Please note that the compute nodes on Gadi <strong>do not have</strong> internet access like the Artemis compute nodes do, so all required data must first be downloaded before submitting a compute job that requires the data.</p>
-<p>Due to stringent security settings around Artemis and RDS, commands like <code>rsync</code> or <code>scp</code> <strong>cannot</strong> be initiated from NCI Gadi login nodes or <code>copyq</code>. To initiate the transfer from Gadi, <code>sftp</code> or <code>lftp</code> must be used. In the not too distant future Globus will become available for data transfer and then that will be the preferred method for transferring data to and from Gadi.</p>
-<section id="how-to-set-up-ssh-keys-for-passwordless-data-transfer" class="level4">
-<h4 class="anchored" data-anchor-id="how-to-set-up-ssh-keys-for-passwordless-data-transfer">How to set up SSH keys for passwordless data transfer</h4>
-<p>If you are transferring data directly for example <code>scp</code> on the command line or via a transfer client on your local computer, entering a password to initiate the transfer is straightforward. If however you want to transfer via a job submitted to either <code>copyq</code> or <code>dtq</code>, you will need to set up SSH keys first, or else your script will halt while it waits fro a password to be entered.</p>
-<p>You only need to set this up once.</p>
-<p>SSH key pairs are used for secure communication between two systems. The pair consists of a <strong>private</strong> key and a <strong>public</strong> key. The <strong>private</strong> key should remain private and only be known by the user. It is stored securely on the user’s computer. The <strong>public</strong> key can be shared with any system the user wants to connect to. It is added to the remote system’s authorized keys. When a connection is attempted, the remote system uses the public key to create a message for the user’s system.</p>
-<p>There are many general guides for this online, for example <a href="https://medium.com/@prateek.malhotra004/streamlining-secure-remote-access-a-guide-to-passwordless-ssh-connections-between-linux-servers-8c26bb008af9">this one</a>. For step-by-step instructions on how to set up keys between Gadi and RDS, expand the drop down below.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Click to expand
+Important
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>If you have been relying on ssh key pairs between Gadi and Artemis for passwordless data transfers, please create a new ssh key pair between Gadi and <code>research-data-ext</code> (the RDS login server), as after 29th August, your Gadi-Artemis key pair will no longer work. Users have home directory on <code>research-data-ext</code> with a very small quota to enable storing of ssh key files.</p>
+</div>
+</div>
+<p>Please note that the compute nodes on Gadi <strong>do not have</strong> internet access like the Artemis compute nodes do, so all required data must first be downloaded before submitting a compute job that requires the data.</p>
+<p>Due to stringent security settings around Artemis and RDS, commands like <code>rsync</code> or <code>scp</code> <strong>cannot</strong> be initiated from NCI Gadi login nodes or <code>copyq</code>. To initiate the transfer from Gadi, <code>sftp</code> or <code>lftp</code> must be used. In the not too distant future Globus will become available for data transfer and then that will be the preferred method for transferring data to and from Gadi.</p>
+<section id="how-to-set-up-ssh-keys-for-passwordless-data-transfer" class="level4">
+<h4 class="anchored" data-anchor-id="how-to-set-up-ssh-keys-for-passwordless-data-transfer">How to set up SSH keys for passwordless data transfer</h4>
+<p>If you are transferring data directly for example <code>scp</code> on the command line or via a transfer client on your local computer, entering a password to initiate the transfer is straightforward. If however you want to transfer via a job submitted to either <code>copyq</code> or <code>dtq</code>, you will need to set up SSH keys first, or else your script will halt while it waits for a password to be entered.</p>
+<p>**If you have been relying on ssh key pairs between gadi and Artemis for passwordless data transfers, please create a new ssh key pair between Gadi and research-data-ext (the RDS login server), as after 29th August, your Gadi-Artemis key pair will no longer work.</p>
+<p>You only need to set this up once.</p>
+<p>SSH key pairs are used for secure communication between two systems. The pair consists of a <strong>private</strong> key and a <strong>public</strong> key. The <strong>private</strong> key should remain private and only be known by the user. It is stored securely on the user’s computer. The <strong>public</strong> key can be shared with any system the user wants to connect to. It is added to the remote system’s authorized keys. When a connection is attempted, the remote system uses the public key to create a message for the user’s system.</p>
+<p>There are many general guides for this online, for example <a href="https://medium.com/@prateek.malhotra004/streamlining-secure-remote-access-a-guide-to-passwordless-ssh-connections-between-linux-servers-8c26bb008af9">this one</a>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Set up keys between Gadi and RDS
+</div>
+</div>
 <div class="callout-body-container callout-body">
 <p>Follow the below steps carefully to set up SSH keys between RDS and Gadi. Note, <strong>you only need to do this once</strong>.</p>
 <ol type="1">
@@ -646,42 +658,42 @@ Click to expand
 <div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 600 id_rsa</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 644 id_rsa.pub</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="7" type="1">
-<li>Make an <code>authorized_keys</code> file if you don’t already have one that can be transferred to USyd’s Artemis/RDS system:</li>
+<li>Make an <code>authorized_keys</code> file if you don’t already have one:</li>
 </ol>
 <div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> ~/.ssh/authorized_keys</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="7" type="1">
-<li>Copy the contents of the public key file (<code>~/.ssh/id_rsa.pub</code>) to the <code>authorized_keys</code> file to be transferred to USyd’s Artemis/RDS system:</li>
+<ol start="8" type="1">
+<li>Copy the contents of the public key file (<code>~/.ssh/id_rsa.pub</code>) to the <code>authorized_keys</code> file:</li>
 </ol>
 <div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> ~/.ssh/id_rsa.pub <span class="op">&gt;&gt;</span> ~/.ssh/authorized_keys</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="8" type="1">
-<li>Set permissions for the <code>authorized_keys</code> file to be transferred to USyd’s Artemis/RDS system:</li>
+<ol start="9" type="1">
+<li>Set permissions for the <code>authorized_keys</code> file:</li>
 </ol>
 <div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 600 ~/.ssh/authorized_keys</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="9" type="1">
-<li>Connect to USyd’s Artemis/RDS system using <code>lftp</code> and your unikey:</li>
+<ol start="10" type="1">
+<li>Connect to USyd’s RDS login server using <code>lftp</code> and your unikey:</li>
 </ol>
 <div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lftp</span> sftp://<span class="op">&lt;</span>your-unikey<span class="op">&gt;</span>@research-data-ext.sydney.edu.au</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Provide your password when prompted. Then make and move into a <code>.ssh</code> directory if you don’t already have one:</p>
+<p>Provide your unikey password when prompted. When you log in, you are in your personal home directory on the RDS login server. This is NOT the place to store data, only ssh key files.</p>
+<p>Then make and move into a <code>.ssh</code> directory if you don’t already have one:</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/.ssh</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/.ssh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="10" type="1">
-<li>Transfer the <code>authorized_keys</code> file from Gadi to USyd’s Artemis/RDS system:</li>
+<ol start="11" type="1">
+<li>Transfer the <code>authorized_keys</code> file from Gadi to USyd’s RDS login server:</li>
 </ol>
 <div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">put</span> authorized_keys</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Doing this will transfer authorized_keys on Gadi to your current directory. With lftp, it will look for the file relative to where you launched lftp. You can check where you are on Gadi using:</p>
+<p>Doing this will transfer authorized_keys on Gadi to your current directory on RDS (/home/<unikey>). With lftp, it will look for the file relative to where you launched lftp. You can check where you are on Gadi using:</unikey></p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">local</span> <span class="va">pwd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="11" type="1">
-<li>Exit your lftp connection to USyd’s Artemis/RDS system <code>ctrl + d</code> and test the passwordless connection:</li>
+<ol start="12" type="1">
+<li>Exit your <code>lftp</code> connection to RDS by entering <code>ctrl + d</code>. You are now back to your Gadi session. Then, test the passwordless connection:</li>
 </ol>
 <div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sftp</span> <span class="op">&lt;</span>your-unikey<span class="op">&gt;</span>@research-data-ext.sydney.edu.au</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This time, you shouldn’t be prompted for a password. You can proceed to transfer data between Gadi and USyd’s Artemis/RDS system now on the <code>copyq</code>.</p>
+<p>This time, you shouldn’t be prompted for a password. You can proceed to transfer data between Gadi and RDS now on the <code>copyq</code>.</p>
 <p>If you get the error “Fatal error: Host key verification failed” you may have to get an “ssh fingerprint” first. Do this by sending an ssh request to the RDS with:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>your-unikey<span class="op">&gt;</span>@research-data-ext.sydney.edu.au</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Accept that you trust the connection and enter your password. The connection will then close with the following message:</p>
 <pre><code>This service allows sftp connections only.
 Connection to research-data-ext.sydney.edu.au closed.</code></pre>
 <p>But now try <code>lftp</code> connection again!</p>
-</div>
 </div>
 </div>
 </section>
@@ -695,16 +707,14 @@ Connection to research-data-ext.sydney.edu.au closed.</code></pre>
 <li><p><code>from_rds_to_gadi.pbs</code> is used to transfer a file or folder from RDS to Gadi</p></li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Transfer from Gadi to RDS
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><code>from_gadi_to_rds.pbs</code> script, replace variables in <code>&lt;brackets&gt;</code> as described:</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
@@ -740,18 +750,15 @@ Transfer from Gadi to RDS
 <span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a><span class="ex">sftp</span> <span class="va">${remote_user}</span>@<span class="va">${remote_host}</span>:<span class="va">${remote_path}</span> <span class="op">&lt;&lt;&lt;</span> <span class="st">$"put -r </span><span class="va">${local_path}</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-</div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Transfer from RDS to Gadi
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><code>from_rds_to_gadi.pbs</code> script, replace variables in <code>&lt;brackets&gt;</code> as described:</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
@@ -790,7 +797,6 @@ Transfer from RDS to Gadi
 <span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy folder with sftp</span></span>
 <span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a><span class="ex">sftp</span> <span class="at">-r</span> <span class="va">${remote_user}</span>@<span class="va">${remote_host}</span>:<span class="va">${remote_path}</span> <span class="va">${dest_path}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </div>
 </div>
 <p>Here is an example showing you how to transfer a folder called <code>MyData</code> in the RDS project <code>Training</code> to some scratch space in Gadi owned by project <code>aa00</code>.</p>
@@ -891,16 +897,14 @@ Warning
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Sync between Gadi and RDS
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="sourceCode" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -942,7 +946,6 @@ Sync between Gadi and RDS
 <span id="cb34-38"><a href="#cb34-38" aria-hidden="true" tabindex="-1"></a><span class="op">EOF</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-</div>
 </section>
 <section id="suggested-workflow-for-copying-data-between-rds-and-gadi-and-keeping-it-up-to-date" class="level4">
 <h4 class="anchored" data-anchor-id="suggested-workflow-for-copying-data-between-rds-and-gadi-and-keeping-it-up-to-date">Suggested workflow for copying data between RDS and Gadi and keeping it up-to-date</h4>
@@ -977,16 +980,14 @@ Warning
 <p>For transfer of large files directly from Artemis to Gadi, the use of resumable <code>rsync</code> is recommended (see script below). The transfer can be initiated using Artemis <code>dtq</code> and using Gadi’s data mover node: <code>gadi-dm.nci.org.au</code>. The below template script can be used with Artemis’ <code>dtq</code> using <code>rsync</code>.</p>
 <p>For further info about copying data from Artemis <code>dtq</code> can be found in the <a href="https://sydney-informatics-hub.github.io/training.artemis.rds/04-rcos2hpc/index.html">SIH Artemis Training Series</a>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Template Artemis data transfer script using <code>rsync</code>
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-16" class="callout-16-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="sourceCode" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1023,7 +1024,6 @@ Template Artemis data transfer script using <code>rsync</code>
 <span id="cb35-33"><a href="#cb35-33" aria-hidden="true" tabindex="-1"></a>                <span class="fu">sleep</span> 180</span>
 <span id="cb35-34"><a href="#cb35-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">fi</span></span>
 <span id="cb35-35"><a href="#cb35-35" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </div>
 </div>
 
@@ -1067,7 +1067,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1099,29 +1110,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -1129,7 +1118,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
