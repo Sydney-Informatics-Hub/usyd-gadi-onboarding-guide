@@ -11,6 +11,8 @@ website:
         text: Home
       - text: "Introduction to Gadi"
         menu: 
+        - text: "Introduction to HPC"
+          href: notebooks/02_intro_hpc.html
         - text: "Gadi overview"
           href: notebooks/02_system_setup.html
         - text: "Infrastructure expectations"
