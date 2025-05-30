@@ -7,64 +7,21 @@ output:
 
 ---
 
-[National Computational Infrastructure (NCI)](https://nci.org.au/our-systems) is a services facility that provides high performance computing (HPC), cloud computing, and data services to Australian researchers.
+[National Computational Infrastructure (NCI)](https://nci.org.au/our-systems) provides high performance computing (HPC), cloud computing, and data services to Australian researchers. This guide has been developed to support University of Sydney researchers in setting up their computational workflows on NCI's [Gadi HPC](https://nci.org.au/our-systems/hpc-systems).
 
-**Our institutional HPC 'Artemis' will be decommissioned on 29 August 2025**. NCI has been chosen as the replacement computing platform. All staff and students with a valid University of Sydney unikey can access NCI computing time under the [NCI-Sydney Scheme](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme). A [pre-recorded information session](https://youtu.be/DmfzO-YKeV8) summarising the Sydney Scheme and how to access NCI is available to view. 
+:::{.callout-note}
+Please be mindful this is not an exhaustive resource for using Gadi. It is only intended to orient you to the system and navigate the comprehensive [NCI user documentation](https://opus.nci.org.au/spaces/Help/pages/12583138/NCI+Help). See the [University of Sydney Research Computing documentation](https://sydneyuni.atlassian.net/wiki/spaces/RC/overview?homepageId=173932782) for more information on research computing infrastructure available at USyd. 
+:::
 
-If HPC is not suitable for your workload, please consider NCI [cloud](https://opus.nci.org.au/display/Help/Nirin+Cloud+User+Guide) or [virtual research desktops](https://are.nci.org.au/). We are confident that your research computing will be well-supported by these platforms. 
+</br>
+</br>
+Navigate to the following sections to access the information you need to get started:
 
-This site is focused on the use of NCI's [Gadi HPC](https://nci.org.au/our-systems/hpc-systems), in the context of University of Sydney researchers. 
-
-Please be mindful this is not an exhaustive resource for using Gadi. It is only intended to orient you to the system and navigate the comprehensive [NCI user documentation](https://opus.nci.org.au/spaces/Help/pages/12583138/NCI+Help).
-
-## **What is high performance computing?**
-
-High performance computing refers to the use of parallel processing techniques to solve complex computation problems efficiently. HPC systems, like Gadi, consist of clusters of interconnected computers, each equipped with multiple processors and large amounts of memory. These systems are capable of handling massive datasets and perform computations at speeds far beyond those achievable by your personal computer. 
-
-## **Why do we need HPC for research computing?**
-
-Research computing comes in all shapes and sizes. In some cases, your compute needs are well-met by your personal computer or a web-based platform. In other cases, these platforms are not sufficient and this is where HPC is critical to ensuring a timely analysis of your data. 
-
-To use HPC, it is *not* a requirement that your workflow makes use of the multi-node architecture. There are many reasons why HPC would be justified:
-
-- Large input data requiring vast physical storage for inputs and outputs
-- High CPU or node requirement
-- GPU requirement 
-- High memory requirement
-- Long walltime requirement 
-- Faster I/O operations than your local computer can handle
-- Freeing up your local computer resources for other tasks, or simply to shut down for the day without affecting the compute analysis you are running 
-
-HPC provides a reliable and efficient means of analysing data of all shapes and sizes from all research domains. 
-
-
-## Support
-
-SIH is limited in the support it can provide for NCI Gadi users. If you are new to HPC and Gadi, we expect you will attend [NCI's Intro to Gadi](https://opus.nci.org.au/spaces/Help/pages/48497461/NCI+Training+and+Educational+Events) courses. Additionally, familiarise yourself with Gadi using the [NCI Gadi user guide](https://opus.nci.org.au/display/Help/Gadi+User+Guide).
-
-**Live and self-directed training** is also offered by SIH and NCI on HPC and data analysis topics:
-
-* [SIH training calendar](https://www.sydney.edu.au/research/facilities/sydney-informatics-hub/workshops-and-training/training-calendar.html)
-* [NCI training calendar](https://opus.nci.org.au/display/Help/NCI+Training+and+Educational+Events)
-
-
-**Pre-recorded information sessions:**
-
-- [Summarising the Sydney Scheme and how to access NCI](https://youtu.be/DmfzO-YKeV8) 
-- [Adapting Artemis job scripts to Gadi](https://www.youtube.com/watch?v=ZBOycXymok4)
-- [Data transfer between RDS and Gadi](https://youtu.be/ZBOycXymok4?si=Ln03g69UjCcylF13&t=1856)
-- [Working within the Gadi walltime limit](https://youtu.be/s1G8-TBRyTo)
-- [KSU estimation and compute resource benchmarking on Gadi](https://youtu.be/4ztdcnfIaP4)
-- [Running embarassingly parallel jobs on Gadi](https://youtu.be/wl-oAso0c30) (replaces Artemis job arrays)
-
-**For additional support**, please contact the following people depending on your needs:
-
-| Type of issue | Who | How | Details |
-|:---------|:----|:----|:---------|
-| Service unit allocation for running jobs | SIH | [Make a request](https://nci.sydney.edu.au/) | [Sydney Documentation](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme) |
-|  Request for increased **g/data** storage | SIH | [Send an email](mailto:nci-sydney.scheme@sydney.edu.au) | [Sydney Documentation](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme) |
-| Request for increased **scratch** space | NCI Helpdesk | [Log an NCI ticket](https://nci.org.au/users/nci-helpdesk) | Provide brief justification for the need including number of files, size of files, data lifecycle |
-| Request for increased **iNode** quota in gdata or scratch | NCI Helpdesk | [Log an NCI ticket](https://nci.org.au/users/nci-helpdesk) | Provide brief justification for the need including number of files, size of files, data lifecycle, efforts to reduce iNode footprint |
-| A technical issue with NCI systems or compute jobs | NCI Helpdesk | [Log an NCI ticket](https://nci.org.au/users/nci-helpdesk) | Provide all relevant information such as your error, log file, jobid |
-| A bug in an [SIH pipeline](https://github.com/Sydney-Informatics-Hub) | SIH | Submit an issue on Github | Provide details e.g. [this issue](https://github.com/Sydney-Informatics-Hub/Germline-StructuralV-nf/issues/65) |
-| General research computing or data analysis advice | SIH| [Log an SIH ticket](https://www.sydney.edu.au/research/facilities/sydney-informatics-hub.html) | Provide relevant context, errors, tool names, scripts |
+| Section | What is covered | 
+|------|------------|
+| Introduction to Gadi| Explanation of Gadi resources and expectations|
+| Access Gadi| Sydney Scheme documentation|
+| Set up your computer| Installing and configuring an IDE or terminal|
+| Working on Gadi| Key concepts you need to understand to work effectively on Gadi |
+| Running a job| Worked examples of different types of jobs on Gadi|
+| Support and resources |Resources and useful points of contact|

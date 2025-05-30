@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.4.554">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Monitoring your job – USyd NCI Gadi User Guide</title>
+<title>USyd NCI Gadi User Guide - Monitoring your job</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -71,10 +71,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-86daaaaad7353f9cc0c554efc1dd6d94.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f4163e54545b01daaae269814d862f3d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -148,7 +148,7 @@ cookieconsent.run({
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -157,6 +157,21 @@ cookieconsent.run({
     <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-introduction-to-gadi" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Introduction to Gadi</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-introduction-to-gadi">    
+        <li>
+    <a class="dropdown-item" href="../notebooks/02_system_setup.html">
+ <span class="dropdown-text">Gadi overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/03_expectations.html">
+ <span class="dropdown-text">Infrastructure expectations</span></a>
+  </li>  
+    </ul>
+  </li>
   <li class="nav-item">
     <a class="nav-link" href="../notebooks/00_gadi_access.html"> 
 <span class="menu-text">Access Gadi</span></a>
@@ -166,49 +181,30 @@ cookieconsent.run({
 <span class="menu-text">Set up your computer</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-introduction-to-gadi" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Introduction to Gadi</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-introduction-to-gadi">    
-        <li>
-    <a class="dropdown-item" href="../notebooks/02_system_setup.html">
- <span class="dropdown-text">System offerings</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/03_expectations.html">
- <span class="dropdown-text">Infrastructure expectations</span></a>
-  </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-on-gadi" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-on-gadi" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Working on Gadi</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-working-on-gadi">    
         <li>
-    <a class="dropdown-item" href="../notebooks/04_nagivating_system.html">
- <span class="dropdown-text">Navigating the system</span></a>
+    <a class="dropdown-item" href="../notebooks/04_command_line.html">
+ <span class="dropdown-text">Command line</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notebooks/05_data_transfer.html">
- <span class="dropdown-text">Transferring data</span></a>
+ <span class="dropdown-text">Data transfer</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/11_software.html">
+ <span class="dropdown-text">Software</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notebooks/06_accounting.html">
  <span class="dropdown-text">Accounting</span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/07_environments.html">
- <span class="dropdown-text">Specialised environments</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/11_software.html">
- <span class="dropdown-text">Managing software</span></a>
-  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-running-a-job" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-running-a-job" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Running a job</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-running-a-job">    
@@ -217,18 +213,26 @@ cookieconsent.run({
  <span class="dropdown-text">Job scripts and submission</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../notebooks/12_walltime.html">
+ <span class="dropdown-text">Working within walltime</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../notebooks/09_job_monitoring.html">
  <span class="dropdown-text">Job monitoring</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../notebooks/10_job_efficiency.html">
- <span class="dropdown-text">Resource efficiency</span></a>
+ <span class="dropdown-text">Benchmarking and efficiency</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/13_parallel_jobs.html">
+ <span class="dropdown-text">Parallel jobs</span></a>
   </li>  
     </ul>
   </li>
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -244,7 +248,9 @@ cookieconsent.run({
   <ul>
   <li><a href="#job-monitoring" id="toc-job-monitoring" class="nav-link active" data-scroll-target="#job-monitoring">Job monitoring</a></li>
   <li><a href="#job-ids" id="toc-job-ids" class="nav-link" data-scroll-target="#job-ids">Job IDs</a></li>
+  <li><a href="#monitoring-resource-usage-in-real-time" id="toc-monitoring-resource-usage-in-real-time" class="nav-link" data-scroll-target="#monitoring-resource-usage-in-real-time">Monitoring resource usage in real time</a></li>
   <li><a href="#job-logs" id="toc-job-logs" class="nav-link" data-scroll-target="#job-logs">Job logs</a></li>
+  <li><a href="#monitoring-job-disk-usage" id="toc-monitoring-job-disk-usage" class="nav-link" data-scroll-target="#monitoring-job-disk-usage">Monitoring job disk usage</a></li>
   </ul>
 </nav>
     </div>
@@ -274,7 +280,6 @@ cookieconsent.run({
 <h2 class="anchored" data-anchor-id="job-monitoring">Job monitoring</h2>
 <p>You should monitor your jobs to keep track of their progress but refrain from checking your jobs too frequently. Repeated queries will be considered attacks, especially in quick succession and you may get a warning from NCI. NCI recommends querying your jobs’ status a maximum of once every 10 minutes.</p>
 <p>Like Artemis, you can use the <code>qstat</code> command to monitor jobs on Gadi. The NCI Gadi <a href="https://opus.nci.org.au/spaces/Help/pages/236880322/Job+monitoring...">job monitoring page</a> describes some commonly used flags to qstat.</p>
-<p>You can also use the bespoke <code>nqstat_anu</code> utility (ANU = The Australian National University, where Gadi is housed) which provides a way of observing how much CPU and memory your job is currently using.</p>
 </section>
 <section id="job-ids" class="level2">
 <h2 class="anchored" data-anchor-id="job-ids">Job IDs</h2>
@@ -285,6 +290,35 @@ cookieconsent.run({
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-xf</span> 135615373</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If you have multiple jobs running, you do not need to check them individually with the job ID. You can check the status of multiple jobs using your NCI user ID:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-u</span> <span class="op">&lt;</span>nci-user-id<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="monitoring-resource-usage-in-real-time" class="level2">
+<h2 class="anchored" data-anchor-id="monitoring-resource-usage-in-real-time">Monitoring resource usage in real time</h2>
+<p>To view the CPU and memory utilisation of a running job, you can use the bespoke <code>nqstat_anu</code> utility (ANU = The Australian National University, where Gadi is housed).</p>
+<p>By default, running the command <code>nqstat_anu</code> will report on all jobs for the current user under their <strong>default project</strong>, providing the following details:</p>
+<ul>
+<li>% CPU utilisation</li>
+<li>walltime used</li>
+<li>walltime requested</li>
+<li>RSS</li>
+<li>maximum memory used by the job</li>
+<li>memory requested</li>
+<li>CPUs requested</li>
+<li>whether the job is queued or suspended</li>
+</ul>
+<p>Run <code>nqstat_anu -h</code> for more options.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Switching default project
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To change your default project, run <code>switchproj &lt;nci-project-id&gt;</code>, providing the ID of the project you want to switch to. If you don’t know what your default project is, run the command <code>nci_account</code> with no arguments. Since <code>-P &lt;nci-project-id&gt;</code> is not supplied, it will report on your default project.</p>
+</div>
+</div>
 </section>
 <section id="job-logs" class="level2">
 <h2 class="anchored" data-anchor-id="job-logs">Job logs</h2>
@@ -308,11 +342,15 @@ cookieconsent.run({
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -o ./logs/convert-fast5.o</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -e ./logs/convert-fast5.e</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This omits the job ID from being included in the log file name and sends the logs to a different directory.</p>
+</section>
+<section id="monitoring-job-disk-usage" class="level2">
+<h2 class="anchored" data-anchor-id="monitoring-job-disk-usage">Monitoring job disk usage</h2>
+<p>Each project has an allocation of physical disk space and inodes on scratch, gdata and home. When running jobs on Gadi, it’s important to ensure you have sufficient allocation remaining to meet the needs of the job you are running, as exceeding the limit of these resources can cause a running job to fail. Please see the section on <a href="../notebooks/06_accounting.html#disk">disk</a> and <a href="../notebooks/06_accounting.html#inodes">inode</a> usage for more details and how to query usage of these resources.</p>
 
 
 </section>
 
-<p>All materials copyright Sydney Informatics Hub, University of Sydney</p></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -348,7 +386,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -380,27 +429,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -408,7 +437,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
@@ -505,6 +534,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -737,7 +767,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-
+<p>All materials copyright Sydney Informatics Hub, University of Sydney</p>
 <div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
     <div class="nav-footer-right">
       &nbsp;

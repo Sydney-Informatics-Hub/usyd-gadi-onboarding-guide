@@ -1,0 +1,57 @@
+---
+title: "Support and resources"
+output:
+  html_document:
+    toc: false
+    toc_float: false
+
+---
+
+:::{.callout-note}
+## Attention researchers
+
+Please see the [University of Sydney Research Computing documentation](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3709928078/Get+support) for a comprehensive overview of support available to you as a University of Sydney researcher using NCI resources.
+:::
+</br>
+
+## Technical documentation 
+
+Familiarise yourself with Gadi using NCI's documentation and the University of Sydney's Research Computing documentation.
+
+* [NCI Gadi user guide](https://opus.nci.org.au/display/Help/Gadi+User+Guide)
+* [USyd Research Computing documentation](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3709928078/Get+support)
+
+## Live and self-directed training
+
+If you are new to HPC and/or NCI, we suggest you attend [NCI's Intro to Gadi](https://opus.nci.org.au/spaces/Help/pages/48497461/NCI+Training+and+Educational+Events) courses. 
+
+There are various trainings offered by SIH and NCI on HPC and data analysis topics:
+
+* [SIH training calendar](https://www.sydney.edu.au/research/facilities/sydney-informatics-hub/workshops-and-training/training-calendar.html)
+* [NCI training calendar](https://opus.nci.org.au/display/Help/NCI+Training+and+Educational+Events)
+
+
+## Demonstrations
+
+HPC experts at SIH have created a series of videos to help you get jobs running on Gadi: 
+
+- [Summarising the Sydney Scheme and how to access NCI](https://youtu.be/DmfzO-YKeV8) 
+- [Adapting Artemis job scripts to Gadi](https://www.youtube.com/watch?v=ZBOycXymok4)
+- [Data transfer between RDS and Gadi](https://youtu.be/ZBOycXymok4?si=Ln03g69UjCcylF13&t=1856)
+- [Working within the Gadi walltime limit](https://youtu.be/s1G8-TBRyTo)
+- [KSU estimation and compute resource benchmarking on Gadi](https://youtu.be/4ztdcnfIaP4)
+- [Running embarassingly parallel jobs on Gadi](https://youtu.be/wl-oAso0c30) (replaces Artemis job arrays)
+
+## I need to talk to someone 
+
+Please contact the following people depending on your needs:
+
+| Type of issue | Who | How | Details |
+|:---------|:----|:----|:---------|
+| Service unit allocation for running jobs | Sydney Scheme managers | [Make a request](https://nci.sydney.edu.au/) | [Sydney Documentation](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme) |
+|  Request for increased **g/data** storage | Sydney Scheme managers | [Send an email](mailto:nci-sydney.scheme@sydney.edu.au) | [Sydney Documentation](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme) |
+| Request for increased **scratch** space | NCI Helpdesk | [Log an NCI ticket](https://nci.org.au/users/nci-helpdesk) | Provide brief justification for the need including number of files, size of files, data lifecycle |
+| Request for increased **iNode** quota in gdata or scratch | NCI Helpdesk | [Log an NCI ticket](https://nci.org.au/users/nci-helpdesk) | Provide brief justification for the need including number of files, size of files, data lifecycle, efforts to reduce iNode footprint |
+| A technical issue with NCI systems or compute jobs | NCI Helpdesk | [Log an NCI ticket](https://nci.org.au/users/nci-helpdesk) | Provide all relevant information such as your error, log file, jobid |
+| A bug in an [SIH pipeline](https://github.com/Sydney-Informatics-Hub) | SIH | Submit an issue on Github | Provide details e.g. [this issue](https://github.com/Sydney-Informatics-Hub/Germline-StructuralV-nf/issues/65) |
+| General research computing or data analysis advice | SIH| [Log an SIH ticket](https://www.sydney.edu.au/research/facilities/sydney-informatics-hub.html) | Provide relevant context, errors, tool names, scripts |
