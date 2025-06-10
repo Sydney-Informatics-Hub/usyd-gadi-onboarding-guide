@@ -604,7 +604,7 @@ ls MyData
 
 To confirm the transfer was successful, you'll need to check your job logs. These are located in the same directory as your script and are named `transfer.o<jobid>`. 
 
-However, this doesn't guarantee the integrity of the files. You should check the files themselves to ensure they are intact. You can do this using md5checksums. See this [SIH tidbits blogpost](https://sydney-informatics-hub.github.io/tidbits/safely-downloading-your-sequence-data-to-rds.html) about how to use these. You'll need to create md5checksums for the original files if they don't already exist and compare them after transfer.
+However, this doesn't guarantee the integrity of the files. You should check the files themselves to ensure they are intact. You can do this using md5checksums as described [below](#checksum).
 
 
 
@@ -732,3 +732,94 @@ do
 done
 ```
 :::
+
+## Verify the integrity of your transferred data{#checksum}
+
+When you transfer files between systems, especially over a network using tools described above, there is always a small risk that the data could become corrupted.
+This might happen for example due to network issues, disk errors, or file system problems. It is therefore important that you verify that your files were
+transferred completely and accurately. We can do this using a **checksum**.
+
+A checksum is a small, fixed-size value calculated from the contents of a file using a specific algorithm (like [MD5](https://en.wikipedia.org/wiki/MD5),
+[SHA-1](https://en.wikipedia.org/wiki/SHA-1), or [SHA-256](https://en.wikipedia.org/wiki/SHA-2)).
+Think of it as a unique fingerprint for the file's data: if even one byte changes, the checksum will be different.
+By comparing the checksum before and after the transfer, you can confirm that the file is exactly the same on both ends.
+
+### Using md5sum to validate files
+
+Here we demonstrate how you can use the command `md5sum` to generate a list of checksums for a folder full of files, and then using these checksums to validate your files integrity after the
+folder has been copied:
+
+##### 1. Create a list of checksums for your files at the source (before copying the data)
+
+Navigate to the folder containing the data you are going to copy and use the `md5sum` command to produce a md5 hash for every file (and subfolder) in that folder:
+```bash
+$ cd /path/to/my/data
+
+$ find -type f \( -not -name "my_folder_md5sum.md5" \) -exec md5sum '{}' \; > my_folder_md5sum.md5
+```
+
+This will generate a file called `my_folder_md5sum.md5` in your folder listing a hash for every file (except for the `my_folder_md5sum.md5` file).
+
+:::{.callout-note}
+## Example Gadi checksum PBS script using `copyq`
+
+**Note for Cali: How do we do this for data on RDS? Since I would imagine that we can't be running massive checksum calculations on `research-data-ext`.**
+
+
+If you have very large files it is best you you run the command on a compute node on Gadi via a PBS script to avoid resource constraints on the login nodes. E.g.:
+
+```bash
+#!/bin/bash
+
+#PBS -P <your_project>
+#PBS -N checksum
+#PBS -l walltime=04:00:00
+#PBS -l ncpus=1
+#PBS -l mem=8GB
+#PBS -W umask=022
+#PBS -q copyq
+#PBS -l wd
+#PBS -lstorage=scratch/<your_project>
+
+# Set variables 
+dir=<path_to_data>
+
+# Move into directory you want to generate checksum file
+cd ${dir}
+
+# Generate checksums
+find -type f \( -not -name "my_folder_md5sum.md5" \) -exec md5sum '{}' \; > my_folder_md5sum.md5
+```
+:::
+
+##### 2. Copy the Files
+
+You should do this using one of the methods described above in this page - make sure to upload both the entire folder and keep the `my_folder_md5sums.md5`
+file in the same relative location as it was at the source.
+
+##### 3. Verify the files at the destination
+
+Once the folder and checksum file are at the destination, log in and go to the destination folder then verify the checksums of the copied data:
+
+```bash
+$ cd /path/to/destination/data
+
+$ md5sum -c my_folder_md5sum.md5
+```
+
+This command goes through the list of files in `my_folder_md5sum.md5`, checks each file’s checksum, and compares it to the original one.
+
+If everything went well, you'll see lines like:
+
+  ```bash
+  file1.txt: OK
+  sub_folder/file2.txt: OK
+  ```
+
+If there was a problem with any file, you'll see a warning like:
+
+  ```bash
+  file3.txt: FAILED
+  ```
+
+You should investigate and attempt to copy files labelled FAILED again.
