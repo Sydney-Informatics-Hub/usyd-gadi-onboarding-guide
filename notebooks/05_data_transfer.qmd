@@ -8,24 +8,12 @@ from: markdown+emoji
 ---
 ## Introduction
  
-In this section, we will look at transferring data between the Research Data Store and Gadi.
+In this section, we will look at transferring data between the Research Data Store (RDS) and Gadi. There is a lot of content with step-by-step examples here due to the numerous methods available for data transfer. 
 
 [Watch the pre-recorded session](https://youtu.be/ZBOycXymok4?si=Ln03g69UjCcylF13&t=1856)
  
-The main challenges users may face adapting Artemis workflows to Gadi are:
- 
-- [Adjusting PBS directives to suit Gadi requirements and queue structure](./08_job_script.qmd)
-- [Lack of internet access for Gadi compute nodes](./08_job_script.qmd#lack-of-internet-access-on-compute-nodes)
-- Data transfer
-- [Gadi walltime limit of 48 hours](./12_walltime.qmd)
-- [Understanding NCI accounting of KSU, disk and iNode limits](./06_accounting.qmd)
-- [Automatic 100-day Gadi /scratch purge policy](https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...#RecoverFiles...-RecoverQuarantinedFilesonscratch)
-- [Software installation and version upgrades on Gadi](./11_software.qmd)
-- [Job arrays not supported on Gadi](./13_parallel_jobs.qmd)
- 
-In this section, we will look at Data Transfer. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.
 
-##### **The table below summarises the data transfer methods covered in this section:**
+**The table below summarises the data transfer methods covered in this section:**
 
 +-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
 | Method                                    | Suitable data size/type               | [Pros]{style="color: blue;"}/[Cons]{style="color: red;"}       |
@@ -778,10 +766,10 @@ Use the `md5sum` command to produce a md5 hash for every file within that direct
 ```bash
 cd /rds/PRJ-<dashR-project>/myData
 
-find -type f \( -not -name "myData_md5sum.md5" \) -exec md5sum '{}' \; > myData_md5sum.md5
+find -type f \( -not -name "myData.md5" \) -exec md5sum '{}' \; > myData.md5
 ```
 
-This will generate a file called `myData_md5sum.md5` in your folder listing a hash for every file (except for the `myData_md5sum.md5` file).
+This will generate a file called `myData.md5` in your folder listing a hash for every file (except for the `myData.md5` file).
 
 
 **2. Copy the data to Gadi**
@@ -796,10 +784,10 @@ For small files, you can easily run this on the Gadi login nodes, eg:
 
 ```bash
 cd /scratch/<nci-project-id>/myData
-md5sum -c myData_md5sum.md5
+md5sum -c myData.md5
 ```
 
-This command goes through the list of files in `myData_md5sum.md5` and compares the md5 sum of the file on Gadi to the md5 sum that was created for the file on RDS. 
+This command goes through the list of files in `myData.md5` and compares the md5 sum of the file on Gadi to the md5 sum that was created for the file on RDS. 
 
 For larger files, or very large numbers of files, the checksum process can take some time (eg > 10 minutes for a single 100 GB file) so it is more robust to run the checksum commands within a PBS job submitted to the Gadi job scheduler. 
 
@@ -821,19 +809,23 @@ file3.txt: FAILED
 Redirecting the output of the `md5sum -c` command to a file can simplify collecting failed transfers for resubmission:
 
 ```bash
-md5sum -c myData_md5sum.md5 > myData_md5sum.md5.check
-grep FAILED myData_md5sum.md5.check > myData_md5sum.md5.checkFAILED
+md5sum -c myData.md5 > myData.md5.check
+grep FAILED myData.md5.check > myData.md5.check.FAILED
 ```
 
 Any files with `FAILED` status should be re-copied from RDS to Gadi, and the checksum comparison run again. 
 
 ### Using md5sum to validate files: from Gadi to RDS
 
-The high-level process is the same as for RDS to Gadi, but the **source** and **destination** are reversed. 
+When working on Gadi, you will want to regularly back up important data (for example job outputs, logs, scripts) to RDS. Gadi scratch and gdata filesystems are not backed up, so regular backups to RDS are critical. 
+
+The high-level checksum process is the same as it was for RDS to Gadi, but the **source** and **destination** are reversed. 
 
 **1. Create a list of checksums for your files at the source (before copying the data)**
 
-On Gadi, you can create the checksum files with the same command as above. You can run this on the Gadi login node, or run the command in a Gadi [job script](./08_job_script.qmd). 
+On Gadi, you can create the checksum file with the same `md5sum` command as described above, either on the Gadi login node, or from within a Gadi [job script](./08_job_script.qmd). 
+
+Importantly, the Gadi compute queues can read gdata, unlike Artemis where the general compute queues could not read RDS. So, if your data is on gdata, you do not need to copy it to scratch for checksum commands run within Gadi PBS jobs. 
 
 
 **2. Copy the data to RDS**
@@ -850,22 +842,23 @@ Connect to the RDS internal login node with `ssh` (remember to have VPN connecte
 ssh <unikey>@research-data-int.sydney.edu.au
 ```
 
-Enter your unikey password, and once connected, navigate to the folder containing the data you have just transferred across to Gadi. 
+Enter your unikey password, and once connected, navigate to the directory containing the data you have just transferred from Gadi to RDS. 
+
 
 ```bash
-cd /path/to/my/data
-md5sum -c myData_md5sum.md5 > myData_md5sum.md5.check
-grep FAILED myData_md5sum.md5.check > myData_md5sum.md5.checkFAILED
+cd /rds/PRJ-<dashR-project>/myData
+md5sum -c myData.md5 > myData.md5.check
+grep FAILED myData.md5.check > myData.md5.check.FAILED
 ```
 
 Any files with `FAILED` status should be re-copied from Gadi to RDS, and the checksum run again.
 
-### Alternate methods of checksum command on RDS
+### Alternate methods for running checksum commands on RDS
 
 For large files or datasets with numerous files, creating checksums or running checksum comparisons can be time-consuming. When we `ssh` into `research-data-int.sydney.edu.au` and run the checksum command, this is reliant on your terminal window staying open and connected, your internet connection remaining stable, your computer not going to sleep or being switched off, etc. On Gadi, we can mitigate these issues by submitting long walltime checksum commands to the job scheduler. Below are some other options to run checksum commands (or any other data management commands) on data stored on RDS:
 
-- [Map your RDS as a network drive](https://sydneyuni.atlassian.net/wiki/x/NACgDQ) on your local computer. Then, use your mac terminal, Windows Powershell, WSL2, etc to run the commands using your local computer's resources. You will still need to ensure stable internet connection and that your computer does not go to sleep mode, however this setup may be more stable than relying on the ssh connection to the RDS login node.  
-- Run your checksum commands within a persistent terminal session with `tmux`. You can do this with an ssh connection to `research-data-int.sydney.edu.au`, or from the mac/Powershell/WSL2 terminal reading the RDS mapped network drive. When you run your checksum command inside a `tmux` session and then detach from it, the session (and the command) will remain active, even if you lose internet connection, close your terminal, or even power off your computer. You can reattach to the same session later to check if the checksum commands have completed, and their result. See [the section on tmux above](#using-tmux-to-run-commands-in-persistent-terminal-sessions) for basic use. 
+- [Map your RDS as a network drive](https://sydneyuni.atlassian.net/wiki/x/NACgDQ) on your local computer. Then, use your mac terminal, Windows Powershell, WSL2, etc to run the commands using your local computer's resources. You will still need to ensure stable internet connection and that your computer does not go to sleep mode (unless using tmux, see below), however this setup may be more stable than relying on the ssh connection to the RDS login node.  
+- Run your checksum commands within a persistent terminal session with `tmux`. You can do this with an ssh connection to `research-data-int.sydney.edu.au`, or from the mac/Powershell/WSL2 terminal reading the RDS mapped network drive. When you run your checksum command inside a `tmux` session and then detach from it, the session (and the command) will remain active, even if you lose internet connection, close your terminal, or even power off your computer. You can reattach to the same session later to check the status of the checksum command. See [the section on tmux above](#using-tmux-to-run-commands-in-persistent-terminal-sessions) for basic use. 
 - Until decommission date of August 29, the data transfer queue `dtq` on Artemis can be used to run checksums on data within RDS. `dtq` is the only queue on Artemis that can read RDS. 
 - Globus (coming soon) will simplify and expedite data transfer between RDS and Gadi. Globus will handle checksum creation and verification for you if the appropriate flags are set. 
 

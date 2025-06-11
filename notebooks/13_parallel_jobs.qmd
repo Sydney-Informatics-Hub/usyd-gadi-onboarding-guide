@@ -10,23 +10,10 @@ from: markdown+emoji
 
 ## Introduction
 
-In this section, we will discuss how you can run embarrassingly parallel jobs on Gadi using the `nci-parallel` utility in place of the Artemis job array method. 
+Unlike Artemis, job arrays are not permitted on Gadi. In this section, we will discuss how you can run embarrassingly parallel jobs on Gadi using the `nci-parallel` utility in place of the Artemis job array method. 
 
 [Watch the pre-recorded session.](https://youtu.be/wl-oAso0c30)
 
-The main challenges users may face adapting Artemis workflows to Gadi are:
-
-- Job arrays not supported on Gadi
-- [Gadi walltime limit of 48 hours](./12_walltime.qmd)
-- [Adjusting PBS directives to suit Gadi requirements and queue structure](./08_job_script.qmd)
-- [Lack of internet access for Gadi compute nodes](./08_job_script.qmd#lack-of-internet-access-on-compute-nodes)
-- [Data transfer](./05_data_transfer.qmd)
-- [Understanding NCI accounting of KSU, disk and iNode limits](./06_accounting.qmd)
-- [Automatic 100-day Gadi /scratch purge policy](https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...#RecoverFiles...-RecoverQuarantinedFilesonscratch)
-- [Software installation and version upgrades on Gadi](./11_software.qmd) 
-
-
-In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. [Recordings of past information sessions](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3479633933/Get+help+with+NCI+and+Sydney+Research+Cloud#Watch-the-recordings-of-previous-sessions) are available for some topics. 
 
 ## Embarrassingly parallel jobs on Gadi
 
