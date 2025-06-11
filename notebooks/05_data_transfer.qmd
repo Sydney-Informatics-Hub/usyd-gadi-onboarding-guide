@@ -248,17 +248,23 @@ If you want to copy the other way around (ie. from Gadi /scratch to RDS) then si
   ```
 :::
 
-#### Using `tmux` to run your job in the background
+### Using `tmux` to run commands in persistent terminal sessions
 
 ::: {.callout-warning}
 While this method can help you run your copy job in the background over a long period of time, it is recommended to rather use the `copyq` transfer method described below for large file transfers, as running jobs on the login node can overwhelm their scant resources.
 :::
 
-You can run all of the above copy commands in a tmux session which can be *detached* to the background allowing you to log out of Gadi and switch off your computer while the copy still runs in the background.
+You can run data transfers or other long-running commands in a [`tmux`](https://github.com/tmux/tmux/wiki/Getting-Started) persistent session which can be *detached* to run in the background. This allows you to log out and even switch off your computer while the command still runs within the detached session. You can reattach to the `tmux` session later to review the command's progress and output. 
 
-To do this, after logging in (step 1. above) enter the command `tmux` at the prompt. This will send you into a tmux terminal session, then inside the tmux session enter the copy command (step 2. above) and the copy will start. Then while the copy command is running, enter `<ctrl>-b` then `d` to detach the tmux session and return to the login prompt. You can now log out of Gadi while your copy job is running in the background on Gadi. To check its status simply log back into Gadi in a terminal (step 1. above) and enter the command `tmux attach`. This will re-attach your running tmux session and you can investigate its output to check if its done. When things are finished you can exit the running tmux session by typing `exit` inside it.
+For example, to copy data from RDS to Gadi with `rsync` within a `tmux` session:
 
-For more info about tmux check [here](https://www.redhat.com/en/blog/introduction-tmux-linux).
+1. Login to RDS: `ssh <unikey>@research-data-int.sydney.edu.au`
+2. Start a `tmux` session: enter `tmux`
+3. Once inside the new session, issue the rsync command: `rsync -rtlPvz /rds/PRJ-<project>/<path-to-data> <nci_user_id>@gadi-dm.nci.org.au:<gadi-destination-path>`
+4. Detach from the session: enter `ctrl B + D`
+5. You can later reattach to the same session from a new ssh connection to `research-data-int.sydney.edu.au` with: `tmux attach`
+
+For more information about `tmux` and its options, check [here](https://www.redhat.com/en/blog/introduction-tmux-linux).
 
 ### Transfer using `sftp` or `lftp` from Gadi `copyq`
 
@@ -604,7 +610,7 @@ ls MyData
 
 To confirm the transfer was successful, you'll need to check your job logs. These are located in the same directory as your script and are named `transfer.o<jobid>`. 
 
-However, this doesn't guarantee the integrity of the files. You should check the files themselves to ensure they are intact. You can do this using md5checksums. See this [SIH tidbits blogpost](https://sydney-informatics-hub.github.io/tidbits/safely-downloading-your-sequence-data-to-rds.html) about how to use these. You'll need to create md5checksums for the original files if they don't already exist and compare them after transfer.
+However, this doesn't guarantee the integrity of the files. You should check the files themselves to ensure they are intact. You can do this using md5checksums as described [below](#checksum).
 
 
 
@@ -732,3 +738,134 @@ do
 done
 ```
 :::
+
+## Verify the integrity of your transferred data{#checksum}
+
+When you transfer files between systems, especially over a network using tools described above, there is always a small risk that the data could become corrupted.
+This might happen for example due to network issues, disk errors, or file system problems. It is therefore important that you verify that your files were
+transferred completely and accurately. We can do this using a **checksum**.
+
+A checksum is a small, fixed-size value calculated from the contents of a file using a specific algorithm (like [MD5](https://en.wikipedia.org/wiki/MD5),
+[SHA-1](https://en.wikipedia.org/wiki/SHA-1), or [SHA-256](https://en.wikipedia.org/wiki/SHA-2)).
+Think of it as a unique fingerprint for the file's data: if even one byte changes, the checksum will be different. By comparing the checksum before and after the transfer, you can confirm that the file is exactly the same on both ends.
+
+The overall process of verifying data transfer is outlined in the figure below. In some cases, you may already have checksum files that you have previously generated, or even downloaded with your raw data. If so, there is no need to re-generate the "source" checksum files. 
+
+
+For transfers **from RDS to Gadi**, RDS is the "source" and Gadi is the "destination": 
+
+![](../fig/checksum-image.png)
+
+Note that the **source** and **destination** are **reversed** when transferring output files generated on Gadi back to RDS.  
+
+### Using md5sum to validate files: from RDS to Gadi
+
+Here we demonstrate how you can use the command `md5sum` to generate a list of MD5 checksums for a directory on RDS, and then use these checksums to validate the integrity of your files after the
+data has been transferred to Gadi. 
+
+**1. Create a list of checksums for your files at the source (before copying the data)**
+
+Connect to the RDS internal login node with `ssh` (remember to have VPN connected if off-campus):
+
+```bash
+ssh <unikey>@research-data-int.sydney.edu.au
+```
+
+Enter your unikey password, and once connected to RDS, navigate to the folder containing the data you are going to transfer to Gadi. 
+
+Use the `md5sum` command to produce a md5 hash for every file within that directory and its subdirectories:
+
+```bash
+cd /rds/PRJ-<dashR-project>/myData
+
+find -type f \( -not -name "myData_md5sum.md5" \) -exec md5sum '{}' \; > myData_md5sum.md5
+```
+
+This will generate a file called `myData_md5sum.md5` in your folder listing a hash for every file (except for the `myData_md5sum.md5` file).
+
+
+**2. Copy the data to Gadi**
+
+You should do this using one of the methods described above in this page - make sure to also transfer the `.md5` file and keep it in the same ***relative location*** as it was at the source (RDS).
+
+**3. Verify the copy of the files on Gadi**
+
+Once the transfer of data and checksum files to Gadi are complete, you can use the `-c` (check) flag to the `checksum` command to verify file integrity. 
+
+For small files, you can easily run this on the Gadi login nodes, eg:
+
+```bash
+cd /scratch/<nci-project-id>/myData
+md5sum -c myData_md5sum.md5
+```
+
+This command goes through the list of files in `myData_md5sum.md5` and compares the md5 sum of the file on Gadi to the md5 sum that was created for the file on RDS. 
+
+For larger files, or very large numbers of files, the checksum process can take some time (eg > 10 minutes for a single 100 GB file) so it is more robust to run the checksum commands within a PBS job submitted to the Gadi job scheduler. 
+
+You can do this simply by placing the checksum command described above inside a Gadi [job script](./08_job_script.qmd). 
+
+Files which have been transferred with full integrity will report "OK": 
+
+```bash
+file1.txt: OK
+sub_folder/file2.txt: OK
+```
+
+If there was a problem with any file, you'll see a warning like:
+
+```bash
+file3.txt: FAILED
+```
+
+Redirecting the output of the `md5sum -c` command to a file can simplify collecting failed transfers for resubmission:
+
+```bash
+md5sum -c myData_md5sum.md5 > myData_md5sum.md5.check
+grep FAILED myData_md5sum.md5.check > myData_md5sum.md5.checkFAILED
+```
+
+Any files with `FAILED` status should be re-copied from RDS to Gadi, and the checksum comparison run again. 
+
+### Using md5sum to validate files: from Gadi to RDS
+
+The high-level process is the same as for RDS to Gadi, but the **source** and **destination** are reversed. 
+
+**1. Create a list of checksums for your files at the source (before copying the data)**
+
+On Gadi, you can create the checksum files with the same command as above. You can run this on the Gadi login node, or run the command in a Gadi [job script](./08_job_script.qmd). 
+
+
+**2. Copy the data to RDS**
+
+You should do this using one of the methods described above in this page - make sure to also transfer the `.md5` file and keep it in the same ***relative location*** as it was at the source (Gadi).
+
+**3. Verify the copy of the files on RDS**
+
+Once the transfer of data and checksum files to RDS are complete, you can use the `-c` (check) flag to the `checksum` command to verify file integrity. 
+
+Connect to the RDS internal login node with `ssh` (remember to have VPN connected if off-campus):
+
+```bash
+ssh <unikey>@research-data-int.sydney.edu.au
+```
+
+Enter your unikey password, and once connected, navigate to the folder containing the data you have just transferred across to Gadi. 
+
+```bash
+cd /path/to/my/data
+md5sum -c myData_md5sum.md5 > myData_md5sum.md5.check
+grep FAILED myData_md5sum.md5.check > myData_md5sum.md5.checkFAILED
+```
+
+Any files with `FAILED` status should be re-copied from Gadi to RDS, and the checksum run again.
+
+### Alternate methods of checksum command on RDS
+
+For large files or datasets with numerous files, creating checksums or running checksum comparisons can be time-consuming. When we `ssh` into `research-data-int.sydney.edu.au` and run the checksum command, this is reliant on your terminal window staying open and connected, your internet connection remaining stable, your computer not going to sleep or being switched off, etc. On Gadi, we can mitigate these issues by submitting long walltime checksum commands to the job scheduler. Below are some other options to run checksum commands (or any other data management commands) on data stored on RDS:
+
+- [Map your RDS as a network drive](https://sydneyuni.atlassian.net/wiki/x/NACgDQ) on your local computer. Then, use your mac terminal, Windows Powershell, WSL2, etc to run the commands using your local computer's resources. You will still need to ensure stable internet connection and that your computer does not go to sleep mode, however this setup may be more stable than relying on the ssh connection to the RDS login node.  
+- Run your checksum commands within a persistent terminal session with `tmux`. You can do this with an ssh connection to `research-data-int.sydney.edu.au`, or from the mac/Powershell/WSL2 terminal reading the RDS mapped network drive. When you run your checksum command inside a `tmux` session and then detach from it, the session (and the command) will remain active, even if you lose internet connection, close your terminal, or even power off your computer. You can reattach to the same session later to check if the checksum commands have completed, and their result. See [the section on tmux above](#using-tmux-to-run-commands-in-persistent-terminal-sessions) for basic use. 
+- Until decommission date of August 29, the data transfer queue `dtq` on Artemis can be used to run checksums on data within RDS. `dtq` is the only queue on Artemis that can read RDS. 
+- Globus (coming soon) will simplify and expedite data transfer between RDS and Gadi. Globus will handle checksum creation and verification for you if the appropriate flags are set. 
+
