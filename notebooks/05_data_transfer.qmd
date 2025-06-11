@@ -741,85 +741,126 @@ transferred completely and accurately. We can do this using a **checksum**.
 
 A checksum is a small, fixed-size value calculated from the contents of a file using a specific algorithm (like [MD5](https://en.wikipedia.org/wiki/MD5),
 [SHA-1](https://en.wikipedia.org/wiki/SHA-1), or [SHA-256](https://en.wikipedia.org/wiki/SHA-2)).
-Think of it as a unique fingerprint for the file's data: if even one byte changes, the checksum will be different.
-By comparing the checksum before and after the transfer, you can confirm that the file is exactly the same on both ends.
+Think of it as a unique fingerprint for the file's data: if even one byte changes, the checksum will be different. By comparing the checksum before and after the transfer, you can confirm that the file is exactly the same on both ends.
 
-### Using md5sum to validate files
+The overall process of verifying data transfer is outlined in the figure below. In some cases, you may already have checksum files that you have previously generated, or even downloaded with your raw data. If so, there is no need to re-generate the "source" checksum files. 
 
-Here we demonstrate how you can use the command `md5sum` to generate a list of checksums for a folder full of files, and then using these checksums to validate your files integrity after the
-folder has been copied:
+
+For transfers **from RDS to Gadi**, RDS is the "source" and Gadi is the "destination": 
+
+![](../fig/checksum-image.png)
+
+Note that the **source** and **destination** are **reversed** when transferring output files generated on Gadi back to RDS.  
+
+### Using md5sum to validate files: from RDS to Gadi
+
+Here we demonstrate how you can use the command `md5sum` to generate a list of MD5 checksums for a directory on RDS, and then use these checksums to validate the integrity of your files after the
+data has been transferred to Gadi. 
 
 ##### 1. Create a list of checksums for your files at the source (before copying the data)
 
-Navigate to the folder containing the data you are going to copy and use the `md5sum` command to produce a md5 hash for every file (and subfolder) in that folder:
-```bash
-$ cd /path/to/my/data
+Connect to the RDS internal login node with `ssh` (remember to have VPN connected if off-campus):
 
-$ find -type f \( -not -name "my_folder_md5sum.md5" \) -exec md5sum '{}' \; > my_folder_md5sum.md5
+```bash
+ssh <unikey>@research-data-int.sydney.edu.au
+```
+
+Enter your unikey password, and once connected, navigate to the folder containing the data you are going to transfer to Gadi. 
+
+Use the `md5sum` command to produce a md5 hash for every file within that directory and its subdirectories:
+
+```bash
+cd /path/to/my/data
+
+find -type f \( -not -name "my_folder_md5sum.md5" \) -exec md5sum '{}' \; > my_folder_md5sum.md5
 ```
 
 This will generate a file called `my_folder_md5sum.md5` in your folder listing a hash for every file (except for the `my_folder_md5sum.md5` file).
 
-:::{.callout-note}
-## Example Gadi checksum PBS script using `copyq`
 
-**Note for Cali: How do we do this for data on RDS? Since I would imagine that we can't be running massive checksum calculations on `research-data-ext`.**
+##### 2. Copy the data to Gadi
 
+You should do this using one of the methods described above in this page - make sure to also transfer the `.md5` file and keep it in the same ***relative location*** as it was at the source (RDS).
 
-If you have very large files it is best you you run the command on a compute node on Gadi via a PBS script to avoid resource constraints on the login nodes. E.g.:
+##### 3. Verify the copy of the files on Gadi
 
-```bash
-#!/bin/bash
+Once the transfer of data and checksum files to Gadi are complete, you can use the `-c` (check) flag to the `checksum` command to verify file integrity. 
 
-#PBS -P <your_project>
-#PBS -N checksum
-#PBS -l walltime=04:00:00
-#PBS -l ncpus=1
-#PBS -l mem=8GB
-#PBS -W umask=022
-#PBS -q copyq
-#PBS -l wd
-#PBS -lstorage=scratch/<your_project>
-
-# Set variables 
-dir=<path_to_data>
-
-# Move into directory you want to generate checksum file
-cd ${dir}
-
-# Generate checksums
-find -type f \( -not -name "my_folder_md5sum.md5" \) -exec md5sum '{}' \; > my_folder_md5sum.md5
-```
-:::
-
-##### 2. Copy the Files
-
-You should do this using one of the methods described above in this page - make sure to upload both the entire folder and keep the `my_folder_md5sums.md5`
-file in the same relative location as it was at the source.
-
-##### 3. Verify the files at the destination
-
-Once the folder and checksum file are at the destination, log in and go to the destination folder then verify the checksums of the copied data:
+For small files, you can easily run this on the Gadi login nodes, eg:
 
 ```bash
-$ cd /path/to/destination/data
-
-$ md5sum -c my_folder_md5sum.md5
+cd /scratch/<nci-project-id>/DataDir
+md5sum -c my_folder_md5sum.md5
 ```
 
-This command goes through the list of files in `my_folder_md5sum.md5`, checks each file’s checksum, and compares it to the original one.
+This command goes through the list of files in `my_folder_md5sum.md5` and compares the md5 sum of the file on Gadi to the md5 sum that was created for the file on RDS. 
 
-If everything went well, you'll see lines like:
+For larger files, or very large numbers of files, the checksum process can take some time (eg > 10 minutes for a single 100 GB file) so it is more robust to submit the checksum job to the Gadi job scheduler. 
 
-  ```bash
-  file1.txt: OK
-  sub_folder/file2.txt: OK
-  ```
+You can do this simply by placing the checksum command described above inside a Gadi [job script](./08_job_script.qmd). 
+
+Files which have been transferred with full integrity will report "OK": 
+
+```bash
+file1.txt: OK
+sub_folder/file2.txt: OK
+```
 
 If there was a problem with any file, you'll see a warning like:
 
-  ```bash
-  file3.txt: FAILED
-  ```
+```bash
+file3.txt: FAILED
+```
 
-You should investigate and attempt to copy files labelled FAILED again.
+You can also redirect the output of the `md5sum -c` command to a file, which can simplify collecting failed transfers for resubmission:
+
+```bash
+md5sum -c my_folder_md5sum.md5 > my_folder_md5sum.md5.check
+grep FAILED my_folder_md5sum.md5.check > my_folder_md5sum.md5.checkFAILED
+```
+
+Any files with `FAILED` status should be re-copied from RDS to Gadi, and the checksum run again. 
+
+### Using md5sum to validate files: from Gadi to RDS
+
+The high-level process is the same as for RDS to Gadi, but the **source** and **destination** are reversed. 
+
+##### 1. Create a list of checksums for your files at the source (before copying the data)
+
+On Gadi, you can create the checksum files with the same command as above, however you also have the option to run the command in a Gadi [job script](./08_job_script.qmd). 
+
+
+##### 2. Copy the data to RDS
+
+You should do this using one of the methods described above in this page - make sure to also transfer the `.md5` file and keep it in the same ***relative location*** as it was at the source (Gadi).
+
+##### 3. Verify the copy of the files on RDS
+
+Once the transfer of data and checksum files to RDS are complete, you can use the `-c` (check) flag to the `checksum` command to verify file integrity. 
+
+Connect to the RDS internal login node with `ssh` (remember to have VPN connected if off-campus):
+
+```bash
+ssh <unikey>@research-data-int.sydney.edu.au
+```
+
+Enter your unikey password, and once connected, navigate to the folder containing the data you have just transferred across to Gadi. 
+
+```bash
+cd /path/to/my/data
+md5sum -c my_folder_md5sum.md5 > my_folder_md5sum.md5.check
+grep FAILED my_folder_md5sum.md5.check > my_folder_md5sum.md5.checkFAILED
+```
+
+Any files with `FAILED` status should be re-copied from Gadi to RDS, and the checksum run again.
+
+### Alternate methods of checksum command on RDS
+
+TBC
+
+- mapped drive, then:
+- powersehll
+- mac
+- dtq, until 29th Sept
+- Globus (coming soon) 
+
