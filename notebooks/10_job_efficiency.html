@@ -301,21 +301,8 @@ cookieconsent.run({
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In this section, we will consider job optimisation and benchmarking for compute resource usage efficiency.</p>
+<p>In this section, we will explore how <strong>optimising</strong> your workload through splitting/checkpointing jobs and optimising compute resource requests for Gadi queues can help <strong>minimise your walltime</strong> and <strong>use less service units</strong>.</p>
 <p><a href="https://youtu.be/4ztdcnfIaP4">Watch the pre-recorded session</a></p>
-<p>The main challenges users may face adapting Artemis workflows to Gadi are:</p>
-<ul>
-<li><a href="../notebooks/12_walltime.html">Gadi walltime limit of 48 hours</a></li>
-<li><a href="../notebooks/08_job_script.html">Adjusting PBS directives to suit Gadi requirements and queue structure</a></li>
-<li><a href="../notebooks/08_job_script.html#lack-of-internet-access-on-compute-nodes">Lack of internet access for Gadi compute nodes</a></li>
-<li><a href="../notebooks/05_data_transfer.html">Data transfer</a></li>
-<li><a href="../notebooks/06_accounting.html">Understanding NCI accounting of KSU, disk and iNode limits</a></li>
-<li><a href="https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...#RecoverFiles...-RecoverQuarantinedFilesonscratch">Automatic 100-day Gadi /scratch purge policy</a></li>
-<li><a href="../notebooks/11_software.html">Software installation and version upgrades on Gadi</a></li>
-<li><a href="../notebooks/13_parallel_jobs.html">Job arrays not supported on Gadi</a></li>
-</ul>
-<p>In this section, we will broadly address the first two challenges on this list, exploring how <strong>optimising your workload through splitting/checkpointing jobs and optimising compute resource requests for Gadi queues can help minimise your walltime and use less KSU</strong>.</p>
-<p>For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.</p>
 </section>
 <section id="what-is-workflow-optimisation" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-workflow-optimisation">What is workflow optimisation</h2>

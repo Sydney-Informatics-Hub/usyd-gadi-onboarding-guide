@@ -272,7 +272,7 @@ cookieconsent.run({
   <ul class="collapse">
   <li><a href="#using-md5sum-to-validate-files-from-rds-to-gadi" id="toc-using-md5sum-to-validate-files-from-rds-to-gadi" class="nav-link" data-scroll-target="#using-md5sum-to-validate-files-from-rds-to-gadi">Using md5sum to validate files: from RDS to Gadi</a></li>
   <li><a href="#using-md5sum-to-validate-files-from-gadi-to-rds" id="toc-using-md5sum-to-validate-files-from-gadi-to-rds" class="nav-link" data-scroll-target="#using-md5sum-to-validate-files-from-gadi-to-rds">Using md5sum to validate files: from Gadi to RDS</a></li>
-  <li><a href="#alternate-methods-of-checksum-command-on-rds" id="toc-alternate-methods-of-checksum-command-on-rds" class="nav-link" data-scroll-target="#alternate-methods-of-checksum-command-on-rds">Alternate methods of checksum command on RDS</a></li>
+  <li><a href="#alternate-methods-for-running-checksum-commands-on-rds" id="toc-alternate-methods-for-running-checksum-commands-on-rds" class="nav-link" data-scroll-target="#alternate-methods-for-running-checksum-commands-on-rds">Alternate methods for running checksum commands on RDS</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -301,22 +301,9 @@ cookieconsent.run({
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In this section, we will look at transferring data between the Research Data Store and Gadi.</p>
+<p>In this section, we will look at transferring data between the Research Data Store (RDS) and Gadi. There is a lot of content with step-by-step examples here due to the numerous methods available for data transfer.</p>
 <p><a href="https://youtu.be/ZBOycXymok4?si=Ln03g69UjCcylF13&amp;t=1856">Watch the pre-recorded session</a></p>
-<p>The main challenges users may face adapting Artemis workflows to Gadi are:</p>
-<ul>
-<li><a href="../notebooks/08_job_script.html">Adjusting PBS directives to suit Gadi requirements and queue structure</a></li>
-<li><a href="../notebooks/08_job_script.html#lack-of-internet-access-on-compute-nodes">Lack of internet access for Gadi compute nodes</a></li>
-<li>Data transfer</li>
-<li><a href="../notebooks/12_walltime.html">Gadi walltime limit of 48 hours</a></li>
-<li><a href="../notebooks/06_accounting.html">Understanding NCI accounting of KSU, disk and iNode limits</a></li>
-<li><a href="https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...#RecoverFiles...-RecoverQuarantinedFilesonscratch">Automatic 100-day Gadi /scratch purge policy</a></li>
-<li><a href="../notebooks/11_software.html">Software installation and version upgrades on Gadi</a></li>
-<li><a href="../notebooks/13_parallel_jobs.html">Job arrays not supported on Gadi</a></li>
-</ul>
-<p>In this section, we will look at Data Transfer. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.</p>
-<section id="the-table-below-summarises-the-data-transfer-methods-covered-in-this-section" class="level5">
-<h5 class="anchored" data-anchor-id="the-table-below-summarises-the-data-transfer-methods-covered-in-this-section"><strong>The table below summarises the data transfer methods covered in this section:</strong></h5>
+<p><strong>The table below summarises the data transfer methods covered in this section:</strong></p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -395,7 +382,6 @@ cookieconsent.run({
 </tr>
 </tbody>
 </table>
-</section>
 </section>
 <section id="where-to-put-project-files-on-gadi" class="level2">
 <h2 class="anchored" data-anchor-id="where-to-put-project-files-on-gadi">Where to put project files on Gadi</h2>
@@ -1070,16 +1056,16 @@ Template Artemis data transfer script using <code>rsync</code>
 <p>Use the <code>md5sum</code> command to produce a md5 hash for every file within that directory and its subdirectories:</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /rds/PRJ-<span class="op">&lt;</span>dashR-project<span class="op">&gt;</span>/myData</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> <span class="at">-type</span> f <span class="dt">\(</span> <span class="at">-not</span> <span class="at">-name</span> <span class="st">"myData_md5sum.md5"</span> <span class="dt">\)</span> <span class="at">-exec</span> md5sum <span class="st">'{}'</span> <span class="dt">\;</span> <span class="op">&gt;</span> myData_md5sum.md5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This will generate a file called <code>myData_md5sum.md5</code> in your folder listing a hash for every file (except for the <code>myData_md5sum.md5</code> file).</p>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> <span class="at">-type</span> f <span class="dt">\(</span> <span class="at">-not</span> <span class="at">-name</span> <span class="st">"myData.md5"</span> <span class="dt">\)</span> <span class="at">-exec</span> md5sum <span class="st">'{}'</span> <span class="dt">\;</span> <span class="op">&gt;</span> myData.md5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will generate a file called <code>myData.md5</code> in your folder listing a hash for every file (except for the <code>myData.md5</code> file).</p>
 <p><strong>2. Copy the data to Gadi</strong></p>
 <p>You should do this using one of the methods described above in this page - make sure to also transfer the <code>.md5</code> file and keep it in the same <strong><em>relative location</em></strong> as it was at the source (RDS).</p>
 <p><strong>3. Verify the copy of the files on Gadi</strong></p>
 <p>Once the transfer of data and checksum files to Gadi are complete, you can use the <code>-c</code> (check) flag to the <code>checksum</code> command to verify file integrity.</p>
 <p>For small files, you can easily run this on the Gadi login nodes, eg:</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /scratch/<span class="op">&lt;</span>nci-project-id<span class="op">&gt;</span>/myData</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">md5sum</span> <span class="at">-c</span> myData_md5sum.md5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This command goes through the list of files in <code>myData_md5sum.md5</code> and compares the md5 sum of the file on Gadi to the md5 sum that was created for the file on RDS.</p>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">md5sum</span> <span class="at">-c</span> myData.md5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This command goes through the list of files in <code>myData.md5</code> and compares the md5 sum of the file on Gadi to the md5 sum that was created for the file on RDS.</p>
 <p>For larger files, or very large numbers of files, the checksum process can take some time (eg &gt; 10 minutes for a single 100 GB file) so it is more robust to run the checksum commands within a PBS job submitted to the Gadi job scheduler.</p>
 <p>You can do this simply by placing the checksum command described above inside a Gadi <a href="../notebooks/08_job_script.html">job script</a>.</p>
 <p>Files which have been transferred with full integrity will report “OK”:</p>
@@ -1088,34 +1074,36 @@ Template Artemis data transfer script using <code>rsync</code>
 <p>If there was a problem with any file, you’ll see a warning like:</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="ex">file3.txt:</span> FAILED</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Redirecting the output of the <code>md5sum -c</code> command to a file can simplify collecting failed transfers for resubmission:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">md5sum</span> <span class="at">-c</span> myData_md5sum.md5 <span class="op">&gt;</span> myData_md5sum.md5.check</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> FAILED myData_md5sum.md5.check <span class="op">&gt;</span> myData_md5sum.md5.checkFAILED</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">md5sum</span> <span class="at">-c</span> myData.md5 <span class="op">&gt;</span> myData.md5.check</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> FAILED myData.md5.check <span class="op">&gt;</span> myData.md5.check.FAILED</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Any files with <code>FAILED</code> status should be re-copied from RDS to Gadi, and the checksum comparison run again.</p>
 </section>
 <section id="using-md5sum-to-validate-files-from-gadi-to-rds" class="level3">
 <h3 class="anchored" data-anchor-id="using-md5sum-to-validate-files-from-gadi-to-rds">Using md5sum to validate files: from Gadi to RDS</h3>
-<p>The high-level process is the same as for RDS to Gadi, but the <strong>source</strong> and <strong>destination</strong> are reversed.</p>
+<p>When working on Gadi, you will want to regularly back up important data (for example job outputs, logs, scripts) to RDS. Gadi scratch and gdata filesystems are not backed up, so regular backups to RDS are critical.</p>
+<p>The high-level checksum process is the same as it was for RDS to Gadi, but the <strong>source</strong> and <strong>destination</strong> are reversed.</p>
 <p><strong>1. Create a list of checksums for your files at the source (before copying the data)</strong></p>
-<p>On Gadi, you can create the checksum files with the same command as above. You can run this on the Gadi login node, or run the command in a Gadi <a href="../notebooks/08_job_script.html">job script</a>.</p>
+<p>On Gadi, you can create the checksum file with the same <code>md5sum</code> command as described above, either on the Gadi login node, or from within a Gadi <a href="../notebooks/08_job_script.html">job script</a>.</p>
+<p>Importantly, the Gadi compute queues can read gdata, unlike Artemis where the general compute queues could not read RDS. So, if your data is on gdata, you do not need to copy it to scratch for checksum commands run within Gadi PBS jobs.</p>
 <p><strong>2. Copy the data to RDS</strong></p>
 <p>You should do this using one of the methods described above in this page - make sure to also transfer the <code>.md5</code> file and keep it in the same <strong><em>relative location</em></strong> as it was at the source (Gadi).</p>
 <p><strong>3. Verify the copy of the files on RDS</strong></p>
 <p>Once the transfer of data and checksum files to RDS are complete, you can use the <code>-c</code> (check) flag to the <code>checksum</code> command to verify file integrity.</p>
 <p>Connect to the RDS internal login node with <code>ssh</code> (remember to have VPN connected if off-campus):</p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>unikey<span class="op">&gt;</span>@research-data-int.sydney.edu.au</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Enter your unikey password, and once connected, navigate to the folder containing the data you have just transferred across to Gadi.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /path/to/my/data</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">md5sum</span> <span class="at">-c</span> myData_md5sum.md5 <span class="op">&gt;</span> myData_md5sum.md5.check</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> FAILED myData_md5sum.md5.check <span class="op">&gt;</span> myData_md5sum.md5.checkFAILED</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Enter your unikey password, and once connected, navigate to the directory containing the data you have just transferred from Gadi to RDS.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /rds/PRJ-<span class="op">&lt;</span>dashR-project<span class="op">&gt;</span>/myData</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">md5sum</span> <span class="at">-c</span> myData.md5 <span class="op">&gt;</span> myData.md5.check</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> FAILED myData.md5.check <span class="op">&gt;</span> myData.md5.check.FAILED</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Any files with <code>FAILED</code> status should be re-copied from Gadi to RDS, and the checksum run again.</p>
 </section>
-<section id="alternate-methods-of-checksum-command-on-rds" class="level3">
-<h3 class="anchored" data-anchor-id="alternate-methods-of-checksum-command-on-rds">Alternate methods of checksum command on RDS</h3>
+<section id="alternate-methods-for-running-checksum-commands-on-rds" class="level3">
+<h3 class="anchored" data-anchor-id="alternate-methods-for-running-checksum-commands-on-rds">Alternate methods for running checksum commands on RDS</h3>
 <p>For large files or datasets with numerous files, creating checksums or running checksum comparisons can be time-consuming. When we <code>ssh</code> into <code>research-data-int.sydney.edu.au</code> and run the checksum command, this is reliant on your terminal window staying open and connected, your internet connection remaining stable, your computer not going to sleep or being switched off, etc. On Gadi, we can mitigate these issues by submitting long walltime checksum commands to the job scheduler. Below are some other options to run checksum commands (or any other data management commands) on data stored on RDS:</p>
 <ul>
-<li><a href="https://sydneyuni.atlassian.net/wiki/x/NACgDQ">Map your RDS as a network drive</a> on your local computer. Then, use your mac terminal, Windows Powershell, WSL2, etc to run the commands using your local computer’s resources. You will still need to ensure stable internet connection and that your computer does not go to sleep mode, however this setup may be more stable than relying on the ssh connection to the RDS login node.<br>
+<li><a href="https://sydneyuni.atlassian.net/wiki/x/NACgDQ">Map your RDS as a network drive</a> on your local computer. Then, use your mac terminal, Windows Powershell, WSL2, etc to run the commands using your local computer’s resources. You will still need to ensure stable internet connection and that your computer does not go to sleep mode (unless using tmux, see below), however this setup may be more stable than relying on the ssh connection to the RDS login node.<br>
 </li>
-<li>Run your checksum commands within a persistent terminal session with <code>tmux</code>. You can do this with an ssh connection to <code>research-data-int.sydney.edu.au</code>, or from the mac/Powershell/WSL2 terminal reading the RDS mapped network drive. When you run your checksum command inside a <code>tmux</code> session and then detach from it, the session (and the command) will remain active, even if you lose internet connection, close your terminal, or even power off your computer. You can reattach to the same session later to check if the checksum commands have completed, and their result. See <a href="#using-tmux-to-run-commands-in-persistent-terminal-sessions">the section on tmux above</a> for basic use.</li>
+<li>Run your checksum commands within a persistent terminal session with <code>tmux</code>. You can do this with an ssh connection to <code>research-data-int.sydney.edu.au</code>, or from the mac/Powershell/WSL2 terminal reading the RDS mapped network drive. When you run your checksum command inside a <code>tmux</code> session and then detach from it, the session (and the command) will remain active, even if you lose internet connection, close your terminal, or even power off your computer. You can reattach to the same session later to check the status of the checksum command. See <a href="#using-tmux-to-run-commands-in-persistent-terminal-sessions">the section on tmux above</a> for basic use.</li>
 <li>Until decommission date of August 29, the data transfer queue <code>dtq</code> on Artemis can be used to run checksums on data within RDS. <code>dtq</code> is the only queue on Artemis that can read RDS.</li>
 <li>Globus (coming soon) will simplify and expedite data transfer between RDS and Gadi. Globus will handle checksum creation and verification for you if the appropriate flags are set.</li>
 </ul>
