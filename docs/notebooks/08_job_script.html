@@ -76,11 +76,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -136,118 +136,173 @@ cookieconsent.run({
 <link rel="stylesheet" href="../bootstrap-icons.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-sidebar docked">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">USyd NCI Gadi User Guide</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
-<span class="menu-text">Home</span></a>
-  </li>  
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-introduction-to-gadi" role="button" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Introduction to Gadi</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-introduction-to-gadi">    
-        <li>
-    <a class="dropdown-item" href="../notebooks/02_intro_hpc.html">
- <span class="dropdown-text">Introduction to HPC</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/02_system_setup.html">
- <span class="dropdown-text">Gadi overview</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/03_expectations.html">
- <span class="dropdown-text">Infrastructure expectations</span></a>
-  </li>  
-    </ul>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="../notebooks/00_gadi_access.html"> 
-<span class="menu-text">Access Gadi</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../notebooks/01_setup.html"> 
-<span class="menu-text">Set up your computer</span></a>
-  </li>  
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-on-gadi" role="button" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Working on Gadi</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-working-on-gadi">    
-        <li>
-    <a class="dropdown-item" href="../notebooks/04_command_line.html">
- <span class="dropdown-text">Command line</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/05_data_transfer.html">
- <span class="dropdown-text">Data transfer</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/11_software.html">
- <span class="dropdown-text">Software</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/06_accounting.html">
- <span class="dropdown-text">Accounting</span></a>
-  </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-running-a-job" role="button" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Running a job</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-running-a-job">    
-        <li>
-    <a class="dropdown-item" href="../notebooks/08_job_script.html">
- <span class="dropdown-text">Job scripts and submission</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/12_walltime.html">
- <span class="dropdown-text">Working within walltime</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/09_job_monitoring.html">
- <span class="dropdown-text">Job monitoring</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/10_job_efficiency.html">
- <span class="dropdown-text">Benchmarking and efficiency</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/13_parallel_jobs.html">
- <span class="dropdown-text">Parallel jobs</span></a>
-  </li>  
-    </ul>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="../support.html"> 
-<span class="menu-text">Support and resources</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/08_job_script.html">Running a job</a></li><li class="breadcrumb-item"><a href="../notebooks/08_job_script.html">Job scripts and submission</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">USyd NCI Gadi User Guide</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Introduction to Gadi</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/02_intro_hpc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to HPC</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/02_system_setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gadi overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/03_expectations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Infrastructure expectations</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/00_gadi_access.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Access Gadi</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/01_setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Set up your computer</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Working on Gadi</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/04_command_line.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Command line</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/05_data_transfer.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data transfer</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/11_software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Software</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/06_accounting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Accounting</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Running a job</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/08_job_script.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Job scripts and submission</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/12_walltime.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working within walltime</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/09_job_monitoring.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Job monitoring</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/10_job_efficiency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarking and efficiency</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/13_parallel_jobs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parallel jobs</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../support.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Support and resources</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -274,7 +329,7 @@ cookieconsent.run({
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/08_job_script.html">Running a job</a></li><li class="breadcrumb-item"><a href="../notebooks/08_job_script.html">Job scripts and submission</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><strong>Running jobs on Gadi</strong></h1>
 </div>
@@ -295,20 +350,8 @@ cookieconsent.run({
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In this section, we will compare Artemis job scripts to Gadi job scripts, and provide some guidance on how to adapt your Artemis workflow to NCI Gadi HPC.</p>
+<p>In this section, we will compare Artemis job scripts to Gadi job scripts, and provide some guidance on how to adapt your Artemis workflow to NCI Gadi HPC. This will include the similarities and differences with the PBS directives component of your scripts, selecting the right compute queue for your job based on Gadi’s queue hardware and resource limits, and how to work around the lack of internet access for Gadi compute queues.</p>
 <p><a href="https://youtu.be/ZBOycXymok4">Watch the pre-recorded session</a></p>
-<p>The main challenges users may face adapting Artemis workflows to Gadi are:</p>
-<ul>
-<li>Adjusting PBS directives to suit Gadi requirements and queue structure</li>
-<li>Lack of internet access for Gadi compute nodes</li>
-<li><a href="../notebooks/05_data_transfer.html">Data transfer</a></li>
-<li><a href="../notebooks/12_walltime.html">Gadi walltime limit of 48 hours</a></li>
-<li><a href="../notebooks/06_accounting.html">Understanding NCI accounting of KSU, disk and iNode limits</a></li>
-<li><a href="https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...#RecoverFiles...-RecoverQuarantinedFilesonscratch">Automatic 100-day Gadi /scratch purge policy</a></li>
-<li><a href="../notebooks/11_software.html">Software installation and version upgrades on Gadi</a></li>
-<li><a href="../notebooks/13_parallel_jobs.html">Job arrays not supported on Gadi</a></li>
-</ul>
-<p>In this section, we will look at the first two on this list. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.</p>
 </section>
 <section id="job-scheduler" class="level2">
 <h2 class="anchored" data-anchor-id="job-scheduler">Job scheduler</h2>

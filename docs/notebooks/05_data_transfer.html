@@ -76,11 +76,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -136,118 +136,173 @@ cookieconsent.run({
 <link rel="stylesheet" href="../bootstrap-icons.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-sidebar docked">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">USyd NCI Gadi User Guide</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
-<span class="menu-text">Home</span></a>
-  </li>  
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-introduction-to-gadi" role="button" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Introduction to Gadi</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-introduction-to-gadi">    
-        <li>
-    <a class="dropdown-item" href="../notebooks/02_intro_hpc.html">
- <span class="dropdown-text">Introduction to HPC</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/02_system_setup.html">
- <span class="dropdown-text">Gadi overview</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/03_expectations.html">
- <span class="dropdown-text">Infrastructure expectations</span></a>
-  </li>  
-    </ul>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="../notebooks/00_gadi_access.html"> 
-<span class="menu-text">Access Gadi</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../notebooks/01_setup.html"> 
-<span class="menu-text">Set up your computer</span></a>
-  </li>  
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-on-gadi" role="button" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Working on Gadi</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-working-on-gadi">    
-        <li>
-    <a class="dropdown-item" href="../notebooks/04_command_line.html">
- <span class="dropdown-text">Command line</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/05_data_transfer.html">
- <span class="dropdown-text">Data transfer</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/11_software.html">
- <span class="dropdown-text">Software</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/06_accounting.html">
- <span class="dropdown-text">Accounting</span></a>
-  </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-running-a-job" role="button" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Running a job</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-running-a-job">    
-        <li>
-    <a class="dropdown-item" href="../notebooks/08_job_script.html">
- <span class="dropdown-text">Job scripts and submission</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/12_walltime.html">
- <span class="dropdown-text">Working within walltime</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/09_job_monitoring.html">
- <span class="dropdown-text">Job monitoring</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/10_job_efficiency.html">
- <span class="dropdown-text">Benchmarking and efficiency</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../notebooks/13_parallel_jobs.html">
- <span class="dropdown-text">Parallel jobs</span></a>
-  </li>  
-    </ul>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="../support.html"> 
-<span class="menu-text">Support and resources</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/04_command_line.html">Working on Gadi</a></li><li class="breadcrumb-item"><a href="../notebooks/05_data_transfer.html">Data transfer</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">USyd NCI Gadi User Guide</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Introduction to Gadi</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/02_intro_hpc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to HPC</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/02_system_setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gadi overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/03_expectations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Infrastructure expectations</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/00_gadi_access.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Access Gadi</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/01_setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Set up your computer</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Working on Gadi</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/04_command_line.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Command line</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/05_data_transfer.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Data transfer</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/11_software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Software</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/06_accounting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Accounting</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Running a job</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/08_job_script.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Job scripts and submission</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/12_walltime.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working within walltime</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/09_job_monitoring.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Job monitoring</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/10_job_efficiency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarking and efficiency</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/13_parallel_jobs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parallel jobs</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../support.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Support and resources</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -262,8 +317,15 @@ cookieconsent.run({
   <li><a href="#globus" id="toc-globus" class="nav-link" data-scroll-target="#globus">Globus - COMING SOON</a></li>
   <li><a href="#gui" id="toc-gui" class="nav-link" data-scroll-target="#gui">Transfer using RDS mapped network drive and data transfer client</a></li>
   <li><a href="#transfer-from-gadiartemis-terminal-tofrom-rds" id="toc-transfer-from-gadiartemis-terminal-tofrom-rds" class="nav-link" data-scroll-target="#transfer-from-gadiartemis-terminal-tofrom-rds">Transfer from Gadi/Artemis terminal to/from RDS</a></li>
+  <li><a href="#using-tmux-to-run-commands-in-persistent-terminal-sessions" id="toc-using-tmux-to-run-commands-in-persistent-terminal-sessions" class="nav-link" data-scroll-target="#using-tmux-to-run-commands-in-persistent-terminal-sessions">Using <code>tmux</code> to run commands in persistent terminal sessions</a></li>
   <li><a href="#transfer-using-sftp-or-lftp-from-gadi-copyq" id="toc-transfer-using-sftp-or-lftp-from-gadi-copyq" class="nav-link" data-scroll-target="#transfer-using-sftp-or-lftp-from-gadi-copyq">Transfer using <code>sftp</code> or <code>lftp</code> from Gadi <code>copyq</code></a></li>
   <li><a href="#dtq" id="toc-dtq" class="nav-link" data-scroll-target="#dtq">Transfer using rsync from Artemis dtq</a></li>
+  </ul></li>
+  <li><a href="#checksum" id="toc-checksum" class="nav-link" data-scroll-target="#checksum">Verify the integrity of your transferred data</a>
+  <ul class="collapse">
+  <li><a href="#using-md5sum-to-validate-files-from-rds-to-gadi" id="toc-using-md5sum-to-validate-files-from-rds-to-gadi" class="nav-link" data-scroll-target="#using-md5sum-to-validate-files-from-rds-to-gadi">Using md5sum to validate files: from RDS to Gadi</a></li>
+  <li><a href="#using-md5sum-to-validate-files-from-gadi-to-rds" id="toc-using-md5sum-to-validate-files-from-gadi-to-rds" class="nav-link" data-scroll-target="#using-md5sum-to-validate-files-from-gadi-to-rds">Using md5sum to validate files: from Gadi to RDS</a></li>
+  <li><a href="#alternate-methods-for-running-checksum-commands-on-rds" id="toc-alternate-methods-for-running-checksum-commands-on-rds" class="nav-link" data-scroll-target="#alternate-methods-for-running-checksum-commands-on-rds">Alternate methods for running checksum commands on RDS</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -271,7 +333,7 @@ cookieconsent.run({
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/04_command_line.html">Working on Gadi</a></li><li class="breadcrumb-item"><a href="../notebooks/05_data_transfer.html">Data transfer</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><strong>Transferring data to and from Gadi</strong></h1>
 </div>
@@ -292,22 +354,9 @@ cookieconsent.run({
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In this section, we will look at transferring data between the Research Data Store and Gadi.</p>
+<p>In this section, we will look at transferring data between the Research Data Store (RDS) and Gadi. There is a lot of content with step-by-step examples here due to the numerous methods available for data transfer.</p>
 <p><a href="https://youtu.be/ZBOycXymok4?si=Ln03g69UjCcylF13&amp;t=1856">Watch the pre-recorded session</a></p>
-<p>The main challenges users may face adapting Artemis workflows to Gadi are:</p>
-<ul>
-<li><a href="../notebooks/08_job_script.html">Adjusting PBS directives to suit Gadi requirements and queue structure</a></li>
-<li><a href="../notebooks/08_job_script.html#lack-of-internet-access-on-compute-nodes">Lack of internet access for Gadi compute nodes</a></li>
-<li>Data transfer</li>
-<li><a href="../notebooks/12_walltime.html">Gadi walltime limit of 48 hours</a></li>
-<li><a href="../notebooks/06_accounting.html">Understanding NCI accounting of KSU, disk and iNode limits</a></li>
-<li><a href="https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...#RecoverFiles...-RecoverQuarantinedFilesonscratch">Automatic 100-day Gadi /scratch purge policy</a></li>
-<li><a href="../notebooks/11_software.html">Software installation and version upgrades on Gadi</a></li>
-<li><a href="../notebooks/13_parallel_jobs.html">Job arrays not supported on Gadi</a></li>
-</ul>
-<p>In this section, we will look at Data Transfer. For the remaining challenges, please visit the specific linked content. We will run training sessions on some of these during the lead up to the Artemis decommission date.</p>
-<section id="the-table-below-summarises-the-data-transfer-methods-covered-in-this-section" class="level5">
-<h5 class="anchored" data-anchor-id="the-table-below-summarises-the-data-transfer-methods-covered-in-this-section"><strong>The table below summarises the data transfer methods covered in this section:</strong></h5>
+<p><strong>The table below summarises the data transfer methods covered in this section:</strong></p>
 <table class="table">
 <thead>
 <tr class="header">
@@ -386,7 +435,6 @@ cookieconsent.run({
 </tr>
 </tbody>
 </table>
-</section>
 </section>
 <section id="where-to-put-project-files-on-gadi" class="level2">
 <h2 class="anchored" data-anchor-id="where-to-put-project-files-on-gadi">Where to put project files on Gadi</h2>
@@ -582,8 +630,9 @@ How to transfer from RDS to Gadi (and vice-versa) at an Artemis terminal using r
 </div>
 </div>
 </section>
-<section id="using-tmux-to-run-your-job-in-the-background" class="level4">
-<h4 class="anchored" data-anchor-id="using-tmux-to-run-your-job-in-the-background">Using <code>tmux</code> to run your job in the background</h4>
+</section>
+<section id="using-tmux-to-run-commands-in-persistent-terminal-sessions" class="level3">
+<h3 class="anchored" data-anchor-id="using-tmux-to-run-commands-in-persistent-terminal-sessions">Using <code>tmux</code> to run commands in persistent terminal sessions</h3>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -597,10 +646,16 @@ Warning
 <p>While this method can help you run your copy job in the background over a long period of time, it is recommended to rather use the <code>copyq</code> transfer method described below for large file transfers, as running jobs on the login node can overwhelm their scant resources.</p>
 </div>
 </div>
-<p>You can run all of the above copy commands in a tmux session which can be <em>detached</em> to the background allowing you to log out of Gadi and switch off your computer while the copy still runs in the background.</p>
-<p>To do this, after logging in (step 1. above) enter the command <code>tmux</code> at the prompt. This will send you into a tmux terminal session, then inside the tmux session enter the copy command (step 2. above) and the copy will start. Then while the copy command is running, enter <code>&lt;ctrl&gt;-b</code> then <code>d</code> to detach the tmux session and return to the login prompt. You can now log out of Gadi while your copy job is running in the background on Gadi. To check its status simply log back into Gadi in a terminal (step 1. above) and enter the command <code>tmux attach</code>. This will re-attach your running tmux session and you can investigate its output to check if its done. When things are finished you can exit the running tmux session by typing <code>exit</code> inside it.</p>
-<p>For more info about tmux check <a href="https://www.redhat.com/en/blog/introduction-tmux-linux">here</a>.</p>
-</section>
+<p>You can run data transfers or other long-running commands in a <a href="https://github.com/tmux/tmux/wiki/Getting-Started"><code>tmux</code></a> persistent session which can be <em>detached</em> to run in the background. This allows you to log out and even switch off your computer while the command still runs within the detached session. You can reattach to the <code>tmux</code> session later to review the command’s progress and output.</p>
+<p>For example, to copy data from RDS to Gadi with <code>rsync</code> within a <code>tmux</code> session:</p>
+<ol type="1">
+<li>Login to RDS: <code>ssh &lt;unikey&gt;@research-data-int.sydney.edu.au</code></li>
+<li>Start a <code>tmux</code> session: enter <code>tmux</code></li>
+<li>Once inside the new session, issue the rsync command: <code>rsync -rtlPvz /rds/PRJ-&lt;project&gt;/&lt;path-to-data&gt; &lt;nci_user_id&gt;@gadi-dm.nci.org.au:&lt;gadi-destination-path&gt;</code></li>
+<li>Detach from the session: enter <code>ctrl B + D</code></li>
+<li>You can later reattach to the same session from a new ssh connection to <code>research-data-int.sydney.edu.au</code> with: <code>tmux attach</code></li>
+</ol>
+<p>For more information about <code>tmux</code> and its options, check <a href="https://www.redhat.com/en/blog/introduction-tmux-linux">here</a>.</p>
 </section>
 <section id="transfer-using-sftp-or-lftp-from-gadi-copyq" class="level3">
 <h3 class="anchored" data-anchor-id="transfer-using-sftp-or-lftp-from-gadi-copyq">Transfer using <code>sftp</code> or <code>lftp</code> from Gadi <code>copyq</code></h3>
@@ -885,7 +940,7 @@ Example <code>copyq</code> transfer from RDS to Gadi
 <section id="confirm-transfers-after-completion" class="level4">
 <h4 class="anchored" data-anchor-id="confirm-transfers-after-completion">Confirm transfers after completion</h4>
 <p>To confirm the transfer was successful, you’ll need to check your job logs. These are located in the same directory as your script and are named <code>transfer.o&lt;jobid&gt;</code>.</p>
-<p>However, this doesn’t guarantee the integrity of the files. You should check the files themselves to ensure they are intact. You can do this using md5checksums. See this <a href="https://sydney-informatics-hub.github.io/tidbits/safely-downloading-your-sequence-data-to-rds.html">SIH tidbits blogpost</a> about how to use these. You’ll need to create md5checksums for the original files if they don’t already exist and compare them after transfer.</p>
+<p>However, this doesn’t guarantee the integrity of the files. You should check the files themselves to ensure they are intact. You can do this using md5checksums as described <a href="#checksum">below</a>.</p>
 </section>
 <section id="template-copyq-scripts-for-syncing-data-with-lftp" class="level4">
 <h4 class="anchored" data-anchor-id="template-copyq-scripts-for-syncing-data-with-lftp">Template copyq scripts for syncing data with <code id="lcopyq">lftp</code></h4>
@@ -1034,6 +1089,77 @@ Template Artemis data transfer script using <code>rsync</code>
 <span id="cb35-35"><a href="#cb35-35" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
+</section>
+</section>
+<section id="checksum" class="level2">
+<h2 class="anchored" data-anchor-id="checksum">Verify the integrity of your transferred data</h2>
+<p>When you transfer files between systems, especially over a network using tools described above, there is always a small risk that the data could become corrupted. This might happen for example due to network issues, disk errors, or file system problems. It is therefore important that you verify that your files were transferred completely and accurately. We can do this using a <strong>checksum</strong>.</p>
+<p>A checksum is a small, fixed-size value calculated from the contents of a file using a specific algorithm (like <a href="https://en.wikipedia.org/wiki/MD5">MD5</a>, <a href="https://en.wikipedia.org/wiki/SHA-1">SHA-1</a>, or <a href="https://en.wikipedia.org/wiki/SHA-2">SHA-256</a>). Think of it as a unique fingerprint for the file’s data: if even one byte changes, the checksum will be different. By comparing the checksum before and after the transfer, you can confirm that the file is exactly the same on both ends.</p>
+<p>The overall process of verifying data transfer is outlined in the figure below. In some cases, you may already have checksum files that you have previously generated, or even downloaded with your raw data. If so, there is no need to re-generate the “source” checksum files.</p>
+<p>For transfers <strong>from RDS to Gadi</strong>, RDS is the “source” and Gadi is the “destination”:</p>
+<p><img src="../fig/checksum-image.png" class="img-fluid"></p>
+<p>Note that the <strong>source</strong> and <strong>destination</strong> are <strong>reversed</strong> when transferring output files generated on Gadi back to RDS.</p>
+<section id="using-md5sum-to-validate-files-from-rds-to-gadi" class="level3">
+<h3 class="anchored" data-anchor-id="using-md5sum-to-validate-files-from-rds-to-gadi">Using md5sum to validate files: from RDS to Gadi</h3>
+<p>Here we demonstrate how you can use the command <code>md5sum</code> to generate a list of MD5 checksums for a directory on RDS, and then use these checksums to validate the integrity of your files after the data has been transferred to Gadi.</p>
+<p><strong>1. Create a list of checksums for your files at the source (before copying the data)</strong></p>
+<p>Connect to the RDS internal login node with <code>ssh</code> (remember to have VPN connected if off-campus):</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>unikey<span class="op">&gt;</span>@research-data-int.sydney.edu.au</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Enter your unikey password, and once connected to RDS, navigate to the folder containing the data you are going to transfer to Gadi.</p>
+<p>Use the <code>md5sum</code> command to produce a md5 hash for every file within that directory and its subdirectories:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /rds/PRJ-<span class="op">&lt;</span>dashR-project<span class="op">&gt;</span>/myData</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> <span class="at">-type</span> f <span class="dt">\(</span> <span class="at">-not</span> <span class="at">-name</span> <span class="st">"myData.md5"</span> <span class="dt">\)</span> <span class="at">-exec</span> md5sum <span class="st">'{}'</span> <span class="dt">\;</span> <span class="op">&gt;</span> myData.md5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will generate a file called <code>myData.md5</code> in your folder listing a hash for every file (except for the <code>myData.md5</code> file).</p>
+<p><strong>2. Copy the data to Gadi</strong></p>
+<p>You should do this using one of the methods described above in this page - make sure to also transfer the <code>.md5</code> file and keep it in the same <strong><em>relative location</em></strong> as it was at the source (RDS).</p>
+<p><strong>3. Verify the copy of the files on Gadi</strong></p>
+<p>Once the transfer of data and checksum files to Gadi are complete, you can use the <code>-c</code> (check) flag to the <code>checksum</code> command to verify file integrity.</p>
+<p>For small files, you can easily run this on the Gadi login nodes, eg:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /scratch/<span class="op">&lt;</span>nci-project-id<span class="op">&gt;</span>/myData</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">md5sum</span> <span class="at">-c</span> myData.md5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This command goes through the list of files in <code>myData.md5</code> and compares the md5 sum of the file on Gadi to the md5 sum that was created for the file on RDS.</p>
+<p>For larger files, or very large numbers of files, the checksum process can take some time (eg &gt; 10 minutes for a single 100 GB file) so it is more robust to run the checksum commands within a PBS job submitted to the Gadi job scheduler.</p>
+<p>You can do this simply by placing the checksum command described above inside a Gadi <a href="../notebooks/08_job_script.html">job script</a>.</p>
+<p>Files which have been transferred with full integrity will report “OK”:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="ex">file1.txt:</span> OK</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="ex">sub_folder/file2.txt:</span> OK</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If there was a problem with any file, you’ll see a warning like:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="ex">file3.txt:</span> FAILED</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Redirecting the output of the <code>md5sum -c</code> command to a file can simplify collecting failed transfers for resubmission:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">md5sum</span> <span class="at">-c</span> myData.md5 <span class="op">&gt;</span> myData.md5.check</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> FAILED myData.md5.check <span class="op">&gt;</span> myData.md5.check.FAILED</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Any files with <code>FAILED</code> status should be re-copied from RDS to Gadi, and the checksum comparison run again.</p>
+</section>
+<section id="using-md5sum-to-validate-files-from-gadi-to-rds" class="level3">
+<h3 class="anchored" data-anchor-id="using-md5sum-to-validate-files-from-gadi-to-rds">Using md5sum to validate files: from Gadi to RDS</h3>
+<p>When working on Gadi, you will want to regularly back up important data (for example job outputs, logs, scripts) to RDS. Gadi scratch and gdata filesystems are not backed up, so regular backups to RDS are critical.</p>
+<p>The high-level checksum process is the same as it was for RDS to Gadi, but the <strong>source</strong> and <strong>destination</strong> are reversed.</p>
+<p><strong>1. Create a list of checksums for your files at the source (before copying the data)</strong></p>
+<p>On Gadi, you can create the checksum file with the same <code>md5sum</code> command as described above, either on the Gadi login node, or from within a Gadi <a href="../notebooks/08_job_script.html">job script</a>.</p>
+<p>Importantly, the Gadi compute queues can read gdata, unlike Artemis where the general compute queues could not read RDS. So, if your data is on gdata, you do not need to copy it to scratch for checksum commands run within Gadi PBS jobs.</p>
+<p><strong>2. Copy the data to RDS</strong></p>
+<p>You should do this using one of the methods described above in this page - make sure to also transfer the <code>.md5</code> file and keep it in the same <strong><em>relative location</em></strong> as it was at the source (Gadi).</p>
+<p><strong>3. Verify the copy of the files on RDS</strong></p>
+<p>Once the transfer of data and checksum files to RDS are complete, you can use the <code>-c</code> (check) flag to the <code>checksum</code> command to verify file integrity.</p>
+<p>Connect to the RDS internal login node with <code>ssh</code> (remember to have VPN connected if off-campus):</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>unikey<span class="op">&gt;</span>@research-data-int.sydney.edu.au</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Enter your unikey password, and once connected, navigate to the directory containing the data you have just transferred from Gadi to RDS.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /rds/PRJ-<span class="op">&lt;</span>dashR-project<span class="op">&gt;</span>/myData</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">md5sum</span> <span class="at">-c</span> myData.md5 <span class="op">&gt;</span> myData.md5.check</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> FAILED myData.md5.check <span class="op">&gt;</span> myData.md5.check.FAILED</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Any files with <code>FAILED</code> status should be re-copied from Gadi to RDS, and the checksum run again.</p>
+</section>
+<section id="alternate-methods-for-running-checksum-commands-on-rds" class="level3">
+<h3 class="anchored" data-anchor-id="alternate-methods-for-running-checksum-commands-on-rds">Alternate methods for running checksum commands on RDS</h3>
+<p>For large files or datasets with numerous files, creating checksums or running checksum comparisons can be time-consuming. When we <code>ssh</code> into <code>research-data-int.sydney.edu.au</code> and run the checksum command, this is reliant on your terminal window staying open and connected, your internet connection remaining stable, your computer not going to sleep or being switched off, etc. On Gadi, we can mitigate these issues by submitting long walltime checksum commands to the job scheduler. Below are some other options to run checksum commands (or any other data management commands) on data stored on RDS:</p>
+<ul>
+<li><a href="https://sydneyuni.atlassian.net/wiki/x/NACgDQ">Map your RDS as a network drive</a> on your local computer. Then, use your mac terminal, Windows Powershell, WSL2, etc to run the commands using your local computer’s resources. You will still need to ensure stable internet connection and that your computer does not go to sleep mode (unless using tmux, see below), however this setup may be more stable than relying on the ssh connection to the RDS login node.<br>
+</li>
+<li>Run your checksum commands within a persistent terminal session with <code>tmux</code>. You can do this with an ssh connection to <code>research-data-int.sydney.edu.au</code>, or from the mac/Powershell/WSL2 terminal reading the RDS mapped network drive. When you run your checksum command inside a <code>tmux</code> session and then detach from it, the session (and the command) will remain active, even if you lose internet connection, close your terminal, or even power off your computer. You can reattach to the same session later to check the status of the checksum command. See <a href="#using-tmux-to-run-commands-in-persistent-terminal-sessions">the section on tmux above</a> for basic use.</li>
+<li>Until decommission date of August 29, the data transfer queue <code>dtq</code> on Artemis can be used to run checksums on data within RDS. <code>dtq</code> is the only queue on Artemis that can read RDS.</li>
+<li>Globus (coming soon) will simplify and expedite data transfer between RDS and Gadi. Globus will handle checksum creation and verification for you if the appropriate flags are set.</li>
+</ul>
 
 
 </section>

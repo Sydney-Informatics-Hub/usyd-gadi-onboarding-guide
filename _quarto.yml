@@ -5,12 +5,16 @@ project:
 website:
   title: "USyd NCI Gadi User Guide"
   navbar:
-    background: primary
-    left:
+    logo: fig/usyd-logo.png
+  sidebar:
+    style: "docked"
+    background: white
+    search: true
+    contents:
       - href: index.qmd
         text: Home
-      - text: "Introduction to Gadi"
-        menu: 
+      - section: "Introduction to Gadi"
+        contents: 
         - text: "Introduction to HPC"
           href: notebooks/02_intro_hpc.html
         - text: "Gadi overview"
@@ -21,8 +25,8 @@ website:
         text: "Access Gadi"
       - href: notebooks/01_setup.html
         text: "Set up your computer"
-      - text: "Working on Gadi"
-        menu: 
+      - section: "Working on Gadi"
+        contents: 
         - text: "Command line"
           href: notebooks/04_command_line.html
         - text: "Data transfer"
@@ -31,8 +35,8 @@ website:
           href: notebooks/11_software.html
         - text: "Accounting"
           href: notebooks/06_accounting.html
-      - text: "Running a job"
-        menu:
+      - section: "Running a job"
+        contents:
         - text: "Job scripts and submission"
           href: notebooks/08_job_script.html
         - text: "Working within walltime"
@@ -57,7 +61,7 @@ website:
 
 format:
   html:
-    theme: simplex
+    theme: cosmo
     css: [lesson.css, bootstrap-icons.css]
     toc: true
     code-overflow: wrap

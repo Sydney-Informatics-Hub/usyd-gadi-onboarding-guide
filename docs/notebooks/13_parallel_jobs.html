@@ -163,6 +163,10 @@ cookieconsent.run({
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-introduction-to-gadi">    
         <li>
+    <a class="dropdown-item" href="../notebooks/02_intro_hpc.html">
+ <span class="dropdown-text">Introduction to HPC</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../notebooks/02_system_setup.html">
  <span class="dropdown-text">Gadi overview</span></a>
   </li>  
@@ -230,6 +234,10 @@ cookieconsent.run({
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../support.html"> 
+<span class="menu-text">Support and resources</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
@@ -295,20 +303,8 @@ cookieconsent.run({
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In this section, we will discuss how you can run embarrassingly parallel jobs on Gadi using the <code>nci-parallel</code> utility in place of the Artemis job array method.</p>
+<p>Unlike Artemis, job arrays are not permitted on Gadi. In this section, we will discuss how you can run embarrassingly parallel jobs on Gadi using the <code>nci-parallel</code> utility in place of the Artemis job array method.</p>
 <p><a href="https://youtu.be/wl-oAso0c30">Watch the pre-recorded session.</a></p>
-<p>The main challenges users may face adapting Artemis workflows to Gadi are:</p>
-<ul>
-<li>Job arrays not supported on Gadi</li>
-<li><a href="../notebooks/12_walltime.html">Gadi walltime limit of 48 hours</a></li>
-<li><a href="../notebooks/08_job_script.html">Adjusting PBS directives to suit Gadi requirements and queue structure</a></li>
-<li><a href="../notebooks/08_job_script.html#lack-of-internet-access-on-compute-nodes">Lack of internet access for Gadi compute nodes</a></li>
-<li><a href="../notebooks/05_data_transfer.html">Data transfer</a></li>
-<li><a href="../notebooks/06_accounting.html">Understanding NCI accounting of KSU, disk and iNode limits</a></li>
-<li><a href="https://opus.nci.org.au/spaces/Help/pages/241926268/Recover+Files...#RecoverFiles...-RecoverQuarantinedFilesonscratch">Automatic 100-day Gadi /scratch purge policy</a></li>
-<li><a href="../notebooks/11_software.html">Software installation and version upgrades on Gadi</a></li>
-</ul>
-<p>In this section, we will look at the first challenge on this list. For the remaining challenges, please visit the specific linked content. <a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3479633933/Get+help+with+NCI+and+Sydney+Research+Cloud#Watch-the-recordings-of-previous-sessions">Recordings of past information sessions</a> are available for some topics.</p>
 </section>
 <section id="embarrassingly-parallel-jobs-on-gadi" class="level2">
 <h2 class="anchored" data-anchor-id="embarrassingly-parallel-jobs-on-gadi">Embarrassingly parallel jobs on Gadi</h2>
