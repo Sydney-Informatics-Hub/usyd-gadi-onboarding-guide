@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-234273d1456647dabc34a594ac50e507.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-d666eb44213ac765e6c5efc916c2661d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-197d358ac608738936fe95606caeaf7d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -331,6 +331,7 @@ cookieconsent.run({
   <li><a href="#example-1-a-workflow-with-multiple-discrete-commands" id="toc-example-1-a-workflow-with-multiple-discrete-commands" class="nav-link" data-scroll-target="#example-1-a-workflow-with-multiple-discrete-commands">Example 1: A workflow with multiple discrete commands</a></li>
   <li><a href="#example-2-a-long-running-command-with-innate-checkpointing" id="toc-example-2-a-long-running-command-with-innate-checkpointing" class="nav-link" data-scroll-target="#example-2-a-long-running-command-with-innate-checkpointing">Example 2: A long running command with innate checkpointing</a></li>
   <li><a href="#example-3-add-your-own-checkpointing-to-existing-code" id="toc-example-3-add-your-own-checkpointing-to-existing-code" class="nav-link" data-scroll-target="#example-3-add-your-own-checkpointing-to-existing-code">Example 3: Add your own checkpointing to existing code</a></li>
+  <li><a href="#example-4-auto-resume-within-a-persistent-session" id="toc-example-4-auto-resume-within-a-persistent-session" class="nav-link" data-scroll-target="#example-4-auto-resume-within-a-persistent-session">Example 4: auto-resume within a persistent session</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -706,6 +707,159 @@ cookieconsent.run({
 <span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>pd.write_parquet(...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>These scripts can then be run sequentially using the method described in the previous example.</p>
+</section>
+<section id="example-4-auto-resume-within-a-persistent-session" class="level3">
+<h3 class="anchored" data-anchor-id="example-4-auto-resume-within-a-persistent-session">Example 4: auto-resume within a persistent session</h3>
+<p><strong>Persistent sessions</strong></p>
+<p>NCI have established <a href="https://opus.nci.org.au/spaces/Help/pages/241927941/Persistent+Sessions...">persistent sessions</a> to enable long running, low-resource tasks such as workflow management tools. We can use a persistent session to run a simple shell script that monitors your job periodically and resubmits the same script until successful completion. Similar to <code>screen</code> or <code>tmux</code>, you can log out of persistent sessions and return later to check on your task.</p>
+<p><strong>Workflow setup</strong></p>
+<p>This method requires 2 scripts:</p>
+<ol type="1">
+<li>The shell script that is run within the persistent session</li>
+</ol>
+<ul>
+<li>This script submits the PBS job with <code>qsub</code> and monitors with <code>qstat</code></li>
+<li>User sets the monitor frequency (no less than 10 minutes per NCI guidelines) and maximum number of resubmissions</li>
+<li>Script will exit when “success” is discovered, or after maximum retries</li>
+</ul>
+<ol start="2" type="1">
+<li>The PBS job script, which contains directives and the actual commands to run the job. This script may:</li>
+</ol>
+<ul>
+<li>Embed the work directly (eg calling the application or task in-line), or</li>
+<li>Call an external script that runs the tool/commands</li>
+</ul>
+<p>For this method to be successful, there must be:</p>
+<ul>
+<li>A checkpoint file that is updated by the job as the work progresses</li>
+<li>A method of reading the checkpoint file to determine where to continue from after a walltime failure</li>
+<li>A reliable method of determining “success”</li>
+</ul>
+<p><strong>Determinging previous job success</strong></p>
+<p>Robustly checking for job success is critical for determining whether to re-submit the job. The below example scripts use an overly simplistic method of determining success, by relying solely on a user-defined “success message” and the PBS job exit status. The success message must be generated as standard output by the job and printed to the PBS job log, as well as defined in the auto-resume shell script. There are numerous potential issues with this simple approach, for example if the success message chosen is used elsewhere in the job standard output, or some component of the task fails yet the overall PBS job exits with status zero. For this reason, using thorough, precise success checks tailored to your job are recommended. In addition to checking the job exit status and including a user-defined success message that is unlikely to ever be encountered in other standard output, you might also include checks for expected output files, expected file sizes, expected file contents, etc.</p>
+<p><strong>Simple example auto-resume job</strong></p>
+<p>In the simple example scripts below, the PBS script contains commands to run 10 iterations of 10 seconds each, requiring a total walltime of 100 seconds. Only 1 minute walltime is requested so we expect to have to run two jobs in series.</p>
+<p>Auto-resume script that submits and monitors jobs:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># !!!!!! NCI message on qstat frequency: </span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># "Our recommendation is to query your jobs status a maximum of once every 10 minutes, this should be more than enough"</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co">##### User-defined parameters</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="va">job_script</span><span class="op">=</span><span class="st">"checkpointed_job.pbs"</span> <span class="co"># your job script</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="va">success_message</span><span class="op">=</span><span class="st">"Checkpointed job finished successfully"</span> <span class="co"># user-defined success message - must be printed by job script</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="va">max_retries</span><span class="op">=</span>3 <span class="co"># only resubmit this many times - adjust as needed</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="va">check_interval</span><span class="op">=</span>12  <span class="co"># seconds between checks - DO NOT SET BELOW 600 FOR REAL JOBS</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">##### Begin submission and monitoring</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="va">attempt</span><span class="op">=</span>1</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="kw">((</span> <span class="va">attempt</span> <span class="op">&lt;=</span> <span class="va">max_retries</span> <span class="kw">));</span> <span class="cf">do</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">printf</span> <span class="st">"########################################\n"</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">printf</span> <span class="st">"Submitting %s attempt %d of %d - %s\n"</span> <span class="st">"</span><span class="va">$job_script</span><span class="st">"</span> <span class="st">"</span><span class="va">$attempt</span><span class="st">"</span> <span class="st">"</span><span class="va">$max_retries</span><span class="st">"</span> <span class="st">"</span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    <span class="va">full_job_id</span><span class="op">=</span><span class="va">$(</span><span class="ex">qsub</span> <span class="st">"</span><span class="va">$job_script</span><span class="st">"</span><span class="va">)</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">[[</span> <span class="ot">-z</span> <span class="st">"</span><span class="va">$full_job_id</span><span class="st">"</span> <span class="kw">]];</span> <span class="cf">then</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>        <span class="bu">echo</span> <span class="st">"Failed to submit job. Exiting."</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>        <span class="bu">exit</span> 1</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">fi</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    <span class="va">job_id</span><span class="op">=</span><span class="va">$(</span><span class="bu">echo</span> <span class="st">"</span><span class="va">$full_job_id</span><span class="st">"</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="at">-E</span> <span class="st">'s/^([0-9]+)\..*/\1/'</span><span class="va">)</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">printf</span> <span class="st">"\tJob ID: %s\n\tWaiting for job to exit...\n"</span> <span class="st">"</span><span class="va">$job_id</span><span class="st">"</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="ex">qstat</span> <span class="st">"</span><span class="va">$job_id</span><span class="st">"</span> <span class="op">&amp;&gt;</span>/dev/null<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sleep</span> <span class="st">"</span><span class="va">$check_interval</span><span class="st">"</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">done</span></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>    <span class="va">log_file</span><span class="op">=</span><span class="va">$(</span><span class="fu">ls</span> <span class="pp">*</span>.o<span class="st">"</span><span class="va">$job_id</span><span class="st">"</span> <span class="dv">2</span><span class="op">&gt;</span>/dev/null<span class="va">)</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">[[</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">"</span><span class="va">$log_file</span><span class="st">"</span> <span class="kw">]];</span> <span class="cf">then</span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>        <span class="bu">echo</span> <span class="st">"Expected output file </span><span class="va">$log_file</span><span class="st"> not found. Skipping check."</span></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>        <span class="kw">((</span> <span class="va">attempt</span><span class="op">++</span> <span class="kw">))</span></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">fi</span></span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>    <span class="bu">printf</span> <span class="st">"\tPBS output log file %s detected at %s\n"</span> <span class="st">"</span><span class="va">$log_file</span><span class="st">"</span> <span class="st">"</span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract exit status from PBS output log</span></span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>    <span class="va">status</span><span class="op">=</span><span class="va">$(</span><span class="fu">grep</span> <span class="st">"Exit Status"</span> <span class="st">"</span><span class="va">$log_file</span><span class="st">"</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="at">-F</span> : <span class="st">'{print $NF}'</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">'s/ //g'</span><span class="va">)</span></span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check for success message AND exit status == 0</span></span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="fu">grep</span> <span class="at">-q</span> <span class="st">"</span><span class="va">$success_message</span><span class="st">"</span> <span class="st">"</span><span class="va">$log_file</span><span class="st">"</span> <span class="kw">&amp;&amp;</span> <span class="kw">[[</span> <span class="st">"</span><span class="va">$status</span><span class="st">"</span> <span class="ot">-eq</span> 0 <span class="kw">]];</span> <span class="cf">then</span></span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>        <span class="bu">printf</span> <span class="st">"\n\t---&gt; Job %s completed successfully:\n\tContains </span><span class="dt">\"</span><span class="st">%s</span><span class="dt">\"</span><span class="st"> and has exit status %s.\n\n"</span> <span class="dt">\</span></span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>               <span class="st">"</span><span class="va">$job_id</span><span class="st">"</span> <span class="st">"</span><span class="va">$success_message</span><span class="st">"</span> <span class="st">"</span><span class="va">$status</span><span class="st">"</span></span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>        <span class="bu">exit</span> 0</span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>        <span class="bu">printf</span> <span class="st">"\n\t---&gt; Job failed or incomplete. Exit status: %s. Resubmitting...\n\n"</span> <span class="st">"</span><span class="va">$status</span><span class="st">"</span></span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>        <span class="kw">((</span> <span class="va">attempt</span><span class="op">++</span> <span class="kw">))</span></span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">fi</span></span>
+<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Reached maximum attempts (</span><span class="va">$max_retries</span><span class="st">). Job </span><span class="va">$job_id</span><span class="st"> did not complete successfully."</span></span>
+<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a><span class="bu">exit</span> 1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Example job script:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P er01</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N resubmit-test</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=00:01:00</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=1</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=1GB</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -W umask=022</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q expressbw</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l storage=scratch/qc03</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="va">checkpoint_file</span><span class="op">=</span>progress.chk</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="va">target_steps</span><span class="op">=</span>10 </span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="va">sleep</span><span class="op">=</span>10 </span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="ot">-f</span> <span class="st">"</span><span class="va">${checkpoint_file}</span><span class="st">"</span> <span class="kw">]]</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="cf">then</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="va">start_step</span><span class="op">=</span><span class="va">$((</span> <span class="va">$(</span><span class="fu">cat</span> <span class="va">${checkpoint_file})</span> <span class="op">+</span> <span class="dv">1</span> <span class="va">))</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">printf</span> <span class="st">"Resuming from step </span><span class="va">${start_step}</span><span class="st">\n"</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="va">start_step</span><span class="op">=</span>1</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> Starting from step 1</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulated workload</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="kw">((</span> <span class="va">step</span><span class="op">=</span><span class="va">start_step</span><span class="kw">;</span> <span class="va">step</span><span class="op">&lt;=</span><span class="va">target_steps</span><span class="kw">;</span> <span class="va">step</span><span class="op">++</span> <span class="kw">))</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    <span class="bu">printf</span> <span class="st">"Processing step </span><span class="va">${step}</span><span class="st"> of </span><span class="va">${target_steps}</span><span class="st">\n"</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sleep</span> <span class="st">"</span><span class="va">${sleep}</span><span class="st">"</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"</span><span class="va">$step</span><span class="st">"</span> <span class="op">&gt;</span> <span class="st">"</span><span class="va">${checkpoint_file}</span><span class="st">"</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sync</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Print "success message" to PBS job log:</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Checkpointed job finished successfully"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Running the example job</strong></p>
+<p>First, logon to Gadi then follow the instructions on the <a href="https://opus.nci.org.au/spaces/Help/pages/241927941/Persistent+Sessions...">Gadi user guide</a> to start a persistent session:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#persistent-sessions start -p &lt;project&gt; &lt;session-name&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">persistent-sessions</span> start <span class="at">-p</span> qc03 demo-resume</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Follow the instructions in the standard output to connect to your persistent session (<code>\&lt;session-name\&gt;.\&lt;nciUserId\&gt;.\&lt;project\&gt;.ps.gadi.org.au</code>):</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> demo-resume.cew562.qc03.ps.gadi.nci.org.au</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Warning: Permanently added '[demo-resume.cew562.qc03.ps.gadi.nci.org.au]:2222' (ED25519) to the list of known hosts.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Notice that your command prompt now shows the session name, rather than the Gadi login node.</p>
+<p>Regardless of your working directory when starting the session, you will be placed back in home. Change to your working directory, and then <strong>run the auto resume shell script with nohup</strong>. Using ‘no-hangup’ helps ensure your shell script will continue to run even after you exit the persistent session. When running in <code>nohup</code>, commands such as <code>control+C</code> and <code>control+D</code> will not terminate the script execution.</p>
+<p>In the screenshot below, after the auto-resume shell script is run, <code>control+D</code> is executed to log out of the session. Reconnection to the persistent session over <code>ssh</code> followed by a process check with <code>ps</code> shows that the process with process ID (PID) 490 is still running. After the PID 490 is no longer running, the nohup log shows that the job was submitted a total of 2 times to achieve successful completion.</p>
+<p><img src="../fig/auto-resume-demo2.png" class="img-fluid"></p>
+<p>As expected, there are 2 sets of PBS job logs, one that failed on walltime and one containing the success message and an exit status of zero:</p>
+<p><img src="../fig/auto-resume-logs.png" class="img-fluid"></p>
+<p><strong>Adapting the example to your own work</strong></p>
+<ul>
+<li>Please observe the request by NCI to not run <code>qstat</code> queries more frequently than every 10 minutes. Increase the <code>check_interval</code> value from the example of 12 to AT LEAST 600</li>
+<li>Increase the maximum number of resubmission attempts to suit your needs</li>
+<li>Replace the example job script name with the name of your script</li>
+<li>Update the simple success check to something more robust and suited to your job, as described earlier in this section</li>
+<li>Ensure checkpointing is correctly set up such that each resubmission with the same script can continue from the last checkpoint</li>
+</ul>
 
 
 </section>
