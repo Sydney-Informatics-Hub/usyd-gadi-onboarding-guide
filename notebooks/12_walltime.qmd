@@ -342,3 +342,179 @@ pd.write_parquet(...)
 ```
 
 These scripts can then be run sequentially using the method described in the previous example.
+
+### Example 4: auto-resume within a persistent session
+
+**Persistent sessions**
+
+NCI have established [persistent sessions](https://opus.nci.org.au/spaces/Help/pages/241927941/Persistent+Sessions...) to enable long running, low-resource tasks such as workflow management tools. We can use a persistent session to run a simple shell script that monitors your job periodically and resubmits the same script until successful completion. Similar to `screen` or `tmux`, you can log out of persistent sessions and return later to check on your task. 
+
+**Workflow setup**
+
+This method requires 2 scripts:
+
+1. The shell script that is run within the persistent session 
+  - This script submits the PBS job with `qsub` and monitors with `qstat`
+  - User sets the monitor frequency (no less than 10 minutes per NCI guidelines) and maximum number of resubmissions
+  - Script will exit when "success" is discovered, or after maximum retries
+2. The PBS job script, which contains directives and the actual commands to run the job. This script may:
+  - Embed the work directly (eg calling the application or task in-line), or
+  - Call an external script that runs the tool/commands
+
+For this method to be successful, there must be:
+
+- A checkpoint file that is updated by the job as the work progresses
+- A method of reading the checkpoint file to determine where to continue from after a walltime failure
+- A reliable method of determining "success"
+
+**Determinging previous job success**
+
+Robustly checking for job success is critical for determining whether to re-submit the job. The below example scripts use an overly simplistic method of determining success, by relying solely on a user-defined "success message" and the PBS job exit status. The success message must be generated as standard output by the job and printed to the PBS job log, as well as defined in the auto-resume shell script. There are numerous potential issues with this simple approach, for example if the success message chosen is used elsewhere in the job standard output, or some component of the task fails yet the overall PBS job exits with status zero. For this reason, using thorough, precise success checks tailored to your job are recommended. In addition to checking the job exit status and including a user-defined success message that is unlikely to ever be encountered in other standard output, you might also include checks for expected output files, expected file sizes, expected file contents, etc. 
+
+**Simple example auto-resume job**
+
+In the simple example scripts below, the PBS script contains commands to run 10 iterations of 10 seconds each, requiring a total walltime of 100 seconds. Only 1 minute walltime is requested so we expect to have to run two jobs in series. 
+
+Auto-resume script that submits and monitors jobs:
+
+```bash
+#!/bin/bash
+
+# !!!!!! NCI message on qstat frequency: 
+# "Our recommendation is to query your jobs status a maximum of once every 10 minutes, this should be more than enough"
+
+##### User-defined parameters
+
+job_script="checkpointed_job.pbs" # your job script
+success_message="Checkpointed job finished successfully" # user-defined success message - must be printed by job script
+max_retries=3 # only resubmit this many times - adjust as needed
+check_interval=12  # seconds between checks - DO NOT SET BELOW 600 FOR REAL JOBS
+
+
+##### Begin submission and monitoring
+
+attempt=1
+
+while (( attempt <= max_retries )); do
+    printf "########################################\n"
+    printf "Submitting %s attempt %d of %d - %s\n" "$job_script" "$attempt" "$max_retries" "$(date)"
+    
+    full_job_id=$(qsub "$job_script")
+    if [[ -z "$full_job_id" ]]; then
+        echo "Failed to submit job. Exiting."
+        exit 1
+    fi
+
+    job_id=$(echo "$full_job_id" | sed -E 's/^([0-9]+)\..*/\1/')
+
+    printf "\tJob ID: %s\n\tWaiting for job to exit...\n" "$job_id"
+
+    while qstat "$job_id" &>/dev/null; do
+        sleep "$check_interval"
+    done
+
+    log_file=$(ls *.o"$job_id" 2>/dev/null)
+
+    if [[ ! -f "$log_file" ]]; then
+        echo "Expected output file $log_file not found. Skipping check."
+        (( attempt++ ))
+        continue
+    fi
+
+    printf "\tPBS output log file %s detected at %s\n" "$log_file" "$(date)"
+
+    # Extract exit status from PBS output log
+    status=$(grep "Exit Status" "$log_file" | awk -F : '{print $NF}' | sed 's/ //g')
+
+    # Check for success message AND exit status == 0
+    if grep -q "$success_message" "$log_file" && [[ "$status" -eq 0 ]]; then
+        printf "\n\t---> Job %s completed successfully:\n\tContains \"%s\" and has exit status %s.\n\n" \
+               "$job_id" "$success_message" "$status"
+        exit 0
+    else
+        printf "\n\t---> Job failed or incomplete. Exit status: %s. Resubmitting...\n\n" "$status"
+        (( attempt++ ))
+    fi
+done
+
+echo "Reached maximum attempts ($max_retries). Job $job_id did not complete successfully."
+exit 1
+```
+Example job script:
+
+```bash
+#!/bin/bash
+
+#PBS -P er01
+#PBS -N resubmit-test
+#PBS -l walltime=00:01:00
+#PBS -l ncpus=1
+#PBS -l mem=1GB
+#PBS -W umask=022
+#PBS -q expressbw
+#PBS -l wd
+#PBS -l storage=scratch/qc03
+
+checkpoint_file=progress.chk
+target_steps=10 
+sleep=10 
+
+if [[ -f "${checkpoint_file}" ]]
+then
+    start_step=$(( $(cat ${checkpoint_file}) + 1 ))
+    printf "Resuming from step ${start_step}\n"
+else
+    start_step=1
+    echo Starting from step 1
+fi
+
+# Simulated workload
+for (( step=start_step; step<=target_steps; step++ ))
+do
+    printf "Processing step ${step} of ${target_steps}\n"
+    sleep "${sleep}"
+
+    echo "$step" > "${checkpoint_file}"
+    sync
+done
+
+# Print "success message" to PBS job log:
+echo "Checkpointed job finished successfully"
+
+```
+
+**Running the example job**
+
+First, logon to Gadi then follow the instructions on the [Gadi user guide](https://opus.nci.org.au/spaces/Help/pages/241927941/Persistent+Sessions...) to start a persistent session:
+
+```bash
+#persistent-sessions start -p <project> <session-name>
+persistent-sessions start -p qc03 demo-resume
+```
+
+Follow the instructions in the standard output to connect to your persistent session (`\<session-name\>.\<nciUserId\>.\<project\>.ps.gadi.org.au`):
+
+```bash
+ssh demo-resume.cew562.qc03.ps.gadi.nci.org.au
+#Warning: Permanently added '[demo-resume.cew562.qc03.ps.gadi.nci.org.au]:2222' (ED25519) to the list of known hosts.
+```
+
+Notice that your command prompt now shows the session name, rather than the Gadi login node. 
+
+Regardless of your working directory when starting the session, you will be placed back in home. Change to your working directory, and then **run the auto resume shell script with nohup**. Using 'no-hangup' helps ensure your shell script will continue to run even after you exit the persistent session. When running in `nohup`, commands such as `control+C` and `control+D` will not terminate the script execution.  
+
+In the screenshot below, after the auto-resume shell script is run, `control+D` is executed to log out of the session. Reconnection to the persistent session over `ssh` followed by a process check with `ps` shows that the process with process ID (PID) 490 is still running. After the PID 490 is no longer running, the nohup log shows that the job was submitted a total of 2 times to achieve successful completion. 
+
+![](../fig/auto-resume-demo2.png)
+
+As expected, there are 2 sets of PBS job logs, one that failed on walltime and one containing the success message and an exit status of zero:
+
+![](../fig/auto-resume-logs.png)
+
+**Adapting the example to your own work**
+
+- Please observe the request by NCI to not run `qstat` queries more frequently than every 10 minutes. Increase the `check_interval` value from the example of 12 to AT LEAST 600
+- Increase the maximum number of resubmission attempts to suit your needs
+- Replace the example job script name with the name of your script
+- Update the simple success check to something more robust and suited to your job, as described earlier in this section 
+- Ensure checkpointing is correctly set up such that each resubmission with the same script can continue from the last checkpoint
