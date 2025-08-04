@@ -328,6 +328,7 @@ cookieconsent.run({
   <ul class="collapse">
   <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
   </ul></li>
+  <li><a href="#installing-r-packages-locally-on-gadi" id="toc-installing-r-packages-locally-on-gadi" class="nav-link" data-scroll-target="#installing-r-packages-locally-on-gadi">Installing R Packages Locally on Gadi</a></li>
   </ul>
 </nav>
     </div>
@@ -458,6 +459,50 @@ cookieconsent.run({
 <span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="va">${output_dir}</span> <span class="dt">\</span></span>
 <span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">--threads</span> <span class="va">${PBS_NCPUS}</span> <span class="dt">\</span></span>
 <span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="va">${results}</span> <span class="op">&gt;</span> <span class="va">${log}</span> <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="installing-r-packages-locally-on-gadi" class="level2">
+<h2 class="anchored" data-anchor-id="installing-r-packages-locally-on-gadi">Installing R Packages Locally on Gadi</h2>
+<p>Local installation of R packages on gadi is often necessary since you may require specific versions of them or often system-wide R packages are unavailable.</p>
+<p>You can install R packages yourself in a local directory that will be mounted on the compute nodes when you run your PBS script. To do this you can use the following steps:</p>
+<section id="create-a-local-r-library-directory." class="level5">
+<h5 class="anchored" data-anchor-id="create-a-local-r-library-directory.">1. Create a Local R Library Directory.</h5>
+<p>You must store your R packages in a directory with sufficient storage space. Note that your home directory (/home) may not have the required quota for this. Instead, create a directory in /g/data or /scratch.</p>
+<p>Run the following command to install local R packages in /g/data (replace /g/data, <code>&lt;project&gt;</code> and <code>&lt;username&gt;</code> appropriately):</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> /g/data/<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>username<span class="op">&gt;</span>/R/Library</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="set-the-r-library-path" class="level5">
+<h5 class="anchored" data-anchor-id="set-the-r-library-path">2. Set the R Library Path</h5>
+<p>Set the R_LIBS environment variable to point to your local library directory. This tells R where to install and load packages.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">R_LIBS</span><span class="op">=</span>/g/data/<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>username<span class="op">&gt;</span>/R/Library</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="load-required-modules" class="level5">
+<h5 class="anchored" data-anchor-id="load-required-modules">3. Load Required Modules</h5>
+<p>Before running R, load the required software modules. You can usually determine these by checking the installation documentation for the R package you are trying to install. For R version 4.5.0 and to use the intel compiler to build the libraries, use:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load R/4.5.0</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load intel-compiler-llvm/2025.0.4</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load intel-mkl/2025.0.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>NOTE: If you are planning to use the intel compiler as above make sure you use the intel compiler version that matches the R version you are planning to use. If you take a look at the file /apps/R/<version>/README.nci (use <code>cat /apps/R/&lt;version&gt;/README.nci</code> and replace <code>&lt;version&gt;</code> with the R version you are loading) you will see which modules were used during the R build. The loaded intel compiler module must match this.</version></p>
+</section>
+<section id="install-r-packages-from-package-repository" class="level5">
+<h5 class="anchored" data-anchor-id="install-r-packages-from-package-repository">4. Install R Packages from package repository</h5>
+<p>Launch the R command-line interface:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the R prompt, install packages using install.packages(). The command below will install the package from the University of Melbourne CRAN mirror, use another location if your package requires it. Replace <code>&lt;package&gt;</code> with the name of your package.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"&lt;package&gt;"</span>, <span class="at">repos =</span> <span class="st">"http://cran.ms.unimelb.edu.au/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For example to install the commonly used R package “rstan”:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"StanHeaders"</span>, <span class="st">"RcppEigen"</span>, <span class="st">"rstan"</span>),</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">repos =</span> <span class="st">"http://cran.ms.unimelb.edu.au/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="verify-the-installation" class="level5">
+<h5 class="anchored" data-anchor-id="verify-the-installation">5. Verify the Installation</h5>
+<p>To check if a package was installed successfully, use the library() function. Again replace <code>&lt;package&gt;</code> with the name of your package:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"&lt;package&gt;"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If no error is returned, the package should have been installed correctly.</p>
+<p>Finally to ensure your PBS job scripts use your locally installed R packages, always remember to include include the same</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">R_LIBS</span><span class="op">=</span>/g/data/<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>username<span class="op">&gt;</span>/R/Library</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>line from step 2 above in your job script along with the standard module load commands for any dependencies.</p>
+<p>These steps should work for most simple R package installations. For further hints for some specific packages, consult the <a href="https://opus.nci.org.au/spaces/Help/pages/248840714/R...#R...-InstallationGuidesofFrequentlyAskedPackagesInstallationGuidesofFrequentlyAskedPackages">NCI Documentaion</a>.</p>
 
 
 </section>
