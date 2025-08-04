@@ -147,3 +147,86 @@ singularity exec \
     --threads ${PBS_NCPUS} \
     ${results} > ${log} 2>&1
 ```
+
+## Installing R Packages Locally on Gadi
+
+Local installation of R packages on gadi is often necessary since you may require specific versions of them or often system-wide R packages are unavailable.
+
+You can install R packages yourself in a local directory that will be mounted on the compute nodes when you run your PBS script. To do this you can use the following steps:
+
+##### 1. Create a Local R Library Directory.
+
+You must store your R packages in a directory with sufficient storage space. Note that your home directory (/home) may not have the required quota for this.
+Instead, create a directory in /g/data or /scratch.
+
+Run the following command to install local R packages in /g/data (replace /g/data, `<project>` and `<username>` appropriately):
+
+```bash
+mkdir -p /g/data/<project>/<username>/R/Library
+```
+
+##### 2. Set the R Library Path
+
+Set the R_LIBS environment variable to point to your local library directory. This tells R where to install and load packages.
+
+```bash
+export R_LIBS=/g/data/<project>/<username>/R/Library
+```
+
+##### 3. Load Required Modules
+
+Before running R, load the required software modules. You can usually determine these by checking the installation documentation for the R package you are trying to install.
+For R version 4.5.0 and to use the intel compiler to build the libraries, use:
+
+```bash
+module load R/4.5.0
+module load intel-compiler-llvm/2025.0.4
+module load intel-mkl/2025.0.1
+```
+
+NOTE: If you are planning to use the intel compiler as above make sure you use the intel compiler version that matches the R version you are planning to use.
+If you take a look at the file /apps/R/<version>/README.nci (use `cat /apps/R/<version>/README.nci` and replace `<version>` with the R version you are loading)
+you will see which modules were used during the R build. The loaded intel compiler module must match this.
+
+##### 4. Install R Packages from package repository
+
+Launch the R command-line interface:
+
+```bash
+R
+```
+
+In the R prompt, install packages using install.packages(). The command below will install the package from the University of Melbourne CRAN mirror,
+use another location if your package requires it. Replace `<package>` with the name of your package.
+
+```R
+install.packages("<package>", repos = "http://cran.ms.unimelb.edu.au/")
+```
+
+For example to install the commonly used R package "rstan":
+```R
+install.packages(c("StanHeaders", "RcppEigen", "rstan"),
+                 repos = "http://cran.ms.unimelb.edu.au/")
+```
+
+##### 5. Verify the Installation
+
+To check if a package was installed successfully, use the library() function. 
+Again replace `<package>` with the name of your package:
+
+```R
+library("<package>")
+```
+If no error is returned, the package should have been installed correctly.
+
+
+Finally to ensure your PBS job scripts use your locally installed R packages, always remember to include include the same 
+
+```bash
+export R_LIBS=/g/data/<project>/<username>/R/Library
+```
+
+line from step 2 above in your job script along with the standard module load commands for any dependencies.
+
+These steps should work for most simple R package installations. For further hints for some specific packages, consult the
+[NCI Documentaion](https://opus.nci.org.au/spaces/Help/pages/248840714/R...#R...-InstallationGuidesofFrequentlyAskedPackagesInstallationGuidesofFrequentlyAskedPackages).
