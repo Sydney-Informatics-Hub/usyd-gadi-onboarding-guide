@@ -7,7 +7,7 @@ output:
 from: markdown+emoji
 ---
 
-Before accessing Gadi, you will need to have an NCI account. Ensure you have completed this step by following directions on the [Gadi Access instructions](./notebooks/gadi_access.qmd) on the previous page before proceeding. 
+Before accessing Gadi, you will need to have an NCI account. Ensure you have completed this step by following directions on the [Gadi Access instructions](./00_gadi_access.qmd) on the previous page before proceeding. 
 
 To work on NCI Gadi, you will need to use a **terminal application** on your local computer *or* work on [NCI's Australian Research Environment (ARE)](https://are.nci.org.au/) platform, which includes a web-based terminal interface to Gadi. If you already have a terminal application that you have used to access Artemis, for example `putty` or Mac `term`, you can continue to use that. 
 
