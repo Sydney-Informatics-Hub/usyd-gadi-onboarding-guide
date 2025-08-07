@@ -61,6 +61,8 @@ website:
 
 format:
   html:
+    link-external-newwindow: true
+    link-external-icon: true # displays an icon next to external links
     theme: cosmo
     css: [lesson.css, bootstrap-icons.css]
     toc: true
