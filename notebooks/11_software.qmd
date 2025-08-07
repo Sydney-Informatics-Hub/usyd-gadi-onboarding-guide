@@ -75,7 +75,9 @@ singularity version
 
 Note that the `singularity` project was recently migrated to [apptainer](https://apptainer.org/docs/user/1.0/introduction.html). Please continue to run `singularity` commands on Gadi for now. 
 
-Singularity (Apptainer) is a *"container platform. It allows you to create and run containers that package up pieces of software in a way that is portable and reproducible. You can build a container using Apptainer on your laptop, and then run it on many of the largest HPC clusters in the world, local university or company clusters, a single server, in the cloud, or on a workstation down the hall. Your container is a single file, and you don’t have to worry about how to install all the software you need on each different operating system." (from apptainer.org)*
+Singularity (Apptainer) is a
+
+> *"container platform. It allows you to create and run containers that package up pieces of software in a way that is portable and reproducible. You can build a container using Apptainer on your laptop, and then run it on many of the largest HPC clusters in the world, local university or company clusters, a single server, in the cloud, or on a workstation down the hall. Your container is a single file, and you don’t have to worry about how to install all the software you need on each different operating system."* --- from <https://apptainer.org>
 
 There are numerous container repositories, for example [Docker Hub](https://hub.docker.com/) or [quay.io](https://quay.io/). You can search these repositories, or build your own container if the tool or tool version you need is not yet available. 
 
@@ -92,28 +94,28 @@ Let's assume you want to use the tool **FoldSeek**. Below are the steps to searc
 5. Copy the command. We need to made some changes to the command before we execute it. 
 6. Paste the command into your terminal (or `copyq` container download script) and change `docker` to `singularity` and add prefix `docker://` to the container path, as shown below: 
 
-```bash
-# Default command:
-docker pull quay.io/biocontainers/foldseek:10.941cd33--h5021889_1
-# Change to:
-singularity pull docker://quay.io/biocontainers/foldseek:10.941cd33--h5021889_1
-```
+    ```bash
+    # Default command:
+    docker pull quay.io/biocontainers/foldseek:10.941cd33--h5021889_1
+    # Change to:
+    singularity pull docker://quay.io/biocontainers/foldseek:10.941cd33--h5021889_1
+    ```
 
 7. Run the `pull` command (note: you need to have the singularity module loaded in your terminal or download script). This will download the docker container to a Singularity Image File (`.sif`). Most containers are lightweight enough to pull directly on the login node. If a container is bulky and slow to download (or you need many containers), you may need to submit the download as a `copyq` job. 
 8. Test the container with a basic help or version command. When running a container, typical usage involves the following command structure:
 
-```bash
-singularity  exec <container> <command> [args]
-```
+    ```bash
+    singularity  exec <container> <command> [args]
+    ```
 
-So everything after the container name is the same as you would run when using a locally installed version of the tool. For `foldseek`, we would use `foldseek version` to view the tool version or `foldseek help` to view the help menu. To run these commands via the container: 
+    So everything after the container name is the same as you would run when using a locally installed version of the tool. For `foldseek`, we would use `foldseek version` to view the tool version or `foldseek help` to view the help menu. To run these commands via the container: 
 
-```bash
-singularity exec foldseek_10.941cd33--h5021889_1.sif foldseek version
-singularity exec foldseek_10.941cd33--h5021889_1.sif foldseek help
-```
+    ```bash
+    singularity exec foldseek_10.941cd33--h5021889_1.sif foldseek version
+    singularity exec foldseek_10.941cd33--h5021889_1.sif foldseek help
+    ```
 
-Note that the version of foldseek corresponds to the tag name: in this case, v. 10.941cd33. 
+    Note that the version of foldseek corresponds to the tag name: in this case, v. 10.941cd33. 
 
 9. Test run the full tool command that you need to use in your analysis. Where possible, use a small subset of your data to test the command (as you would routinely do for new software). You may need to use the [interactive job queue](./08_job_script.qmd#interactive-jobs) or a compute job script for testing if the test command exceeds resource limits on the login nodes. 
 10. Add the command to your job script. Ensure to include `module load singularity` and call the container using the structure `singularity  exec <container> <command> [args]`. 
