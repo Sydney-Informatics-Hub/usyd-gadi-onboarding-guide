@@ -73,11 +73,11 @@ Scratch should be used for temporary files associated with a job that has large 
 
 #### /g/data
 
-Your /g/data space (`/g/data/<project>`) is owned by your project and has the available space allocated by the Sydney Scheme Manager.
+Your `/g/data` space (`/g/data/<project>`) is owned by your project and has the available space allocated by the Sydney Scheme Manager.
 
-The files on /g/data are not backed up but they will persist there for the lifetime of your project.
+The files on `/g/data` are not backed up but they will persist there for the lifetime of your project.
 
-/g/data is intended to be used to store longer term files that are regularly used by your project during its lifetime. Always ensure your data is regularly backed up from here to the Research Data Store.
+`/g/data` is intended to be used to store longer term files that are regularly used by your project during its lifetime. Always ensure your data is regularly backed up from here to the Research Data Store.
 
 `/g/data` may be accessed directly from PBS job scripts by using the `-lstorage` PBS directive.
 
@@ -151,37 +151,37 @@ Due to stringent security settings around Artemis and RDS, familiar commands lik
 Please note that running these commands on the login nodes is not the recommended way to transfer research data to Gadi! For smaller downloads, this is OK, but for normal purposes the use of Gadi’s `copyq` and data mover nodes are the appropriate tools.
 :::
 
-::: {.callout-note}
-## How to transfer data from RDS to Gadi (and vice-versa) from a Gadi login.{#sftp}
+::: {.callout-note #sftp}
+## How to transfer data from RDS to Gadi (and vice-versa) from a Gadi login.
 
 To transfer data between RDS and Gadi from the Gadi login shell:
 
-  1. Open a terminal (using the 'Terminal' app on MacOS or the 'Command Prompt' app on Windows and then log into Gadi using ssh:
+  1. Open a terminal using the 'Terminal' app on MacOS or the 'Command Prompt' app on Windows and then log into Gadi using ssh:
 
-  ```bash
-  ssh <nci_user_id>@gadi.nci.org.au
-  ```
+      ```bash
+      ssh <nci_user_id>@gadi.nci.org.au
+      ```
 
-  You may be prompted to enter your NCI password at this point.
+      You may be prompted to enter your NCI password at this point.
 
   2. Get the data from RDS, to a specific location on Gadi, e.g:
 
-  ```bash
-  sftp -r <your_unikey>@research-data-ext.sydney.edu.au:/rds/PRJ-<Project Short ID>/<Path to File or Folder> <location on Gadi>
-  ```
+      ```bash
+      sftp -r <your_unikey>@research-data-ext.sydney.edu.au:/rds/PRJ-<Project Short ID>/<Path to File or Folder> <location on Gadi>
+      ```
 
-  For example if I wanted to copy data from my `Training` project on RDS in the folder `MyData` to Gadi in the scratch space for my NCI project named `qc03`:
+      For example if I wanted to copy data from my `Training` project on RDS in the folder `MyData` to Gadi in the scratch space for my NCI project named `qc03`:
 
-  ```bash
-  sftp -r <my_unikey>@research-data-ext.sydney.edu.au:/rds/PRJ-Training/MyData /scratch/qc03/MyData
-  ```
-  replace `/rds` in the above with `/project` or `/scratch` for your preferred source folder or file.
+      ```bash
+      sftp -r <my_unikey>@research-data-ext.sydney.edu.au:/rds/PRJ-Training/MyData /scratch/qc03/MyData
+      ```
+      replace `/rds` in the above with `/project` or `/scratch` for your preferred source folder or file.
 
-If you want to copy the other way around (ie. from Gadi /scratch to RDS) use
+      If you want to copy the other way around (ie. from Gadi /scratch to RDS) use
 
-  ```bash
-  sftp <your_unikey>@research-data-ext.sydney.edu.au:/rds/PRJ-<Project Short ID>/<Path to File or Folder> <<< $"put -r <location on Gadi>"
-  ```
+      ```bash
+      sftp <your_unikey>@research-data-ext.sydney.edu.au:/rds/PRJ-<Project Short ID>/<Path to File or Folder> <<< $"put -r <location on Gadi>"
+      ```
 :::
 
 
@@ -201,30 +201,30 @@ Using rsync will allow you to *sync* data between RDS and Gadi, this means that 
 You can also initiate the transfer in a terminal from a connection via ssh to `research-data-int.sydney.edu.au` (on campus or USyd VPN) and using the `rsync` method described here - just replace `hpc.sydney.edu.au` with `research-data-int.sydney.edu.au` in step 1.
 :::
 
-::: {.callout-note}
-## How to transfer from RDS to Gadi (and vice-versa) at an Artemis terminal using rsync{#rs}
+::: {.callout-note #rs}
+## How to transfer from RDS to Gadi (and vice-versa) at an Artemis terminal using rsync
 
 To transfer data between RDS and Gadi from the Artemis login shell:
 
-  1. Open a terminal (using the 'Terminal' app on MacOS or the 'Command Prompt' app on Windows and then log into Artemis using ssh:
+  1. Open a terminal using the 'Terminal' app on MacOS or the 'Command Prompt' app on Windows and then log into Artemis using ssh:
 
-  ```bash
-  ssh <your_unikey>@hpc.sydney.edu.au
-  ```
+      ```bash
+      ssh <your_unikey>@hpc.sydney.edu.au
+      ```
 
-  You may be prompted to enter your password at this stage.
+      You may be prompted to enter your password at this stage.
 
   2. Copy the data from  `rds`, to a specific location on Gadi, e.g:
 
-  ```bash
-  rsync -rtlPvz /rds/PRJ-<Project Short ID>/<Path to File or Folder in RDS> <nci_user_id>@gadi-dm.nci.org.au:<Destination on Gadi>
-  ```
+      ```bash
+      rsync -rtlPvz /rds/PRJ-<Project Short ID>/<Path to File or Folder in RDS> <nci_user_id>@gadi-dm.nci.org.au:<Destination on Gadi>
+      ```
 
-  For example if I wanted to sync data from my `Training` project on RDS in the folder `MyData` to Gadi in the scratch space for my NCI project named `qc03`:
+      For example if I wanted to sync data from my `Training` project on RDS in the folder `MyData` to Gadi in the scratch space for my NCI project named `qc03`:
 
-  ```bash
-  rsync -rtlPvz /rds/PRJ-Training/MyData <nci_user_id>@gadi-dm.nci.org.au:/scratch/qc03/MyData
-  ```
+      ```bash
+      rsync -rtlPvz /rds/PRJ-Training/MyData <nci_user_id>@gadi-dm.nci.org.au:/scratch/qc03/MyData
+      ```
 
   3. You will be prompted for the password associated with your username on Gadi and the transfer will commence.
 
@@ -286,94 +286,94 @@ Follow the below steps carefully to set up SSH keys between RDS and Gadi. Note, 
 
 1. Log into Gadi with your chosen method, e.g: 
 
-```bash
-ssh ab1234@gadi.nci.org.au
-```
+    ```bash
+    ssh ab1234@gadi.nci.org.au
+    ```
 
 2. Move to your home directory: 
 
-```bash
-cd ~
-```
+    ```bash
+    cd ~
+    ```
 
 3. Make a `.ssh` directory, if you don't already have one: 
 
-```bash
-mkdir -p .ssh 
-```
+    ```bash
+    mkdir -p .ssh 
+    ```
 
 4. Set suitable permissions for the `.ssh` directory and move into it:
 
-```bash
-chmod 700 .ssh
-cd .ssh
-```
+    ```bash
+    chmod 700 .ssh
+    cd .ssh
+    ```
 
 5. Generate SSH key pair: 
 
-```bash
-ssh-keygen
-```
-Hit enter when prompted, saving the key in `~/.ssh/id_rsa` and enter for NO passphrase. A public key will be located in `~/.ssh/id_rsa.pub` and a private key in `~/.ssh/id_rsa`.
+    ```bash
+    ssh-keygen
+    ```
+    Hit enter when prompted, saving the key in `~/.ssh/id_rsa` and enter for NO passphrase. A public key will be located in `~/.ssh/id_rsa.pub` and a private key in `~/.ssh/id_rsa`.
 
 6. Set suitable permissions for the keys:
 
-```bash
-chmod 600 id_rsa
-chmod 644 id_rsa.pub
-```
+    ```bash
+    chmod 600 id_rsa
+    chmod 644 id_rsa.pub
+    ```
 
 7. Make an `authorized_keys` file if you don't already have one: 
 
-```bash
-touch ~/.ssh/authorized_keys
-```
+    ```bash
+    touch ~/.ssh/authorized_keys
+    ```
 
 8. Copy the contents of the public key file (`~/.ssh/id_rsa.pub`) to the `authorized_keys` file: 
 
-```bash
-cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
-```
+    ```bash
+    cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+    ```
 
 9. Set permissions for the `authorized_keys` file: 
 
-```bash
-chmod 600 ~/.ssh/authorized_keys
-```
+    ```bash
+    chmod 600 ~/.ssh/authorized_keys
+    ```
 
 10. Connect to USyd's RDS login server using `lftp` and your unikey:
 
-```bash
-lftp sftp://<your-unikey>@research-data-ext.sydney.edu.au
-```
-Provide your unikey password when prompted. When you log in, you are in your personal home directory on the RDS login server. This is NOT the place to store data, only ssh key files. 
+    ```bash
+    lftp sftp://<your-unikey>@research-data-ext.sydney.edu.au
+    ```
+    Provide your unikey password when prompted. When you log in, you are in your personal home directory on the RDS login server. This is NOT the place to store data, only ssh key files. 
 
-Then make and move into a `.ssh` directory if you don't already have one: 
+    Then make and move into a `.ssh` directory if you don't already have one: 
 
-```bash
-mkdir -p ~/.ssh
-cd ~/.ssh
-```
+    ```bash
+    mkdir -p ~/.ssh
+    cd ~/.ssh
+    ```
 
 11. Transfer the `authorized_keys` file from Gadi to USyd's RDS login server: 
 
-```bash 
-put authorized_keys
-```
+    ```bash 
+    put authorized_keys
+    ```
 
-Doing this will transfer authorized_keys on Gadi to your current directory on RDS (/home/<unikey>). With lftp, it will look for the file relative to where you launched lftp. You can check where you are on Gadi using:
+    Doing this will transfer authorized_keys on Gadi to your current directory on RDS (/home/<unikey>). With lftp, it will look for the file relative to where you launched lftp. You can check where you are on Gadi using:
 
-```bash
-local pwd
-```
+    ```bash
+    local pwd
+    ```
 
 12. Exit your `lftp` connection to RDS by entering `ctrl + d`. You are now back to your Gadi session. Then, test the passwordless connection: 
 
-```bash
-sftp <your-unikey>@research-data-ext.sydney.edu.au
-```
+    ```bash
+    sftp <your-unikey>@research-data-ext.sydney.edu.au
+    ```
 
-This time, you shouldn't be prompted for a password. You can proceed to transfer data between Gadi and RDS now on the `copyq`. 
+    This time, you shouldn't be prompted for a password. You can proceed to transfer data between Gadi and RDS now on the `copyq`. 
 
 If you get the error "Fatal error: Host key verification failed" you may have to get an "ssh fingerprint" first. Do this by sending an ssh request to the RDS with:
 
@@ -526,7 +526,7 @@ nano from_rds_to_gadi.pbs
 
 You need to edit the script by replacing all the variables marked with `<>` described in the script header and fill in the following details before using it:
 
-In the `# PBS` variables part of the script: 
+In the `#PBS` variables part of the script: 
 
  + Provide the -P variable by replacing `<nci_project>` with your NCI project code. In this example `aa00`.
 
