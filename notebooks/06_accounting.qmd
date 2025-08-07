@@ -171,7 +171,7 @@ You can check your project allocation with the same `nci_account -P <nci-project
 
 ![](../fig/nci_account-P-disk.png)
 
-This project has used 4.5 TB of its 10 TB allocated in scratch. 
+This project has used 4.5 TB of its 10 TB of gdata and 4.06 TB of its 60 TB allocated in scratch. 
 
 Another way to check disk usage is with the `lquota` command, which will report filesystem usage for all projects of which you are a member:
 
@@ -191,7 +191,7 @@ Most users will not need to worry about inode limit. For each TB of scratch or g
 
 From the [Gadi resources page](https://opus.nci.org.au/spaces/Help/pages/236880086/Gadi+Resources...#GadiResources...):
 
-*"Please try to keep the number of files as low as possible as this can affect the I/O performance in your job. Gadi is efficient at handling large scale parallel I/O but performance becomes significantly worse when doing frequent small operations.
+>*"Please try to keep the number of files as low as possible as this can affect the I/O performance in your job. Gadi is efficient at handling large scale parallel I/O but performance becomes significantly worse when doing frequent small operations.
 A main culprit for creating a large amount of files is the Python packaging system conda. Please use pip and the available modules that are already tuned for Gadi to keep file and folder count as low as possible."*
 
 You can see the inode limits and usage for your project's scratch and gdata with the `nci_account -P <nci-project-id>` command:
