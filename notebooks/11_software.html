@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.7.33">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -73,7 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-234273d1456647dabc34a594ac50e507.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-59898bd1c6b9d2bb783127feaa000c76.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-197d358ac608738936fe95606caeaf7d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -402,36 +402,35 @@ cookieconsent.run({
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> version</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 3.11.3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Note that the <code>singularity</code> project was recently migrated to <a href="https://apptainer.org/docs/user/1.0/introduction.html">apptainer</a>. Please continue to run <code>singularity</code> commands on Gadi for now.</p>
-<p>Singularity (Apptainer) is a <em>“container platform. It allows you to create and run containers that package up pieces of software in a way that is portable and reproducible. You can build a container using Apptainer on your laptop, and then run it on many of the largest HPC clusters in the world, local university or company clusters, a single server, in the cloud, or on a workstation down the hall. Your container is a single file, and you don’t have to worry about how to install all the software you need on each different operating system.” (from apptainer.org)</em></p>
+<p>Singularity (Apptainer) is a</p>
+<blockquote class="blockquote">
+<p><em>“container platform. It allows you to create and run containers that package up pieces of software in a way that is portable and reproducible. You can build a container using Apptainer on your laptop, and then run it on many of the largest HPC clusters in the world, local university or company clusters, a single server, in the cloud, or on a workstation down the hall. Your container is a single file, and you don’t have to worry about how to install all the software you need on each different operating system.”</em> — from <a href="https://apptainer.org" class="uri">https://apptainer.org</a></p>
+</blockquote>
 <p>There are numerous container repositories, for example <a href="https://hub.docker.com/">Docker Hub</a> or <a href="https://quay.io/">quay.io</a>. You can search these repositories, or build your own container if the tool or tool version you need is not yet available.</p>
 <p><a href="https://seqera.io/">Seqera</a> have greatly simplified the process of building custom containers with their <a href="https://seqera.io/containers/">build-your-own container tool</a>! Simply search for the tool(s) you want in your container, and click <code>Get Container</code>. This tool will manage the build for you, and host the created container file.</p>
 <section id="example" class="level3">
 <h3 class="anchored" data-anchor-id="example">Example</h3>
 <p>Let’s assume you want to use the tool <strong>FoldSeek</strong>. Below are the steps to search for, obtain, test, and use this container in a PBS job script.</p>
 <ol type="1">
-<li>Run <code>module load singularity</code> in your Gadi terminal (or <code>copyq</code> container download script)</li>
-<li>Visit <a href="https://quay.io/">quay.io</a> and search for this tool by typing the tool name into the search bar at the top right of the page. There may be multiple containers available. These may reflect different contributors, different tool versions, etc. Look for containers with recent updates and a high star rating where possible.</li>
-<li>Select the <code>biocontainers</code> container, and then select the <code>Tags</code> page from the icons on the left (options are <code>Information</code>, <code>Tags</code>, <code>Tag history</code>).</li>
-<li>On the far right of the most recent tag, select the <code>Fetch tag</code> icon and then change image format to <code>Docker Pull (by tag)</code>.</li>
-<li>Copy the command. We need to made some changes to the command before we execute it.</li>
-<li>Paste the command into your terminal (or <code>copyq</code> container download script) and change <code>docker</code> to <code>singularity</code> and add prefix <code>docker://</code> to the container path, as shown below:</li>
-</ol>
+<li><p>Run <code>module load singularity</code> in your Gadi terminal (or <code>copyq</code> container download script)</p></li>
+<li><p>Visit <a href="https://quay.io/">quay.io</a> and search for this tool by typing the tool name into the search bar at the top right of the page. There may be multiple containers available. These may reflect different contributors, different tool versions, etc. Look for containers with recent updates and a high star rating where possible.</p></li>
+<li><p>Select the <code>biocontainers</code> container, and then select the <code>Tags</code> page from the icons on the left (options are <code>Information</code>, <code>Tags</code>, <code>Tag history</code>).</p></li>
+<li><p>On the far right of the most recent tag, select the <code>Fetch tag</code> icon and then change image format to <code>Docker Pull (by tag)</code>.</p></li>
+<li><p>Copy the command. We need to made some changes to the command before we execute it.</p></li>
+<li><p>Paste the command into your terminal (or <code>copyq</code> container download script) and change <code>docker</code> to <code>singularity</code> and add prefix <code>docker://</code> to the container path, as shown below:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Default command:</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> pull quay.io/biocontainers/foldseek:10.941cd33--h5021889_1</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Change to:</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> pull docker://quay.io/biocontainers/foldseek:10.941cd33--h5021889_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="7" type="1">
-<li>Run the <code>pull</code> command (note: you need to have the singularity module loaded in your terminal or download script). This will download the docker container to a Singularity Image File (<code>.sif</code>). Most containers are lightweight enough to pull directly on the login node. If a container is bulky and slow to download (or you need many containers), you may need to submit the download as a <code>copyq</code> job.</li>
-<li>Test the container with a basic help or version command. When running a container, typical usage involves the following command structure:</li>
-</ol>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> pull docker://quay.io/biocontainers/foldseek:10.941cd33--h5021889_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Run the <code>pull</code> command (note: you need to have the singularity module loaded in your terminal or download script). This will download the docker container to a Singularity Image File (<code>.sif</code>). Most containers are lightweight enough to pull directly on the login node. If a container is bulky and slow to download (or you need many containers), you may need to submit the download as a <code>copyq</code> job.</p></li>
+<li><p>Test the container with a basic help or version command. When running a container, typical usage involves the following command structure:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span>  exec <span class="op">&lt;</span>container<span class="op">&gt;</span> <span class="op">&lt;</span>command<span class="op">&gt;</span> <span class="pp">[</span><span class="ss">args</span><span class="pp">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>So everything after the container name is the same as you would run when using a locally installed version of the tool. For <code>foldseek</code>, we would use <code>foldseek version</code> to view the tool version or <code>foldseek help</code> to view the help menu. To run these commands via the container:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec foldseek_10.941cd33--h5021889_1.sif foldseek version</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec foldseek_10.941cd33--h5021889_1.sif foldseek help</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Note that the version of foldseek corresponds to the tag name: in this case, v. 10.941cd33.</p>
-<ol start="9" type="1">
-<li>Test run the full tool command that you need to use in your analysis. Where possible, use a small subset of your data to test the command (as you would routinely do for new software). You may need to use the <a href="../notebooks/08_job_script.html#interactive-jobs">interactive job queue</a> or a compute job script for testing if the test command exceeds resource limits on the login nodes.</li>
-<li>Add the command to your job script. Ensure to include <code>module load singularity</code> and call the container using the structure <code>singularity  exec &lt;container&gt; &lt;command&gt; [args]</code>.</li>
+<p>Note that the version of foldseek corresponds to the tag name: in this case, v. 10.941cd33.</p></li>
+<li><p>Test run the full tool command that you need to use in your analysis. Where possible, use a small subset of your data to test the command (as you would routinely do for new software). You may need to use the <a href="../notebooks/08_job_script.html#interactive-jobs">interactive job queue</a> or a compute job script for testing if the test command exceeds resource limits on the login nodes.</p></li>
+<li><p>Add the command to your job script. Ensure to include <code>module load singularity</code> and call the container using the structure <code>singularity  exec &lt;container&gt; &lt;command&gt; [args]</code>.</p></li>
 </ol>
 <p>Below is an example Gadi job script running the <code>foldseek</code> container:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
@@ -595,6 +594,13 @@ cookieconsent.run({
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
         }
       }
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {

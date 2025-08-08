@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.7.33">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -73,7 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-234273d1456647dabc34a594ac50e507.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-59898bd1c6b9d2bb783127feaa000c76.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-197d358ac608738936fe95606caeaf7d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -491,7 +491,7 @@ Answer
 <p>New projects are assigned 1 TB disk quota and 202 K inode quota on Gadi’s scratch filesystem, and these can be increased with justification by contacting the <a href="https://nci.org.au/users/nci-helpdesk">NCI help desk</a>.</p>
 <p>You can check your project allocation with the same <code>nci_account -P &lt;nci-project-id&gt;</code> command used to query SU:</p>
 <p><img src="../fig/nci_account-P-disk.png" class="img-fluid"></p>
-<p>This project has used 4.5 TB of its 10 TB allocated in scratch.</p>
+<p>This project has used 4.5 TB of its 10 TB of gdata and 4.06 TB of its 60 TB allocated in scratch.</p>
 <p>Another way to check disk usage is with the <code>lquota</code> command, which will report filesystem usage for all projects of which you are a member:</p>
 <p><img src="../fig/gadi-lquota.png" class="img-fluid"></p>
 <p>Note the extra columns here - you will see that in addition to the amount of disk used and allocated, there are also <strong>Limit</strong> columns. This is a grace amount of additional resources that your project may use, but only for a short time. This is to try and help jobs complete that may otherwise have exceeded the allocation and failed, causing unnecessary wastage of compute resources. You cannot submit any new jobs under a project code that has exceeded the limit; the jobs will be <code>held</code> (status H) until you have brought your disk usage back under the allocation quota. Your project cannot exceed the limits. If a running job causes the limit to be exceeded, the job will fail. If a running job exceeds the allocation but remains under the limit, the job will continue.</p>
@@ -503,7 +503,9 @@ Answer
 <p>An inode (index node) is a data structure used by Unix-like file systems to store metadata about a file or directory. In simple terms, each file and directory contributes an inode count of 1, ie the inode usage of a filesystem is the count of all files and directories stored on that filesystem. Like physical disk space, a filesystem also has an inode limit, and if they get used up (even if there’s still free disk space), you won’t be able to create new files. This can cause failure of a running job.</p>
 <p>Most users will not need to worry about inode limit. For each TB of scratch or gdata disk assigned to a project, an amount if inode that is suitable for most users is also provided. If however you run <strong>tools or jobs which generate large numbers of tiny files</strong>, you may need to implement close inode monitoring and management, such as periodically deleting or archiving tiny temp files as they are no longer needed.</p>
 <p>From the <a href="https://opus.nci.org.au/spaces/Help/pages/236880086/Gadi+Resources...#GadiResources...">Gadi resources page</a>:</p>
+<blockquote class="blockquote">
 <p><em>“Please try to keep the number of files as low as possible as this can affect the I/O performance in your job. Gadi is efficient at handling large scale parallel I/O but performance becomes significantly worse when doing frequent small operations. A main culprit for creating a large amount of files is the Python packaging system conda. Please use pip and the available modules that are already tuned for Gadi to keep file and folder count as low as possible.”</em></p>
+</blockquote>
 <p>You can see the inode limits and usage for your project’s scratch and gdata with the <code>nci_account -P &lt;nci-project-id&gt;</code> command:</p>
 <p><img src="../fig/nci_account-P-inode.png" class="img-fluid"></p>
 <p>This project has been allocated (iAllocation) 4.5 million inodes in scratch, and has used (iUsed) 1.59 million inodes. With ~ 3 million inodes spare, there is plenty to continue work.</p>
@@ -622,6 +624,13 @@ Answer
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
         }
       }
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {

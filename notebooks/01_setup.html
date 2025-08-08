@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.7.33">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -73,7 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-234273d1456647dabc34a594ac50e507.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-59898bd1c6b9d2bb783127feaa000c76.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-197d358ac608738936fe95606caeaf7d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -321,10 +321,13 @@ cookieconsent.run({
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#use-ncis-are-platform" id="toc-use-ncis-are-platform" class="nav-link active" data-scroll-target="#use-ncis-are-platform">Use NCI’s ARE platform</a></li>
-  <li><a href="#install-visual-studio-code" id="toc-install-visual-studio-code" class="nav-link" data-scroll-target="#install-visual-studio-code">Install Visual Studio Code</a></li>
+  <li><a href="#are" id="toc-are" class="nav-link active" data-scroll-target="#are">Use NCI’s ARE platform</a></li>
+  <li><a href="#vscode" id="toc-vscode" class="nav-link" data-scroll-target="#vscode">Install Visual Studio Code</a></li>
+  <li><a href="#terminal" id="toc-terminal" class="nav-link" data-scroll-target="#terminal">Access via a Terminal Application</a>
+  <ul class="collapse">
   <li><a href="#use-macos-native-terminal" id="toc-use-macos-native-terminal" class="nav-link" data-scroll-target="#use-macos-native-terminal">Use MacOS native terminal</a></li>
   <li><a href="#install-a-terminal-client-on-your-windows-machine" id="toc-install-a-terminal-client-on-your-windows-machine" class="nav-link" data-scroll-target="#install-a-terminal-client-on-your-windows-machine">Install a terminal client on your windows machine</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -350,16 +353,16 @@ cookieconsent.run({
 </header>
 
 
-<p>Before accessing Gadi, you will need to have an NCI account. Ensure you have completed this step by following directions on the <a href="./notebooks/gadi_access.qmd">Gadi Access instructions</a> on the previous page before proceeding.</p>
-<p>To work on NCI Gadi, you will need to use a <strong>terminal application</strong> on your local computer <em>or</em> work on <a href="https://are.nci.org.au/">NCI’s Australian Research Environment (ARE)</a> platform, which includes a web-based terminal interface to Gadi. If you already have a terminal application that you have used to access Artemis, for example <code>putty</code> or Mac <code>term</code>, you can continue to use that.</p>
+<p>Before accessing Gadi, you will need to have an NCI account. Ensure you have completed this step by following directions on the <a href="../notebooks/00_gadi_access.html">Gadi Access instructions</a> on the previous page before proceeding.</p>
+<p>To work on NCI Gadi, you will need to use a <strong>terminal application</strong> on your local computer <em>or</em> work on <a href="https://are.nci.org.au/">NCI’s Australian Research Environment (ARE)</a> platform, which includes a web-based terminal interface to Gadi. If you already have a terminal application that you have used to access Artemis, for example <code>putty</code> or Mac <code>Terminal</code>, you can continue to use that.</p>
 <p>Below we will describe 3 options for accessing Gadi:</p>
-<ol type="1">
-<li>Use the web-based terminal provided by NCI’s ARE platform</li>
-<li>Install Visual Studio Code, an integrated development environment with terminal and many other features</li>
-<li>Use a terminal application installed on your local computer</li>
-</ol>
-<section id="use-ncis-are-platform" class="level2">
-<h2 class="anchored" data-anchor-id="use-ncis-are-platform">Use NCI’s ARE platform</h2>
+<ul>
+<li><a href="#are">Option 1</a>: Use the web-based terminal provided by NCI’s ARE platform</li>
+<li><a href="#vscode">Option 2</a>: Install Visual Studio Code, an integrated development environment with terminal and many other features</li>
+<li><a href="#terminal">Option 3</a>: Use a terminal application installed on your local computer</li>
+</ul>
+<section id="are" class="level2">
+<h2 class="anchored" data-anchor-id="are">Use NCI’s ARE platform</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -376,8 +379,8 @@ ARE: fast access with limited customisation
 <p>NCI has created a web-based graphical interface for accessing their systems. It is very simple to use and recommended over access methods described below for beginners.</p>
 <p>See NCI’s User Guide for instructions on how to access and use <a href="https://opus.nci.org.au/display/Help/ARE+User+Guide">ARE</a>.</p>
 </section>
-<section id="install-visual-studio-code" class="level2">
-<h2 class="anchored" data-anchor-id="install-visual-studio-code">Install Visual Studio Code</h2>
+<section id="vscode" class="level2">
+<h2 class="anchored" data-anchor-id="vscode">Install Visual Studio Code</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -430,34 +433,20 @@ VScode: customised configuration with an integrated terminal
 <li><a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf">VS code cheatsheet for MacOS</a></li>
 </ul>
 </section>
-<section id="use-macos-native-terminal" class="level2">
-<h2 class="anchored" data-anchor-id="use-macos-native-terminal">Use MacOS native terminal</h2>
+<section id="terminal" class="level2">
+<h2 class="anchored" data-anchor-id="terminal">Access via a Terminal Application</h2>
+<section id="use-macos-native-terminal" class="level3">
+<h3 class="anchored" data-anchor-id="use-macos-native-terminal">Use MacOS native terminal</h3>
 <p>Mac operating systems come with a terminal program, called Terminal. Just look for it in your Applications folder, or hit <code>Command</code> + <code>Space</code> and type ‘terminal’. You may find that other, 3rd party terminal programs are more user-friendly and powerful, like <a href="https://iterm2.com/">Iterm2</a>.</p>
-</section>
-<section id="install-a-terminal-client-on-your-windows-machine" class="level2">
-<h2 class="anchored" data-anchor-id="install-a-terminal-client-on-your-windows-machine">Install a terminal client on your windows machine</h2>
-<p>Windows OS now comes with Windows Subsystem for Linux (WSL) so if you are familiar with using that, you can <code>ssh</code> to Gadi from a WSL terminal.</p>
-<p>If not, you will need to install a terminal client. There are many options, including <strong>putty</strong>, <strong>Xwin-32</strong> (which the University of Sydney has a license for), and <strong>MobaXterm</strong>.</p>
-<p>Below we will describe the process to install the free version of <a href="https://mobaxterm.mobatek.net/download.html">MobaXterm</a>, which offers a rich experience as a full-featured X-server and terminal emulator for ssh connections.</p>
-<p>To install and start using MobaXterm:</p>
-<ol type="1">
-<li>Go to https://mobaxterm.mobatek.net/download.html</li>
-<li>Under ‘Home Edition’ select the Download now button</li>
-<li>Select the MobaXterm Home Edition (Installer edition)</li>
-<li>Once the program is downloaded, install it as you would any other windows program</li>
-<li>Once the program is installed, start the MobaXterm program</li>
-<li>From this screen, click on ‘start local terminal’ (and install Cygwin if prompted)</li>
-</ol>
-<p><img src="https://user-images.githubusercontent.com/73086054/224888551-527c08c3-90fa-4f6b-beaf-308114880624.png" class="img-fluid"></p>
 <p>To log in to Gadi, you will use a Secure Shell (SSH) connection. To connect, you need 3 things:</p>
 <ul>
 <li>The address of your NCI Gadi, <code>gadi.nci.org.au</code>.</li>
 <li>Your Gadi username, e.g.&nbsp;<code>ab1234</code>.</li>
 <li>Your password.</li>
 </ul>
-<p>To log in: type the following into your terminal, using your allocated instance’s IP address:</p>
+<p>Then typing the following command into your terminal:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ssh &lt;username&gt;@gadi.nci.org.au</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Then provide your password when prompted.</p>
+<p>and provide your password when prompted.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -473,8 +462,15 @@ VScode: customised configuration with an integrated terminal
 </div>
 <p>Once you’ve logged in successfully, you should see a welcome screen like this:</p>
 <p><img src="../fig/terminal_gadi_connect.png" class="img-fluid"></p>
+</section>
+<section id="install-a-terminal-client-on-your-windows-machine" class="level3">
+<h3 class="anchored" data-anchor-id="install-a-terminal-client-on-your-windows-machine">Install a terminal client on your windows machine</h3>
+<p>Windows OS now comes with Windows Subsystem for Linux (WSL) so if you are familiar with using that, you can <code>ssh</code> to Gadi from a WSL terminal.</p>
+<p>If not, you will need to install a terminal client. There are many options, including <strong>putty</strong>, <strong>Xwin-32</strong> (which the University of Sydney has a license for), and <strong>MobaXterm</strong>.</p>
+<p>For example, you can download the free version of MobaXterm using <a href="https://mobaxterm.mobatek.net/download.html">this link</a> and refer to this <a href="https://opus.nci.org.au/spaces/Help/pages/230491367/MobaXterm+Initial+Setup...">step-by-step guide</a> on how to set up this tool on your PC to connect to Gadi.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -564,6 +560,13 @@ VScode: customised configuration with an integrated terminal
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
         }
       }
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
