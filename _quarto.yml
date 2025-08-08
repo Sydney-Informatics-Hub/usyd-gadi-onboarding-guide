@@ -10,6 +10,7 @@ website:
     style: "docked"
     background: white
     search: true
+    site-url: https://sydney-informatics-hub.github.io/
     contents:
       - href: index.qmd
         text: Home
