@@ -7,18 +7,18 @@ output:
 from: markdown+emoji
 ---
 
-Before accessing Gadi, you will need to have an NCI account. Ensure you have completed this step by following directions on the [Gadi Access instructions](./notebooks/gadi_access.qmd) on the previous page before proceeding. 
+Before accessing Gadi, you will need to have an NCI account. Ensure you have completed this step by following directions on the [Gadi Access instructions](./00_gadi_access.qmd) on the previous page before proceeding. 
 
-To work on NCI Gadi, you will need to use a **terminal application** on your local computer *or* work on [NCI's Australian Research Environment (ARE)](https://are.nci.org.au/) platform, which includes a web-based terminal interface to Gadi. If you already have a terminal application that you have used to access Artemis, for example `putty` or Mac `term`, you can continue to use that. 
+To work on NCI Gadi, you will need to use a **terminal application** on your local computer *or* work on [NCI's Australian Research Environment (ARE)](https://are.nci.org.au/) platform, which includes a web-based terminal interface to Gadi. If you already have a terminal application that you have used to access Artemis, for example `putty` or Mac `Terminal`, you can continue to use that. 
 
 Below we will describe 3 options for accessing Gadi:
 
-1. Use the web-based terminal provided by NCI's ARE platform
-2. Install Visual Studio Code, an integrated development environment with terminal and many other features
-3. Use a terminal application installed on your local computer
+* [Option 1](#are): Use the web-based terminal provided by NCI's ARE platform
+* [Option 2](#vscode): Install Visual Studio Code, an integrated development environment with terminal and many other features
+* [Option 3](#terminal): Use a terminal application installed on your local computer
 
 
-## Use NCI's ARE platform
+## Use NCI's ARE platform {#are}
 
 ::: {.callout-note}
 
@@ -33,7 +33,7 @@ See NCI's User Guide for instructions on how to access and use [ARE](https://opu
 
 
 
-## Install Visual Studio Code
+## Install Visual Studio Code {#vscode}
 
 ::: {.callout-note}
 
@@ -85,29 +85,10 @@ To set up your VS Code window:
 * [VS code cheatsheet for MacOS](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)
 
 
-## Use MacOS native terminal
+## Access via a Terminal Application {#terminal}
+### Use MacOS native terminal
 
 Mac operating systems come with a terminal program, called Terminal. Just look for it in your Applications folder, or hit `Command` + `Space` and type 'terminal'. You may find that other, 3rd party terminal programs are more user-friendly and powerful, like [Iterm2](https://iterm2.com/).
-
-## Install a terminal client on your windows machine 
-
-Windows OS now comes with Windows Subsystem for Linux (WSL) so if you are familiar with using that, you can `ssh` to Gadi from a WSL terminal. 
-
-If not, you will need to install a terminal client. There are many options, including **putty**, **Xwin-32** (which the University of Sydney has a license for), and **MobaXterm**.
-
-Below we will describe the process to install the free version of [MobaXterm](https://mobaxterm.mobatek.net/download.html), which offers a rich experience as a full-featured X-server and terminal emulator for ssh connections. 
-
-
-To install and start using MobaXterm:
-
-1. Go to https://mobaxterm.mobatek.net/download.html
-2. Under ‘Home Edition’ select the Download now button
-3. Select the MobaXterm Home Edition (Installer edition)
-4. Once the program is downloaded, install it as you would any other windows program
-5. Once the program is installed, start the MobaXterm program
-6. From this screen, click on ‘start local terminal’ (and install Cygwin if prompted) 
-
-![](https://user-images.githubusercontent.com/73086054/224888551-527c08c3-90fa-4f6b-beaf-308114880624.png)
 
 To log in to Gadi, you will use a Secure Shell (SSH) connection. To connect, you need 3 things:
 
@@ -115,13 +96,13 @@ To log in to Gadi, you will use a Secure Shell (SSH) connection. To connect, you
 * Your Gadi username, e.g. `ab1234`.
 * Your password. 
 
-To log in: type the following into your terminal, using your allocated instance’s IP address:
+Then typing the following command into your terminal:
 
 ```default
 ssh <username>@gadi.nci.org.au
 ```
 
-Then provide your password when prompted. 
+and provide your password when prompted. 
 
 ::: {.callout-warning}
 ### :bangbang: Pay Attention :bangbang:
@@ -131,3 +112,11 @@ When you type a password on the terminal, there will not be any indication the p
 Once you've logged in successfully, you should see a welcome screen like this: 
 
 ![](../fig/terminal_gadi_connect.png)
+
+### Install a terminal client on your windows machine 
+
+Windows OS now comes with Windows Subsystem for Linux (WSL) so if you are familiar with using that, you can `ssh` to Gadi from a WSL terminal. 
+
+If not, you will need to install a terminal client. There are many options, including **putty**, **Xwin-32** (which the University of Sydney has a license for), and **MobaXterm**.
+
+For example, you can download the free version of MobaXterm using [this link](https://mobaxterm.mobatek.net/download.html) and refer to this [step-by-step guide](https://opus.nci.org.au/spaces/Help/pages/230491367/MobaXterm+Initial+Setup...) on how to set up this tool on your PC to connect to Gadi.

@@ -12,7 +12,7 @@ This section will point you to the right sections of the NCI documentation and u
 ## Resources
 
 - [What is Gadi?](https://opus.nci.org.au/spaces/Help/pages/236881323/What+is+Gadi+...)
-- [Getting Started at NCI](https://opus.nci.org.au/)
+- [Getting Started at NCI](https://opus.nci.org.au/spaces/Help/pages/230490436/Getting+Started+at+NCI...)
 - [Gadi User Guide](https://opus.nci.org.au/display/Help/Gadi+User+Guide)
 - [Gadi FAQs](https://opus.nci.org.au/pages/viewpage.action?pageId=236881318)
 
@@ -23,12 +23,12 @@ This section will point you to the right sections of the NCI documentation and u
 
 | **Component** | **Details**                                                                                                                                                                                                                   |
 |---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Compute**   | - **Nodes**: 4,962<br>- **Processors**: Intel Sapphire Rapids, Cascade Lake, Skylake, and Broadwell CPUs<br>- **GPUs**: NVIDIA V100 and DGX A100 GPUs<br>- **Performance**: Over 10 petaflops of peak performance :contentReference[oaicite:0]{index=0} |
-| **Storage**   | - **Disk Drives**: 7,200 4-Terabyte hard disks in 120 NetApp disk arrays<br>- **Capacity**: 20 Petabytes total usable capacity<br>- **Performance**: 980 Gigabytes per second maximum performance :contentReference[oaicite:1]{index=1}             |
-| **Filesystems** | - **Total Capacity**: Approximately 90 Petabytes<br>- **Global Lustre Filesystems**: Five, with an aggregate I/O performance of around 450 GB/second<br>- **IO Intensive Platform**: Dedicated filesystem using 576 2-Terabyte NVMe drives, achieving around 960 Gigabytes per second cumulative performance :contentReference[oaicite:2]{index=2} |
-| **Archival Storage** | - **Capacity**: Over 70 Petabytes of archival project data stored in state-of-the-art magnetic tape libraries :contentReference[oaicite:3]{index=3} |
-| **Networking** | - **Interconnect**: 100-gigabit network links connecting high-performance computing with high-performance data :contentReference[oaicite:4]{index=4} |
-| **Cloud Systems** | - **Nirin Cloud**: High-availability and high-capacity zone integrated with Gadi and NCI's multi-Petabyte national research data collections, comprising Intel Broadwell and Sandy Bridge processors and NVIDIA K80 GPUs :contentReference[oaicite:5]{index=5} |
+| **Compute**   | - **Nodes**: 4,962<br>- **Processors**: Intel Sapphire Rapids, Cascade Lake, Skylake, and Broadwell CPUs<br>- **GPUs**: NVIDIA V100 and DGX A100 GPUs<br>- **Performance**: Over 10 petaflops of peak performance  |
+| **Storage**   | - **Disk Drives**: 7,200 4-Terabyte hard disks in 120 NetApp disk arrays<br>- **Capacity**: 20 Petabytes total usable capacity<br>- **Performance**: 980 Gigabytes per second maximum performance              |
+| **Filesystems** | - **Total Capacity**: Approximately 90 Petabytes<br>- **Global Lustre Filesystems**: Five, with an aggregate I/O performance of around 450 GB/second<br>- **IO Intensive Platform**: Dedicated filesystem using 576 2-Terabyte NVMe drives, achieving around 960 Gigabytes per second cumulative performance  |
+| **Archival Storage** | - **Capacity**: Over 70 Petabytes of archival project data stored in state-of-the-art magnetic tape libraries  |
+| **Networking** | - **Interconnect**: 100-gigabit network links connecting high-performance computing with high-performance data  |
+| **Cloud Systems** | - **Nirin Cloud**: High-availability and high-capacity zone integrated with Gadi and NCI's multi-Petabyte national research data collections, comprising Intel Broadwell and Sandy Bridge processors and NVIDIA K80 GPUs  |
 
 
 ## Conditions of use
@@ -43,7 +43,7 @@ All users must acknowledge and understand that a breach of these will result in 
 
 These nodes are the gateway for Gadi for users to access the resources of the HPC cluster. It is how you log in to Gadi, move around the filesystem, submit jobs to the scheduler, and do small tasks like view the contents of a file.
 
-When you first `ssh` into Gadi, you are working on a login node. These are distinct from the compute nodes and are *not* designed for running compute tasks or transferring data. 
+When you first [log into Gadi using ssh](./01_setup.html#install-visual-studio-code), you are working on a login node. These are distinct from the compute nodes and are *not* designed for running compute tasks or transferring data. 
 
 While you can run simple commands on the login nodes on Gadi, commands are throttled. This means they execute more slowly than on the compute nodes and are automatically killed if they exceed CPU, memory and time restrictions that are in place. This is to ensure the login nodes are not over-loaded and remain responsive for all users. As such, all complex or resource-intensive tasks must be submitted to the job scheduler for execution on the cluster nodes.  
 
@@ -101,7 +101,7 @@ If you are unsure if your project has a `/g/data` allocation, you can check by r
 cd /g/data/<project>
 ```
 
-Scratch is provided at no additional cost to users, however `g/data` has a cost per TB involved. This cost is covered by the [NCI-Sydney Scheme](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme) for projects that have a justified need of it. To request `/g/data` storage space, please request this via an email to `nci-sydney.scheme@sydney.edu.au` with a brief justification. 
+Scratch is provided at no additional cost to users, however `/g/data` has a cost per TB involved. This cost is covered by the [NCI-Sydney Scheme](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme) for projects that have a justified need of it. To request `/g/data` storage space, please request this via an email to `nci-sydney.scheme@sydney.edu.au` with a brief justification. 
 
 
 
@@ -109,4 +109,4 @@ Scratch is provided at no additional cost to users, however `g/data` has a cost 
 
 This directory is accessible to all Gadi users. It is a read-only system containing centrally installed software applications and their module files. 
 
-Please visit the [software](./11_software) section for more information on global apps and alternatives. 
+Please visit the [Software section](./11_software.qmd) for more information on global apps and alternatives. 

@@ -9,3 +9,4 @@ __pycache__/
 .RDataTmp
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
+docs
