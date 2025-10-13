@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-59898bd1c6b9d2bb783127feaa000c76.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-197d358ac608738936fe95606caeaf7d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-1c9a4b60c030b215843c54b37b3b586f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -146,7 +147,8 @@ cookieconsent.run({
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../fig/usyd-logo.png" alt="" class="navbar-logo">
+    <img src="../fig/usyd-logo.png" alt="" class="navbar-logo light-content">
+    <img src="../fig/usyd-logo.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">USyd NCI Gadi User Guide</span>
@@ -175,6 +177,10 @@ cookieconsent.run({
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
@@ -392,28 +398,28 @@ cookieconsent.run({
 </ul>
 <p>From here we can determine that the CPU:mem ratio is 48:192 = 1:4 (1 CPU per 4 GB mem). By requesting 12 GB mem for our 1 CPU job, we are using 3 times as much mem per CPU as the ratio governs for this queue. So, we are likewise charged 3 times as much, or in other words, we are charged based on the MEMORY rather than the CPU.</p>
 <p>The equation for every job run on Gadi is charged using the formula:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>SU = Queue Charge Rate  ✕  Max (NCPUs, Memory Proportion)  ✕  Walltime Used (Hours)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>SU = Queue Charge Rate  ✕  Max (NCPUs, Memory Proportion)  ✕  Walltime Used (Hours)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For our example, this expands to:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>SU = 2 charge rate X 3 memory proportion X 1 hour</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>SU = 6</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>SU = 2 charge rate X 3 memory proportion X 1 hour</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>SU = 6</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <section id="challenge-1-calculate-this-jobs-su-cost" class="level4">
 <h4 class="anchored" data-anchor-id="challenge-1-calculate-this-jobs-su-cost">Challenge 1: calculate this job’s SU cost</h4>
 <p>Use the <a href="https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...">queue limits</a> and <a href="https://opus.nci.org.au/spaces/Help/pages/236880996/Queue+Structure+on+Gadi...">queue structure</a> pages to help find the answer.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P MYPROJECT</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P MYPROJECT</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=02:00:00</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=4</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=48GB</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q normal</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -W umask=022</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l storage=gdata/MYPROJECT</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l storage=gdata/MYPROJECT</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Answer
+<span class="screen-reader-only">Note</span>Answer
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -422,8 +428,8 @@ Answer
 <p>First, we need to calculate the CPU:mem ratio of our job, which in this case is 4:48 = 1:12, ie 12 GB mem requested per CPU requested.</p>
 <p>Next, we need to check that against the queue hardware: These nodes have 48 CPU and 192 GB RAM. So the CPU:mem ratio for this queue is 48:192 = 1:4 ie 4 GB RAM per CPU. By requesting 12 GB mem per CPU, we have requested <em>3 times as much mem per CPU</em> than the queue hardware provides for, so we will be charged based off the mem not the CPU, ie instead of being charged based on 4 CPU, we will be charged for the CPUs assigned to 48 GB RAM which is 12 (48 GB mem requested divided by the queue mem per CPU value of 4).</p>
 <p>Finally, check the charge rate for the <code>normal</code> queue, which is 2 SU per resource hour.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>SU = 2 charge rate X 12 memory proportion X 2 hour</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>SU = 48</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>SU = 2 charge rate X 12 memory proportion X 2 hour</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>SU = 48</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -431,21 +437,21 @@ Answer
 <section id="challenge-2-calculate-this-jobs-su-cost" class="level4">
 <h4 class="anchored" data-anchor-id="challenge-2-calculate-this-jobs-su-cost">Challenge 2: calculate this job’s SU cost</h4>
 <p>Use the <a href="https://opus.nci.org.au/spaces/Help/pages/236881198/Queue+Limits...">queue limits</a> and <a href="https://opus.nci.org.au/spaces/Help/pages/236880996/Queue+Structure+on+Gadi...">queue structure</a> pages to help find the answer.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P MYPROJECT</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P MYPROJECT</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=04:00:00</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=280</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=2520GB</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q normalbw</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -W umask=022</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l storage=gdata/MYPROJECT</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l storage=gdata/MYPROJECT</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Answer
+<span class="screen-reader-only">Note</span>Answer
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -454,9 +460,9 @@ Answer
 <p>First, we need to calculate the CPU:mem ratio of our job, which in this case is 280:2520 = 1:9, ie 9 GB mem per CPU.</p>
 <p>Next, we need to check that against the queue hardware: The <code>broadwell</code> queues (except express) have a charge rate of 1.25 SU per resource hour. The directives have requested the <code>normalbw</code> or “normal Broadwell” queue, which has some nodes with 128 GB RAM and some nodes with 256 GB RAM. There is no difference in the charge rate for these nodes, and jobs are placed on either node type depending on the memory per CPU requested and resource availability at the time. These nodes have 28 CPU per node. So the CPU:mem rato for this queue is <em>either</em> 28:128 <em>or</em> 28:256. Since the 256 GB nodes are charged the same as the 128 GB nodes, we go with the higher ratio, 28:256 = 1:9.14, ie 9.14 GB mem per CPU.</p>
 <p>Since we requested a CPU:mem ratio of 280:2520 = 1:9, we have requested <em>less mem per CPU than the queue allows per CPU</em> so our charge rate will be based on CPU not mem.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>SU = 1.25 charge rate X 280 CPU X 4 hour</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>SU = 1.25 charge rate X 280 CPU X 4 hour</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>SU = 1400</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>KSU = 1.4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>KSU = 1.4</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -466,7 +472,7 @@ Answer
 <h3 class="anchored" data-anchor-id="check-your-available-su">Check your available SU</h3>
 <p>Once you have established your job script/s and calculated your SU cost, you should check that you have sufficient SU budget to run the job.</p>
 <p>Use the below command, replacing the <code>&lt;nci-project-id&gt;</code> with your NCI project code:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nci_account</span> <span class="at">-P</span> <span class="op">&lt;</span>nci-project-id<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nci_account</span> <span class="at">-P</span> <span class="op">&lt;</span>nci-project-id<span class="op">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>In the below screenshot, you can see that project <code>qc03</code> has used 3.24 SU of its 1 KSU allocation (Grant). There are no SU reserved (<strong>reserved SU</strong> are SU assigned to jobs currently running or in queue) and there are 996.76 SU still available for the rest of the quarter.</p>
 <p><img src="../fig/nci_account-P-su.png" class="img-fluid"></p>
 <p>In order to run a job under this project code, it would need to have a computed job cost of less than or equal to 996.76 SU.</p>
@@ -474,7 +480,7 @@ Answer
 <p><img src="../fig/gadi-job-insufficient-su.png" class="img-fluid"></p>
 <p>This job requires 19.2 KSU yet we know only 966 SU is available to the project. To run this job, you would need to <a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme#Additional-Service-Unit-Requests">obtain more KSU</a>.</p>
 <p>If the amount by which your job exceeds your current SU budget is small, you may consider reducing the requested resources to fit under the current budget. You can do this by either killing the job (<code>qdel &lt;jobID&gt;</code>), adjusting the resource requests then resubmitting, <em>or</em> use the <code>qalter</code> PBS command to reduce the resource requests of the held job via the command line. For example, to reduce CPU, mem and walltime:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qalter</span> <span class="at">-l</span> walltime=02:00:00 <span class="at">-l</span> ncpus=48 <span class="at">-l</span> mem=190GB <span class="op">&lt;</span>jobid<span class="op">&gt;</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qalter</span> <span class="at">-l</span> walltime=02:00:00 <span class="at">-l</span> ncpus=48 <span class="at">-l</span> mem=190GB <span class="op">&lt;</span>jobid<span class="op">&gt;</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="completed-job-su-charged" class="level3">
 <h3 class="anchored" data-anchor-id="completed-job-su-charged">Completed job SU charged</h3>
@@ -482,8 +488,8 @@ Answer
 <p>The charged is based off the <strong>walltime used</strong>, not the walltime requested.</p>
 <p><img src="../fig/gadi-pbs-olog.png" class="img-fluid"></p>
 <p>In the above example, the job cost 23.94 SU. The job queue is not reported in the log, however this information is of course included in the directives of the job script. This job was run on <code>normalbw</code> which has a charge rate of 1.25 SU, and CPU:mem ratio of 1:9.14. Since the job requested 7 CPU and 63 GB RAM, this is below the mem:CPU ratio so the charge is based off CPU not memory:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>SU = 1.25 charge rate X 7 CPU X 2.74 hours</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>SU = 23.94</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>SU = 1.25 charge rate X 7 CPU X 2.74 hours</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>SU = 23.94</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="disk" class="level2">
@@ -511,7 +517,7 @@ Answer
 <p>This project has been allocated (iAllocation) 4.5 million inodes in scratch, and has used (iUsed) 1.59 million inodes. With ~ 3 million inodes spare, there is plenty to continue work.</p>
 <p>The <code>lquota</code> command shown previously also reports the inode usage, allocation and limit for all projects of which you are a member. The inode limit functions the same as the disk limit, whereby you can exceed the allocation/quota up to the inode limit, you cannot exceed the inode limit, and you cannot submit new jobs until the project is back under the inode allocation/quota.</p>
 <p>If you would like to determine the total inode usage of a specific directory and its subdirectories, run this command from within that directory:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> d <span class="kw">in</span> <span class="kw">`</span><span class="fu">find</span> <span class="at">-maxdepth</span> 1 <span class="at">-type</span> d <span class="kw">|</span><span class="fu">cut</span> <span class="at">-d\/</span> <span class="at">-f2</span> <span class="kw">|</span><span class="fu">sort</span><span class="kw">`;</span> <span class="cf">do</span> <span class="va">c</span><span class="op">=</span><span class="va">$(</span><span class="fu">find</span> <span class="va">$d</span> <span class="kw">|</span><span class="fu">wc</span> <span class="at">-l</span><span class="va">)</span> <span class="kw">;</span> <span class="bu">printf</span> <span class="st">"</span><span class="va">$c</span><span class="st">\t\t- </span><span class="va">$d</span><span class="st">\n"</span> <span class="kw">;</span> <span class="cf">done</span> <span class="kw">;</span> <span class="bu">printf</span> <span class="st">"Total: \t\t</span><span class="va">$(</span><span class="fu">find</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span><span class="va">)</span><span class="st">\n"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> d <span class="kw">in</span> <span class="kw">`</span><span class="fu">find</span> <span class="at">-maxdepth</span> 1 <span class="at">-type</span> d <span class="kw">|</span><span class="fu">cut</span> <span class="at">-d\/</span> <span class="at">-f2</span> <span class="kw">|</span><span class="fu">sort</span><span class="kw">`;</span> <span class="cf">do</span> <span class="va">c</span><span class="op">=</span><span class="va">$(</span><span class="fu">find</span> <span class="va">$d</span> <span class="kw">|</span><span class="fu">wc</span> <span class="at">-l</span><span class="va">)</span> <span class="kw">;</span> <span class="bu">printf</span> <span class="st">"</span><span class="va">$c</span><span class="st">\t\t- </span><span class="va">$d</span><span class="st">\n"</span> <span class="kw">;</span> <span class="cf">done</span> <span class="kw">;</span> <span class="bu">printf</span> <span class="st">"Total: \t\t</span><span class="va">$(</span><span class="fu">find</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span><span class="va">)</span><span class="st">\n"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="disk-and-inode-usage-on-home" class="level2">
 <h2 class="anchored" data-anchor-id="disk-and-inode-usage-on-home">Disk and inode usage on /home</h2>
@@ -589,13 +595,14 @@ Answer
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

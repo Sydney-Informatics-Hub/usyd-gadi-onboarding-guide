@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-59898bd1c6b9d2bb783127feaa000c76.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-197d358ac608738936fe95606caeaf7d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-1c9a4b60c030b215843c54b37b3b586f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -146,7 +147,8 @@ cookieconsent.run({
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../fig/usyd-logo.png" alt="" class="navbar-logo">
+    <img src="../fig/usyd-logo.png" alt="" class="navbar-logo light-content">
+    <img src="../fig/usyd-logo.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">USyd NCI Gadi User Guide</span>
@@ -175,6 +177,10 @@ cookieconsent.run({
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
@@ -443,7 +449,7 @@ cookieconsent.run({
 <h3 class="anchored" data-anchor-id="home"><code>$HOME</code></h3>
 <p>When you first log in to Gadi, you’ll be placed in your personal $HOME directory (i.e.&nbsp;<code>/home/555/aa1234</code>). You are the only person who can access this directory. <strong>No work</strong> should be done in here due to the strict 10 GB storage limit, but you may wish to install things like custom R or Python libraries here. It is backed up.</p>
 <p>You can navigate back here at any point if required by running:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="scratch" class="level3">
 <h3 class="anchored" data-anchor-id="scratch"><code>/scratch</code></h3>
@@ -451,13 +457,13 @@ cookieconsent.run({
 <p>Visit the <a href="https://opus.nci.org.au/spaces/Help/pages/156434436/Gadi+scratch+File+Management">NCI scratch file management page</a> for details on the purge policy and how to recover files from ‘quarantine’.</p>
 <p>Scratch will be <code>/scratch/&lt;nci-project-id&gt;</code>. Each member of a project will have read/write permissions for this parent directory, as well as their <code>/scratch/&lt;nci-project-id&gt;/&lt;nci-user-id&gt;</code> directory.</p>
 <p>You can navigate to your <code>/scratch</code> space by running:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /scratch/<span class="op">&lt;</span>project<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /scratch/<span class="op">&lt;</span>project<span class="op">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="gdata" class="level3">
 <h3 class="anchored" data-anchor-id="gdata"><code>/g/data</code></h3>
 <p>Some Gadi projects have a dedicated <code>/g/data</code> allocation that is only accessible to members of that group. This in intended for long-term large data storage, for example large reference files or databases that are regularly required for your compute jobs. Compute node jobs can read <code>/g/data</code> so this is an ideal place to store those files so that they are not subject to <code>/scratch</code> purge. Files that are on <code>/g/data</code> for this kind of use should also have a copy on RDS, since <code>/g/data/</code> is <strong>not backed up</strong>.</p>
 <p>If you are unsure if your project has a <code>/g/data</code> allocation, you can check by running:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /g/data/<span class="op">&lt;</span>project<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /g/data/<span class="op">&lt;</span>project<span class="op">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Scratch is provided at no additional cost to users, however <code>/g/data</code> has a cost per TB involved. This cost is covered by the <a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme">NCI-Sydney Scheme</a> for projects that have a justified need of it. To request <code>/g/data</code> storage space, please request this via an email to <code>nci-sydney.scheme@sydney.edu.au</code> with a brief justification.</p>
 </section>
 <section id="apps" class="level3">
@@ -521,13 +527,14 @@ cookieconsent.run({
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

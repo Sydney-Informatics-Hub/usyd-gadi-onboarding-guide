@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-59898bd1c6b9d2bb783127feaa000c76.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-197d358ac608738936fe95606caeaf7d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-1c9a4b60c030b215843c54b37b3b586f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -146,7 +147,8 @@ cookieconsent.run({
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../fig/usyd-logo.png" alt="" class="navbar-logo">
+    <img src="../fig/usyd-logo.png" alt="" class="navbar-logo light-content">
+    <img src="../fig/usyd-logo.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">USyd NCI Gadi User Guide</span>
@@ -175,6 +177,10 @@ cookieconsent.run({
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
@@ -369,7 +375,7 @@ cookieconsent.run({
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-ARE: fast access with limited customisation
+<span class="screen-reader-only">Note</span>ARE: fast access with limited customisation
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -387,7 +393,7 @@ ARE: fast access with limited customisation
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-VScode: customised configuration with an integrated terminal
+<span class="screen-reader-only">Note</span>VScode: customised configuration with an integrated terminal
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -409,9 +415,9 @@ VScode: customised configuration with an integrated terminal
 </ol>
 <p><img src="https://user-images.githubusercontent.com/73086054/224881365-2517157c-7bf9-4bd3-ba98-c9d7e3653674.png" class="img-fluid"></p>
 <p>Connect to your instance with VS code by adding the host details to your <code>.ssh</code> config file:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Host Gadi</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Host Gadi</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  HostName gadi.nci.org.au</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  User &lt;your-nci-username&gt;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  User &lt;your-nci-username&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ol start="6" type="1">
 <li>Type <code>Ctrl</code>+<code>Shift</code>+<code>P</code> and select <code>Remote-SSH: Connect to Host</code> and <code>Gadi</code></li>
 <li>When prompted, select <code>Linux</code> as the platform of the remote host from the dropdown menu</li>
@@ -445,7 +451,7 @@ VScode: customised configuration with an integrated terminal
 <li>Your password.</li>
 </ul>
 <p>Then typing the following command into your terminal:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ssh &lt;username&gt;@gadi.nci.org.au</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ssh &lt;username&gt;@gadi.nci.org.au</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>and provide your password when prompted.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -453,7 +459,7 @@ VScode: customised configuration with an integrated terminal
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="emoji" data-emoji="bangbang">‼️</span> Pay Attention <span class="emoji" data-emoji="bangbang">‼️</span>
+<span class="screen-reader-only">Warning</span><span class="emoji" data-emoji="bangbang">‼️</span> Pay Attention <span class="emoji" data-emoji="bangbang">‼️</span>
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -525,13 +531,14 @@ VScode: customised configuration with an integrated terminal
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-59898bd1c6b9d2bb783127feaa000c76.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-197d358ac608738936fe95606caeaf7d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-1c9a4b60c030b215843c54b37b3b586f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -146,7 +147,8 @@ cookieconsent.run({
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../fig/usyd-logo.png" alt="" class="navbar-logo">
+    <img src="../fig/usyd-logo.png" alt="" class="navbar-logo light-content">
+    <img src="../fig/usyd-logo.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">USyd NCI Gadi User Guide</span>
@@ -175,6 +177,10 @@ cookieconsent.run({
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
@@ -414,11 +420,11 @@ cookieconsent.run({
 <h2 class="anchored" data-anchor-id="cpu-and-memory-efficiency">CPU and memory efficiency</h2>
 <p>Efficiency can refer to <strong>CPU efficiency</strong> or <strong>memory efficiency</strong>.</p>
 <p>CPU efficiency can be calculated with the formula:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>cpu_e = cputime / (walltime X cpus_used)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>cpu_e = cputime / (walltime X cpus_used)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>A CPU efficiency value of 1 indicates perfect CPU utilisation for the duration of the job. This is often achieved for single-core jobs, however typically, as a tool or code is run with multiple threads or at scale across multiple nodes, the CPU efficiency declines. Aim to maintain your workflows above 80% where possible.</p>
 <p><strong>NCI monitors CPU utilisation</strong> and repeated execution of jobs with very poor CPU efficiency may be met with an email from the NCI technical team.</p>
 <p>A job with extremely low CPU efficiency may be permissible if it has <strong>high memory efficiency</strong>. Memory efficiency can be calculated with the formula:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mem_e = max_mem_used / mem_requested</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mem_e = max_mem_used / mem_requested</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Below is a Gadi job log. All the details required to calculate CPU and memory efficiency are contained within this log:</p>
 <p><img src="../fig/gadi-pbs-olog.png" class="img-fluid"></p>
 <section id="challenge-calculate-cpu-efficiency" class="level3">
@@ -426,21 +432,21 @@ cookieconsent.run({
 <p>From the above job log, use the formula <code>cpu_e = cputime / (walltime X cpus_used)</code> to calculate this job’s CPU efficiency.</p>
 <p>Do you think this job efficiently utilised CPU?</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Answer
+<span class="screen-reader-only">Note</span>Answer
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>The below answer converts CPU time and walltime to minutes. The same result is achieved if you use hours or seconds, as long as you use the same unit across both values.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cpu_e = cputime / (walltime X cpus_used)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cpu_e = cputime / (walltime X cpus_used)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>cpu_e = 177.55 / (164.15 X 7)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>cpu_e = 0.15</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>cpu_e = 0.15</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This job <em>did not</em> make efficient use of the requested 7 CPU.</p>
 </div>
 </div>
@@ -451,20 +457,20 @@ Answer
 <p>From the above job log, use the formula <code>mem_e = max_mem_used / mem_requested</code> to calculate this job’s memory efficiency.</p>
 <p>Do you think this job efficiently utilised memory?</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Answer
+<span class="screen-reader-only">Note</span>Answer
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb4"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mem_e = max_mem_used / mem_requested</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mem_e = max_mem_used / mem_requested</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>mem_e = 51.14 / 63</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>mem_e = 0.81</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>mem_e = 0.81</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This job <em>did</em> make efficient use of the requested 63 GB memory.</p>
 </div>
 </div>
@@ -484,11 +490,11 @@ Answer
 <p>Consider the below job log from Artemis:</p>
 <p><img src="../fig/artemis-usage-log.png" class="img-fluid"></p>
 <p>This is a fairly long-running job with high CPU and memory utilisation. We could run this job with reasonable confidence on Gadi by applying the same resource requests:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P MYPROJECT</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P MYPROJECT</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=24:00:00</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=16</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=96GB</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q normal</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q normal</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Yet this requests a CPU:mem ratio of 16:96 = 6, which as we have learnt from the section on <a href="../notebooks/06_accounting.html">accounting</a> is higher than the CPU:mem ratio on the normal queue of 4, so our job would be charged double per resource hour.</p>
 <p>How else could we structure this to ensure sufficient CPU, memory, and minimise SU?</p>
 <ul>
@@ -533,13 +539,13 @@ Answer
 <p>When subsetting, it’s important to finish off benchmarking by completing one full (not subset) run at the best chosen compute resources, to ensure that the benchmark results are consistent when a large input is provided.</p>
 <p>It is also important to take a meaningful subset. The minimum size may not always be the best; aim to have your jobs run for at least 5 minutes. Starting a job and its various processes has an overhead, and making the subset data too small can cause the compute resource usage summary to be affected by these background processes. For this example, the full input was 433.4 million queries. For a target run time of 5 minutes, this equates to approximately 2 million queries. However, I am so optimistic about the execution speed on Gadi that I will hazard a guess that 2 million queries will be <em>too fast</em> for a decent preliminary benchmark run and we should use 10 million :-)</p>
 <p>After subsetting the raw data to the target 2 million entries, next set up the template benchmarking scripts. Working on Gadi, make a directory for the tool to be benchmarked, clone the repository, and rename the scripts</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /scratch/<span class="op">&lt;</span>nci-project-id<span class="op">&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /scratch/<span class="op">&lt;</span>nci-project-id<span class="op">&gt;</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> benchmark-bwa</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> benchmark-bwa/</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:Sydney-Informatics-Hub/Gadi-benchmarking.git</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> Gadi-benchmarking/</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> tool_benchmark_run.sh bwa_benchmark_run.sh</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> tool_benchmark.pbs bwa_benchmark.pbs </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> tool_benchmark.pbs bwa_benchmark.pbs </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Next, edit <code>bwa_benchmark_run.sh</code> which is a wrapper script to launch multiple PBS jobs for the same compute task at different resources. Update the run prefix, tool name and tool short name:</p>
 <p><img src="../fig/benchmark-run.png" class="img-fluid"></p>
 <p>Then, review the pre-set queue variables, and determine which CPU values you want to run on. For this case we are interested in the <code>normal</code> and <code>normalbw</code> queues, as the CPU:mem ratio on <code>hugemem</code> does not seem warranted by our prior runs on Artemis. It’s unlikely that the job will run on low CPU values, given the mem usage of 96 GB on Artemis, so adapt the <code>NCPUS</code> arrays for the <code>normal</code> and <code>normalbw</code> code chunks to exclude 1, 2 and 4 CPU for <code>normal</code> and 1 CPU for <code>normalbw</code>:</p>
@@ -548,7 +554,7 @@ Answer
 <p><img src="../fig/benchmark-command.png" class="img-fluid"></p>
 <p>Make sure to <strong>check for the required software on Gadi</strong>. See <a href="../notebooks/11_software.html">software</a> for options when your tools/versions aren’t globally installed on Gadi.</p>
 <p>After making the required changes to this script, the completed <code>bwa_benchmark.pbs</code> workflow section appears as below. Note the use of <code>${ncpus}</code> for the BWA and samtools thread parameter values, and the use of <code>${outdir}</code> and <code>${outfile_prefix}</code> to name the outputs. These are specified within the run script, and are set up so you can run multiple benchmarks simultaneously without I/O clashes. Also note the slight adjustment to module versions and input file paths, as well as the lack of job array here compared to the Artemis script:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">################################################</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">################################################</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">### YOUR SCRIPT HERE </span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">################################################</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -577,15 +583,15 @@ Answer
 <span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="co">################################################</span></span>
 <span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="re">END</span><span class="co"> YOUR SCRIPT</span></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co">################################################</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co">################################################</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Save, then launch the set of benchmarks on the <code>normal</code> queue and the <code>normalbw</code> queue:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> bwa_benchmark_run.sh normal</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> bwa_benchmark_run.sh normalbw</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> bwa_benchmark_run.sh normal</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> bwa_benchmark_run.sh normalbw</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This has submitted 7 identical compute tasks with different CPU, memory and queue resources:</p>
 <p><img src="../fig/benchmark-submit.png" class="img-fluid"></p>
 <p>Monitor with qstat, then when all jobs have completed, check the usage summary with the <a href="https://github.com/Sydney-Informatics-Hub/HPC_usage_reports/blob/master/Scripts/gadi_usage_report.pl">SIH Gadi job usage reporting tool</a>:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> PBS_logs/bwa/</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">perl</span> gadi_usage_report_v1.1.pl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> PBS_logs/bwa/</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">perl</span> gadi_usage_report_v1.1.pl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This provides comprehensive job reporting metrics which can be copied to Excel for plotting or review. Extracting a few key columns from the table, and extrapolating walltime and SU to the full-sized sample:</p>
 <p><img src="../fig/benchmark-table.png" class="img-fluid"></p>
 <p><strong>Which resources would you choose when porting this Artemis job to Gadi?</strong></p>
@@ -675,13 +681,14 @@ Answer
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

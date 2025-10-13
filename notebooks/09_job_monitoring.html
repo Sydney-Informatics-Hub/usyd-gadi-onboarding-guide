@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-59898bd1c6b9d2bb783127feaa000c76.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-197d358ac608738936fe95606caeaf7d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-1c9a4b60c030b215843c54b37b3b586f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -146,7 +147,8 @@ cookieconsent.run({
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../fig/usyd-logo.png" alt="" class="navbar-logo">
+    <img src="../fig/usyd-logo.png" alt="" class="navbar-logo light-content">
+    <img src="../fig/usyd-logo.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">USyd NCI Gadi User Guide</span>
@@ -175,6 +177,10 @@ cookieconsent.run({
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
@@ -323,8 +329,12 @@ cookieconsent.run({
   <ul>
   <li><a href="#job-monitoring" id="toc-job-monitoring" class="nav-link active" data-scroll-target="#job-monitoring">Job monitoring</a></li>
   <li><a href="#job-ids" id="toc-job-ids" class="nav-link" data-scroll-target="#job-ids">Job IDs</a></li>
-  <li><a href="#monitoring-resource-usage-in-real-time" id="toc-monitoring-resource-usage-in-real-time" class="nav-link" data-scroll-target="#monitoring-resource-usage-in-real-time">Monitoring resource usage in real time</a></li>
   <li><a href="#job-logs" id="toc-job-logs" class="nav-link" data-scroll-target="#job-logs">Job logs</a></li>
+  <li><a href="#monitoring-resource-usage-in-real-time" id="toc-monitoring-resource-usage-in-real-time" class="nav-link" data-scroll-target="#monitoring-resource-usage-in-real-time">Monitoring resource usage in real time</a>
+  <ul class="collapse">
+  <li><a href="#monitoring-cpu-jobs" id="toc-monitoring-cpu-jobs" class="nav-link" data-scroll-target="#monitoring-cpu-jobs">Monitoring CPU jobs</a></li>
+  <li><a href="#monitoring-gpu-jobs" id="toc-monitoring-gpu-jobs" class="nav-link" data-scroll-target="#monitoring-gpu-jobs">Monitoring GPU jobs</a></li>
+  </ul></li>
   <li><a href="#monitoring-job-disk-usage" id="toc-monitoring-job-disk-usage" class="nav-link" data-scroll-target="#monitoring-job-disk-usage">Monitoring job disk usage</a></li>
   </ul>
 </nav>
@@ -361,13 +371,53 @@ cookieconsent.run({
 <p>Like Artemis jobs, jobs submitted to Gadi are given a jobID. This is shown to you as soon as it has been accepted, for example <code>135615373.gadi-pbs</code>.</p>
 <p>When querying the job with <code>qstat</code>, you can use the full ID, or just the string of numbers (omit the <code>.gadi.pbs</code>).</p>
 <p>For example, the below two commands are equivalent:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-xf</span> 135615373.gadi-pbs</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-xf</span> 135615373</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-xf</span> 135615373.gadi-pbs</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-xf</span> 135615373</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If you have multiple jobs running, you do not need to check them individually with the job ID. You can check the status of multiple jobs using your NCI user ID:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-u</span> <span class="op">&lt;</span>nci-user-id<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-u</span> <span class="op">&lt;</span>nci-user-id<span class="op">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="job-logs" class="level2">
+<h2 class="anchored" data-anchor-id="job-logs">Job logs</h2>
+<p>By default, the PBS job logs will be created in the directory from which the <code>qsub</code> command was entered, and combine the <code>job name</code> and the <code>job ID</code>.</p>
+<p>For example, a job with <code>#PBS -N convert</code> and job ID <code>133703660</code> will have standard output and resource usage written to <code>convert.o133703660</code> and standard error written to <code>convert.e133703660</code>.</p>
+<p>This differs slightly to Artemis, which has the same default filepath behaviour except the standard output is sent to the <job-name>.o<job-id> and the resource usage is sent to <job-name>.o<job-id>_usage.</job-id></job-name></job-id></job-name></p>
+<p>The Gadi <code>.o</code> file has the resource usage at the end of the log making it easy to view a quick summary with the <code>tail</code> command:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> tail <span class="at">-n</span> 11 convert.o133703660 </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The output should look similar to:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>                  Resource Usage on 2025-02-05 16:16:10:</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>   Job Id:             133703660.gadi-pbs</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>   Project:            aa00</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>   Exit Status:        0</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>   Service Units:      23.94</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>   NCPUs Requested:    7                      NCPUs Used: 7               </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                                           CPU Time Used: 02:57:33        </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>   Memory Requested:   63.0GB                Memory Used: 51.14GB         </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>   Walltime requested: 08:00:00            Walltime Used: 02:44:09        </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>   JobFS requested:    100.0MB                JobFS used: 0B              </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>======================================================================================</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If desired, you can change the default log filepaths with the <code>-o</code> and <code>-e</code> directives, for example:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -o ./logs/convert-fast5.o</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -e ./logs/convert-fast5.e</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This omits the job ID from being included in the log file name and sends the logs to a different directory.</p>
+<p>When a job is submitted to one of the Gadi GPU queues (<em>i.e.</em> <code>gpuvolta</code> and <code>dgxa100</code>), the job log will also contain information related to the GPU usage (lines 9-10):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb6-1"><a href="#cb6-1"></a>                  Resource Usage on 2025-10-03 11:05:11:</span>
+<span id="cb6-2"><a href="#cb6-2"></a>   Job Id:             151522816.gadi-pbs</span>
+<span id="cb6-3"><a href="#cb6-3"></a>   Project:            aa00</span>
+<span id="cb6-4"><a href="#cb6-4"></a>   Exit Status:        0</span>
+<span id="cb6-5"><a href="#cb6-5"></a>   Service Units:      0.96</span>
+<span id="cb6-6"><a href="#cb6-6"></a>   NCPUs Requested:    12                     NCPUs Used: 12</span>
+<span id="cb6-7"><a href="#cb6-7"></a>                                           CPU Time Used: 00:03:13</span>
+<span id="cb6-8"><a href="#cb6-8"></a>   Memory Requested:   95.0GB                Memory Used: 9.81GB</span>
+<span id="cb6-9"><a href="#cb6-9"></a>   NGPUs Requested:    1                 GPU Utilisation: 86%</span>
+<span id="cb6-10"><a href="#cb6-10"></a>                                         GPU Memory Used: 9.02GB</span>
+<span id="cb6-11"><a href="#cb6-11"></a>   Walltime requested: 00:10:00            Walltime Used: 00:01:36</span>
+<span id="cb6-12"><a href="#cb6-12"></a>   JobFS requested:    2.0GB                  JobFS used: 53.9KB</span>
+<span id="cb6-13"><a href="#cb6-13"></a>======================================================================================</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="monitoring-resource-usage-in-real-time" class="level2">
 <h2 class="anchored" data-anchor-id="monitoring-resource-usage-in-real-time">Monitoring resource usage in real time</h2>
+<section id="monitoring-cpu-jobs" class="level3">
+<h3 class="anchored" data-anchor-id="monitoring-cpu-jobs">Monitoring CPU jobs</h3>
 <p>To view the CPU and memory utilisation of a running job, you can use the bespoke <code>nqstat_anu</code> utility (ANU = The Australian National University, where Gadi is housed).</p>
 <p>By default, running the command <code>nqstat_anu</code> will report on all jobs for the current user under their <strong>default project</strong>, providing the following details:</p>
 <ul>
@@ -387,7 +437,7 @@ cookieconsent.run({
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Switching default project
+<span class="screen-reader-only">Tip</span>Switching default project
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -395,28 +445,28 @@ Switching default project
 </div>
 </div>
 </section>
-<section id="job-logs" class="level2">
-<h2 class="anchored" data-anchor-id="job-logs">Job logs</h2>
-<p>By default, the PBS job logs will be created in the directory from which the <code>qsub</code> command was entered, and combine the <code>job name</code> and the <code>job ID</code>.</p>
-<p>For example, a job with <code>#PBS -N convert</code> and job ID <code>133703660</code> will have standard output and resource usage written to <code>convert.o133703660</code> and standard error written to <code>convert.e133703660</code>.</p>
-<p>This differs slightly to Artemis, which has the same default filepath behaviour except the standard output is sent to the <job-name>.o<job-id> and the resource usage is sent to <job-name>.o<job-id>_usage.</job-id></job-name></job-id></job-name></p>
-<p>The Gadi <code>.o</code> file has the resource usage at the end of the log making it easy to view a quick summary with the <code>tail</code> command:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> tail <span class="at">-n</span> 11 convert.o133703660 </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                  <span class="ex">Resource</span> Usage on 2025-02-05 16:16:10:</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>   <span class="ex">Job</span> Id:             133703660.gadi-pbs</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>   <span class="ex">Project:</span>            aa00</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>   <span class="ex">Exit</span> Status:        0</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>   <span class="ex">Service</span> Units:      23.94</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>   <span class="ex">NCPUs</span> Requested:    7                      NCPUs Used: 7               </span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                                           <span class="ex">CPU</span> Time Used: 02:57:33        </span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>   <span class="ex">Memory</span> Requested:   63.0GB                Memory Used: 51.14GB         </span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>   <span class="ex">Walltime</span> requested: 08:00:00            Walltime Used: 02:44:09        </span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>   <span class="ex">JobFS</span> requested:    100.0MB                JobFS used: 0B              </span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="ex">======================================================================================</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>If desired, you can change the default log filepaths with the <code>-o</code> and <code>-e</code> directives, for example:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -o ./logs/convert-fast5.o</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -e ./logs/convert-fast5.e</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This omits the job ID from being included in the log file name and sends the logs to a different directory.</p>
+<section id="monitoring-gpu-jobs" class="level3">
+<h3 class="anchored" data-anchor-id="monitoring-gpu-jobs">Monitoring GPU jobs</h3>
+<p>NCI provides a useful utility called <code>gpustat</code> to monitor GPU utilisation. To access this tool, you need to first join the project <strong>dk92</strong> via MyNCI portal.</p>
+<p>Once your request has been approved, you can follow the instructions provided on the <a href="https://opus.nci.org.au/spaces/DAE/pages/164790536/Gpustat+-+Multinode+GPU+monitoring">NCI User Guide</a> to use <code>gpustat</code>. Please note that, while the <code>qstat</code> command accepts both the full and short formats of jobID, <code>gpustat-run</code> only takes the full ID string (<em>i.e.</em> including the <code>.gadi-pbs</code> part) to initialise the session.</p>
+<p>A help information will display on your terminal when <code>gpustat</code> executes successfully. This should include a command to run on your local machine, following the format of</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="at">-N</span> <span class="at">-L</span> <span class="op">&lt;</span>local port<span class="op">&gt;</span>:<span class="op">&lt;</span>Gadi GPU hostname<span class="op">&gt;</span>:<span class="op">&lt;</span>remote port<span class="op">&gt;</span> <span class="op">&lt;</span>your Gadi username<span class="op">&gt;</span>@gadi.nci.org.au</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>gpustat</code> leverages SSH port forwarding (also known as SSH tunneling) to securely tunnel network connections through an encrypted SSH session. This is achieved by running the SSH command on your <strong>local terminal</strong> with the <code>-L</code> flag enabled. For users who are working with a CLI tool (such as a Mac or Git terminal), you can simply copy the command and then execute it. It will appear hanging because all the command does is forwarding the port so you can access the information on your local machine.</p>
+<p>For GUI applications such as MobaXterm, you can create an SSH tunnel using its built-in SSH session manager:</p>
+<ol type="1">
+<li>Open MobaXterm and create a new SSH tunnel. <img src="../fig/mobaxterm-ssh-tunnel.png" class="img-fluid" alt="MobaXterm Tunneling"></li>
+<li>In the session settings, fill in the following information. <img src="../fig/mobaxterm-ssh-tunnel-setup.png" class="img-fluid" alt="Tunnel configurations"></li>
+</ol>
+<ul>
+<li><strong>Forwarded port</strong>: This is the local port number you will type in your browswer (<em>e.g.</em> 3000) to access to the monitoring dashboard. It does not have to be the same number as the remote port on Gadi (which changes everytime you rerun <code>gpustat-run</code>).</li>
+<li><strong>SSH server</strong>: This configures the SSH server information, including the server url (gadi.nci.org.au), your gadi username (<em>e.g.</em> jf1411), and the port number (default number for SSH connection is 22).</li>
+<li><strong>Remote server</strong>: This includes adding the GPU server hostname (<em>e.g.</em> gadi-gpu-v100-0095) as the “Remote server” and setting the “Remote port”. Such information can be both found in the <code>gpustat-run</code> output.</li>
+</ul>
+<ol start="3" type="1">
+<li>Click “Save” and then the “Start/stop” button to establish the tunnel.</li>
+</ol>
+<p>Once the tunnel is established, you can access the <code>gpustat</code> web page on your local machine, <em>i.e.</em> by opening <code>http://localhost:&lt;local port&gt;</code> in your browser.</p>
+</section>
 </section>
 <section id="monitoring-job-disk-usage" class="level2">
 <h2 class="anchored" data-anchor-id="monitoring-job-disk-usage">Monitoring job disk usage</h2>
@@ -477,13 +527,14 @@ Switching default project
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
