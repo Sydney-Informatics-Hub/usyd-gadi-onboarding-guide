@@ -32,29 +32,6 @@ If you have multiple jobs running, you do not need to check them individually wi
 qstat -u <nci-user-id>
 ```
 
-## Monitoring resource usage in real time
-
-To view the CPU and memory utilisation of a running job, you can use the bespoke `nqstat_anu` utility (ANU = The Australian National University, where Gadi is housed). 
-
-By default, running the command `nqstat_anu` will report on all jobs for the current user under their **default project**, providing the following details:
-
-- % CPU utilisation
-- walltime used
-- walltime requested
-- RSS
-- maximum memory used by the job
-- memory requested
-- CPUs requested
-- whether the job is queued or suspended
-
-Run `nqstat_anu -h` for more options.
-
-::: {.callout-tip}
-## Switching default project
-To change your default project, run `switchproj <nci-project-id>`, providing the ID of the project you want to switch to. If you don't know what your default project is, run the command `nci_account` with no arguments. Since `-P <nci-project-id>` is not supplied, it will report on your default project. 
-:::
-
-
 ## Job logs
 
 By default, the PBS job logs will be created in the directory from which the `qsub` command was entered, and combine the `job name` and the `job ID`. 
@@ -67,6 +44,9 @@ The Gadi `.o` file has the resource usage at the end of the log making it easy t
 
 ```bash
 $ tail -n 11 convert.o133703660 
+```
+The output should look similar to:
+```default
                   Resource Usage on 2025-02-05 16:16:10:
    Job Id:             133703660.gadi-pbs
    Project:            aa00
@@ -86,7 +66,74 @@ If desired, you can change the default log filepaths with the `-o` and `-e` dire
 #PBS -o ./logs/convert-fast5.o
 #PBS -e ./logs/convert-fast5.e
 ```
-This omits the job ID from being included in the log file name and sends the logs to a different directory. 
+This omits the job ID from being included in the log file name and sends the logs to a different directory.
+
+When a job is submitted to one of the Gadi GPU queues (*i.e.* `gpuvolta` and `dgxa100`), the job log will also contain information related to the GPU usage (lines 9-10):
+```{.default code-line-numbers="true"}
+                  Resource Usage on 2025-10-03 11:05:11:
+   Job Id:             151522816.gadi-pbs
+   Project:            aa00
+   Exit Status:        0
+   Service Units:      0.96
+   NCPUs Requested:    12                     NCPUs Used: 12
+                                           CPU Time Used: 00:03:13
+   Memory Requested:   95.0GB                Memory Used: 9.81GB
+   NGPUs Requested:    1                 GPU Utilisation: 86%
+                                         GPU Memory Used: 9.02GB
+   Walltime requested: 00:10:00            Walltime Used: 00:01:36
+   JobFS requested:    2.0GB                  JobFS used: 53.9KB
+======================================================================================
+```
+
+
+## Monitoring resource usage in real time
+### Monitoring CPU jobs
+
+To view the CPU and memory utilisation of a running job, you can use the bespoke `nqstat_anu` utility (ANU = The Australian National University, where Gadi is housed). 
+
+By default, running the command `nqstat_anu` will report on all jobs for the current user under their **default project**, providing the following details:
+
+- % CPU utilisation
+- walltime used
+- walltime requested
+- RSS
+- maximum memory used by the job
+- memory requested
+- CPUs requested
+- whether the job is queued or suspended
+
+Run `nqstat_anu -h` for more options.
+
+::: {.callout-tip}
+## Switching default project
+To change your default project, run `switchproj <nci-project-id>`, providing the ID of the project you want to switch to. If you don't know what your default project is, run the command `nci_account` with no arguments. Since `-P <nci-project-id>` is not supplied, it will report on your default project.
+:::
+
+### Monitoring GPU jobs
+NCI provides a useful utility called `gpustat` to monitor GPU utilisation. To access this tool, you need to first join the project **dk92** via MyNCI portal.
+
+Once your request has been approved, you can follow the instructions provided on the [NCI User Guide](https://opus.nci.org.au/spaces/DAE/pages/164790536/Gpustat+-+Multinode+GPU+monitoring) to use `gpustat`. Please note that, while the `qstat` command accepts both the full and short formats of jobID, `gpustat-run` only takes the full ID string (*i.e.* including the `.gadi-pbs` part) to initialise the session.
+
+A help information will display on your terminal when `gpustat` executes successfully. This should include a command to run on your local machine, following the format of
+```bash
+ssh -N -L <local port>:<Gadi GPU hostname>:<remote port> <your Gadi username>@gadi.nci.org.au
+```
+
+`gpustat` leverages SSH port forwarding (also known as SSH tunneling) to securely tunnel network connections through an encrypted SSH session. This is achieved by running the SSH command on your **local terminal** with the `-L` flag enabled. For users who are working with a CLI tool (such as a Mac or Git terminal), you can simply copy the command and then execute it. It will appear hanging because all the command does is forwarding the port so you can access the information on your local machine.
+
+For GUI applications such as MobaXterm, you can create an SSH tunnel using its built-in SSH session manager:
+
+1. Open MobaXterm and create a new SSH tunnel.
+![MobaXterm Tunneling](../fig/mobaxterm-ssh-tunnel.png)
+2. In the session settings, fill in the following information.
+![Tunnel configurations](../fig/mobaxterm-ssh-tunnel-setup.png)
+  - **Forwarded port**: This is the local port number you will type in your browswer (*e.g.* 3000) to access to the monitoring dashboard. It does not have to be the same number as the remote port on Gadi (which changes everytime you rerun `gpustat-run`).
+  - **SSH server**: This configures the SSH server information, including the server url (gadi.nci.org.au), your gadi username (*e.g.* jf1411), and the port number (default number for SSH connection is 22).
+  - **Remote server**: This includes adding the GPU server hostname (*e.g.* gadi-gpu-v100-0095) as the "Remote server" and setting the "Remote port". Such information can be both found in the `gpustat-run` output.
+3. Click "Save" and then the "Start/stop" button to establish the tunnel.
+
+Once the tunnel is established, you can access the `gpustat` web page on your local machine, *i.e.* by opening `http://localhost:<local port>` in your browser.
+
 
 ## Monitoring job disk usage
 
