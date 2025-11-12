@@ -183,6 +183,17 @@
     ]
   },
   {
+    "objectID": "notebooks/11_software.html#licensed-software",
+    "href": "notebooks/11_software.html#licensed-software",
+    "title": "Software options on Gadi",
+    "section": "Licensed software",
+    "text": "Licensed software\nThe University of Sydney licence server is connected to Gadi, allowing eligible users to run certain University‑licensed applications (e.g. MATLAB, ANSYS, and others) directly on the supercomputer.\nAccess to a licensed application requires that you first join the corresponding NCI licence (software) project. For detailed instructions related to a given piece of software, go to the NCI Help pages and search for your software there.\n\nLog in to MyNCI\nIn the left menu, choose “Projects & Groups”.\nSearch for the application name (e.g. “matlab”).\nRequest to join the relevant licence project (its name typically includes the software name and sometimes an organisational suffix, e.g. _usyd).\nWait for approval (normally &lt; 1 business day). You will receive an email when added.\n\nYou cannot check out a licence token in a job until your membership is approved.\n\nUsing a licence in a PBS script\nTwo things are generally required in your job script:\n\nA PBS directive requesting the licence resource: #PBS -l software=&lt;project_name&gt; so the scheduler accounts for licence availability.\nLoading both the application module (e.g. module load matlab) and any associated licence helper module (e.g. module load matlab_licence/usyd).\n\nBelow is a canonical matlab example; adapt the same pattern for other licensed applications by substituting the software project and module names.\n#!/bin/bash\n\n#PBS -P &lt;project_code&gt;\n#PBS -q normal\n#PBS -l walltime=02:00:00\n#PBS -l ncpus=48\n#PBS -l mem=190GB\n#PBS -l jobfs=400GB\n#PBS -l software=matlab_usyd   # licence project name\n#PBS -l wd\n\n# Always pin module versions for reproducibility\nmodule load matlab/R2019b\nmodule load matlab_licence/usyd   # verify exact helper module name\n\n# Run MATLAB headless; use semicolons to separate MATLAB commands\nmatlab -nodisplay -nosplash -r \"outputDir='${PBS_JOBFS}'; numberOfWorkers=${PBS_NCPUS}; mfile; quit\" &gt; \"${PBS_JOBID}.log\" 2&gt;&1\nTo confirm the correct helper module name (spelling can differ), run for example:\nmodule avail matlab | grep -i lic\n\n\nRunning AnsysEM tools on Gadi and connecting to the licence server\nWe have discovered that the AnsysEM tools do not respect the environment variables when selecting the licence server. Instead, they look for the licensing information in a file ~/.ansys_licensing/ansyslmd.ini.\nTo run AnsysEM tools you need to manually generate the ~/.ansys_licensing/ansyslmd.ini file with the following contents:\nSERVER=1055@ansys1.lic-ext.sydney.edu.au​​",
+    "crumbs": [
+      "Working on Gadi",
+      "Software"
+    ]
+  },
+  {
     "objectID": "notebooks/11_software.html#self-installed-tools",
     "href": "notebooks/11_software.html#self-installed-tools",
     "title": "Software options on Gadi",
