@@ -45,9 +45,66 @@ NCI provides a range of software groups and specialised environments for differe
 - [quantum computing](https://opus.nci.org.au/spaces/DAE/pages/146604211/Quantum+Computing)
 - [visualisation](https://opus.nci.org.au/spaces/DAE/pages/165610013/Visualisation?src=contextnavpagetreemode)
 
+## Licensed software
+
+The University of Sydney licence server is connected to Gadi, allowing eligible users to run certain University‑licensed applications (e.g. MATLAB, ANSYS, and others) directly on the supercomputer.
+
+Access to a licensed application requires that you first join the corresponding NCI licence (software) project. For detailed instructions related to a given piece of software, go to the [NCI Help pages](https://opus.nci.org.au) and search for your software there.
+
+1. Log in to [MyNCI](https://my.nci.org.au)
+2. In the left menu, choose "Projects & Groups".
+3. Search for the application name (e.g. "matlab").
+4. Request to join the relevant licence project (its name typically includes the software name and sometimes an organisational suffix, e.g. `_usyd`).
+5. Wait for approval (normally < 1 business day). You will receive an email when added.
+
+You cannot check out a licence token in a job until your membership is approved.
+
+### Using a licence in a PBS script
+
+Two things are generally required in your job script:
+
+1. A PBS directive requesting the licence resource: `#PBS -l software=<project_name>` so the scheduler accounts for licence availability.
+2. Loading both the application module (e.g. `module load matlab`) and any associated licence helper module (e.g. `module load matlab_licence/usyd`).
+
+Below is a canonical matlab example; adapt the same pattern for other licensed applications by substituting the software project and module names.
+
+```bash
+#!/bin/bash
+
+#PBS -P <project_code>
+#PBS -q normal
+#PBS -l walltime=02:00:00
+#PBS -l ncpus=48
+#PBS -l mem=190GB
+#PBS -l jobfs=400GB
+#PBS -l software=matlab_usyd   # licence project name
+#PBS -l wd
+
+# Always pin module versions for reproducibility
+module load matlab/R2019b
+module load matlab_licence/usyd   # verify exact helper module name
+
+# Run MATLAB headless; use semicolons to separate MATLAB commands
+matlab -nodisplay -nosplash -r "outputDir='${PBS_JOBFS}'; numberOfWorkers=${PBS_NCPUS}; mfile; quit" > "${PBS_JOBID}.log" 2>&1
+```
+
+To confirm the correct helper module name (spelling can differ), run for example:
+
+```
+module avail matlab | grep -i lic
+```
+
+### Running AnsysEM tools on Gadi and connecting to the licence server
+
+We have discovered that the AnsysEM tools do not respect the environment variables when selecting the licence server. Instead, they look for the licensing information in a file `~/.ansys_licensing/ansyslmd.ini`.
+
+To run AnsysEM tools you need to manually generate the `~/.ansys_licensing/ansyslmd.ini` file with the following contents:
+
+```bash
+SERVER=1055@ansys1.lic-ext.sydney.edu.au​​
+```
 
 ## Self-installed tools
-
 
 Unlike Artemis, request of new apps to be installed are not always agreed to. NCI limits global apps to those with a high user base. This is to ensure good maintenance and curation of global apps.
 
@@ -58,10 +115,7 @@ NCI may provide support for users through the self-install process; to request a
 
 Once a tool has been installed, you can make that tool available to the `module` commands, by following the steps described [here](https://github.com/Sydney-Informatics-Hub/tidbits/blob/main/content/module-loadable-instals-on-gadi.md). This is not essential, but can be helpful when managing tools that multiple group members will use.
 
-
 To avoid the burden of installing software that is not available through global apps or specialised environments, the use of singularity containers is recommended. 
-
-
 
 ## Running singularity containers on Gadi
 
