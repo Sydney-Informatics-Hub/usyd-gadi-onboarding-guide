@@ -48,7 +48,7 @@ Please contact the following people depending on your needs:
 
 | Type of issue | Who | How | Details |
 |:---------|:----|:----|:---------|
-| Service unit allocation for running jobs | Sydney Scheme managers | [Make a request](https://nci.sydney.edu.au/) | [Sydney Documentation](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme) |
+| Service unit allocation for running jobs | Sydney Scheme managers | [Make a request](https://nci.sydney.edu.au/) | [Sydney Documentation](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme). Use [VPN](https://sydneyuni.service-now.com/sm?id=kb_article_view&sysparm_article=KB0011460) if off the USyd network. |
 |  Request for increased **g/data** storage | Sydney Scheme managers | [Send an email](mailto:nci-sydney.scheme@sydney.edu.au) | [Sydney Documentation](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme) |
 | Request for increased **scratch** space | NCI Helpdesk | [Log an NCI ticket](https://nci.org.au/users/nci-helpdesk) | Provide brief justification for the need including number of files, size of files, data lifecycle |
 | Request for increased **iNode** quota in gdata or scratch | NCI Helpdesk | [Log an NCI ticket](https://nci.org.au/users/nci-helpdesk) | Provide brief justification for the need including number of files, size of files, data lifecycle, efforts to reduce iNode footprint |
