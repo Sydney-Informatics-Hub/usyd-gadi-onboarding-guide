@@ -233,6 +233,7 @@ This user has filled 8643 M of physical space in their home directory, and has 1
 - Use command `nci_account -P <nci-project-id>` to check SU of a specific project for the current quarter, as well as disk and inode for that project
 - Use command `lquota` to check disk and inode usage and allocation for all projects you are a member of 
 - Use `quota -s` to check disk and inode usage in your home directory
+- Use the [Gadi Service Unit calculator](https://sydney-informatics-hub.github.io/nci-su-calculator/) to estimate the cost of your jobs before submission
 - Requests for more SU can be made through the [Sydney Scheme management portal](http://nci.sydney.edu.au)
 - Requests for more scratch disk and scratch inode can be made through the [NCI help desk](https://nci.org.au/users/nci-helpdesk), and will require justification
 - Requests for more gdata disk and gdata inode can be made by [emailing the Sydney Scheme manager](mailto:nci-sydney.scheme@sydney.edu.au), and will require justification
