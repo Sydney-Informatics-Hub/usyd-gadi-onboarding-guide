@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-1c9a4b60c030b215843c54b37b3b586f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -451,10 +451,26 @@ cookieconsent.run({
 </section>
 <section id="running-singularity-containers-on-gadi" class="level2">
 <h2 class="anchored" data-anchor-id="running-singularity-containers-on-gadi">Running singularity containers on Gadi</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By default, Singularity caches files in your home directory that has 10 GB quota assigned. To avoid exceeding this limit when pulling or building large images, you should consider setting the cache and tmp directories to <code>/scratch</code>. For example:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">SINGULARITY_TMPDIR</span><span class="op">=</span>/scratch/<span class="va">$PROJECT</span>/<span class="va">$USER</span>/singularity_tmp</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">SINGULARITY_CACHEDIR</span><span class="op">=</span>/scratch/<span class="va">$PROJECT</span>/<span class="va">$USER</span>/singularity_cache</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You can replace the environment variables <code>$PROJECT</code> and <code>$USER</code> with other directories that suit this purpose.</p>
+</div>
+</div>
 <p><code>Singularity</code> can be used to execute containerised applications on Gadi. It is installed as a global app:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load singularity</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> version</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 3.11.3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load singularity</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> version</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 3.11.3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Note that the <code>singularity</code> project was recently migrated to <a href="https://apptainer.org/docs/user/1.0/introduction.html">apptainer</a>. Please continue to run <code>singularity</code> commands on Gadi for now.</p>
 <p>Singularity (Apptainer) is a</p>
 <blockquote class="blockquote">
@@ -472,46 +488,46 @@ cookieconsent.run({
 <li><p>On the far right of the most recent tag, select the <code>Fetch tag</code> icon and then change image format to <code>Docker Pull (by tag)</code>.</p></li>
 <li><p>Copy the command. We need to made some changes to the command before we execute it.</p></li>
 <li><p>Paste the command into your terminal (or <code>copyq</code> container download script) and change <code>docker</code> to <code>singularity</code> and add prefix <code>docker://</code> to the container path, as shown below:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Default command:</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> pull quay.io/biocontainers/foldseek:10.941cd33--h5021889_1</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Change to:</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> pull docker://quay.io/biocontainers/foldseek:10.941cd33--h5021889_1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Default command:</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> pull quay.io/biocontainers/foldseek:10.941cd33--h5021889_1</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Change to:</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> pull docker://quay.io/biocontainers/foldseek:10.941cd33--h5021889_1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>Run the <code>pull</code> command (note: you need to have the singularity module loaded in your terminal or download script). This will download the docker container to a Singularity Image File (<code>.sif</code>). Most containers are lightweight enough to pull directly on the login node. If a container is bulky and slow to download (or you need many containers), you may need to submit the download as a <code>copyq</code> job.</p></li>
 <li><p>Test the container with a basic help or version command. When running a container, typical usage involves the following command structure:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span>  exec <span class="op">&lt;</span>container<span class="op">&gt;</span> <span class="op">&lt;</span>command<span class="op">&gt;</span> <span class="pp">[</span><span class="ss">args</span><span class="pp">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span>  exec <span class="op">&lt;</span>container<span class="op">&gt;</span> <span class="op">&lt;</span>command<span class="op">&gt;</span> <span class="pp">[</span><span class="ss">args</span><span class="pp">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>So everything after the container name is the same as you would run when using a locally installed version of the tool. For <code>foldseek</code>, we would use <code>foldseek version</code> to view the tool version or <code>foldseek help</code> to view the help menu. To run these commands via the container:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec foldseek_10.941cd33--h5021889_1.sif foldseek version</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec foldseek_10.941cd33--h5021889_1.sif foldseek help</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec foldseek_10.941cd33--h5021889_1.sif foldseek version</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec foldseek_10.941cd33--h5021889_1.sif foldseek help</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Note that the version of foldseek corresponds to the tag name: in this case, v. 10.941cd33.</p></li>
 <li><p>Test run the full tool command that you need to use in your analysis. Where possible, use a small subset of your data to test the command (as you would routinely do for new software). You may need to use the <a href="../notebooks/08_job_script.html#interactive-jobs">interactive job queue</a> or a compute job script for testing if the test command exceeds resource limits on the login nodes.</p></li>
 <li><p>Add the command to your job script. Ensure to include <code>module load singularity</code> and call the container using the structure <code>singularity  exec &lt;container&gt; &lt;command&gt; [args]</code>.</p></li>
 </ol>
 <p>Below is an example Gadi job script running the <code>foldseek</code> container:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P aa00</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q normal</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=48</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=190GB</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=02:00:00</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l storage=scratch/aa00+gdata/aa00</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load singularity</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="va">input</span><span class="op">=</span>/g/data/aa00/foldseek-inputs/input.fasta</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="va">database</span><span class="op">=</span>/g/data/aa00/foldseek-inputs/database</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="va">output_dir</span><span class="op">=</span>./foldseek-run/output</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="va">results</span><span class="op">=</span>./foldseek-run/foldseek_result.tsv</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="va">log</span><span class="op">=</span>./foldseek-run/foldseek.log</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec <span class="dt">\</span></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    foldseek_10.941cd33--h5021889_1.sif <span class="dt">\</span></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    foldseek easy-search  <span class="va">${input}</span> <span class="dt">\</span></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    <span class="va">${database}</span> <span class="dt">\</span></span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    <span class="va">${output_dir}</span> <span class="dt">\</span></span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">--threads</span> <span class="va">${PBS_NCPUS}</span> <span class="dt">\</span></span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    <span class="va">${results}</span> <span class="op">&gt;</span> <span class="va">${log}</span> <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P aa00</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q normal</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=48</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l mem=190GB</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=02:00:00</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l storage=scratch/aa00+gdata/aa00</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load singularity</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="va">input</span><span class="op">=</span>/g/data/aa00/foldseek-inputs/input.fasta</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="va">database</span><span class="op">=</span>/g/data/aa00/foldseek-inputs/database</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="va">output_dir</span><span class="op">=</span>./foldseek-run/output</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="va">results</span><span class="op">=</span>./foldseek-run/foldseek_result.tsv</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="va">log</span><span class="op">=</span>./foldseek-run/foldseek.log</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> exec <span class="dt">\</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    foldseek_10.941cd33--h5021889_1.sif <span class="dt">\</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    foldseek easy-search  <span class="va">${input}</span> <span class="dt">\</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="va">${database}</span> <span class="dt">\</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="va">${output_dir}</span> <span class="dt">\</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">--threads</span> <span class="va">${PBS_NCPUS}</span> <span class="dt">\</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="va">${results}</span> <span class="op">&gt;</span> <span class="va">${log}</span> <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="installing-r-packages-locally-on-gadi" class="level2">
@@ -522,38 +538,38 @@ cookieconsent.run({
 <h5 class="anchored" data-anchor-id="create-a-local-r-library-directory.">1. Create a Local R Library Directory.</h5>
 <p>You must store your R packages in a directory with sufficient storage space. Note that your home directory (/home) may not have the required quota for this. Instead, create a directory in /g/data or /scratch.</p>
 <p>Run the following command to install local R packages in /g/data (replace /g/data, <code>&lt;project&gt;</code> and <code>&lt;username&gt;</code> appropriately):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> /g/data/<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>username<span class="op">&gt;</span>/R/Library</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> /g/data/<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>username<span class="op">&gt;</span>/R/Library</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="set-the-r-library-path" class="level5">
 <h5 class="anchored" data-anchor-id="set-the-r-library-path">2. Set the R Library Path</h5>
 <p>Set the R_LIBS environment variable to point to your local library directory. This tells R where to install and load packages.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">R_LIBS</span><span class="op">=</span>/g/data/<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>username<span class="op">&gt;</span>/R/Library</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">R_LIBS</span><span class="op">=</span>/g/data/<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>username<span class="op">&gt;</span>/R/Library</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="load-required-modules" class="level5">
 <h5 class="anchored" data-anchor-id="load-required-modules">3. Load Required Modules</h5>
 <p>Before running R, load the required software modules. You can usually determine these by checking the installation documentation for the R package you are trying to install. For R version 4.5.0 and to use the intel compiler to build the libraries, use:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load R/4.5.0</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load intel-compiler-llvm/2025.0.4</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load intel-mkl/2025.0.1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load R/4.5.0</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load intel-compiler-llvm/2025.0.4</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load intel-mkl/2025.0.1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>NOTE: If you are planning to use the intel compiler as above make sure you use the intel compiler version that matches the R version you are planning to use. If you take a look at the file /apps/R/<version>/README.nci (use <code>cat /apps/R/&lt;version&gt;/README.nci</code> and replace <code>&lt;version&gt;</code> with the R version you are loading) you will see which modules were used during the R build. The loaded intel compiler module must match this.</version></p>
 </section>
 <section id="install-r-packages-from-package-repository" class="level5">
 <h5 class="anchored" data-anchor-id="install-r-packages-from-package-repository">4. Install R Packages from package repository</h5>
 <p>Launch the R command-line interface:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>In the R prompt, install packages using install.packages(). The command below will install the package from the University of Melbourne CRAN mirror, use another location if your package requires it. Replace <code>&lt;package&gt;</code> with the name of your package.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"&lt;package&gt;"</span>, <span class="at">repos =</span> <span class="st">"http://cran.ms.unimelb.edu.au/"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"&lt;package&gt;"</span>, <span class="at">repos =</span> <span class="st">"http://cran.ms.unimelb.edu.au/"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For example to install the commonly used R package “rstan”:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"StanHeaders"</span>, <span class="st">"RcppEigen"</span>, <span class="st">"rstan"</span>),</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">repos =</span> <span class="st">"http://cran.ms.unimelb.edu.au/"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"StanHeaders"</span>, <span class="st">"RcppEigen"</span>, <span class="st">"rstan"</span>),</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">repos =</span> <span class="st">"http://cran.ms.unimelb.edu.au/"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="verify-the-installation" class="level5">
 <h5 class="anchored" data-anchor-id="verify-the-installation">5. Verify the Installation</h5>
 <p>To check if a package was installed successfully, use the library() function. Again replace <code>&lt;package&gt;</code> with the name of your package:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"&lt;package&gt;"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"&lt;package&gt;"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If no error is returned, the package should have been installed correctly.</p>
 <p>Finally to ensure your PBS job scripts use your locally installed R packages, always remember to include include the same</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">R_LIBS</span><span class="op">=</span>/g/data/<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>username<span class="op">&gt;</span>/R/Library</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">R_LIBS</span><span class="op">=</span>/g/data/<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>username<span class="op">&gt;</span>/R/Library</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>line from step 2 above in your job script along with the standard module load commands for any dependencies.</p>
 <p>These steps should work for most simple R package installations. For further hints for some specific packages, consult the <a href="https://opus.nci.org.au/spaces/Help/pages/248840714/R...#R...-InstallationGuidesofFrequentlyAskedPackagesInstallationGuidesofFrequentlyAskedPackages">NCI Documentaion</a>.</p>
 
