@@ -118,6 +118,14 @@ Once a tool has been installed, you can make that tool available to the `module`
 To avoid the burden of installing software that is not available through global apps or specialised environments, the use of singularity containers is recommended. 
 
 ## Running singularity containers on Gadi
+::: {.callout-tip}
+By default, Singularity caches files in your home directory that has 10 GB quota assigned. To avoid exceeding this limit when pulling or building large images, you should consider setting the cache and tmp directories to `/scratch`. For example:
+```bash
+export SINGULARITY_TMPDIR=/scratch/$PROJECT/$USER/singularity_tmp
+export SINGULARITY_CACHEDIR=/scratch/$PROJECT/$USER/singularity_cache
+```
+You can replace the environment variables `$PROJECT` and `$USER` with other directories that suit this purpose.
+:::
 
 `Singularity` can be used to execute containerised applications on Gadi. It is installed as a global app:
 
