@@ -105,9 +105,39 @@ All data transfer to and from Gadi should be made using the "Data Mover Node" at
 
 ### Globus - COMING SOON {#globus}
 
-In the coming months, [Globus](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+Data+Transfer) will be available for simplified and efficient data transfer. We will provide training and materials on this once available.
+[Globus](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+Data+Transfer) is a data transfer service that makes it easier to copy data around. Instead of data transfers running on your local computer, you submit data transfer requests to the Globus service, and the data transfers happen on Globus servers independently of your local computer. Globus can verify all data is successfully transferred and retry transfers until they succeed.
 
-In the meantime, the below options are available, and detailed examples for each method are provided in the subsequent sections.
+There are several approaches for transferring data using Globus from the University of Sydney's Research Data Store (RDS) to Gadi. 
+
+#### Using the Globus web interface
+
+The simplest way to use Globus is via the web interface. You can log in to the web interface with your University of Sydney credentials and then set up a transfer between RDS and Gadi using the "Endpoints" for RDS and Gadi. To do this:
+
+1. Sign in to the Globus web app as shown in the screenshots here (https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+technical+guide#Web-app).
+
+2. In the 'Collection' search box on the 'File manager' tab, type your NCI project ID and select the collection, eg “NCI USYDNEY nci-project-id”. This will open `/g/data/` (your storage on NCI) in the left-hand pane.
+
+_Note: you may be required to give consent for Globus to access your NCI and RDS storage the first time you use it. This is a one-time process and you will be prompted to log in to each service and give consent for Globus to access the data on your behalf. You can revoke this access at any time via your account settings on the Globus web app. You may need to refresh the two-pane page after granting consent in another window._
+
+3. On the right-hand pane search box, enter `PRJ-` and select the appropriate collection, eg "PRJ- on Sydney RDS (off-campus transfers)”. This will open your RDS project folder in the right-hand pane (Note: because NCI is not located at the University of Sydney, you will always need to use the "off-campus" option for NCI).
+
+4. You can then drag and drop data between these 2 endpoints. Globus will ensure that your files are copied properly in full (using an md5sum) and will retry any failed transfers until they succeed. You will receive an email from Globus when the transfer has completed, with status and other details of the transfer.
+
+::: {.callout-note}
+Note: If you only see one pane/panel, switch to 2-panel view via the icon on the top right.
+
+![Getting to two panel view](../fig/twopane.png)
+:::
+
+::: {.callout-important}
+If you get an error similar to the below after granting consent, you need to [reach out to NCI support to](https://nci.org.au/users/nci-helpdesk):
+
+1. Ensure that you have access to the NCI project.
+2. Have your NCI username mapped to your Globus ID.
+
+![Error NCI web app](../fig/issueusernamemapping.png)
+:::
+
 
 ### Transfer using RDS mapped network drive and data transfer client{#gui}
 
