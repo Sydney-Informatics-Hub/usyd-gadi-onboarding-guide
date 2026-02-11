@@ -34,6 +34,12 @@ Before submitting a job on Gadi, it is important to:
 
 ### Calculate the amount of SU the job will require 
 
+::: {.callout-important}
+## Take it easy! Use the Gadi Service Unit calculator
+
+We have built a [Gadi Service Unit calculator](https://sydney-informatics-hub.github.io/nci-su-calculator/) to help you easily determine the SU cost of your job based on the resource requests in your job script. It implements the logic described in this section. 
+:::
+  </br>
 In the simple example above, we decided that our 1 CPU 1 hour `normal` queue job would cost 2 SU. There is actually another factor to consider, and that is memory. Each queue has nodes of a specific CPU:memory ratio, and if your job consumes more memory than this ratio allows, you will be charged based on the memory used. From the [NCI job costs page](https://opus.nci.org.au/spaces/Help/pages/236880942/Job+Costs...):
 
 *"However, some jobs will request less CPUs and more memory. When this happens, you are taking memory away from the other CPUs in the node and will be charged accordingly, as other users can’t access those CPUs while your job is using that memory allocation"*
@@ -227,6 +233,7 @@ This user has filled 8643 M of physical space in their home directory, and has 1
 - Use command `nci_account -P <nci-project-id>` to check SU of a specific project for the current quarter, as well as disk and inode for that project
 - Use command `lquota` to check disk and inode usage and allocation for all projects you are a member of 
 - Use `quota -s` to check disk and inode usage in your home directory
+- Use the [Gadi Service Unit calculator](https://sydney-informatics-hub.github.io/nci-su-calculator/) to estimate the cost of your jobs before submission
 - Requests for more SU can be made through the [Sydney Scheme management portal](http://nci.sydney.edu.au)
 - Requests for more scratch disk, scratch inode, and gdata inode can be made through the [NCI help desk](https://nci.org.au/users/nci-helpdesk), and will require justification
 - Requests for more gdata disk can be made by [emailing the Sydney Scheme manager](mailto:nci-sydney.scheme@sydney.edu.au), and will require justification
