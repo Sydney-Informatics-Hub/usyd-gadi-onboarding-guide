@@ -37,7 +37,7 @@ Before submitting a job on Gadi, it is important to:
 ::: {.callout-important}
 ## Take it easy! Use the Gadi Service Unit calculator
 
-Calculating service units can be tricky. We have built a [Gadi Service Unit calculator](https://sydney-informatics-hub.github.io/nci-su-calculator/) to help you determine the SU cost of your job based on the resource requests in your job script. It implements the logic described in this section. 
+We have built a [Gadi Service Unit calculator](https://sydney-informatics-hub.github.io/nci-su-calculator/) to help you easily determine the SU cost of your job based on the resource requests in your job script. It implements the logic described in this section. 
 :::
   </br>
 In the simple example above, we decided that our 1 CPU 1 hour `normal` queue job would cost 2 SU. There is actually another factor to consider, and that is memory. Each queue has nodes of a specific CPU:memory ratio, and if your job consumes more memory than this ratio allows, you will be charged based on the memory used. From the [NCI job costs page](https://opus.nci.org.au/spaces/Help/pages/236880942/Job+Costs...):
