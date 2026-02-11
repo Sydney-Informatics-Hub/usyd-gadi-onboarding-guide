@@ -502,8 +502,63 @@ Warning
 </div>
 <section id="globus" class="level3">
 <h3 class="anchored" data-anchor-id="globus">Globus - COMING SOON</h3>
-<p>In the coming months, <a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+Data+Transfer">Globus</a> will be available for simplified and efficient data transfer. We will provide training and materials on this once available.</p>
-<p>In the meantime, the below options are available, and detailed examples for each method are provided in the subsequent sections.</p>
+<p><a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+Data+Transfer">Globus</a> is a data transfer service that makes it easier to copy data around. Instead of data transfers running on your local computer, you submit data transfer requests to the Globus service, and the data transfers happen on Globus servers independently of your local computer. Globus can verify all data is successfully transferred and retry transfers until they succeed.</p>
+<p>There are several approaches for transferring data using Globus from the University of Sydney’s Research Data Store (RDS) to Gadi.</p>
+<section id="using-the-globus-web-interface" class="level4">
+<h4 class="anchored" data-anchor-id="using-the-globus-web-interface">Using the Globus web interface</h4>
+<p>The simplest way to use Globus is via the web interface. You can log in to the web interface with your University of Sydney credentials and then set up a transfer between RDS and Gadi using the “Endpoints” for RDS and Gadi. To do this:</p>
+<ol type="1">
+<li><p>Sign in to the Globus web app as shown in the screenshots here (https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+technical+guide#Web-app).</p></li>
+<li><p>In the ‘Collection’ search box on the ‘File manager’ tab, type your NCI project ID and select the collection, eg “NCI USYDNEY nci-project-id”. This will open <code>/g/data/</code> (your storage on NCI) in the left-hand pane.</p></li>
+</ol>
+<p><em>Note: you may be required to give consent for Globus to access your NCI and RDS storage the first time you use it. This is a one-time process and you will be prompted to log in to each service and give consent for Globus to access the data on your behalf. You can revoke this access at any time via your account settings on the Globus web app. You may need to refresh the two-pane page after granting consent in another window.</em></p>
+<ol start="3" type="1">
+<li><p>On the right-hand pane search box, enter <code>PRJ-</code> and select the appropriate collection, eg “PRJ- on Sydney RDS (off-campus transfers)”. This will open your RDS project folder in the right-hand pane (Note: because NCI is not located at the University of Sydney, you will always need to use the “off-campus” option for NCI).</p></li>
+<li><p>You can then drag and drop data between these 2 endpoints. Globus will ensure that your files are copied properly in full (using an md5sum) and will retry any failed transfers until they succeed. You will receive an email from Globus when the transfer has completed, with status and other details of the transfer.</p></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note: If you only see one pane/panel, switch to 2-panel view via the icon on the top right.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/twopane.png" class="img-fluid figure-img"></p>
+<figcaption>Getting to two panel view</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you get an error similar to the below after granting consent, you need to <a href="https://nci.org.au/users/nci-helpdesk">reach out to NCI support to</a>:</p>
+<ol type="1">
+<li>Ensure that you have access to the NCI project.</li>
+<li>Have your NCI username mapped to your Globus ID.</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../fig/issueusernamemapping.png" class="img-fluid figure-img"></p>
+<figcaption>Error NCI web app</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="gui" class="level3">
 <h3 class="anchored" data-anchor-id="gui">Transfer using RDS mapped network drive and data transfer client</h3>
