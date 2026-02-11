@@ -347,7 +347,7 @@ These scripts can then be run sequentially using the method described in the pre
 
 **Persistent sessions**
 
-NCI have established [persistent sessions](https://opus.nci.org.au/spaces/Help/pages/241927941/Persistent+Sessions...) to enable long running, low-resource tasks such as workflow management tools. We can use a persistent session to run a simple shell script that monitors your job periodically and resubmits the same script until successful completion. Similar to `screen` or `tmux`, you can log out of persistent sessions and return later to check on your task. 
+NCI have established [persistent sessions](https://opus.nci.org.au/spaces/Help/pages/241927941/Persistent+Sessions...) to enable long running, low-resource tasks such as workflow management tools. We can use a persistent session to run a simple shell script that monitors your job periodically and if it fails on walltime, resubmits the same script until successful completion. Similar to `screen` or `tmux`, you can log out of persistent sessions and return later to check on your task. 
 
 **Workflow setup**
 
@@ -369,7 +369,13 @@ For this method to be successful, there must be:
 
 **Determinging previous job success**
 
-Robustly checking for job success is critical for determining whether to re-submit the job. The below example scripts use an overly simplistic method of determining success, by relying solely on a user-defined "success message" and the PBS job exit status. The success message must be generated as standard output by the job and printed to the PBS job log, as well as defined in the auto-resume shell script. There are numerous potential issues with this simple approach, for example if the success message chosen is used elsewhere in the job standard output, or some component of the task fails yet the overall PBS job exits with status zero. For this reason, using thorough, precise success checks tailored to your job are recommended. In addition to checking the job exit status and including a user-defined success message that is unlikely to ever be encountered in other standard output, you might also include checks for expected output files, expected file sizes, expected file contents, etc. 
+Robustly checking for job success is critical for determining whether to re-submit the job. The below example scripts use an overly simplistic method of determining success, by relying solely on a user-defined "success message" and the PBS job exit status.
+
+If the exit status is zero, the job is interpreted as successful and will not be resubmitted. If the exit staus is -29 (out of walltime), the job will be resubmitted. If the exit status is other than zero or -29, the job will fail and not be resubmited, allowing you to troubleshoot the non-walltime source of the error. 
+
+The success message must be generated as standard output by the job and printed to the PBS job log, as well as defined in the auto-resume shell script. There are numerous potential issues with this simple approach, for example if the success message chosen is used elsewhere in the job standard output, or some component of the task fails yet the overall PBS job exits with status zero. For this reason, using thorough, precise success checks tailored to your job are recommended. 
+
+In addition to checking the job exit status and including a user-defined success message that is unlikely to ever be encountered in other standard output, you might also include checks for expected output files, expected file sizes, expected file contents, etc. 
 
 **Simple example auto-resume job**
 
@@ -424,16 +430,20 @@ while (( attempt <= max_retries )); do
     printf "\tPBS output log file %s detected at %s\n" "$log_file" "$(date)"
 
     # Extract exit status from PBS output log
-    status=$(grep "Exit Status" "$log_file" | awk -F : '{print $NF}' | sed 's/ //g')
+    status=$(grep "Exit Status" "$log_file" | awk -F : '{print $NF}' | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')
 
     # Check for success message AND exit status == 0
-    if grep -q "$success_message" "$log_file" && [[ "$status" -eq 0 ]]; then
+    code=${status%% *}
+    if grep -q "$success_message" "$log_file" && [[ "$code" -eq 0 ]]; then
         printf "\n\t---> Job %s completed successfully:\n\tContains \"%s\" and has exit status %s.\n\n" \
                "$job_id" "$success_message" "$status"
         exit 0
-    else
-        printf "\n\t---> Job failed or incomplete. Exit status: %s. Resubmitting...\n\n" "$status"
+    elif [[ $code -eq -29 ]]; then
+        printf "\n\t---> Job exceeded walltime. Exit status: %s. Resubmitting...\n\n" "$status"
         (( attempt++ ))
+    else
+        printf "\n\t---> Job failure not due to walltime. Exit status: %s. DEBUG REQUIRED!\n\n" "$status"
+	      exit 1
     fi
 done
 
