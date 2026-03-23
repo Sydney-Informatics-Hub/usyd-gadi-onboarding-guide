@@ -209,6 +209,15 @@ To transfer data between RDS and Gadi from the Gadi login shell:
       ```
 :::
 
+::: {.callout-note}
+When transferring data to RDS you may see permission denied warnings such as:
+
+```
+Couldn't setstat on <path>: Permission denied
+```
+
+These messages are caused by an attempt to modify the permissions of newly created directories on RDS and can usually be safely ignored. If you see these errors you can (and should) verify the files are in their expected location on RDS after your copy just to be sure.
+:::
 
 ### Using `tmux` to run commands in persistent terminal sessions
 
