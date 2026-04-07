@@ -101,7 +101,7 @@ If you are unsure if your project has a `/g/data` allocation, you can check by r
 cd /g/data/<project>
 ```
 
-Scratch is provided at no additional cost to users, however `/g/data` has a cost per TB involved. This cost is covered by the [NCI-Sydney Scheme](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme) for projects that have a justified need of it. To request `/g/data` storage space, please request this via an email to `nci-sydney.scheme@sydney.edu.au` with a brief justification. 
+Scratch is provided at no additional cost to users, however `/g/data` has a cost per TB involved. This cost is covered by the [NCI-Sydney Scheme](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3448733944/NCI-Sydney+Scheme) for projects that have a justified need of it. To request `/g/data` storage space, please submit a request using [this form](https://sih.tools/request). 
 
 
 
