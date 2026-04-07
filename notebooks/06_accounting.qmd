@@ -236,5 +236,5 @@ This user has filled 8643 M of physical space in their home directory, and has 1
 - Use the [Gadi Service Unit calculator](https://sydney-informatics-hub.github.io/nci-su-calculator/) to estimate the cost of your jobs before submission
 - Requests for more SU can be made through the [Sydney Scheme management portal](http://nci.sydney.edu.au)
 - Requests for more scratch disk, scratch inode, and gdata inode can be made through the [NCI help desk](https://nci.org.au/users/nci-helpdesk), and will require justification
-- Requests for more gdata disk can be made by [emailing the Sydney Scheme manager](mailto:nci-sydney.scheme@sydney.edu.au), and will require justification
+- Requests for more gdata disk can be made by [submitting a support form to the Sydney Informatics Hub](https://sih.tools/request)
 
