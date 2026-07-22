@@ -586,6 +586,8 @@ However, this doesn't guarantee the integrity of the files. You should check the
 
 If you have a large project with many files and only a few of them are modified at any time you can use the `mirror` command in `lftp` to only sync the modified files when you are backing up data to RDS. The `lftp - mirror` command transfers data at a slower speed than `sftp` but will significantly speed up the backup of data since it generally only needs to copy a small subset of all of the data on Gadi if only a few files have changed since the last sync.
 
+It also includes the `--continue` flag (similar to `-P` in rsync), which will continue a transfer from a partially transferred file in the case of an interrupted transfer. This avoids re-transferring failed files from the start, and enables you to transfer very large files requiring greater than the 10 hour `copyq` walltime limit simply by resubmitting the same transfer script.
+
 Below is a template `.pbs` script that can be used to sync files between Gadi and RDS, you can copy it to your workspace and modify it as needed similarly to the example above. You can also find this script on Gadi in `/scratch/qc03/data-transfer-scripts/gadi-scripts/sync_gadi_to_rds.pbs`.
 
 :::{.callout-warning}
@@ -631,7 +633,13 @@ touch $outfile
 lftp -u ${remote_user}, sftp://${remote_host} <<EOF
 set xfer:log true
 set xfer:log-file "${outfile}"
-mirror -p --verbose -R ${source_path} ${remote_path}
+mirror \
+    --no-perms \
+    --continue \
+    --verbose \
+    --reverse \
+    ${source_path} \
+    ${remote_path}
 exit
 EOF
 ```
