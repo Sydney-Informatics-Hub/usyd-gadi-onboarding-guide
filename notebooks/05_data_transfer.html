@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -76,10 +76,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-a06763021a52c43c40a351ac8b799b8f.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-889a431ca167b28bdf229f55f9e47022.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-b7930dba94b107711e403ad615f98fa3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -373,29 +373,23 @@ cookieconsent.run({
 <p><a href="https://youtu.be/ZBOycXymok4?si=Ln03g69UjCcylF13&amp;t=1856">Watch the pre-recorded session</a></p>
 <p><strong>The table below summarises the data transfer methods covered in this section:</strong></p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 23%">
-<col style="width: 21%">
-<col style="width: 35%">
-<col style="width: 18%">
-</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Suitable data size/type</th>
+<th><span style="color: blue;">Pros</span>/<span style="color: red;">Cons</span></th>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
-<td rowspan="2"><h1 id="method">Method</h1>
-<p><a href="#gui">GUI based data transfer client</a> e.g.&nbsp;<code>filezilla</code> or <code>cyberduck</code></p></td>
-<td rowspan="2"><h1 id="suitable-data-sizetype">Suitable data size/type</h1>
-<p>Only small files, config scripts etc.</p></td>
-<td rowspan="2"><h1 id="proscons"><span style="color: blue;">Pros</span>/<span style="color: red;">Cons</span></h1>
-<ul>
+<td><a href="#gui">GUI based data transfer client</a> e.g.&nbsp;<code>filezilla</code> or <code>cyberduck</code></td>
+<td>Only small files, configuration scripts, etc.</td>
+<td><ul>
 <li><span style="color: blue;">Easy to use</span></li>
 <li><span style="color: red;">Host computer can limit transfer speed</span></li>
 </ul></td>
-<td></td>
 </tr>
 <tr class="even">
-<td></td>
-</tr>
-<tr class="odd">
 <td><a href="#sftp">sftp transfer from Gadi terminal</a></td>
 <td>Files up to a few GB.</td>
 <td><ul>
@@ -403,9 +397,8 @@ cookieconsent.run({
 <li><span style="color: red;">Uses login node for computation</span></li>
 <li><span style="color: red;">Cannot restart after interruption</span></li>
 </ul></td>
-<td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="#scopyq">sftp copy using copyq</a></td>
 <td>Large files and datasets to copy all in one go.</td>
 <td><ul>
@@ -413,26 +406,24 @@ cookieconsent.run({
 <li><span style="color: blue;">Faster speed than <code>lftp</code></span></li>
 <li><span style="color: red;">Always copies all files</span></li>
 </ul></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><a href="#lcopyq">lftp sync using copyq</a></td>
-<td>Large datasets with many files and only a few updated with each transfer.</td>
-<td><ul>
-<li><span style="color: blue;">Robust, runs in background</span></li>
-<li><span style="color: blue;">Only copies whats changed</span></li>
-<li><span style="color: red;">Slower speed than <code>sftp</code></span></li>
-</ul></td>
-<td></td>
 </tr>
 <tr class="even">
+<td><a href="#lcopyq">lftp sync using copyq</a></td>
+<td>Large datasets with many files, with only a few files updated during each transfer.</td>
+<td><ul>
+<li><span style="color: blue;">Robust, runs in background</span></li>
+<li><span style="color: blue;">Only copies what has changed</span></li>
+<li><span style="color: red;">Slower speed than <code>sftp</code></span></li>
+</ul></td>
+</tr>
+<tr class="odd">
 <td><a href="#globus">Globus</a></td>
-<td>Any file/dataset size.</td>
-<td colspan="2"><ul>
-<li><span style="color: blue;">Fast and easy transfer with integrated checksum</span> |</li>
-<li><span style="color: blue;">Web app/GUI for drag and drop transfers</span></li>
-<li><span style="color: blue;">Command-line tool</span> |</li>
-<li><span style="color: red;">Must review and accept data security policy</span> |</li>
+<td>Any file or dataset size.</td>
+<td><ul>
+<li><span style="color: blue;">Fast and easy transfer with integrated checksum</span></li>
+<li><span style="color: blue;">Web app/GUI for drag-and-drop transfers</span></li>
+<li><span style="color: blue;">Command-line tool</span></li>
+<li><span style="color: red;">Must review and accept the data security policy</span></li>
 </ul></td>
 </tr>
 </tbody>
@@ -490,17 +481,26 @@ Warning
 </div>
 <section id="globus" class="level3">
 <h3 class="anchored" data-anchor-id="globus">Globus</h3>
-<p><a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+Data+Transfer">Globus</a> is a data transfer service that makes it easier to copy data around. Instead of data transfers running on your local computer, you submit data transfer requests to the Globus service, and the data transfers happen on Globus servers independently of your local computer. Globus can verify all data is successfully transferred and retry transfers until they succeed.</p>
+<p><a href="https://www.aarnet.edu.au/globus#">Globus</a> is a data transfer and sharing platform designed to move large volumes of data securely, easily, reliably, and automatically between RDS and other storage connected to the Globus service is a data transfer service that makes it easier to copy data around.</p>
+<p>Instead of data transfers running on your local computer, you submit data transfer requests to the Globus service, and the data transfers happen on Globus servers independently of your local computer. Globus can verify all data is successfully transferred and retry transfers until they succeed.</p>
+<p>Globus is simple to use, and data transfers can be initiated via an intuitive web app or the command-line.</p>
+<p>For comprehensive information on using Globus, please visit our technical guide:</p>
+<ul>
+<li><a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/4392878084/Globus">SIH Globus technical guide</a></li>
+</ul>
 <section id="requesting-globus-for-your-project" class="level4">
 <h4 class="anchored" data-anchor-id="requesting-globus-for-your-project">Requesting Globus for your project</h4>
-<p>The lead chief investigator of each project must review the <a href="https://sydneyuni.service-now.com/sm?id=kb_article_view&amp;sysparm_article=KB0037229">Privacy Collection Notice</a> and let us know whether they approve Globus endpoints for their NCI/Pawsey and RDS projects or not. Opt-in via DashR will be available soon. Until then, please contact <a href="https://sydney.au1.qualtrics.com/jfe/form/SV_5mXyhFZsPIwZDBs">Sydney Informatics Hub</a> to request Globus access for your project/s.</p>
+<p>The lead chief investigator of each project must review the <a href="https://sydneyuni.service-now.com/sm?id=kb_article_view&amp;sysparm_article=KB0037229">Privacy Collection Notice</a> and decide if they would like to use Globus for their project.</p>
+<p>Requesting the Globus data movement service for your Research Data Store (RDS) projects is done within DashR. The Globus ‘endpoint’ is then provisioned by ICT. Refer to the <a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3915252053/To+and+from+RDS+with+Globus">To and from RDS with Globus</a> page for more information.</p>
+<p>To use Globus to transfer data to and from your NCI project, you can request an endpoint on <code>/g/data</code> from the NCI helpdesk. Please refer to our <a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/4297981989/To+and+from+NCI+with+Globus#Option-1%3A-Transfer-data-to-and-from-%2Fg%2Fdata">guide for transferring to and from <code>/g/data</code></a> for more information.</p>
+<p>To transfer between NCI Gadi’s <code>/scratch</code> space, you can easily <a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/4297981989/To+and+from+NCI+with+Globus#Option-2%3A-Transfer-data-to-and-from-%2Fscratch">establish your own personal endpoint</a> on Gadi.</p>
 </section>
 <section id="using-the-globus-web-interface" class="level4">
 <h4 class="anchored" data-anchor-id="using-the-globus-web-interface">Using the Globus web interface</h4>
 <p>The simplest way to use Globus is via the web interface. You can log in to the web interface with your University of Sydney credentials and then set up a transfer between RDS and Gadi using the “Endpoints” for RDS and Gadi. To do this:</p>
 <ol type="1">
 <li><p>Sign in to the Globus web app as shown in the screenshots here (https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+technical+guide#Web-app).</p></li>
-<li><p>In the ‘Collection’ search box on the ‘File manager’ tab, type your NCI project ID and select the collection, eg “NCI USYDNEY nci-project-id”. This will open <code>/g/data/</code> (your storage on NCI) in the left-hand pane.</p></li>
+<li><p>In the ‘Collection’ search box on the ‘File manager’ tab, search for your NCI endpoint. For NCI-managed <code>/g/data</code> endpoints, type your NCI project ID and select the collection, eg “NCI USYDNEY nci-project-id”. This will open <code>/g/data/</code> (your storage on NCI) in the left-hand pane. If you are using a personal <code>/scratch</code> endpoint, search for the name you assigned this collection during setup.</p></li>
 </ol>
 <p><em>Note: you may be required to give consent for Globus to access your NCI and RDS storage the first time you use it. This is a one-time process and you will be prompted to log in to each service and give consent for Globus to access the data on your behalf. You can revoke this access at any time via your account settings on the Globus web app. You may need to refresh the two-pane page after granting consent in another window.</em></p>
 <ol start="3" type="1">
@@ -550,9 +550,14 @@ Important
 </div>
 </div>
 </section>
-<section id="using-the-globus-command-line-interface" class="level4">
-<h4 class="anchored" data-anchor-id="using-the-globus-command-line-interface">Using the Globus command line interface</h4>
-<p>TO BE COMPLETED</p>
+<section id="using-the-globus-command-line-utility" class="level4">
+<h4 class="anchored" data-anchor-id="using-the-globus-command-line-utility">Using the Globus command line utility</h4>
+<p>To use the Globus command line utility, install the <code>globus</code> CLI tool following our <a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+technical+guide#Use-the-CLI-utility-tool">installation and authentication guide</a>.</p>
+<p>Please visit the following Globus material for Globus CLI usage instructions:</p>
+<ul>
+<li><a href="https://docs.globus.org/cli/quickstart">QuickStart guide</a></li>
+<li><a href="https://docs.globus.org/cli/reference">Full reference documentation</a></li>
+</ul>
 </section>
 </section>
 <section id="gui" class="level3">
@@ -939,6 +944,7 @@ Connection to research-data-ext.sydney.edu.au closed.</code></pre>
 <section id="template-copyq-scripts-for-syncing-data-with-lftp" class="level4">
 <h4 class="anchored" data-anchor-id="template-copyq-scripts-for-syncing-data-with-lftp">Template copyq scripts for syncing data with <code id="lcopyq">lftp</code></h4>
 <p>If you have a large project with many files and only a few of them are modified at any time you can use the <code>mirror</code> command in <code>lftp</code> to only sync the modified files when you are backing up data to RDS. The <code>lftp - mirror</code> command transfers data at a slower speed than <code>sftp</code> but will significantly speed up the backup of data since it generally only needs to copy a small subset of all of the data on Gadi if only a few files have changed since the last sync.</p>
+<p>It also includes the <code>--continue</code> flag (similar to <code>-P</code> in rsync), which will continue a transfer from a partially transferred file in the case of an interrupted transfer. This avoids re-transferring failed files from the start, and enables you to transfer very large files requiring greater than the 10 hour <code>copyq</code> walltime limit simply by resubmitting the same transfer script.</p>
 <p>Below is a template <code>.pbs</code> script that can be used to sync files between Gadi and RDS, you can copy it to your workspace and modify it as needed similarly to the example above. You can also find this script on Gadi in <code>/scratch/qc03/data-transfer-scripts/gadi-scripts/sync_gadi_to_rds.pbs</code>.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -998,9 +1004,15 @@ Warning
 <span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a><span class="ex">lftp</span> <span class="at">-u</span> <span class="va">${remote_user}</span>, sftp://<span class="va">${remote_host}</span> <span class="op">&lt;&lt;EOF</span></span>
 <span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a><span class="st">set xfer:log true</span></span>
 <span id="cb31-35"><a href="#cb31-35" aria-hidden="true" tabindex="-1"></a><span class="st">set xfer:log-file "</span><span class="va">${outfile}</span><span class="st">"</span></span>
-<span id="cb31-36"><a href="#cb31-36" aria-hidden="true" tabindex="-1"></a><span class="st">mirror -p --verbose -R </span><span class="va">${source_path}</span><span class="st"> </span><span class="va">${remote_path}</span></span>
-<span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a><span class="st">exit</span></span>
-<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a><span class="op">EOF</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb31-36"><a href="#cb31-36" aria-hidden="true" tabindex="-1"></a><span class="st">mirror </span><span class="dt">\</span></span>
+<span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a><span class="st">    --no-perms </span><span class="dt">\</span></span>
+<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a><span class="st">    --continue </span><span class="dt">\</span></span>
+<span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a><span class="st">    --verbose </span><span class="dt">\</span></span>
+<span id="cb31-40"><a href="#cb31-40" aria-hidden="true" tabindex="-1"></a><span class="st">    --reverse </span><span class="dt">\</span></span>
+<span id="cb31-41"><a href="#cb31-41" aria-hidden="true" tabindex="-1"></a><span class="st">    </span><span class="va">${source_path}</span><span class="st"> </span><span class="dt">\</span></span>
+<span id="cb31-42"><a href="#cb31-42" aria-hidden="true" tabindex="-1"></a><span class="st">    </span><span class="va">${remote_path}</span></span>
+<span id="cb31-43"><a href="#cb31-43" aria-hidden="true" tabindex="-1"></a><span class="st">exit</span></span>
+<span id="cb31-44"><a href="#cb31-44" aria-hidden="true" tabindex="-1"></a><span class="op">EOF</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
