@@ -500,8 +500,13 @@ Warning
 <p>The simplest way to use Globus is via the web interface. You can log in to the web interface with your University of Sydney credentials and then set up a transfer between RDS and Gadi using the “Endpoints” for RDS and Gadi. To do this:</p>
 <ol type="1">
 <li><p>Sign in to the Globus web app as shown in the screenshots here (https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+technical+guide#Web-app).</p></li>
-<li><p>In the ‘Collection’ search box on the ‘File manager’ tab, search for your NCI endpoint. For NCI-managed <code>/g/data</code> endpoints, type your NCI project ID and select the collection, eg “NCI USYDNEY nci-project-id”. This will open <code>/g/data/</code> (your storage on NCI) in the left-hand pane. If you are using a personal <code>/scratch</code> endpoint, search for the name you assigned this collection during setup.</p></li>
+<li><p>In the ‘Collection’ search box on the ‘File manager’ tab, search for your NCI endpoint.</p></li>
 </ol>
+<ul>
+<li>For NCI-managed <code>/g/data</code> endpoints, type your NCI project ID and select the collection, eg “NCI USYDNEY nci-project-id”. This will open <code>/g/data/</code> (your storage on NCI) in the left-hand pane.</li>
+<li>If you are using a personal <code>/scratch</code> endpoint, search for the name you assigned this collection during setup. This will open your Gadi <code>/home</code> directory, as shown by <code>/~/</code> within the <code>Path</code> field. To navigate to the <code>/scratch</code> space for any project you are a member of, over-write the path with the desired scratch path and press the enter key.</li>
+<li>Note that you can access <code>/scratch</code>, <code>/g/data</code> and your home directory from a personal <code>/scratch</code> endpoint, but you can only access <code>/g/data</code> from an NCI-managed <code>/g/data</code> endpoint.</li>
+</ul>
 <p><em>Note: you may be required to give consent for Globus to access your NCI and RDS storage the first time you use it. This is a one-time process and you will be prompted to log in to each service and give consent for Globus to access the data on your behalf. You can revoke this access at any time via your account settings on the Globus web app. You may need to refresh the two-pane page after granting consent in another window.</em></p>
 <ol start="3" type="1">
 <li><p>On the right-hand pane search box, enter <code>PRJ-</code> and select the appropriate collection, eg “PRJ- on Sydney RDS (off-campus transfers)”. This will open your RDS project folder in the right-hand pane (Note: because NCI is not located at the University of Sydney, you will always need to use the”off-campus” option for NCI).</p></li>
