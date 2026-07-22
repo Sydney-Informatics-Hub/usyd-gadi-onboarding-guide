@@ -127,7 +127,11 @@ The simplest way to use Globus is via the web interface. You can log in to the w
 
 1. Sign in to the Globus web app as shown in the screenshots here (https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+technical+guide#Web-app).
 
-2. In the 'Collection' search box on the 'File manager' tab, search for your NCI endpoint. For NCI-managed `/g/data` endpoints, type your NCI project ID and select the collection, eg “NCI USYDNEY nci-project-id”. This will open `/g/data/` (your storage on NCI) in the left-hand pane. If you are using a personal `/scratch` endpoint, search for the name you assigned this collection during setup.
+2. In the 'Collection' search box on the 'File manager' tab, search for your NCI endpoint.
+
+- For NCI-managed `/g/data` endpoints, type your NCI project ID and select the collection, eg “NCI USYDNEY nci-project-id”. This will open `/g/data/` (your storage on NCI) in the left-hand pane. 
+- If you are using a personal `/scratch` endpoint, search for the name you assigned this collection during setup. This will open your Gadi `/home` directory, as shown by `/~/` within the `Path` field. To navigate to the `/scratch` space for any project you are a member of, over-write the path with the desired scratch path and press the enter key.
+- Note that you can access `/scratch`, `/g/data` and your home directory from a personal `/scratch` endpoint, but you can only access `/g/data` from an NCI-managed `/g/data` endpoint.
 
 _Note: you may be required to give consent for Globus to access your NCI and RDS storage the first time you use it. This is a one-time process and you will be prompted to log in to each service and give consent for Globus to access the data on your behalf. You can revoke this access at any time via your account settings on the Globus web app. You may need to refresh the two-pane page after granting consent in another window._
 
