@@ -15,30 +15,35 @@ In this section, we will look at transferring data between the Research Data Sto
 
 **The table below summarises the data transfer methods covered in this section:**
 
-+-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
-| Method                                    | Suitable data size/type               | [Pros]{style="color: blue;"}/[Cons]{style="color: red;"}       |
-+===========================================+=======================================+================================================================+
-| [GUI based data transfer client](#gui)    | Only small files, config scripts etc. | - [Easy to use]{style="color: blue;"}                          |             
-| e.g. `filezilla` or `cyberduck`           |                                       | - [Host computer can limit transfer speed]{style="color: red;"}|
-|                                           |                                       |                                                                |
-+-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
-| [sftp transfer from Gadi terminal](#sftp) | Files up to a few GB.                 | - [Convenient for quickly copying data]{style="color: blue;"}  |
-|                                           |                                       | - [Uses login node for computation]{style="color: red;"}       |
-|                                           |                                       | - [Cannot restart after interruption]{style="color: red;"}     |
-+-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
-| [sftp copy using copyq](#scopyq)          | Large files and datasets              | - [Robust, runs in background]{style="color: blue;"}           |
-|                                           | to copy all in one go.                | - [Faster speed than `lftp`]{style="color: blue;"}             |
-|                                           |                                       | - [Always copies all files]{style="color: red;"}               |
-+-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
-| [lftp sync using copyq](#lcopyq)          | Large datasets with many files and    | - [Robust, runs in background]{style="color: blue;"}           |
-|                                           | only a few updated with each transfer.| - [Only copies whats changed]{style="color: blue;"}            |
-|                                           |                                       | - [Slower speed than `sftp`]{style="color: red;"}              |
-+-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
-| [Globus](#globus)                         | Any file/dataset size.                | - [Fast and easy transfer with integrated checksum]{style="color: blue;"}                 |
-|                                           |                                       | - [Web app/GUI for drag and drop transfers]{style="color: blue;"}                                |
-|                                           |                                       | - [Command-line tool]{style="color: blue;"}             |
-|                                           |                                       | - [Must review and accept data security policy]{style="color: red;"}   |
-+-------------------------------------------+---------------------------------------+----------------------------------------------------------------+
++-------------------------------------------+----------------------------------------------------+----------------------------------------------------------------+
+| Method                                    | Suitable data size/type                            | [Pros]{style="color: blue;"}/[Cons]{style="color: red;"}       |
++===========================================+====================================================+================================================================+
+| [GUI based data transfer client](#gui)    | Only small files, configuration scripts, etc.      | - [Easy to use]{style="color: blue;"}                          |
+| e.g. `filezilla` or `cyberduck`           |                                                    | - [Host computer can limit transfer                            |
+|                                           |                                                    |   speed]{style="color: red;"}                                  |
++-------------------------------------------+----------------------------------------------------+----------------------------------------------------------------+
+| [sftp transfer from Gadi terminal](#sftp) | Files up to a few GB.                              | - [Convenient for quickly copying                              |
+|                                           |                                                    |   data]{style="color: blue;"}                                  |
+|                                           |                                                    | - [Uses login node for computation]{style="color: red;"}       |
+|                                           |                                                    | - [Cannot restart after interruption]{style="color: red;"}     |
++-------------------------------------------+----------------------------------------------------+----------------------------------------------------------------+
+| [sftp copy using copyq](#scopyq)          | Large files and datasets to copy all in one go.    | - [Robust, runs in background]{style="color: blue;"}           |
+|                                           |                                                    | - [Faster speed than `lftp`]{style="color: blue;"}             |
+|                                           |                                                    | - [Always copies all files]{style="color: red;"}               |
++-------------------------------------------+----------------------------------------------------+----------------------------------------------------------------+
+| [lftp sync using copyq](#lcopyq)          | Large datasets with many files, with only a few    | - [Robust, runs in background]{style="color: blue;"}           |
+|                                           | files updated during each transfer.                | - [Only copies what has changed]{style="color: blue;"}         |
+|                                           |                                                    | - [Slower speed than `sftp`]{style="color: red;"}              |
++-------------------------------------------+----------------------------------------------------+----------------------------------------------------------------+
+| [Globus](#globus)                         | Any file or dataset size.                          | - [Fast and easy transfer with integrated                      |
+|                                           |                                                    |   checksum]{style="color: blue;"}                              |
+|                                           |                                                    | - [Web app/GUI for drag-and-drop                               |
+|                                           |                                                    |   transfers]{style="color: blue;"}                             |
+|                                           |                                                    | - [Command-line tool]{style="color: blue;"}                    |
+|                                           |                                                    | - [Must review and accept the data                             |
+|                                           |                                                    |   security policy]{style="color: red;"}                        |
++-------------------------------------------+----------------------------------------------------+----------------------------------------------------------------+
+
 
 
 ## Where to put project files on Gadi
@@ -94,11 +99,26 @@ All data transfer to and from Gadi should be made using the "Data Mover Node" at
 
 ### Globus {#globus}
 
-[Globus](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+Data+Transfer) is a data transfer service that makes it easier to copy data around. Instead of data transfers running on your local computer, you submit data transfer requests to the Globus service, and the data transfers happen on Globus servers independently of your local computer. Globus can verify all data is successfully transferred and retry transfers until they succeed.
+[Globus](https://www.aarnet.edu.au/globus#) is a data transfer and sharing platform designed to move large volumes of data securely, easily, reliably, and automatically between RDS and other storage connected to the Globus service is a data transfer service that makes it easier to copy data around. 
+
+Instead of data transfers running on your local computer, you submit data transfer requests to the Globus service, and the data transfers happen on Globus servers independently of your local computer. Globus can verify all data is successfully transferred and retry transfers until they succeed.
+
+Globus is simple to use, and data transfers can be initiated via an intuitive web app or the command-line. 
+
+For comprehensive information on using Globus, please visit our technical guide:
+
+- [SIH Globus technical guide](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/4392878084/Globus)
 
 #### Requesting Globus for your project
 
-The lead chief investigator of each project must review the [Privacy Collection Notice](https://sydneyuni.service-now.com/sm?id=kb_article_view&sysparm_article=KB0037229) and let us know whether they approve Globus endpoints for their NCI/Pawsey and RDS projects or not.  Opt-in via DashR will be available soon. Until then, please contact [Sydney Informatics Hub](https://sydney.au1.qualtrics.com/jfe/form/SV_5mXyhFZsPIwZDBs) to request Globus access for your project/s. 
+The lead chief investigator of each project must review the [Privacy Collection Notice](https://sydneyuni.service-now.com/sm?id=kb_article_view&sysparm_article=KB0037229) and decide if they would like to use Globus for their project.
+
+Requesting the Globus data movement service for your Research Data Store (RDS) projects is done within DashR. The Globus 'endpoint' is then provisioned by ICT. Refer to the [To and from RDS with Globus](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3915252053/To+and+from+RDS+with+Globus) page for more information.
+
+To use Globus to transfer data to and from your NCI project, you can request an endpoint on `/g/data` from the NCI helpdesk. Please refer to our [guide for transferring to and from `/g/data`](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/4297981989/To+and+from+NCI+with+Globus#Option-1%3A-Transfer-data-to-and-from-%2Fg%2Fdata) for more information.
+
+To transfer between NCI Gadi's `/scratch` space, you can easily [establish your own personal endpoint](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/4297981989/To+and+from+NCI+with+Globus#Option-2%3A-Transfer-data-to-and-from-%2Fscratch) on Gadi. 
+
 
 
 #### Using the Globus web interface
@@ -107,7 +127,7 @@ The simplest way to use Globus is via the web interface. You can log in to the w
 
 1. Sign in to the Globus web app as shown in the screenshots here (https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+technical+guide#Web-app).
 
-2. In the 'Collection' search box on the 'File manager' tab, type your NCI project ID and select the collection, eg “NCI USYDNEY nci-project-id”. This will open `/g/data/` (your storage on NCI) in the left-hand pane.
+2. In the 'Collection' search box on the 'File manager' tab, search for your NCI endpoint. For NCI-managed `/g/data` endpoints, type your NCI project ID and select the collection, eg “NCI USYDNEY nci-project-id”. This will open `/g/data/` (your storage on NCI) in the left-hand pane. If you are using a personal `/scratch` endpoint, search for the name you assigned this collection during setup.
 
 _Note: you may be required to give consent for Globus to access your NCI and RDS storage the first time you use it. This is a one-time process and you will be prompted to log in to each service and give consent for Globus to access the data on your behalf. You can revoke this access at any time via your account settings on the Globus web app. You may need to refresh the two-pane page after granting consent in another window._
 
@@ -130,9 +150,14 @@ If you get an error similar to the below after granting consent, you need to [re
 ![Error NCI web app](../fig/issueusernamemapping.png)
 :::
 
-#### Using the Globus command line interface
+#### Using the Globus command line utility
 
-TO BE COMPLETED
+To use the Globus command line utility, install the `globus` CLI tool following our [installation and authentication guide](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+technical+guide#Use-the-CLI-utility-tool).
+
+Please visit the following Globus material for Globus CLI usage instructions:
+
+- [QuickStart guide](https://docs.globus.org/cli/quickstart)
+- [Full reference documentation](https://docs.globus.org/cli/reference)
 
 ### Transfer using RDS mapped network drive and data transfer client{#gui}
 
@@ -586,6 +611,8 @@ However, this doesn't guarantee the integrity of the files. You should check the
 
 If you have a large project with many files and only a few of them are modified at any time you can use the `mirror` command in `lftp` to only sync the modified files when you are backing up data to RDS. The `lftp - mirror` command transfers data at a slower speed than `sftp` but will significantly speed up the backup of data since it generally only needs to copy a small subset of all of the data on Gadi if only a few files have changed since the last sync.
 
+It also includes the `--continue` flag (similar to `-P` in rsync), which will continue a transfer from a partially transferred file in the case of an interrupted transfer. This avoids re-transferring failed files from the start, and enables you to transfer very large files requiring greater than the 10 hour `copyq` walltime limit simply by resubmitting the same transfer script.
+
 Below is a template `.pbs` script that can be used to sync files between Gadi and RDS, you can copy it to your workspace and modify it as needed similarly to the example above. You can also find this script on Gadi in `/scratch/qc03/data-transfer-scripts/gadi-scripts/sync_gadi_to_rds.pbs`.
 
 :::{.callout-warning}
@@ -631,7 +658,13 @@ touch $outfile
 lftp -u ${remote_user}, sftp://${remote_host} <<EOF
 set xfer:log true
 set xfer:log-file "${outfile}"
-mirror -p --verbose -R ${source_path} ${remote_path}
+mirror \
+    --no-perms \
+    --continue \
+    --verbose \
+    --reverse \
+    ${source_path} \
+    ${remote_path}
 exit
 EOF
 ```
