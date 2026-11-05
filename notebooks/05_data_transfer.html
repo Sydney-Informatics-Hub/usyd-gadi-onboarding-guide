@@ -325,7 +325,7 @@ cookieconsent.run({
   <li><a href="#where-to-put-project-files-on-gadi" id="toc-where-to-put-project-files-on-gadi" class="nav-link" data-scroll-target="#where-to-put-project-files-on-gadi">Where to put project files on Gadi</a></li>
   <li><a href="#research-data-store-rds" id="toc-research-data-store-rds" class="nav-link" data-scroll-target="#research-data-store-rds">Research data store (RDS)</a>
   <ul class="collapse">
-  <li><a href="#globus" id="toc-globus" class="nav-link" data-scroll-target="#globus">Globus</a></li>
+  <li><a href="#globus" id="toc-globus" class="nav-link" data-scroll-target="#globus">Transfer data with Globus web app or CLI</a></li>
   <li><a href="#gui" id="toc-gui" class="nav-link" data-scroll-target="#gui">Transfer using RDS mapped network drive and data transfer client</a></li>
   <li><a href="#transfer-from-gadi-terminal-tofrom-rds" id="toc-transfer-from-gadi-terminal-tofrom-rds" class="nav-link" data-scroll-target="#transfer-from-gadi-terminal-tofrom-rds">Transfer from Gadi terminal to/from RDS</a></li>
   <li><a href="#using-tmux-to-run-commands-in-persistent-terminal-sessions" id="toc-using-tmux-to-run-commands-in-persistent-terminal-sessions" class="nav-link" data-scroll-target="#using-tmux-to-run-commands-in-persistent-terminal-sessions">Using <code>tmux</code> to run commands in persistent terminal sessions</a></li>
@@ -458,7 +458,7 @@ cookieconsent.run({
 <p>The RDS was NOT decommissioned along with Artemis HPC. Any RDS projects you currently have will persist on RDS.</p>
 <p>In this section, we will mainly focus on how to transfer data between Gadi HPC and RDS. You should be able follow similar methods for copying data between your own laptop/server and Gadi.</p>
 <section id="globus" class="level3">
-<h3 class="anchored" data-anchor-id="globus">Globus</h3>
+<h3 class="anchored" data-anchor-id="globus">Transfer data with Globus web app or CLI</h3>
 <p><a href="https://www.aarnet.edu.au/globus#">Globus</a> is a data transfer and sharing platform designed to move large volumes of data securely, easily, reliably, and automatically between RDS and other storage connected to the Globus service.</p>
 <p>By default, Globus runs checksums on all transfers to verify the integrity of transferred data, and will retry transfers until they succeed.</p>
 <p>Globus is simple to use, and data transfers can be initiated via an intuitive web app or the command-line.</p>
@@ -481,7 +481,7 @@ cookieconsent.run({
 <li><p>In the ‘Collection’ search box on the ‘File manager’ tab, search for your NCI endpoint.</p></li>
 </ol>
 <ul>
-<li>For NCI-managed <code>/g/data</code> endpoints, type your NCI project ID and select the collection, eg “NCI USYDNEY nci-project-id”. This will open <code>/g/data/</code> (your storage on NCI) in the left-hand pane.</li>
+<li>For NCI-managed <code>/g/data</code> endpoints, type your NCI project ID and select the collection, eg “NCI USYDNEY nci-project-code”. This will open <code>/g/data/</code> (your storage on NCI) in the left-hand pane.</li>
 <li>Note that you can access <code>/scratch</code>, <code>/g/data</code> and your home directory from a personal <code>/scratch</code> endpoint, but you can only access <code>/g/data</code> from an NCI-managed <code>/g/data</code> endpoint.</li>
 </ul>
 <p><em>Note: you may be required to give consent for Globus to access your NCI and RDS storage the first time you use it. This is a one-time process and you will be prompted to log in to each service and give consent for Globus to access the data on your behalf. You can revoke this access at any time via your account settings on the Globus web app. You may need to refresh the two-pane page after granting consent in another window.</em></p>
@@ -554,7 +554,7 @@ Warning
 <p><strong>Example copyq job script to start gcp</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#! /bin/bash</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P &lt;nci_project&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P &lt;nci-project-code&gt;</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N start-gcp</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=10:00:00</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=1</span></span>
@@ -562,7 +562,7 @@ Warning
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -W umask=022</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q copyq</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=scratch/&lt;nci_project&gt;+gdata/&lt;nci_project&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=scratch/&lt;nci-project-code&gt;+gdata/&lt;nci-project-code&gt;</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="va">gcp</span><span class="op">=&lt;</span>path-to-gcp-installation<span class="op">&gt;</span>/globusconnectpersonal</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
@@ -603,13 +603,13 @@ Note
 <ul>
 <li><a href="#transfer-a-single-file-from-gadi-to-rds">Transfer a single file from Gadi to RDS</a></li>
 <li><a href="#transfer-a-single-directory-from-gadi-to-rds">Transfer a single directory from Gadi to RDS</a></li>
-<li><a href="#transfer-a-batch-of-files-and-folders">Transfer a batch of files and folders</a></li>
+<li><a href="#transfer-a-batch-of-files-and-directories">Transfer a batch of files and directories</a></li>
 </ul>
 <p>Transfers going in the other direction, i.e.&nbsp;from RDS to Gadi, can be performed with the same scripts by simply reversing the source and destination.</p>
 <p>Note that the job script first starts <code>gcp</code>, then initiates the transfer, waits for the transfer to complete, then stops <code>gcp</code>. Stopping <code>gcp</code> after the transfer is required in order to prevent the <code>gcp</code> idle task consuming the remaining walltime of the job.</p>
 <section id="globus-endpoint-and-collection-ids" class="level5">
 <h5 class="anchored" data-anchor-id="globus-endpoint-and-collection-ids">Globus endpoint and collection IDs</h5>
-<p>In order to use the Globus CLI for data transfer, you will need to know the UUID (universally unique identifier) of the source and destination collection.</p>
+<p>In order to use the Globus CLI for data transfer, you will need to know the <strong>UUID (universally unique identifier)</strong> of the source and destination collection.</p>
 <p>To find the <strong>UUID of your RDS collection</strong>, log on to the Globus web app, select the ‘Collections’ tab from the left hand side menu, and search for your RDS project as described <a href="#using-the-globus-web-interface-with-an-nci-managed-gdata-endpoint">above</a>. Select the collection, then scroll to the bottom of the ‘Overview’ tab. The UUID will be shown at the end of the content. Collections you have made within your RDS collection, for example to serve as a <a href="https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/4879319932/Set+up+Globus+Guest+Collections">guest collection</a> will have their own UUID and can be found by searching for the name you assigned the collection at its creation.</p>
 <p>To find the <strong>UUID of your NCI-managed gdata collection</strong>, search the collections as described above. Your NCI collection should be named ‘NCI USYDNEY <nci-project-code>’. If you cannot find your collection, please contact the <a href="https://nci.org.au/users/nci-helpdesk">NCI helpdesk</a>.</nci-project-code></p>
 <p>To find the **UUID of your <code>gcp</code> Gadi collection, you can use the web app to search ‘Collections’ for the name you assigned your collection during <code>gcp</code> setup. Alternatively, you can use the Globus CLI:</p>
@@ -636,7 +636,7 @@ Note
 </section>
 <section id="authentication" class="level5">
 <h5 class="anchored" data-anchor-id="authentication">Authentication</h5>
-<p>Before submitting a scripted transfer with Globus CLI, it is vital to authenticate/re-authenticate. ICT has established a 16-hour logout policy for security. If your authentcation times ou during an active transfer, the transfer will still complete. It is only the initiation of the transfer that requires you to be authenticated. If you submit a Globus job to <code>copyq</code> and the Globus CLI requires authentication, the job will hang and the transfer will not start.</p>
+<p>Before submitting a scripted transfer with Globus CLI, it is vital to authenticate/re-authenticate. ICT has established a 16-hour logout policy for security. If your authentication times out during an active transfer, the transfer will still complete. It is only the initiation of the transfer that requires you to be authenticated. If you submit a Globus job to <code>copyq</code> and the Globus CLI requires authentication, the job will hang and the transfer will not start.</p>
 <p>Initial authentication occurred when you installed Globus CLI. To re-authenticate, issue the following command, replacing ‘<unikey>’ with your unikey:</unikey></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">globus</span> session update <span class="op">&lt;</span>unikey<span class="op">&gt;</span>@sydney.edu.au</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Follow the terminal prompts to authenticate via your browser and copy the generated token back to your Gadi terminal. Successful authentication will return a message including “<strong>You have successfully updated your CLI session</strong>. Once this step is completed, you can submit your Globus data transfer script.</p>
@@ -790,10 +790,10 @@ Note
 <h6 class="anchored" data-anchor-id="transfer-a-batch-of-files-and-folders">Transfer a batch of files and folders</h6>
 <p>Globus CLI batch transfers require a <a href="https://docs.globus.org/cli/reference/transfer/#batch_input">batch input file</a> listing the data to transfer, with one file or directory per line. The line format is source data and destination path separated by a space. If source or destination include spaces, wrap in double quotes. The destination directory will be made if it does not exist. Recall the note from earlier about Globus requiring a file destination for a file transfer.</p>
 <p>Example batch input file:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">/g/data/</span><span class="op">&lt;</span>nci-project<span class="op">&gt;</span>/raw_data /raw_data</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">/g/data/</span><span class="op">&lt;</span>nci-project<span class="op">&gt;</span>/readme.txt /readme.txt</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ex">/scratch/</span><span class="op">&lt;</span>nci-project-id<span class="op">&gt;</span>/output /nci_backup</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="ex">/scratch/</span><span class="op">&lt;</span>nci-project-id<span class="op">&gt;</span>/misc /</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">/g/data/</span><span class="op">&lt;</span>nci-project-code<span class="op">&gt;</span>/raw_data /raw_data</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">/g/data/</span><span class="op">&lt;</span>nci-project-code<span class="op">&gt;</span>/readme.txt /readme.txt</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ex">/scratch/</span><span class="op">&lt;</span>nci-project-code<span class="op">&gt;</span>/output /nci_backup</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="ex">/scratch/</span><span class="op">&lt;</span>nci-project-code<span class="op">&gt;</span>/misc /</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Example batch script:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#! /bin/bash</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1097,9 +1097,9 @@ Connection to research-data-ext.sydney.edu.au closed.</code></pre>
 <span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;rds_project&gt; : Your RDS project name</span></span>
 <span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;local_path&gt;  : The local file or folder you want to copy</span></span>
 <span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;remote_path&gt; : The location on RDS to put your folder</span></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;nci_project&gt; : Your NCI project name</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;nci-project-code&gt; : Your NCI project code</span></span>
 <span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P &lt;nci_project&gt;</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P &lt;nci-project-code&gt;</span></span>
 <span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N transfer</span></span>
 <span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=04:00:00</span></span>
 <span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=1</span></span>
@@ -1107,7 +1107,7 @@ Connection to research-data-ext.sydney.edu.au closed.</code></pre>
 <span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -W umask=022</span></span>
 <span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q copyq</span></span>
 <span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
-<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=scratch/&lt;nci_project&gt;</span></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=scratch/&lt;nci-project-code&gt;</span></span>
 <span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a><span class="va">remote_user</span><span class="op">=&lt;</span>unikey<span class="op">&gt;</span></span>
 <span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a><span class="va">remote_host</span><span class="op">=</span>research-data-ext.sydney.edu.au</span>
@@ -1135,16 +1135,16 @@ Connection to research-data-ext.sydney.edu.au closed.</code></pre>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Transfer a folder from RDS to Gadi</span></span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># This will recreate your RDS path (/rds/PRJ-&lt;rds_project&gt;)</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="co"># on Gadi in /scratch/&lt;nci_project&gt;</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="co"># on Gadi in /scratch/&lt;nci-project-code&gt;</span></span>
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Make the following replacements in this file:</span></span>
 <span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;unikey&gt;      : Your USyd unikey</span></span>
 <span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;rds_project&gt; : Your RDS project name</span></span>
 <span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;remote_path&gt; : The location on RDS of your file ot directory to copy</span></span>
 <span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;local_path&gt;  : The name of the folder to copy to</span></span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;nci_project&gt; : Your NCI project name</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;nci-project-code&gt; : Your NCI project code</span></span>
 <span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P &lt;nci_project&gt;</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P &lt;nci-project-code&gt;</span></span>
 <span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N transfer</span></span>
 <span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=04:00:00</span></span>
 <span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=1</span></span>
@@ -1152,7 +1152,7 @@ Connection to research-data-ext.sydney.edu.au closed.</code></pre>
 <span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -W umask=022</span></span>
 <span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q copyq</span></span>
 <span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
-<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=scratch/&lt;nci_project&gt;</span></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=scratch/&lt;nci-project-code&gt;</span></span>
 <span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a><span class="co"># RDS:</span></span>
 <span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a><span class="va">remote_user</span><span class="op">=&lt;</span>unikey<span class="op">&gt;</span></span>
@@ -1163,7 +1163,7 @@ Connection to research-data-ext.sydney.edu.au closed.</code></pre>
 <span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a><span class="va">remote_path</span><span class="op">=</span>/rds/PRJ-<span class="op">&lt;</span>rds_project<span class="op">&gt;</span>/<span class="op">&lt;</span>remote_path<span class="op">&gt;</span></span>
 <span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Gadi:</span></span>
-<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a><span class="va">dest_path</span><span class="op">=</span>/scratch/<span class="op">&lt;</span>nci_project<span class="op">&gt;</span>/<span class="op">&lt;</span>local_path<span class="op">&gt;</span></span>
+<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a><span class="va">dest_path</span><span class="op">=</span>/scratch/<span class="op">&lt;</span>nci-project-code<span class="op">&gt;</span>/<span class="op">&lt;</span>local_path<span class="op">&gt;</span></span>
 <span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-35"><a href="#cb32-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy folder with sftp</span></span>
 <span id="cb32-36"><a href="#cb32-36" aria-hidden="true" tabindex="-1"></a><span class="ex">sftp</span> <span class="at">-r</span> <span class="va">${remote_user}</span>@<span class="va">${remote_host}</span>:<span class="va">${remote_path}</span> <span class="va">${dest_path}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1197,7 +1197,7 @@ Connection to research-data-ext.sydney.edu.au closed.</code></pre>
 <p>You need to edit the script by replacing all the variables marked with <code>&lt;&gt;</code> described in the script header and fill in the following details before using it:</p>
 <p>In the <code>#PBS</code> variables part of the script:</p>
 <ul>
-<li><p>Provide the -P variable by replacing <code>&lt;nci_project&gt;</code> with your NCI project code. In this example <code>aa00</code>.</p></li>
+<li><p>Provide the -P variable by replacing <code>&lt;nci-project-code&gt;</code> with your NCI project code. In this example <code>aa00</code>.</p></li>
 <li><p>Increase the walltime if you are transferring large files, the limit on this queue is 10 hours.</p></li>
 <li><p>Alter <code>-lstorage=scratch/&lt;project&gt;</code> as required. If you also need to access g/data, you can change this to <code>scratch/&lt;project&gt;+g/data/&lt;project&gt;</code>. In this example we’ll just use <code>scratch/aa00</code></p></li>
 </ul>
@@ -1287,9 +1287,9 @@ Warning
 <span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;rds_project&gt;:  Your RDS project name</span></span>
 <span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;path-on-rds&gt;:  The location on RDS to put your directory</span></span>
 <span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;path-on-gadi&gt;: The directory on Gadi to mirror to rds</span></span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;nci_project&gt;:  Your NCI project name</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;nci-project-code&gt;:  Your NCI project code</span></span>
 <span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P &lt;nci_project&gt;</span></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -P &lt;nci-project-code&gt;</span></span>
 <span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -N transfer</span></span>
 <span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l walltime=04:00:00</span></span>
 <span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l ncpus=1</span></span>
@@ -1297,7 +1297,7 @@ Warning
 <span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -W umask=022</span></span>
 <span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -q copyq</span></span>
 <span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -l wd</span></span>
-<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=scratch/&lt;nci_project&gt;</span></span>
+<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a><span class="co">#PBS -lstorage=scratch/&lt;nci-project-code&gt;</span></span>
 <span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a><span class="va">remote_user</span><span class="op">=&lt;</span>unikey<span class="op">&gt;</span></span>
 <span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a><span class="va">remote_host</span><span class="op">=</span>research-data-ext.sydney.edu.au</span>
@@ -1366,7 +1366,7 @@ Warning
 <p><strong>3. Verify the copy of the files on Gadi</strong></p>
 <p>Once the transfer of data and checksum files to Gadi are complete, you can use the <code>-c</code> (check) flag to the <code>checksum</code> command to verify file integrity.</p>
 <p>For small files, you can easily run this on the Gadi login nodes, eg:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /scratch/<span class="op">&lt;</span>nci-project-id<span class="op">&gt;</span>/myData</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /scratch/<span class="op">&lt;</span>nci-project-code<span class="op">&gt;</span>/myData</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">md5sum</span> <span class="at">-c</span> myData.md5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This command goes through the list of files in <code>myData.md5</code> and compares the md5 sum of the file on Gadi to the md5 sum that was created for the file on RDS.</p>
 <p>For larger files, or very large numbers of files, the checksum process can take some time (eg &gt; 10 minutes for a single 100 GB file) so it is more robust to run the checksum commands within a PBS job submitted to the Gadi job scheduler.</p>
