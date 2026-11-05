@@ -92,7 +92,7 @@ In this section, we will mainly focus on how to transfer data between Gadi HPC a
 
 
 
-### Globus {#globus}
+### Transfer data with Globus web app or CLI {#globus}
 
 [Globus](https://www.aarnet.edu.au/globus#) is a data transfer and sharing platform designed to move large volumes of data securely, easily, reliably, and automatically between RDS and other storage connected to the Globus service.
 
@@ -124,7 +124,7 @@ The simplest way to use Globus is via the web interface. You can log in to the w
 
 2. In the 'Collection' search box on the 'File manager' tab, search for your NCI endpoint.
 
-- For NCI-managed `/g/data` endpoints, type your NCI project ID and select the collection, eg “NCI USYDNEY nci-project-id”. This will open `/g/data/` (your storage on NCI) in the left-hand pane. 
+- For NCI-managed `/g/data` endpoints, type your NCI project ID and select the collection, eg “NCI USYDNEY nci-project-code”. This will open `/g/data/` (your storage on NCI) in the left-hand pane. 
 - Note that you can access `/scratch`, `/g/data` and your home directory from a personal `/scratch` endpoint, but you can only access `/g/data` from an NCI-managed `/g/data` endpoint.
 
 _Note: you may be required to give consent for Globus to access your NCI and RDS storage the first time you use it. This is a one-time process and you will be prompted to log in to each service and give consent for Globus to access the data on your behalf. You can revoke this access at any time via your account settings on the Globus web app. You may need to refresh the two-pane page after granting consent in another window._
@@ -168,7 +168,7 @@ Please remember to actively kill the `copyq` job with the command `qdel <job-id>
 ```bash
 #! /bin/bash
 
-#PBS -P <nci_project>
+#PBS -P <nci-project-code>
 #PBS -N start-gcp
 #PBS -l walltime=10:00:00
 #PBS -l ncpus=1
@@ -176,7 +176,7 @@ Please remember to actively kill the `copyq` job with the command `qdel <job-id>
 #PBS -W umask=022
 #PBS -q copyq
 #PBS -l wd
-#PBS -lstorage=scratch/<nci_project>+gdata/<nci_project>
+#PBS -lstorage=scratch/<nci-project-code>+gdata/<nci-project-code>
 
 gcp=<path-to-gcp-installation>/globusconnectpersonal
 
@@ -208,9 +208,9 @@ Using the Globus CLI for scripted transfers on the `copyq` is the recommended wa
 
 Below you will find 3 template scripts to perform the following transfers:
 
-- [Transfer a single file from Gadi to RDS]
-- [Transfer a single directory from Gadi to RDS]
-- [Transfer a batch of files and folders]
+- [Transfer a single file from Gadi to RDS](#transfer-a-single-file-from-gadi-to-rds)
+- [Transfer a single directory from Gadi to RDS](#transfer-a-single-directory-from-gadi-to-rds)
+- [Transfer a batch of files and directories](#transfer-a-batch-of-files-and-directories)
 
 Transfers going in the other direction, i.e. from RDS to Gadi, can be performed with the same scripts by simply reversing the source and destination.
 
@@ -218,7 +218,7 @@ Note that the job script first starts `gcp`, then initiates the transfer, waits 
 
 ##### Globus endpoint and collection IDs
 
-In order to use the Globus CLI for data transfer, you will need to know the UUID (universally unique identifier) of the source and destination collection.
+In order to use the Globus CLI for data transfer, you will need to know the **UUID (universally unique identifier)** of the source and destination collection.
 
 To find the **UUID of your RDS collection**, log on to the Globus web app, select the 'Collections' tab from the left hand side menu, and search for your RDS project as described [above](#using-the-globus-web-interface-with-an-nci-managed-gdata-endpoint). Select the collection, then scroll to the bottom of the 'Overview' tab. The UUID will be shown at the end of the content. Collections you have made within your RDS collection, for example to serve as a [guest collection](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/4879319932/Set+up+Globus+Guest+Collections) will have their own UUID and can be found by searching for the name you assigned the collection at its creation.
 
@@ -260,7 +260,7 @@ It is important to note the following when setting up your transfer script:
 
 ##### Authentication
 
-Before submitting a scripted transfer with Globus CLI, it is vital to authenticate/re-authenticate. ICT has established a 16-hour logout policy for security. If your authentcation times ou during an active transfer, the transfer will still complete. It is only the initiation of the transfer that requires you to be authenticated. If you submit a Globus job to `copyq` and the Globus CLI requires authentication, the job will hang and the transfer will not start. 
+Before submitting a scripted transfer with Globus CLI, it is vital to authenticate/re-authenticate. ICT has established a 16-hour logout policy for security. If your authentication times out during an active transfer, the transfer will still complete. It is only the initiation of the transfer that requires you to be authenticated. If you submit a Globus job to `copyq` and the Globus CLI requires authentication, the job will hang and the transfer will not start. 
 
 Initial authentication occurred when you installed Globus CLI. To re-authenticate, issue the following command, replacing '<unikey>' with your unikey:
 
@@ -428,10 +428,10 @@ Globus CLI batch transfers require a [batch input file](https://docs.globus.org/
 Example batch input file:
 
 ```bash
-/g/data/<nci-project>/raw_data /raw_data
-/g/data/<nci-project>/readme.txt /readme.txt
-/scratch/<nci-project-id>/output /nci_backup
-/scratch/<nci-project-id>/misc /
+/g/data/<nci-project-code>/raw_data /raw_data
+/g/data/<nci-project-code>/readme.txt /readme.txt
+/scratch/<nci-project-code>/output /nci_backup
+/scratch/<nci-project-code>/misc /
 ```
 
 Example batch script:
@@ -775,9 +775,9 @@ There are two scripts:
 # <rds_project> : Your RDS project name
 # <local_path>  : The local file or folder you want to copy
 # <remote_path> : The location on RDS to put your folder
-# <nci_project> : Your NCI project name
+# <nci-project-code> : Your NCI project code
 
-#PBS -P <nci_project>
+#PBS -P <nci-project-code>
 #PBS -N transfer
 #PBS -l walltime=04:00:00
 #PBS -l ncpus=1
@@ -785,7 +785,7 @@ There are two scripts:
 #PBS -W umask=022
 #PBS -q copyq
 #PBS -l wd
-#PBS -lstorage=scratch/<nci_project>
+#PBS -lstorage=scratch/<nci-project-code>
 
 remote_user=<unikey>
 remote_host=research-data-ext.sydney.edu.au
@@ -810,16 +810,16 @@ sftp ${remote_user}@${remote_host}:${remote_path} <<< $"put -r ${local_path}"
 
 # Transfer a folder from RDS to Gadi
 # This will recreate your RDS path (/rds/PRJ-<rds_project>)
-# on Gadi in /scratch/<nci_project>
+# on Gadi in /scratch/<nci-project-code>
 
 # Make the following replacements in this file:
 # <unikey>      : Your USyd unikey
 # <rds_project> : Your RDS project name
 # <remote_path> : The location on RDS of your file ot directory to copy
 # <local_path>  : The name of the folder to copy to
-# <nci_project> : Your NCI project name
+# <nci-project-code> : Your NCI project code
 
-#PBS -P <nci_project>
+#PBS -P <nci-project-code>
 #PBS -N transfer
 #PBS -l walltime=04:00:00
 #PBS -l ncpus=1
@@ -827,7 +827,7 @@ sftp ${remote_user}@${remote_host}:${remote_path} <<< $"put -r ${local_path}"
 #PBS -W umask=022
 #PBS -q copyq
 #PBS -l wd
-#PBS -lstorage=scratch/<nci_project>
+#PBS -lstorage=scratch/<nci-project-code>
 
 # RDS:
 remote_user=<unikey>
@@ -838,7 +838,7 @@ remote_host=research-data-ext.sydney.edu.au
 remote_path=/rds/PRJ-<rds_project>/<remote_path>
 
 # Gadi:
-dest_path=/scratch/<nci_project>/<local_path>
+dest_path=/scratch/<nci-project-code>/<local_path>
 
 # Copy folder with sftp
 sftp -r ${remote_user}@${remote_host}:${remote_path} ${dest_path}
@@ -883,7 +883,7 @@ You need to edit the script by replacing all the variables marked with `<>` desc
 
 In the `#PBS` variables part of the script: 
 
- + Provide the -P variable by replacing `<nci_project>` with your NCI project code. In this example `aa00`.
+ + Provide the -P variable by replacing `<nci-project-code>` with your NCI project code. In this example `aa00`.
 
  + Increase the walltime if you are transferring large files, the limit on this queue is 10 hours.
 
@@ -983,9 +983,9 @@ Note that when using this script to copy a folder you should ensure the target d
 # <rds_project>:  Your RDS project name
 # <path-on-rds>:  The location on RDS to put your directory
 # <path-on-gadi>: The directory on Gadi to mirror to rds
-# <nci_project>:  Your NCI project name
+# <nci-project-code>:  Your NCI project code
 
-#PBS -P <nci_project>
+#PBS -P <nci-project-code>
 #PBS -N transfer
 #PBS -l walltime=04:00:00
 #PBS -l ncpus=1
@@ -993,7 +993,7 @@ Note that when using this script to copy a folder you should ensure the target d
 #PBS -W umask=022
 #PBS -q copyq
 #PBS -l wd
-#PBS -lstorage=scratch/<nci_project>
+#PBS -lstorage=scratch/<nci-project-code>
 
 remote_user=<unikey>
 remote_host=research-data-ext.sydney.edu.au
@@ -1095,7 +1095,7 @@ Once the transfer of data and checksum files to Gadi are complete, you can use t
 For small files, you can easily run this on the Gadi login nodes, eg:
 
 ```bash
-cd /scratch/<nci-project-id>/myData
+cd /scratch/<nci-project-code>/myData
 md5sum -c myData.md5
 ```
 
