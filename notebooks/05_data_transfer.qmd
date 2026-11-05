@@ -152,24 +152,59 @@ If you get an error similar to the below after granting consent, you need to [re
 
 To connect to your Globus Connect Personal (`gcp`) endpoint in the Globus web app, `gcp` **must be running on Gadi**. It must also stay running for the duration of the transfer. 
 
-For very small transfers, starting `gcp` on the login node, performing the transfer in the web app, then stopping `gcp` on the login node, is permitted, and described in our [Globus technical guide](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/4297981989/To+and+from+NCI+with+Globus#From-the-login-node-for-small%2C-short-duration-transfers).
+For infrequent and very small transfers, starting `gcp` on the login node, performing the transfer in the web app, then stopping `gcp` on the login node, is permitted. This is described in our [Globus technical guide](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/4297981989/To+and+from+NCI+with+Globus#From-the-login-node-for-small%2C-short-duration-transfers).
 
-Once `gcp` is running on Gadi, within the Globus web app, search for the name you assigned this collection during setup. This will open your Gadi `/home` directory, as shown by `/~/` within the `Path` field. To navigate to the `/scratch` or `gdata` space for any project you are a member of, over-write the path with the desired scratch path and press the enter key. Note that you must have followed the configuration changes described in our [`gcp` setup guide](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/4297981989/To+and+from+NCI+with+Globus#Step-2.-Run-setup) to be bale to access `scratch` and `gdata`.
+Once `gcp` is running on Gadi, within the Globus web app, search for the name you assigned this collection during setup. This will open your Gadi `/home` directory, as shown by `/~/` within the `Path` field. To navigate to the `/scratch` or `/g/data` space for any project you are a member of, over-write the path with the desired scratch path and press the enter key. Note that you must have followed the configuration changes described in our [`gcp` setup guide](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/4297981989/To+and+from+NCI+with+Globus#Step-2.-Run-setup) to be able to access `/scratch` and `/g/data`.
 
 For larger transfers, `gcp` must be run in the `copyq`. The command to start `gcp` is placed within a `copyq` job. Once your job leaves the queue and starts, you can then access your Gadi collection via the web app as described above.
 
-Please remember to actively kill the `copyq` job with the command `qdel <job-id>` to avoid the `gcp` task running until the requested walltime of the job. 
+
+::: {.callout-warning}
+Please remember to actively kill the `copyq` job with the command `qdel <job-id>` after your transfer completes! This is to avoid the idle `gcp` task consuming the remainder of the job walltime and wasting service units. 
+:::
+
+
+**Example copyq job script to start gcp**
+```bash
+#! /bin/bash
+
+#PBS -P <nci_project>
+#PBS -N start-gcp
+#PBS -l walltime=10:00:00
+#PBS -l ncpus=1
+#PBS -l mem=4GB
+#PBS -W umask=022
+#PBS -q copyq
+#PBS -l wd
+#PBS -lstorage=scratch/<nci_project>+gdata/<nci_project>
+
+gcp=<path-to-gcp-installation>/globusconnectpersonal
+
+if [[ ! -x ${gcp} ]]; then
+    echo "ERROR: Globus Connect Personal not found at $gcp" >&2
+    exit 1
+fi
+
+if ${gcp} -status >/dev/null 2>&1; then
+    ${gcp} -stop
+fi
+
+# Runs until the walltime ends or the job is stopped with qdel
+${gcp} -start
+```
 
 #### Using the Globus command line utility
 
 To use the Globus command line utility, install the `globus` CLI tool following our [installation and authentication guide](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+technical+guide#Use-the-CLI-utility-tool).
 
-Please visit the following Globus material for Globus CLI usage instructions:
+Please visit the following Globus material for full Globus CLI usage instructions:
 
 - [QuickStart guide](https://docs.globus.org/cli/quickstart)
 - [Full reference documentation](https://docs.globus.org/cli/reference)
 
-Using the Globus CLI for scripted transfers on the `copyq` is the recommended way to transfer between your Gadi `gcp` endpoint and RDS. 
+::: {.callout-note}
+Using the Globus CLI for scripted transfers on the `copyq` is the recommended way to transfer datasets of non-trivial size between your Gadi `gcp` endpoint and RDS. 
+:::
 
 Below you will find 3 template scripts to perform the following transfers:
 
@@ -177,9 +212,302 @@ Below you will find 3 template scripts to perform the following transfers:
 - [Transfer a single directory from Gadi to RDS]
 - [Transfer a batch of files and folders]
 
-Transfers from RDS to Gadi can be peformed with the same scripts, simply reversing the source and destination. 
+Transfers going in the other direction, i.e. from RDS to Gadi, can be performed with the same scripts by simply reversing the source and destination.
 
 Note that the job script first starts `gcp`, then initiates the transfer, waits for the transfer to complete, then stops `gcp`. Stopping `gcp` after the transfer is required in order to prevent the `gcp` idle task consuming the remaining walltime of the job.
+
+##### Globus endpoint and collection IDs
+
+In order to use the Globus CLI for data transfer, you will need to know the UUID (universally unique identifier) of the source and destination collection.
+
+To find the **UUID of your RDS collection**, log on to the Globus web app, select the 'Collections' tab from the left hand side menu, and search for your RDS project as described [above](#using-the-globus-web-interface-with-an-nci-managed-gdata-endpoint). Select the collection, then scroll to the bottom of the 'Overview' tab. The UUID will be shown at the end of the content. Collections you have made within your RDS collection, for example to serve as a [guest collection](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/4879319932/Set+up+Globus+Guest+Collections) will have their own UUID and can be found by searching for the name you assigned the collection at its creation.
+
+To find the **UUID of your NCI-managed gdata collection**, search the collections as described above. Your NCI collection should be named 'NCI USYDNEY <NCI-project-code>'. If you cannot find your collection, please contact the [NCI helpdesk](https://nci.org.au/users/nci-helpdesk). 
+
+To find the **UUID of your `gcp` Gadi collection, you can use the web app to search 'Collections' for the name you assigned your collection during `gcp` setup. Alternatively, you can use the Globus CLI:
+
+```bash
+globus endpoint search --filter-scope my-endpoints
+```
+
+This will list all endpoints managed by your USyd identity, including any you have created elsewhere, for example on your local computer.Example output:
+
+```bash
+ID                                   | Owner                  | Display Name                 | Domain
+-------------------------------------+------------------------+------------------------------+-------
+1f34h1f8-95f7-11f1-8ab6-0afff7074b31 | <unikey>@sydney.edu.au | my-desktop                   | None   
+e00g9da0-c208-11f1-944e-0effcb3df923 | <unikey>@sydney.edu.au | my-gadi-gcp                  | None  
+```
+
+The ID in the first column is required for the [`globus transfer` command](https://docs.globus.org/cli/reference/transfer/), which takes the form:
+
+```bash
+globus transfer [OPTIONS] SOURCE_ENDPOINT_ID[:SOURCE_PATH] DEST_ENDPOINT_ID[:DEST_PATH]
+```
+
+For example, to transfer from Gadi to RDS, the 'SOURCE_ENDPOINT_ID' is the UUID of your Gadi collection and the 'DEST_ENDPOINT_ID' is your RDS project UUID.
+
+It is important to note the following when setting up your transfer script:
+
+- Globus always places the source directory's *contents* inside the destination directory you specify, regardless of trailing slashes (unlike the behaviour of `rsync`). This means that the source directory itself will be omitted unless you include the name of that parent directory in the destination path. The template scripts below use `basename` to achieve this.
+- The command to transfer a single file and a single directory is identical, aside from the caveat above.
+- Destination collection paths are relative to the root of the collection ID you are transferring to. If you want to transfer a directory to the collection root, use "/" for the destination path.
+- Directory transfers expect a directory destination path, and file transfers expect a file transfer path. For this reason, you *cannot* use "/" as the destination path to transfer a single file to the collection root. Instead, you must include a filename, e.g. "/<filename>". Failing to specify a file destination for a file transfer will yield the error "not a directory" in the [activity monitor](https://app.globus.org/activity) event log. For a job running on `copyq`, this error will cause Globus to continue trying, until walltime is reached. Your PBS error log will include only the walltime exceeded error, not the Globus error.
+- If recursive/non-recursive mode is not specified, directories will be auto-detected from the transfer data and recursed by default. You must add the flag `--no-recursive` if recursive transfer is not desired.
+- Relative paths on the source are not valid. Use full paths to specify data.
+- The default installation location of Globus CLI is added to $PATH when you login to Gadi, but is *not* inherited by the PBS environment. This is resolved by a line in our template scripts below, or use your preferred method to ensure Globus CLI is accessible by the compute nodes.
+- Make sure to include the storage where you have installed `gcp` at the `lstorage` directive in your PBS script. 
+
+##### Authentication
+
+Before submitting a scripted transfer with Globus CLI, it is vital to authenticate/re-authenticate. ICT has established a 16-hour logout policy for security. If your authentcation times ou during an active transfer, the transfer will still complete. It is only the initiation of the transfer that requires you to be authenticated. If you submit a Globus job to `copyq` and the Globus CLI requires authentication, the job will hang and the transfer will not start. 
+
+Initial authentication occurred when you installed Globus CLI. To re-authenticate, issue the following command, replacing '<unikey>' with your unikey:
+
+```bash
+globus session update <unikey>@sydney.edu.au
+```
+
+Follow the terminal prompts to authenticate via your browser and copy the generated token back to your Gadi terminal. Successful authentication will return a message including "**You have successfully updated your CLI session**. Once this step is completed, you can submit your Globus data transfer script.
+
+##### Template Globus CLI `copyq` scripts
+
+Please note that the maximum walltime on Gadi's `copyq` is 10 hours. As always, it is recommended to only request what you need, plus some overhead, to avoid queueing for longer than necessary. If you believe your transfer will require more than 10 hours, please [contact NCI helpdesk](https://nci.org.au/users/nci-helpdesk) with your submitted job ID to ask them to raise this for your transfer. For very large transfers, you may wish to split the transfer into multiple jobs, for example by directory rather than all within the one transfer job.
+
+###### Transfer a single file from Gadi to RDS
+
+```bash
+#! /bin/bash
+
+#PBS -P <nci-project-code>
+#PBS -N globus-file-transfer
+#PBS -l walltime=10:00:00
+#PBS -l ncpus=1
+#PBS -l mem=4GB
+#PBS -W umask=022
+#PBS -q copyq
+#PBS -l wd
+#PBS -lstorage=scratch/<nci-project-code>+gdata/<nci-project-code>
+
+# Default Globus CLI installation path
+export PATH="$HOME/.local/bin:$PATH"
+
+#################################################################
+# START A FRESH GCP
+gcp=<path-to>/globusconnectpersonal-<version>/globusconnectpersonal
+
+if [[ ! -x ${gcp} ]]; then
+    echo "ERROR: Globus Connect Personal not found at $gcp" >&2
+    exit 1
+fi
+
+if ${gcp} -status >/dev/null 2>&1; then
+    ${gcp} -stop
+fi
+
+${gcp} -start &
+
+#################################################################
+# SOURCE AND DESTINATION COLLECTION IDS
+source_id=<source-collection-UUID>
+dest_id=<destination-collection-UUID>
+
+#################################################################
+# DATA TO TRANSFER
+filepath=<full-path-to-file>
+filename=$(basename ${filepath}) 
+
+#################################################################
+# START THE TRANSFER
+# CAPTURE TASK ID
+transfer_id=$(globus transfer \
+    ${source_id}:${filepath} \
+    ${dest_id}:${filename} \
+    --format unix \
+    --jmespath 'task_id') || exit 1
+
+echo "Transfer submitted at $(date). Transfer id = ${transfer_id}"
+
+#################################################################
+# WAIT FOR THE TRANSFER TASK TO COMPLETE
+globus task wait ${transfer_id} 
+
+#################################################################
+# REPORT TRANSFER STATUS 
+status=$(globus task \
+    show ${transfer_id} \
+    --jmespath 'status' \
+    --format unix)
+
+echo "Transfer complete at $(date). Status = ${status}"
+
+#################################################################
+# STOP GCP
+echo "Stopping gcp at $(date)"
+${gcp} -stop 
+```
+
+
+###### Transfer a single directory from Gadi to RDS
+
+```bash
+#! /bin/bash
+
+#PBS -P <nci-project-code>
+#PBS -N globus-dir-transfer
+#PBS -l walltime=10:00:00
+#PBS -l ncpus=1
+#PBS -l mem=4GB
+#PBS -W umask=022
+#PBS -q copyq
+#PBS -l wd
+#PBS -lstorage=scratch/<nci-project-code>+gdata/<nci-project-code>
+
+# Default Globus CLI installation path
+export PATH="$HOME/.local/bin:$PATH"
+
+#################################################################
+# START A FRESH GCP
+gcp=<path-to>/globusconnectpersonal-<version>/globusconnectpersonal
+
+if [[ ! -x ${gcp} ]]; then
+    echo "ERROR: Globus Connect Personal not found at $gcp" >&2
+    exit 1
+fi
+
+if ${gcp} -status >/dev/null 2>&1; then
+    ${gcp} -stop
+fi
+
+${gcp} -start &
+
+#################################################################
+# SOURCE AND DESTINATION COLLECTION IDS
+source_id=<source-collection-UUID>
+dest_id=<destination-collection-UUID>
+
+#################################################################
+# DATA TO TRANSFER
+directory=<full-path-to-directory>
+directory_name=$(basename $directory)
+
+#################################################################
+# START THE RECURSIVE TRANSFER
+# CAPTURE TASK ID 
+transfer_id=$(globus transfer \
+    ${source_id}:${directory} \
+    ${dest_id}:${directory_name} \
+    --format unix \
+    --jmespath 'task_id') || exit 1
+
+echo "Transfer submitted at $(date). Transfer id = ${transfer_id}"
+
+#################################################################
+# WAIT FOR THE TRANSFER TASK TO COMPLETE
+globus task wait ${transfer_id} 
+
+#################################################################
+# REPORT TRANSFER STATUS 
+status=$(globus task \
+    show ${transfer_id} \
+    --jmespath 'status' \
+    --format unix)
+
+echo "Transfer complete at $(date). Status = ${status}"
+
+#################################################################
+# STOP GCP
+echo "Stopping gcp at $(date)"
+${gcp} -stop 
+```
+
+###### Transfer a batch of files and folders
+
+Globus CLI batch transfers require a [batch input file](https://docs.globus.org/cli/reference/transfer/#batch_input) listing the data to transfer, with one file or directory per line. The line format is source data and destination path separated by a space. If source or destination include spaces, wrap in double quotes. The destination directory will be made if it does not exist. Recall the note from earlier about Globus requiring a file destination for a file transfer.
+
+Example batch input file:
+
+```bash
+/g/data/<nci-project>/raw_data /raw_data
+/g/data/<nci-project>/readme.txt /readme.txt
+/scratch/<nci-project-id>/output /nci_backup
+/scratch/<nci-project-id>/misc /
+```
+
+Example batch script:
+
+```bash
+#! /bin/bash
+
+#PBS -P <nci-project-code>
+#PBS -N globus-batch-transfer
+#PBS -l walltime=10:00:00
+#PBS -l ncpus=1
+#PBS -l mem=4GB
+#PBS -W umask=022
+#PBS -q copyq
+#PBS -l wd
+#PBS -lstorage=scratch/<nci-project-code>+gdata/<nci-project-code>
+
+# Default Globus CLI installation path
+export PATH="$HOME/.local/bin:$PATH"
+
+#################################################################
+# START A FRESH GCP
+gcp=<path-to>/globusconnectpersonal-<version>/globusconnectpersonal
+
+if [[ ! -x ${gcp} ]]; then
+    echo "ERROR: Globus Connect Personal not found at $gcp" >&2
+    exit 1
+fi
+
+if ${gcp} -status >/dev/null 2>&1; then
+    ${gcp} -stop
+fi
+
+${gcp} -start &
+
+#################################################################
+# SOURCE AND DESTINATION COLLECTION IDS
+source_id=<source-collection-UUID>
+dest_id=<destination-collection-UUID>
+
+#################################################################
+# DATA TO TRANSFER
+batch_list=<path-to-batch-list-file>
+
+#################################################################
+# START THE RECURSIVE TRANSFER
+# CAPTURE TASK ID
+transfer_id=$(globus transfer \
+    ${source_id} \
+    ${dest_id} \
+    --batch ${batch_list} \
+    --format unix \
+    --jmespath 'task_id') || exit 1
+
+echo "Transfer submitted at $(date). Transfer id = ${transfer_id}"
+
+#################################################################
+# WAIT FOR THE TRANSFER TASK TO COMPLETE
+globus task wait ${transfer_id} 
+
+#################################################################
+# REPORT TRANSFER STATUS 
+status=$(globus task \
+    show ${transfer_id} \
+    --jmespath 'status' \
+    --format unix)
+
+echo "Transfer complete at $(date). Status = ${status}"
+
+#################################################################
+# STOP GCP
+echo "Stopping gcp at $(date)"
+${gcp} -stop
+```
+
+In the above example, the source and destination paths have been included in the batch input file rather than the script. You can also construct your script and batch file using paths relative to those included in the `globus transfer` command. An example of this can be found on the [Globus github site](https://github.com/globus/automation-examples/blob/master/batch.md). 
 
 ### Transfer using RDS mapped network drive and data transfer client{#gui}
 
