@@ -11,13 +11,26 @@ from: markdown+emoji
 In this section, we will look at transferring data between the Research Data Store (RDS) and Gadi. There is a lot of content with step-by-step examples here due to the numerous methods available for data transfer. 
 
 [Watch the pre-recorded session](https://youtu.be/ZBOycXymok4?si=Ln03g69UjCcylF13&t=1856)
- 
+
+*Please note - this video was recorded before Globus was available at USyd. We will provide video tutorials on using Globus at a later date.*
+
+## Data transfer options
+
+Depending on the size and complexity of the data you are transferring, you have multiple options available. For small transfers (<1 GB) you can use any of the options described in the table below. For larger transfers, you should use Gadi's [data mover nodes](https://opus.nci.org.au/spaces/Help/pages/236880317/File+Transfer...) at `gadi-dm.nci.org.au`. Scripted transfers are ideally run within the `copyq`, which schedules jobs to run on the data mover nodes, allowing you to log off while your transfer is running. 
 
 **The table below summarises the data transfer methods covered in this section:**
 
 +-------------------------------------------+----------------------------------------------------+----------------------------------------------------------------+
 | Method                                    | Suitable data size/type                            | [Pros]{style="color: blue;"}/[Cons]{style="color: red;"}       |
 +===========================================+====================================================+================================================================+
+| [Globus](#globus)                         | Any file or dataset size.                          | - [Fast and easy transfer with integrated                      |
+|                                           |                                                    |   checksum]{style="color: blue;"}                              |
+|                                           |                                                    | - [Web app/GUI for drag-and-drop                               |
+|                                           |                                                    |   transfers]{style="color: blue;"}                             |
+|                                           |                                                    | - [Command-line tool]{style="color: blue;"}                    |
+|                                           |                                                    | - [Must review and accept the data                             |
+|                                           |                                                    |   security policy]{style="color: red;"}                        |
++-------------------------------------------+----------------------------------------------------+----------------------------------------------------------------+
 | [GUI based data transfer client](#gui)    | Only small files, configuration scripts, etc.      | - [Easy to use]{style="color: blue;"}                          |
 | e.g. `filezilla` or `cyberduck`           |                                                    | - [Host computer can limit transfer                            |
 |                                           |                                                    |   speed]{style="color: red;"}                                  |
@@ -35,14 +48,7 @@ In this section, we will look at transferring data between the Research Data Sto
 |                                           | files updated during each transfer.                | - [Only copies what has changed]{style="color: blue;"}         |
 |                                           |                                                    | - [Slower speed than `sftp`]{style="color: red;"}              |
 +-------------------------------------------+----------------------------------------------------+----------------------------------------------------------------+
-| [Globus](#globus)                         | Any file or dataset size.                          | - [Fast and easy transfer with integrated                      |
-|                                           |                                                    |   checksum]{style="color: blue;"}                              |
-|                                           |                                                    | - [Web app/GUI for drag-and-drop                               |
-|                                           |                                                    |   transfers]{style="color: blue;"}                             |
-|                                           |                                                    | - [Command-line tool]{style="color: blue;"}                    |
-|                                           |                                                    | - [Must review and accept the data                             |
-|                                           |                                                    |   security policy]{style="color: red;"}                        |
-+-------------------------------------------+----------------------------------------------------+----------------------------------------------------------------+
+
 
 
 
@@ -84,28 +90,17 @@ The RDS was NOT decommissioned along with Artemis HPC. Any RDS projects you curr
 
 In this section, we will mainly focus on how to transfer data between Gadi HPC and RDS. You should be able follow similar methods for copying data between your own laptop/server and Gadi.
 
-## Data transfer options
-Depending on the size and complexity of the data you are transferring you have multiple options available:
 
-  + For small transfers (<1 GB) you can use a GUI based data transfer client such as `filezilla` or `cyberduck`.
-
-  + For mid sized transfers up to tens of GB you can use terminal based transfer.
-
-  + For large transfers you should use the data transfer queue on Gadi (`copyq`) or Globus. 
-
-::: {.callout-warning}
-All data transfer to and from Gadi should be made using the "Data Mover Node" at `gadi-dm.nci.org.au` where possible rather than the login nodes. This ensures that data transfer will not consume otherwise limited resources on the login nodes.
-:::
 
 ### Globus {#globus}
 
-[Globus](https://www.aarnet.edu.au/globus#) is a data transfer and sharing platform designed to move large volumes of data securely, easily, reliably, and automatically between RDS and other storage connected to the Globus service is a data transfer service that makes it easier to copy data around. 
+[Globus](https://www.aarnet.edu.au/globus#) is a data transfer and sharing platform designed to move large volumes of data securely, easily, reliably, and automatically between RDS and other storage connected to the Globus service.
 
-Instead of data transfers running on your local computer, you submit data transfer requests to the Globus service, and the data transfers happen on Globus servers independently of your local computer. Globus can verify all data is successfully transferred and retry transfers until they succeed.
+By default, Globus runs checksums on all transfers to verify the integrity of transferred data, and will retry transfers until they succeed.
 
 Globus is simple to use, and data transfers can be initiated via an intuitive web app or the command-line. 
 
-For comprehensive information on using Globus, please visit our technical guide:
+For more information on using Globus, please visit our technical guide:
 
 - [SIH Globus technical guide](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/4392878084/Globus)
 
@@ -121,7 +116,7 @@ To transfer between NCI Gadi's `/scratch` space, you can easily [establish your 
 
 
 
-#### Using the Globus web interface
+#### Using the Globus web interface with an NCI-managed gdata endpoint
 
 The simplest way to use Globus is via the web interface. You can log in to the web interface with your University of Sydney credentials and then set up a transfer between RDS and Gadi using the "Endpoints" for RDS and Gadi. To do this:
 
@@ -130,7 +125,6 @@ The simplest way to use Globus is via the web interface. You can log in to the w
 2. In the 'Collection' search box on the 'File manager' tab, search for your NCI endpoint.
 
 - For NCI-managed `/g/data` endpoints, type your NCI project ID and select the collection, eg “NCI USYDNEY nci-project-id”. This will open `/g/data/` (your storage on NCI) in the left-hand pane. 
-- If you are using a personal `/scratch` endpoint, search for the name you assigned this collection during setup. This will open your Gadi `/home` directory, as shown by `/~/` within the `Path` field. To navigate to the `/scratch` space for any project you are a member of, over-write the path with the desired scratch path and press the enter key.
 - Note that you can access `/scratch`, `/g/data` and your home directory from a personal `/scratch` endpoint, but you can only access `/g/data` from an NCI-managed `/g/data` endpoint.
 
 _Note: you may be required to give consent for Globus to access your NCI and RDS storage the first time you use it. This is a one-time process and you will be prompted to log in to each service and give consent for Globus to access the data on your behalf. You can revoke this access at any time via your account settings on the Globus web app. You may need to refresh the two-pane page after granting consent in another window._
@@ -154,6 +148,18 @@ If you get an error similar to the below after granting consent, you need to [re
 ![Error NCI web app](../fig/issueusernamemapping.png)
 :::
 
+#### Using the Globus web interface with a Globus Connect Personal Gadi endpoint
+
+To connect to your Globus Connect Personal (`gcp`) endpoint in the Globus web app, `gcp` **must be running on Gadi**. It must also stay running for the duration of the transfer. 
+
+For very small transfers, starting `gcp` on the login node, performing the transfer in the web app, then stopping `gcp` on the login node, is permitted, and described in our [Globus technical guide](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/4297981989/To+and+from+NCI+with+Globus#From-the-login-node-for-small%2C-short-duration-transfers).
+
+Once `gcp` is running on Gadi, within the Globus web app, search for the name you assigned this collection during setup. This will open your Gadi `/home` directory, as shown by `/~/` within the `Path` field. To navigate to the `/scratch` or `gdata` space for any project you are a member of, over-write the path with the desired scratch path and press the enter key. Note that you must have followed the configuration changes described in our [`gcp` setup guide](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/4297981989/To+and+from+NCI+with+Globus#Step-2.-Run-setup) to be bale to access `scratch` and `gdata`.
+
+For larger transfers, `gcp` must be run in the `copyq`. The command to start `gcp` is placed within a `copyq` job. Once your job leaves the queue and starts, you can then access your Gadi collection via the web app as described above.
+
+Please remember to actively kill the `copyq` job with the command `qdel <job-id>` to avoid the `gcp` task running until the requested walltime of the job. 
+
 #### Using the Globus command line utility
 
 To use the Globus command line utility, install the `globus` CLI tool following our [installation and authentication guide](https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/3492052996/Globus+technical+guide#Use-the-CLI-utility-tool).
@@ -162,6 +168,18 @@ Please visit the following Globus material for Globus CLI usage instructions:
 
 - [QuickStart guide](https://docs.globus.org/cli/quickstart)
 - [Full reference documentation](https://docs.globus.org/cli/reference)
+
+Using the Globus CLI for scripted transfers on the `copyq` is the recommended way to transfer between your Gadi `gcp` endpoint and RDS. 
+
+Below you will find 3 template scripts to perform the following transfers:
+
+- [Transfer a single file from Gadi to RDS]
+- [Transfer a single directory from Gadi to RDS]
+- [Transfer a batch of files and folders]
+
+Transfers from RDS to Gadi can be peformed with the same scripts, simply reversing the source and destination. 
+
+Note that the job script first starts `gcp`, then initiates the transfer, waits for the transfer to complete, then stops `gcp`. Stopping `gcp` after the transfer is required in order to prevent the `gcp` idle task consuming the remaining walltime of the job.
 
 ### Transfer using RDS mapped network drive and data transfer client{#gui}
 
