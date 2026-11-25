@@ -1,0 +1,86 @@
+---
+title: "**Nextflow on Gadi**"
+output:
+  html_document:
+    toc: false
+    toc_float: false
+from: markdown+emoji
+---
+
+[Nextflow](https://www.nextflow.io/) is a workflow language that enables scalable and portable scientific workflows. 
+
+This section does not teach you how to code or use Nextflow workflows. To get started learning Nextflow, we recommend the following training:
+
+**Introductory**
+- [Nextflow training](https://training.nextflow.io/latest/)
+- [Nextflow for the life sciences](https://zenodo.org/records/16791039)
+
+**Intermediate**
+- [Nextflow on HPC](https://zenodo.org/records/17694728)
+- [Customising nf-core](https://zenodo.org/records/20453332)
+
+
+Instead, this section will describe different methods of running Nextflow specifically for NCI Gadi HPC. 
+
+## Key points
+
+### Lack of internet access on compute nodes
+
+Nextflow is designed to pull resources (e.g. databases, updated software container versions) on the fly. Gadi compute nodes lack internet access, so if you attempt to run a workflow where the requirements are not found locally, Nextflow will attempt to download them and your run will fail. For this reason, it is required to ensure you have pre-downloaded all software containers and inputs beforehand. If your workflow requires a lot of containers, running the download (for example using the `nf-core pipelines download` command if you are running an nf-core pipeline) on `copy` is recommended.
+
+### Ways to run
+
+On Gadi, Nextflow can be run:
+
+- On the 'copyq' job queue with a Gadi configuration file
+- On the persistent session nodes with a Gadi configuration file
+- Within a single PBS job (not recommended for complex workflows)
+
+### Gadi configuration file 
+
+When using the `copy` or persistent sessions method, a Gadi configuration file is required. This file instructs Nextflow to send each run of each process to the PBS Pro job scheduler, to be submitted as its own separate job.
+
+Without the Gadi configuration file, the processes will be run using the compute available to the session. In the case of a 'copyq' job, this is restricted to 1 CPU. On the persistent session nodes, these are available under a fair use policy, and should *not* be used to run intensive processes, similar to the login nodes. Using a Gadi config enables your Nextflow workflow to access the vast compute available on the whole cluster. 
+
+### Software
+
+We recommend using singularity for software when running Nextflow on Gadi. Docker is not supported on Gadi, and local installations are not recommended as they eschew the portability and reproducibility that make Nextflow so well suited to scientific data analysis. 
+
+The Gadi config file will instruct Nextflow to use singularity, and the workflow codebase will describe the singularity images. 
+
+To ensure your workflow can run on Gadi, you need to:
+
+1. Pre-download the software images
+2. Include commands to load the latest modules for `nextflow` and `singularity` within your job script (if using `copyq` ) or within your session (if using persistent sessions)
+
+### Single PBS job for simple workflows
+
+If your workflow is simple, i.e. consists of a small number of processes each with similar resource requirements, you can run the workflow within a single PBS job on any of the compute queues without a configuration file. Simply include the `nextflow run` command under your PBS directives as normal. 
+
+Running complex workflow on Gadi in this way is not ideal as it restricts Nextflow to using only the 'local resources', ie only those that are contained on that single node. Consider the example of a workflow where there are 100 samples each moving through a process requiring 12 CPU and 24 GB on the `normal` queue. A job which requests one whole `normal` node (i.e. 48 CPU and 190 GB RAM) to run this workflow could only run at most 4 of these 100 processes at a time. If the same workflow was executed with a Gadi configuration file, all 100 runs of that process would be submitted as separate jobs, increasing throughput and reducing user wait time. 
+
+Similarly, if some processes in the workflow required GPU or huge memory, this could not be achieved with the above example job. Those processes would be forced to run on the same node that the Nextflow head job was running on, likely leading to reduced performance or job failure. 
+
+
+
+### Walltime
+
+When running a Nextflow workflow on Gadi, the `run` command must be active for the entire duration that processes are running. When using the `copyq`, this means that all processes must complete within the 10 hour walltime limit imposed by that queue. The individual processes are subject to the walltime limits of the queue that they are run on, for example 48 hours for the `normal` queue. Queue time is important here too: If your workflow runs a process that requests 8 hours on the `normal` queue but was queued for 3 hours, this has already exceeded the 10 hours that the head job could be running on the `copyq`. 
+
+To overcome this limitation with using the `copyq` to run Nextflow workflows, NCI created the [persistent sessions]() nodes. These nodes do not have a walltime limit imposed, and are accessed via ssh rather than through the job scheduler. If running the Nextflow workflow in the foreground, your workflow will be killed as soon as the ssh connection to the persistent session is closed. To enable you to log off without killing the run, start a 'screen' or 'tmux' session within your persistent session. Start the workflow with the Nextflow `run` command from within your screen/tmux session, then detach from the screen once your workflow is running. You can reconnect to the persistent session then reattach to your screen/tmux session at any time to check on your run.
+
+### Monitoring your run
+
+When running your workflow with a Gadi configuration file from the persistent sessions or `copyq`, you can monitor using the `qsub` command in the usual way. The `qsub` command will show job IDs for all Nextflow processes that have been submitted. When using `copyq`, you will also see the status of that head job. If you observe that the walltime is running low but the workflow is not near completion, please contact the NCI helpdesk to increase the walltime of the Nextflow head job on `copyq`. 
+
+
+### Use of login nodes
+
+Gadi's login nodes are *not* intended for running Nextflow workflows. However, they can be used to help set up your run, for example, pulling the workflow and dependencies or running very small tests (for example, the ubiquitous '[hello world](https://training.nextflow.io/latest/hello_nextflow/01_hello_world/#1-examine-the-script-and-run-it)' learning activity). 
+
+The login nodes are throttled, so if you start a Nextflow workflow on the login node, it will be aborted if any of the walltime, CPU or memory resource caps applied to the login nodes are met.
+
+Many public Nextflow workflows include test datasets. In some cases, the test datasets can run successfully on the login node, and can be a good way to ensure you have all the workflow requirements locally before running on the network-inaccessible compute nodes. Some test datasets exceed the login node resource caps, so test runs may require to be submitted using the Gadi configuration described above. 
+
+
+
