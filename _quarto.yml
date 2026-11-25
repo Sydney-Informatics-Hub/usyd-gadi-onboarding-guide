@@ -41,13 +41,15 @@ website:
         - text: "Job scripts and submission"
           href: notebooks/08_job_script.html
         - text: "Working within walltime"
-          href: notebooks/12_walltime.html          
+          href: notebooks/12_walltime.html
         - text: "Job monitoring"
           href: notebooks/09_job_monitoring.html
         - text: "Benchmarking and efficiency"
           href: notebooks/10_job_efficiency.html
         - text: "Parallel jobs"
-          href: notebooks/13_parallel_jobs.html          
+          href: notebooks/13_parallel_jobs.html
+        - text: "Nextflow workflows"
+          href: notebooks/14_nextflow_on_gadi.html
       - href: support.qmd
         text: Support and resources
 
