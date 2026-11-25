@@ -1,0 +1,451 @@
+---
+title: "**Nextflow on Gadi**"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-expand: 3
+from: markdown+emoji
+---
+
+[Nextflow](https://www.nextflow.io/) is a workflow language that enables scalable and portable scientific workflows. 
+
+This section does not teach you how to code or use Nextflow workflows. To get started learning Nextflow, we recommend the following training:
+
+**Introductory**
+
+- [Nextflow training](https://training.nextflow.io/latest/)
+- [Nextflow for the life sciences](https://zenodo.org/records/16791039)
+
+**Intermediate**
+
+- [Nextflow on HPC](https://zenodo.org/records/17694728)
+- [Customising nf-core](https://zenodo.org/records/20453332)
+
+
+Instead, this section describes details you will need to know to run Nextflow workflows on NCI Gadi HPC. 
+
+## Key considerations
+
+### Lack of internet access on compute nodes
+
+Nextflow is designed to pull resources (e.g. databases, updated software container versions) on the fly. Gadi compute nodes lack internet access, so if you attempt to run a workflow where the requirements are not found locally, Nextflow will attempt to download them and your run will fail. For this reason, it is required to ensure you have pre-downloaded all software containers and inputs beforehand. If your workflow requires a lot of containers, running the download (for example using the `nf-core pipelines download` command if you are running an nf-core pipeline) on `copyq` is recommended.
+
+### Where to run
+
+On Gadi, Nextflow can be run:
+
+- On the `copyq` job queue with a Gadi configuration file
+- On the `persistent session` nodes with a Gadi configuration file
+- Within a single PBS job (not recommended for complex workflows)
+
+Details on the use of each are described in [Ways to run a workflow](#ways-to-run-a-workflow).
+
+### Why use a Gadi configuration file 
+
+When using the `copyq` or persistent session nodes to run a workflow, a Gadi configuration file/s is required. This file instructs Nextflow to send each run of each process to the PBS Pro job scheduler, to be submitted as its own separate job, with the resources and queue type specified within the config.
+
+Without the Gadi configurations, the processes will be run using the compute available locally. If you are running on the login node, processes will attempt to use login node resources. In the case of a `copyq` job, this is restricted to 1 CPU. On the persistent session nodes, these can access more than 1 CPU, are not throttled like the login nodes, but are available under a fair use policy and should *not* be used to run intensive processes. Using a Gadi config enables your Nextflow workflow to access the vast compute available on the whole cluster.
+
+A Gadi configuration file/s at minimum contains the resource specifics needed to run any Nextflow workflow on Gadi. The config can be further customised to over-ride the resource defaults set by the workflow developers, for example changing the number of CPUs for a process to better match the hardware setup on Gadi. When and how to customise an infrastructure config is covered in the two intermediate training workshops suggested above. 
+
+Some example Gadi configuration files and their application are included below in [Gadi configuration files](#gadi-configuration-files).
+
+### Software
+
+We recommend using [`singularity`](https://apptainer.org/) for software when running Nextflow on Gadi. Docker is not supported on Gadi, and local installations are not recommended as they eschew the portability and reproducibility that make Nextflow so well suited to scientific data analysis. 
+
+The Gadi config file will instruct Nextflow to use `singularity`, and the workflow codebase defines which `singularity` images to use for each process. 
+
+To ensure your workflow can run on Gadi, you need to:
+
+1. Pre-download the software images
+2. Include commands to load the latest modules for `nextflow` and `singularity` within your job script (if using `copyq` ) or within your session (if using persistent sessions)
+
+
+### Walltime
+
+When running a Nextflow workflow on Gadi, the `run` command must be active for the entire duration that processes are running. When using the `copyq`, this means that all processes must complete within the 10 hour walltime limit imposed by that queue. The individual processes are subject to the walltime limits of the queue that they are run on, for example 48 hours for the `normal` queue. Queue time is important here too: If your workflow runs a process that requests 8 hours on the `normal` queue but was queued for 3 hours, this has already exceeded the 10 hours that the head job could be running on the `copyq`. The Nextflow workflow (head job and processes) would be terminated by the scheduler before the 8-hour process could complete.
+
+To overcome this limitation with using the `copyq` to run Nextflow workflows, NCI created the [persistent sessions](https://opus.nci.org.au/spaces/Help/pages/241927941/Persistent+Sessions...) nodes. These nodes do not have a walltime limit imposed, and are accessed via `ssh` rather than through the job scheduler. If running the Nextflow workflow in the foreground, your workflow will be killed as soon as the connection to the persistent session is closed. To enable you to log off without killing the run, start a [`screen`](https://man7.org/linux/man-pages/man1/screen.1.html) or [`tmux`](https://man7.org/linux/man-pages/man1/tmux.1.html) session within your persistent session. Start the workflow with the Nextflow `run` command from within your screen/tmux session, then detach from the screen once your workflow is running. You can reconnect to the persistent session then reattach to your screen/tmux session at any time to check on your run.
+
+### Monitoring your run
+
+When running your workflow with a Gadi configuration file from the persistent sessions or `copyq`, you can monitor using the `qstat` command in the usual way. The `qstat` command will show job IDs for all Nextflow processes that have been submitted. 
+
+When using `copyq`, you will also see the status of the head job. If you observe that the walltime of the head job is running low but the workflow is not near completion, please contact the [NCI helpdesk](https://nci.org.au/users/nci-helpdesk) to increase the walltime of the Nextflow head job on `copyq`. Be sure to include the job ID of the head job and the amount of additional walltime required in your support request.
+
+
+### Use of login nodes
+
+Gadi's login nodes are *not* intended for running Nextflow workflows. However, they can be used to help set up your run, for example, pulling the workflow codebase and dependencies or running very small tests (for example, the ubiquitous [hello world](https://training.nextflow.io/latest/hello_nextflow/01_hello_world/#1-examine-the-script-and-run-it)' learning activity). 
+
+The login nodes are throttled, so if you start a Nextflow workflow on the login node, it will be aborted if any of the walltime, CPU or memory resource caps applied to the login nodes are met. Even if you are using a Nextflow Gadi config to send processes to the PBS Pro job scheduler, the Nextflow head job must stay active for the duration of these running processes. Since commands are killed after 30 minutes on the login node, this method will fail for most non-trivial workflow runs.
+
+Many public Nextflow workflows include test datasets. In some cases, the test datasets can run successfully on the login node, and can be a good way to ensure you have all the workflow requirements locally before processes are attempted to be run on the network-inaccessible compute nodes. Some test datasets exceed the login node resource caps, so test runs may require to be started on `copyq` or persistent sessions with a Gadi config file.
+
+### `work` and iNodes
+
+Nextflow generates a large number of iNodes into the `work` directory. Periodic cleanup may be required to keep your project under its iNode allocation. In order to benefit from Nextflow's `resume` feature, certain files must remain in `work`. For this reason, care when cleaning up the work directory is warranted. For example, cleanup the Nextflow `work` directory after a run is successful and the results are backed up to RDS. 
+
+You can also use the `nextflow clean` command to clean only specific runs, for example those that have failed or were using test datasets. 
+
+## Ways to run a workflow 
+
+
+### Single PBS job for simple workflows
+
+If your workflow is simple, you can run the workflow within a single PBS job on any of the compute queues without a Gadi configuration file. Simply include the `nextflow run` command under your PBS directives as you would for any other task command. 
+
+Running complex workflow on Gadi in this way is not ideal as it restricts Nextflow to using only the 'local resources', i.e. only those that available to that single job. Consider the example of a workflow where there are 100 samples each moving through a process requiring 12 CPU and 24 RAM GB on the `normal` queue. A job which requests one whole `normal` node (i.e. 48 CPU and 190 GB RAM) to run this workflow could only run *at most* 4 of these 100 processes at a time. If the same workflow was run with a Gadi configuration file, all 100 runs of that process would be submitted as separate jobs, increasing throughput and reducing user wait time for results. 
+
+Similarly, if some processes in the workflow required GPU or huge memory, this could not be achieved with this example job. Those processes would be forced to run on the same node that the Nextflow head job was running on, likely leading to reduced performance or job failure. 
+
+An example simple Nextflow run script for the `normal` queue is shown below.
+
+#### Example script 
+
+
+```bash
+#!/bin/bash
+
+#PBS -P <nci-project-code>
+#PBS -q normal
+#PBS -l ncpus=48
+#PBS -l mem=190GB
+#PBS -l jobfs=200GB
+#PBS -l walltime=48:00:00
+#PBS -l gdata/<nci-project-code>
+#PBS -l wd
+
+module load nextflow/<version>
+module load singularty
+
+nextflow run <workflow> \
+    -with-singularity \
+    --<parameter1> <argument1> \
+    --<parameter2> <argument2> 
+
+```
+
+### Run on `copyq` with Gadi config
+
+Shown below is an example script to run the Nextflow head job (`run` command) on the `copyq`, with individual processes being scheduled by PBS Pro to run across the cluster according to the Gadi config/s. 
+
+The example below specifies 2 custom configurations as described in [Custom workflow Gadi config](#custom-workflow-gadi-config). 
+
+If you are running an nf-core workflow, please use `-profile singularity,nci_gadi` as described [here](https://nf-co.re/configs/nci_gadi/) instead of `-c /path/to/gadi.environment.config,/path/to/gadi.modules.config`.
+
+#### Example script
+
+```bash
+#!/bin/bash
+
+#PBS -P <nci-project-code>
+#PBS -q copyq
+#PBS -l ncpus=1
+#PBS -l mem=4GB
+#PBS -l walltime=10:00:00
+#PBS -l gdata/<nci-project-code>
+#PBS -l wd
+
+module load nextflow/<version>
+module load singularty
+
+nextflow run <workflow> \
+    --<parameter1> <argument1> \
+    --<parameter2> <argument2> \
+    -c /path/to/gadi.environment.config,/path/to/gadi.modules.config
+
+# For nf-core:
+#nextflow run <workflow> --<parameter1> <argument1> --<parameter2> <argument2> -profile singularity,nci_gadi
+```
+
+### Run in `persistent session` with Gadi config
+
+1. Follow the [NCI guide to starting and connecting to a persistent session](https://opus.nci.org.au/spaces/Help/pages/241927941/Persistent+Sessions...). If you have previously started a session and forgot its name, you can recover a list of past session names by running `ls ~/.persistent-sessions/`.
+2. Open a `tmux` or `screen` session. Commands for `screen` will be included here. Start a screen session: `screen -S <your-screen-name>`
+3. Start your nextflow run. This may be by entering the full Nextflow command (e.g. `nextflow run <workflow> <parameters> -c /path/to/gadi.config`) or running a shell script with your saved Nextflow run command. Ensure to specify the Gadi config/s at the `-c` Nextflow parameter. 
+4. Once your run has started, detach from the screen: `ctrl A + D`
+5. Monitor your processes with `qstat` as desired/required
+6. When you are ready to view the status of your run,  you can reconnect to the persistent session and then the `screen` session. This need not be from the same terminal session from which you started the session or screen. Command: `screen -r <your-screen-name>`. If you have forgotten the name of your screen, you can list screen sessions with the command `screen -list`
+
+**If it is still running** you will see dynamic process status updates and have no available command prompt. 
+
+**Successfully completed run** will show the workflow summary details printed to your terminal, with an available command prompt. 
+
+**Run failed with error** will display red error messages and have an available command prompt. In the case of error, check the process error log as described in [Debugging](#debugging) below.
+
+
+## Gadi configuration files
+
+### nf-core Gadi config
+
+Nexflow workflows from the [nf-core repository](https://nf-co.re/pipelines) are very popular. If you haven't used nf-core before, we recommend you check it out to see if there is a workflow to suit your needs. The nf-core team have prepared a Gadi config to work with their standardised workflow format. The Gadi config and instructions can be found [here](https://nf-co.re/configs/nci_gadi/). 
+
+### Custom workflow Gadi configs
+
+We have prepared two template configs that can be used for custom (non nf-core) Nextflow workflows. 
+
+The Gadi environment configurations are separated from the module (process) configurations. The environment config can run any* custom Nextflow workflow on Gadi, where the modules config should be able to run the workflow on any other HPC, along with its appropriately set up environment config. This separation makes portability easier.  
+
+***\*To work with any Nextflow workflow, the workflow codebase must include the parameters `storage_account`, `su_account`, and `outdir`***: 
+
+- `storage_account`: Comma delimited list of all projects with input or output filepaths required for the run. The user's default NCI project need not be included as an argument to this parameter, as both `scratch` and `gdata` are loaded for the user's default project. For example, `--storage_account ab12,cd34` will load scratch and gdata for the user's default NCI project AND projects ab12 and cd34.
+- `su_account`: KSU will be charged from the user's default project, unless over-ridden by this command-line parameter, for example `--su_account cd34`.
+- `outdir`: Specifies the name of the output directory.
+
+The user can optionally specify the path to pre-downloaded singularity images by using the  `--singularityCacheDir <path>` parameter. If not supplied on the command line (and included in the workflow codebase), the workflow will use the default path. This can be a frequent source of error, so if your workflow fails due to attempting to download images files from the internet via compute nodes yet you have already pre-downloaded them, please check your singularity image cache directory as well as the image names that you have pulled compared to those that are attempting to be downloaded by the failed run.
+
+#### Example environment config
+
+Note that the environment (platform/infrastructure) config shown below **does not need to be edited** with any user names, project codes, process names, or resource details. Its function is to get Nextflow running on Gadi for the submitting user. A workflow run with this config requires also a [workflow/modules config](#example-workflow-config) to set resources per process.
+
+
+**`gadi.environment.config`**
+
+```groovy
+// NCI has a specialised patched install of Nextflow. See: https://opus.nci.org.au/display/DAE/Nextflow
+// this allows for things like storage (PBS -l storage) 
+
+
+//----------PARAMS----------//
+params { 
+    whoami = System.getenv('USER') ?: System.getenv('LOGNAME')
+    su_account = System.getenv("PROJECT")
+    storage_account = '' // list all on CLI, eg --storage_account ab12,cd34
+    storage = null // will hold default (su_account scratch and gdata) plus scratch and gdata for all projects provided to --storage_account
+    singularityCacheDir = ''
+}
+
+
+//----------SINGULARITY----------// 
+singularity {
+    enabled = true
+    autoMounts = true
+    autoCleanUp = true
+    cacheDir = params.singularityCacheDir ? params.singularityCacheDir
+        : "/scratch/${params.su_account}/${params.whoami}/.nextflow/singularity"	
+}
+
+
+//----------STORAGE----------//
+// Enable provision of multiple storage paths for '-l storage' directive - create at top level
+// collect all scratch and gdata paths if provided with --storage_account optional parameter 
+ext.storageAccountString = { s ->
+    (s ?: '')
+    .split(',')
+    .collect { it.trim() }
+    .findAll { it }
+    .unique()
+    .collect { p -> "scratch/${p}+gdata/${p}" }
+    .join('+')
+}
+
+
+// Build the final storage string into params.storage (global scope)
+params.storage = (params.storage && params.storage.trim()) ? params.storage
+    : "scratch/${params.su_account}+gdata/${params.su_account}" +
+    (params.storage_account ? "+${ext.storageAccountString(params.storage_account)}" : "")
+
+
+//----------EXECUTOR----------// 
+// stable PBS polling, global job query (not by queue) = true
+// recommended: false
+executor {
+    queueGlobalStatus = false 
+    pollInterval      = '2 min'
+    queueStatInterval = '10 min'
+    
+    retry {
+        maxAttempt = 5
+        delay      = '10 sec'
+        maxDelay   = '30 sec'
+        jitter     = 0.25
+        reason     = '.*(cannot connect to server|Connection timed out|Socket timed out).*'
+    }    
+    
+}
+
+
+//----------RUNINFO----------//
+// Define timestamp, to avoid overwriting existing trace
+def timestamp = new java.util.Date().format('yyyy-MM-dd_HH-mm-ss')
+
+// Produce a workflow diagram
+dag {
+    enabled = true
+    file = "${params.outdir}/run_info/dag_${timestamp}.svg"
+}
+
+report {
+    enabled = true
+    file = "${params.outdir}/run_info/report_${timestamp}.html"
+}
+
+timeline {
+    enabled = true
+    file = "${params.outdir}/run_info/timeline_${timestamp}.html"
+}
+
+trace {
+    enabled = true
+    file = "${params.outdir}/run_info/trace_${timestamp}.txt"
+    fields = 'process,name,status,queue,realtime,cpus,%cpu,memory,%mem,rss,env'
+} 
+
+
+
+//----------PROCESS----------// 
+process {
+    // Fail a task if any command returns non-zero exit code
+    shell = ['/bin/bash', '-euo', 'pipefail']
+
+    //General
+    module = 'singularity'
+    cache = 'lenient'
+    executor = 'pbspro'
+
+    // Gadi accounting
+    project = "${params.su_account}"
+    storage = params.storage   // NCI-patched Nextflow maps this to PBS -l storage - otherwise, add to clusterOptions
+} 
+
+```
+
+#### Example modules config 
+
+Unlike the Gadi environment config above which is workflow-agnostic, the **modules config is specific to the workflow**. 
+
+**In the template config below, adjust the example process names and resource requirements to match your specific Nextflow workflow.** 
+
+Note that local execution (the compute used for the head job/run command) and 1 CPU and 4 GB RAM is assigned by default for all processes not covered by `withName` or `withLabel`. 
+
+The template config makes use of **process labels** to group processes that require similar resources. This makes adapting the template to a new workflow simpler, by reducing the need to set `withName` for each of the numerous processes in your workflows. For example to request 7 CPU, 63 GB RAM, and 7 hours for a process on the `normalbw` nodes, add the line of code `label 'moderate_high_mem'` to your process code.
+
+Example `withName` resourcing blocks are included for CPU and GPU processes. Using `withName` to target specific processes enables more precise control over resourcing for processes that don't match the general requirements covered by the resource labels. You can have as many `withName` and `withLabel` resource blocks as you like within your config.
+
+As always, when determining your workflow resources, benchmarking is highly recommended. The workflow used when developing these template configs benchmarked best to `gpuhopper` queue, but this may not be the case for your GPU process! 
+
+**`gadi.modules.config`**
+
+```groovy
+// Set default resources for each process
+process {
+    // Set default resources for all processes
+    cpus = 1
+    memory = 4.GB
+    executor = 'local'
+    
+    withName: 'CUSTOM_CPU_PROCESS' {
+        // -29 specific exitcode for gadi exceeded walltime gives rise to 143 exitcode seen by nextflow
+        // some samples require extreme walltimes compared to most others
+        errorStrategy = { task.exitStatus == 143 ? 'retry' : 'terminate' }
+        time = {4.h * task.attempt}
+        cpus = 12
+        memory = 48.GB
+        queue = 'normal'
+        maxRetries = 3    
+    }	
+
+    withName: 'CUSTOM_GPU_PROCESS' {
+        time = 24.h
+        cpus = 24
+        memory = 512.GB
+        maxForks = 50 // max jobs per user on DGX queue
+        queue = 'gpuhopper'
+        // cpu and mem ignored with clusterOptions -l, and no gpus param so must add all to clusterOptions - will emit warning
+        clusterOptions = { "-l ngpus=2,ncpus=${task.cpus},mem=${task.memory.toGiga()}GB,jobfs=200GB,storage=${params.storage}" }
+        // For GPU jobs, Singularity must be run with --nv so CUDA libraries/devices are injected
+        containerOptions = '--nv'
+    }
+		
+    withLabel: 'moderate_high_mem' {
+        time = 4.h
+        cpus = 7
+        memory = 63.GB
+        queue = 'normalbw'    
+    }	
+    withLabel: 'single_core_high_mem' {
+        time = 4.h
+        cpus = 2
+        memory = 63.GB
+        queue = 'normalbw'    
+    }		
+ 	    
+    withLabel: 'light' {
+        cpus = 4
+        memory = 16.GB
+        time = 30.m
+        queue = 'normal'
+    }   
+    
+    withLabel: 'moderate' {
+        cpus = 12
+        memory = 48.GB
+        time = 1.h
+        queue = 'normal'
+    }
+    
+    withLabel: 'large_fast' {
+        cpus = 24
+        memory = 96.GB
+        time = 10.m
+        queue = 'normal'
+    }
+    
+    withLabel: 'large' {
+        cpus = 24
+        memory = 96.GB
+        time = 6.h
+        queue = 'normal'
+    }    
+           
+    withLabel: 'large_slow' {
+        cpus = 24
+        memory = 96.GB
+        time = 12.h
+        queue = 'normal'
+    }    
+    
+    withLabel: 'high_mem' {
+        cpus        = 12
+        memory      = { 48.GB * task.attempt }
+        time        = { 4.h * task.attempt }
+        queue       = 'normal'
+        errorStrategy = 'retry'
+        maxRetries  = 1  
+    }
+}
+```
+
+#### Add custom configs to the Nextflow run
+
+To use these custom template configs in your run, first update the modules config to suit the processes in your workflow, then include both in your run command, e.g.:
+
+`nextflow run <workflow> <parameters> -c /path/to/gadi.environment.config -c /path/to/gadi.modules.config`
+
+or 
+
+`nextflow run <workflow> <parameters> -c /path/to/gadi.environment.config,/path/to/gadi.modules.config`
+
+Alternatively, you can group multiple configurations into a [profile](https://sydney-informatics-hub.github.io/customising-nfcore-workshop-2026/session_2/2.2_config/#2242-using-a-custom-configuration-profile). 
+
+
+## Debugging
+
+If you need to debug an error from a Nextflow run that used Gadi configs to schedule processes with PBS Pro, you will need to investigate files within the `work` directory of the failing  process. The work directory path of the failed process will be printed to the terminal when the run fails. Useful debugging files are 'hidden' so ensure to run `ls -la` on the process work directory, not simply `ls`.  
+
+The PBS Pro error log which we usually find at `<job-name>.e<job-id>` will for example look like `work/dc/5184fdc7c63198d41a03c73790b7f6/.command.err`. 
+
+It can also be useful to check the command that was run by the process, for example `work/dc/5184fdc7c63198d41a03c73790b7f6/.command.sh`.
+
+If you have run a single PBS job where all processes are running within the same block of resources (i.e. no Gadi configuration file) your standard PBS Pro `.e` error and `.o` log files can be checked as usual.
+
+Nextflow can be resumed, so once the error has been identified and resolved, add the Nextflow `-resume` flag to your run command, and re-submit your run 😊
+
+
+
+
+
+
